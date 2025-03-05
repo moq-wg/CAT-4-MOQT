@@ -27,9 +27,9 @@ venue:
 
 author:
  -
-    fullname: Your Name Here
+    fullname: "Will Law"
     organization: Your Organization Here
-    email: your.email@example.com
+    email: "2762250+wilaw@users.noreply.github.com"
 
 normative:
 
