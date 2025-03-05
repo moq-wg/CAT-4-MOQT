@@ -9,7 +9,7 @@ number:
 date:
 consensus: true
 v: 3
-area: "Web and Internet Transport"
+area: ""
 workgroup: "Media Over QUIC"
 keyword:
  - media over quic
@@ -18,11 +18,11 @@ keyword:
  - CAT
 venue:
   group: "Media Over QUIC"
-  type: "Working Group"
+  type: ""
   mail: "moq@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/moq/"
   github: "wilaw/CAT-4-MOQT"
-  latest: "https://wilaw.github.io/CAT-4-MOQT/#go.draft-law-moq-cat4moqt.html"
+  latest: "https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html"
 
 
 author:
