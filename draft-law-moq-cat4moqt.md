@@ -82,7 +82,7 @@ actions which the client may take once connected.
   SUBSCRIBE_ANNOUNCES, SUBSCRIBE or FETCH. For each of these, it will supply the token it received using
   the AUTHENTICATION parameter.
 * As an alternative to this workflow, the distribution service may vend multiple tokens to the client. The
-  client may use one of those tokens to establish the initial conneciton and others to authenticate its actions. 
+  client may use one of those tokens to establish the initial conneciton and others to authenticate its actions.
 
 
 # Conventions and Definitions
