@@ -75,10 +75,11 @@ Table of Contents
      3.2.  Embedding a token in a PATH
      3.3.  Usage with WebTransport
        3.3.1.  Native QUIC example
-   4.  Conventions and Definitions
-   5.  Security Considerations
-   6.  IANA Considerations
-   7.  Normative References
+   4.  Controlling access to MOQT actions
+   5.  Conventions and Definitions
+   6.  Security Considerations
+   7.  IANA Considerations
+   8.  Normative References
    Acknowledgments
    Authors' Addresses
 
@@ -167,9 +168,9 @@ Table of Contents
 
    Example of multiple tokens in query args:
 
-   |  https://example.com/service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlb
-   |  nQIoQBlLm0zdTg=&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBha
-   |  CBzIGFzS0pEIDthbGtqIA==
+   |  https://example.com/
+   |  service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+   |  &CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==
 
    Example of a single token in the PATH
 
@@ -178,9 +179,9 @@ Table of Contents
 
    Example of multiple tokens in the PATH:
 
-   |  https://example.com/service/CAT1-
-   |  oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-
-   |  IHNramRoZmtjc2pkaGYgc2pkaCBha CBzIGFzS0pEIDthbGtqIA==/
+   |  https://example.com/service/
+   |  CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
+   |  ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
 
 3.3.1.  Native QUIC example
 
@@ -195,8 +196,8 @@ Table of Contents
    Example of multiple tokens in query args:
 
    |  moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
-   |  = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=&C
-   |  AT2=IHNramRoZmtjc2pka GYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
+   |  = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+   |  &CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
 
    Example of a single token in the PATH
 
@@ -206,11 +207,15 @@ Table of Contents
    Example of multiple tokens in the PATH:
 
    |  moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
-   |  = "service/CAT1-
-   |  oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-
-   |  IHNramRoZmtjc2pka GYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
+   |  = "service/
+   |  CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
+   |  ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
 
-4.  Conventions and Definitions
+4.  Controlling access to MOQT actions
+
+   TODO
+
+5.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -218,15 +223,15 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-5.  Security Considerations
+6.  Security Considerations
 
    TODO Security
 
-6.  IANA Considerations
+7.  IANA Considerations
 
    This document has no IANA actions.
 
-7.  Normative References
+8.  Normative References
 
    [BASE64]   Josefsson, S., "The Base16, Base32, and Base64 Data
               Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
