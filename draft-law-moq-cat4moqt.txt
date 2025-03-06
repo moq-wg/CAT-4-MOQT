@@ -74,7 +74,7 @@ Table of Contents
      3.1.  Appending a token as a query parameter
      3.2.  Embedding a token in a PATH
      3.3.  Usage with WebTransport
-       3.3.1.  Native QUIC example
+     3.4.  Usage with Native QUIC
    4.  Controlling access to MOQT actions
    5.  Conventions and Definitions
    6.  Security Considerations
@@ -183,7 +183,7 @@ Table of Contents
    |  CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
    |  ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
 
-3.3.1.  Native QUIC example
+3.4.  Usage with Native QUIC
 
    With a native QUIC connection, the query components and PATH are
    transmitted via the "PATH" parameter in the CLIENT_SETUP message.

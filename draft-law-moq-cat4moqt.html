@@ -1175,11 +1175,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-usage-with-webtransport" class="internal xref">Usage with WebTransport</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
-                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-native-quic-example" class="internal xref">Native QUIC example</a></p>
 </li>
-                </ul>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-usage-with-native-quic" class="internal xref">Usage with Native QUIC</a></p>
 </li>
             </ul>
 </li>
@@ -1322,37 +1320,37 @@ https://example.com/service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
 https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
 ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/<a href="#section-3.3-9" class="pilcrow">¶</a>
 </blockquote>
-<div id="native-quic-example">
-<section id="section-3.3.1">
-          <h4 id="name-native-quic-example">
-<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-native-quic-example" class="section-name selfRef">Native QUIC example</a>
-          </h4>
-<p id="section-3.3.1-1">With a native QUIC connection, the query components and PATH are transmitted via the "PATH"
-parameter in the CLIENT_SETUP message.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.3.1-2">Example of a single token in a query arg:<a href="#section-3.3.1-2" class="pilcrow">¶</a></p>
-<blockquote id="section-3.3.1-3">
-moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="<a href="#section-3.3.1-3" class="pilcrow">¶</a>
-</blockquote>
-<p id="section-3.3.1-4">Example of multiple tokens in query args:<a href="#section-3.3.1-4" class="pilcrow">¶</a></p>
-<blockquote id="section-3.3.1-5">
-moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-&amp;CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="<a href="#section-3.3.1-5" class="pilcrow">¶</a>
-</blockquote>
-<p id="section-3.3.1-6">Example of a single token in the PATH<a href="#section-3.3.1-6" class="pilcrow">¶</a></p>
-<blockquote id="section-3.3.1-7">
-moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"<a href="#section-3.3.1-7" class="pilcrow">¶</a>
-</blockquote>
-<p id="section-3.3.1-8">Example of multiple tokens in the PATH:<a href="#section-3.3.1-8" class="pilcrow">¶</a></p>
-<blockquote id="section-3.3.1-9">
-moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
-ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"<a href="#section-3.3.1-9" class="pilcrow">¶</a>
-</blockquote>
 </section>
 </div>
+<div id="usage-with-native-quic">
+<section id="section-3.4">
+        <h3 id="name-usage-with-native-quic">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-usage-with-native-quic" class="section-name selfRef">Usage with Native QUIC</a>
+        </h3>
+<p id="section-3.4-1">With a native QUIC connection, the query components and PATH are transmitted via the "PATH"
+parameter in the CLIENT_SETUP message.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">Example of a single token in a query arg:<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<blockquote id="section-3.4-3">
+moqt://203.0.113.0:4443
+PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="<a href="#section-3.4-3" class="pilcrow">¶</a>
+</blockquote>
+<p id="section-3.4-4">Example of multiple tokens in query args:<a href="#section-3.4-4" class="pilcrow">¶</a></p>
+<blockquote id="section-3.4-5">
+moqt://203.0.113.0:4443
+PATH parameter in the CLIENT_SETUP message = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+&amp;CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="<a href="#section-3.4-5" class="pilcrow">¶</a>
+</blockquote>
+<p id="section-3.4-6">Example of a single token in the PATH<a href="#section-3.4-6" class="pilcrow">¶</a></p>
+<blockquote id="section-3.4-7">
+moqt://203.0.113.0:4443
+PATH parameter in the CLIENT_SETUP message = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"<a href="#section-3.4-7" class="pilcrow">¶</a>
+</blockquote>
+<p id="section-3.4-8">Example of multiple tokens in the PATH:<a href="#section-3.4-8" class="pilcrow">¶</a></p>
+<blockquote id="section-3.4-9">
+moqt://203.0.113.0:4443
+PATH parameter in the CLIENT_SETUP message = "service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
+ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"<a href="#section-3.4-9" class="pilcrow">¶</a>
+</blockquote>
 </section>
 </div>
 </section>
