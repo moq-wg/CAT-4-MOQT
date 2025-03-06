@@ -124,8 +124,8 @@ https://example.com/service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
 
 Example of multiple tokens in query args:
 <blockquote>
-https://example.com/service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBha
-CBzIGFzS0pEIDthbGtqIA==
+https://example.com/service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==
 </blockquote>
 
 Example of a single token in the PATH
@@ -135,12 +135,13 @@ https://example.com/service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
 
 Example of multiple tokens in the PATH:
 <blockquote>
-https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHNramRoZmtjc2pkaGYgc2pkaCBha
-CBzIGFzS0pEIDthbGtqIA==/
+https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
+ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
 </blockquote>
 
 ### Native QUIC example
-With a native QUIC connection, the query components and PATH are transmitted via the "PATH" parameter in the CLIENT_SETUP message.
+With a native QUIC connection, the query components and PATH are transmitted via the "PATH"
+parameter in the CLIENT_SETUP message.
 
 Example of a single token in a query arg:
 <blockquote>
@@ -151,8 +152,8 @@ PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQ
 Example of multiple tokens in query args:
 <blockquote>
 moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=&CAT2=IHNramRoZmtjc2pka
-GYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
+PATH parameter in the CLIENT_SETUP message = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
 </blockquote>
 
 Example of a single token in the PATH
@@ -164,9 +165,14 @@ PATH parameter in the CLIENT_SETUP message = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQ
 Example of multiple tokens in the PATH:
 <blockquote>
 moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHNramRoZmtjc2pka
-GYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
+PATH parameter in the CLIENT_SETUP message = "service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
+ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
 </blockquote>
+
+# Controlling access to MOQT actions
+
+TODO
+
 
 # Conventions and Definitions
 
