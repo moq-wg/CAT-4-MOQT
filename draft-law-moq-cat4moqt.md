@@ -27,25 +27,37 @@ venue:
 
 author:
  -
-    fullname: "Will Law"
-    organization: Your Organization Here
-    email: "2762250+wilaw@users.noreply.github.com"
+    ins: W. Law
+    name: "Will Law"
+    organization: Akamai
+    email: wilaw@akamai.com
+
+  -
+    ins: S. Nandakumar
+    name: Suhas Nandakumar
+    organization: Cisco
+    email: snandaku@cisco.com
 
 normative:
-
+  MoQTransport: I-D.draft-ietf-moq-transport-10
+  CAT:
+    title: "CTA 5007-A Common Access Token"
+    date: December 2024
+    target: [https://www.w3.org/TR/webcodecs-codec-registry/](https://shop.cta.tech/products/cta-5007)
+  
 informative:
 
 
 --- abstract
 
-TODO Abstract
+A token-based authentication scheme for use with Media Over QUIC Transport.
 
 
 --- middle
 
 # Introduction
 
-TODO Introduction
+This draft introduces a token-based authentication scheme for use with MOQT {{MoQTransport}}. The scheme protects access to the server during session establishment and also contrains the actions which the client may take once connected.
 
 
 # Conventions and Definitions
@@ -68,4 +80,4 @@ This document has no IANA actions.
 # Acknowledgments
 {:numbered="false"}
 
-TODO acknowledge.
+The IETF moq workgroup
