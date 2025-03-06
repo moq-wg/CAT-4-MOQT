@@ -63,7 +63,7 @@ This draft introduces a token-based authentication scheme for use with MOQT {{Mo
 The scheme protects access to the relay during session establishment and also contrains the
 actions which the client may take once connected.
 
-This draft defines 1 of this specification. 
+This draft defines 1 of this specification.
 
 ## Overview of the authentication workflow
 
@@ -106,7 +106,7 @@ both cases, the token is transferred as a query parameter or else embedded in th
 
 The query parameter name SHOULD be "CAT" (case-sensitive) and the query parameter value SHOULD be the Base64 encoded {{BASE64}}
 token. If more than one token is transferred, then the sequential query parameter names "CAT1", "CAT2" .. "CATN"
-SHOULD be used. 
+SHOULD be used.
 
 ## Embedding a token in a PATH
 
@@ -114,7 +114,7 @@ The token SHOULD span only a single PATH component and the component SHOULD be p
 If more than one token is transferred, then they SHOULD occupy different components and SHOULD carry sequential
 prefixes of "CAT1", "CAT2" .. "CATN".
 
-## Usage with WebTransport 
+## Usage with WebTransport
 With a WebTransport connection, the token can be transferred as a query parameter or as part of the PATH.
 
 Example of a single token in a query arg:
