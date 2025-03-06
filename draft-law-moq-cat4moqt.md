@@ -139,7 +139,7 @@ https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg
 ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
 </blockquote>
 
-### Native QUIC example
+## Usage with Native QUIC
 With a native QUIC connection, the query components and PATH are transmitted via the "PATH"
 parameter in the CLIENT_SETUP message.
 
