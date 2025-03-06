@@ -44,7 +44,7 @@ normative:
     title: "CTA 5007-A Common Access Token"
     date: December 2024
     target: [https://www.w3.org/TR/webcodecs-codec-registry/](https://shop.cta.tech/products/cta-5007)
-  
+
 informative:
 
 
@@ -57,7 +57,9 @@ A token-based authentication scheme for use with Media Over QUIC Transport.
 
 # Introduction
 
-This draft introduces a token-based authentication scheme for use with MOQT {{MoQTransport}}. The scheme protects access to the server during session establishment and also contrains the actions which the client may take once connected.
+This draft introduces a token-based authentication scheme for use with MOQT {{MoQTransport}}.
+The scheme protects access to the server during session establishment and also contrains the
+actions which the client may take once connected.
 
 
 # Conventions and Definitions
