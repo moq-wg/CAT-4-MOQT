@@ -69,10 +69,16 @@ Table of Contents
 
    1.  Introduction
      1.1.  Overview of the authentication workflow
-   2.  Conventions and Definitions
-   3.  Security Considerations
-   4.  IANA Considerations
-   5.  Normative References
+   2.  Token format
+   3.  Authenticating the connection
+     3.1.  Appending a token as a query parameter
+     3.2.  Embedding a token in a PATH
+     3.3.  Usage with WebTransport
+       3.3.1.  Native QUIC example
+   4.  Conventions and Definitions
+   5.  Security Considerations
+   6.  IANA Considerations
+   7.  Normative References
    Acknowledgments
    Authors' Addresses
 
@@ -83,6 +89,8 @@ Table of Contents
    during session establishment and also contrains the actions which the
    client may take once connected.
 
+   This draft defines 1 of this specification.
+
 1.1.  Overview of the authentication workflow
 
    *  An end-user logs-in to a distribution service.  The service
@@ -91,11 +99,12 @@ Table of Contents
       lie outside the scope of this draft.
 
    *  Based upon the identity and permissions granted to that end-user,
-      the service generates a token.  The token encodes information such
-      as the user's ID, constraints on how and when they can access the
-      MOQT distribution network and contraints on the actions they can
-      take once connected.  The token may be signed to make it tamper-
-      resistent.
+      the service generates a token.  A token is a data structure that
+      has been serialized into a byte array.  The token encodes
+      information such as the user's ID, constraints on how and when
+      they can access the MOQT distribution network and contraints on
+      the actions they can take once connected.  The token may be signed
+      to make it tamper-resistent.
 
    *  The token is given in the clear to the end-user, along with a URL
       to connect to the edge relay of a MOQT distribution network.
@@ -119,7 +128,89 @@ Table of Contents
       those tokens to establish the initial conneciton and others to
       authenticate its actions.
 
-2.  Conventions and Definitions
+2.  Token format
+
+   This draft uses a single token format, namely the Common Access Token
+   (CAT) [CAT].  The token is supplied as a byte array.  When it must be
+   cast to a string for inclusion in a URL, it is Base64 encoded
+   [BASE64].
+
+3.  Authenticating the connection
+
+   The connection to a MOQT distribution realy can take place over a
+   Webtransport of native QUIC connection.  In both cases, the token is
+   transferred as a query parameter or else embedded in the URI PATH.
+
+3.1.  Appending a token as a query parameter
+
+   The query parameter name SHOULD be "CAT" (case-sensitive) and the
+   query parameter value SHOULD be the Base64 encoded [BASE64] token.
+   If more than one token is transferred, then the sequential query
+   parameter names "CAT1", "CAT2" .. "CATN" SHOULD be used.
+
+3.2.  Embedding a token in a PATH
+
+   The token SHOULD span only a single PATH component and the component
+   SHOULD be prefixed with the string "CAT-".  If more than one token is
+   transferred, then they SHOULD occupy different components and SHOULD
+   carry sequential prefixes of "CAT1", "CAT2" .. "CATN".
+
+3.3.  Usage with WebTransport
+
+   With a WebTransport connection, the token can be transferred as a
+   query parameter or as part of the PATH.
+
+   Example of a single token in a query arg:
+
+   |  https://example.com/
+   |  service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+
+   Example of multiple tokens in query args:
+
+   |  https://example.com/service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlb
+   |  nQIoQBlLm0zdTg=&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBha
+   |  CBzIGFzS0pEIDthbGtqIA==
+
+   Example of a single token in the PATH
+
+   |  https://example.com/service/CAT-
+   |  oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/
+
+   Example of multiple tokens in the PATH:
+
+   |  https://example.com/service/CAT1-
+   |  oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-
+   |  IHNramRoZmtjc2pkaGYgc2pkaCBha CBzIGFzS0pEIDthbGtqIA==/
+
+3.3.1.  Native QUIC example
+
+   With a native QUIC connection, the query components and PATH are
+   transmitted via the "PATH" parameter in the CLIENT_SETUP message.
+
+   Example of a single token in a query arg:
+
+   |  moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
+   |  = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="
+
+   Example of multiple tokens in query args:
+
+   |  moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
+   |  = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=&C
+   |  AT2=IHNramRoZmtjc2pka GYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
+
+   Example of a single token in the PATH
+
+   |  moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
+   |  = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"
+
+   Example of multiple tokens in the PATH:
+
+   |  moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
+   |  = "service/CAT1-
+   |  oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-
+   |  IHNramRoZmtjc2pka GYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
+
+4.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -127,15 +218,19 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Security Considerations
+5.  Security Considerations
 
    TODO Security
 
-4.  IANA Considerations
+6.  IANA Considerations
 
    This document has no IANA actions.
 
-5.  Normative References
+7.  Normative References
+
+   [BASE64]   Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/rfc/rfc4648>.
 
    [CAT]      "CTA 5007-A Common Access Token", December 2024,
               <https://shop.cta.tech/products/cta-5007>.
