@@ -44,7 +44,7 @@ normative:
   CAT:
     title: "CTA 5007-A Common Access Token"
     date: December 2024
-    target: [https://www.w3.org/TR/webcodecs-codec-registry/](https://shop.cta.tech/products/cta-5007)
+    target: https://shop.cta.tech/products/cta-5007
 
 informative:
 
