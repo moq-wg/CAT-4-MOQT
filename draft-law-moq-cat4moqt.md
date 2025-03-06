@@ -26,7 +26,8 @@ venue:
 
 
 author:
- -
+
+  -
     ins: W. Law
     name: "Will Law"
     organization: Akamai
