@@ -1052,7 +1052,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Law &amp; Nandakumar</td>
-<td class="center">Expires 7 September 2025</td>
+<td class="center">Expires 12 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-law-moq-cat4moqt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-06" class="published">6 March 2025</time>
+<time datetime="2025-03-11" class="published">11 March 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-07">7 September 2025</time></dd>
+<dd class="expires"><time datetime="2025-09-12">12 September 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1162,7 +1162,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-token-format" class="internal xref">Token format</a></p>
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-token-format" class="internal xref">Token format</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-moqt-claim" class="internal xref">moqt claim</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-authenticating-the-connecti" class="internal xref">Authenticating the connection</a></p>
@@ -1214,7 +1219,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-1-1">This draft introduces a token-based authentication scheme for use with MOQT <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>.
 The scheme protects access to the relay during session establishment and also contrains the
 actions which the client may take once connected.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">This draft defines 1 of this specification.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-2">This draft defines version 1 of this specification.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <div id="overview-of-the-authentication-workflow">
 <section id="section-1.1">
         <h3 id="name-overview-of-the-authenticat">
@@ -1267,6 +1272,70 @@ client may use one of those tokens to establish the initial conneciton and other
       </h2>
 <p id="section-2-1">This draft uses a single token format, namely the Common Access Token (CAT) <span>[<a href="#CAT" class="cite xref">CAT</a>]</span>. The token is supplied
 as a byte array. When it must be cast to a string for inclusion in a URL, it is Base64 encoded <span>[<a href="#BASE64" class="cite xref">BASE64</a>]</span>.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">To provide control over the MOQT actions, this draft defines a new CBOR Web Token (CWT) Claim called "moqt".
+Use of the moqt claim is optional for clients. Support for processing the moqt claim is mandatory for relays.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<div id="moqt-claim">
+<section id="section-2.1">
+        <h3 id="name-moqt-claim">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-moqt-claim" class="section-name selfRef">moqt claim</a>
+        </h3>
+<p id="section-2.1-1">The "moqt" claim is defined by the following CDDL:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-2">$$Claims-Set-Claims //= (moqt-label =&gt; moqt-value)
+moqt-label = XXX TODO - how do we register this?
+moqt-value = [ + moqt-object ]
+...
+TODO - need CDDL valid definition. The moqt token needs to encode multiple instances of 4 actions, currently
+* 0 - ANNOUNCE
+* 1 - SUBSCRIBE_ANNOUNCES
+* 2 - PUBLISH
+* 3 - FETCH<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+<p id="section-2.1-3">For each action, we need to communicate the permission
+* 0 - Blocked (default)
+* 1 - Allowed
+* 2 - Allowed with an exact match
+* 3 - Allowed with a prefix match<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.1-4">For permissions options 2 &amp; 3, we also need to specify the prefix as a byte string.
+The default for all actions is "0 - Blocked" and this does not need to be communicated in the token.
+As soon as a token is provided, all actions are explicitly blocked unless enabled.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.1-5.1">
+            <p id="section-2.1-5.1.1">Prefix - byte string<a href="#section-2.1-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-2.1-6">Specifying a permission type of 2 or 3 and then not supplying a byte string, or supplying a 0 length byte
+string is equivalent to Blocking that action.<a href="#section-2.1-6" class="pilcrow">¶</a></p>
+<p id="section-2.1-7">Text examples of permissions to help with CDDL construction<a href="#section-2.1-7" class="pilcrow">¶</a></p>
+<p id="section-2.1-8">Example: Allow with an exact match "example.com/bob"
+Permits
+ - example.com/bob
+Prohibits
+ - example.com
+ - example.com/bob/123
+ - example.com/alice
+ - example.com/bob/logs
+ - alternate/example.com/bob
+ - 12345<a href="#section-2.1-8" class="pilcrow">¶</a></p>
+<p id="section-2.1-9">Example: Allow with a Positive prefix "match example.com/bob"
+Permits
+ - example.com/bob
+ - example.com/bob/123
+ - example.com/bob/logs
+Prohibits
+ - example.com
+ - example.com/alice
+ - alternate/example.com/bob
+ - 12345<a href="#section-2.1-9" class="pilcrow">¶</a></p>
+<p id="section-2.1-10">Multiple actions may be communicated within the same token, with different permissions. The order
+in which Action/Permission tuples are declared and evaluated is unimportant. The evaluation stops
+after the first Permitted result is discovered.<a href="#section-2.1-10" class="pilcrow">¶</a></p>
+<p id="section-2.1-11">Example of evaluating multiple actions in the same token:
+1. PUBLISH (Allow with a prefix match) example.com/bob
+2. PUBLISH (Allow with an exact match) example.com/logs/12345/bob<a href="#section-2.1-11" class="pilcrow">¶</a></p>
+<p id="section-2.1-12">Evaluating "example.com/bob/123" would succeed on test [1] and [2] would never be evaluated
+Evaluating "example.com/logs/12345/bob" would fail on test [1] but then succeed on test [2].
+Evaluating "example.com" would fail on test [1] and on test [2].<a href="#section-2.1-12" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="authenticating-the-connection">
@@ -1281,9 +1350,9 @@ both cases, the token is transferred as a query parameter or else embedded in th
         <h3 id="name-appending-a-token-as-a-quer">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-appending-a-token-as-a-quer" class="section-name selfRef">Appending a token as a query parameter</a>
         </h3>
-<p id="section-3.1-1">The query parameter name <span class="bcp14">SHOULD</span> be "CAT" (case-sensitive) and the query parameter value <span class="bcp14">SHOULD</span> be the Base64 encoded <span>[<a href="#BASE64" class="cite xref">BASE64</a>]</span>
-token. If more than one token is transferred, then the sequential query parameter names "CAT1", "CAT2" .. "CATN"
-<span class="bcp14">SHOULD</span> be used.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-1">The query parameter name <span class="bcp14">SHOULD</span> be "CAT" (case-sensitive) and the query parameter value <span class="bcp14">SHOULD</span> be the
+Base64 encoded <span>[<a href="#BASE64" class="cite xref">BASE64</a>]</span> token. If more than one token is transferred, then the sequential query parameter
+names "CAT1", "CAT2" .. "CATN" <span class="bcp14">SHOULD</span> be used.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="embedding-a-token-in-a-path">
