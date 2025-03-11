@@ -133,7 +133,7 @@ Example: Allow with an exact match "example.com/bob"
 
 Permits
  - example.com/bob
-   
+
 Prohibits
  - example.com
  - example.com/bob/123
@@ -163,9 +163,9 @@ Example of evaluating multiple actions in the same token:
 * 1. PUBLISH (Allow with a prefix match) example.com/bob
 * 2. PUBLISH (Allow with an exact match) example.com/logs/12345/bob
 
-Evaluating "example.com/bob/123" would succeed on test [1] and [2] would never be evaluated.
-Evaluating "example.com/logs/12345/bob" would fail on test [1] but then succeed on test [2].
-Evaluating "example.com" would fail on test [1] and on test [2].
+Evaluating "example.com/bob/123" would succeed on test 1 and 2 would never be evaluated.
+Evaluating "example.com/logs/12345/bob" would fail on test 1 but then succeed on test 2.
+Evaluating "example.com" would fail on test 1 and on test 2.
 
 
 # Authenticating the connection
