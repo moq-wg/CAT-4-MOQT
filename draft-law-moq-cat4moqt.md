@@ -63,7 +63,7 @@ This draft introduces a token-based authentication scheme for use with MOQT {{Mo
 The scheme protects access to the relay during session establishment and also contrains the
 actions which the client may take once connected.
 
-This draft defines 1 of this specification.
+This draft defines version 1 of this specification.
 
 ## Overview of the authentication workflow
 
@@ -93,8 +93,73 @@ This draft defines 1 of this specification.
 This draft uses a single token format, namely the Common Access Token (CAT) {{CAT}}. The token is supplied
 as a byte array. When it must be cast to a string for inclusion in a URL, it is Base64 encoded {{BASE64}}.
 
+To provide control over the MOQT actions, this draft defines a new CBOR Web Token (CWT) Claim called "moqt".
+Use of the moqt claim is optional for clients. Support for processing the moqt claim is mandatory for relays.
 
+## moqt claim
 
+The "moqt" claim is defined by the following CDDL:
+
+$$Claims-Set-Claims //= (moqt-label => moqt-value)
+moqt-label = XXX TODO - how do we register this?
+moqt-value = [ + moqt-object ]
+...
+TODO - need CDDL valid definition. The moqt token needs to encode multiple instances of 4 actions, currently
+* 0 - ANNOUNCE
+* 1 - SUBSCRIBE_ANNOUNCES
+* 2 - PUBLISH
+* 3 - FETCH
+
+For each action, we need to communicate the permission
+* 0 - Blocked (default)
+* 1 - Allowed
+* 2 - Allowed with an exact match
+* 3 - Allowed with a prefix match
+
+For permissions options 2 & 3, we also need to specify the prefix as a byte string.
+The default for all actions is "0 - Blocked" and this does not need to be communicated in the token.
+As soon as a token is provided, all actions are explicitly blocked unless enabled.
+
+* Prefix - byte string
+
+Specifying a permission type of 2 or 3 and then not supplying a byte string, or supplying a 0 length byte
+string is equivalent to Blocking that action.
+
+Text examples of permissions to help with CDDL construction
+
+Example: Allow with an exact match "example.com/bob"
+Permits
+ - example.com/bob
+Prohibits
+ - example.com
+ - example.com/bob/123
+ - example.com/alice
+ - example.com/bob/logs
+ - alternate/example.com/bob
+ - 12345
+
+Example: Allow with a Positive prefix "match example.com/bob"
+Permits
+ - example.com/bob
+ - example.com/bob/123
+ - example.com/bob/logs
+Prohibits
+ - example.com
+ - example.com/alice
+ - alternate/example.com/bob
+ - 12345
+
+Multiple actions may be communicated within the same token, with different permissions. The order
+in which Action/Permission tuples are declared and evaluated is unimportant. The evaluation stops
+after the first Permitted result is discovered.
+
+Example of evaluating multiple actions in the same token:
+1. PUBLISH (Allow with a prefix match) example.com/bob
+2. PUBLISH (Allow with an exact match) example.com/logs/12345/bob
+
+Evaluating "example.com/bob/123" would succeed on test [1] and [2] would never be evaluated
+Evaluating "example.com/logs/12345/bob" would fail on test [1] but then succeed on test [2].
+Evaluating "example.com" would fail on test [1] and on test [2].
 
 
 # Authenticating the connection
@@ -104,9 +169,9 @@ both cases, the token is transferred as a query parameter or else embedded in th
 
 ## Appending a token as a query parameter
 
-The query parameter name SHOULD be "CAT" (case-sensitive) and the query parameter value SHOULD be the Base64 encoded {{BASE64}}
-token. If more than one token is transferred, then the sequential query parameter names "CAT1", "CAT2" .. "CATN"
-SHOULD be used.
+The query parameter name SHOULD be "CAT" (case-sensitive) and the query parameter value SHOULD be the
+Base64 encoded {{BASE64}} token. If more than one token is transferred, then the sequential query parameter
+names "CAT1", "CAT2" .. "CATN" SHOULD be used.
 
 ## Embedding a token in a PATH
 
