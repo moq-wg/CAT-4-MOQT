@@ -105,12 +105,14 @@ moqt-label = XXX TODO - how do we register this?
 moqt-value = [ + moqt-object ]
 ...
 TODO - need CDDL valid definition. The moqt token needs to encode multiple instances of 4 actions, currently
+
 * 0 - ANNOUNCE
 * 1 - SUBSCRIBE_ANNOUNCES
 * 2 - PUBLISH
 * 3 - FETCH
 
 For each action, we need to communicate the permission
+
 * 0 - Blocked (default)
 * 1 - Allowed
 * 2 - Allowed with an exact match
@@ -128,8 +130,10 @@ string is equivalent to Blocking that action.
 Text examples of permissions to help with CDDL construction
 
 Example: Allow with an exact match "example.com/bob"
+
 Permits
  - example.com/bob
+   
 Prohibits
  - example.com
  - example.com/bob/123
@@ -139,10 +143,12 @@ Prohibits
  - 12345
 
 Example: Allow with a Positive prefix "match example.com/bob"
+
 Permits
  - example.com/bob
  - example.com/bob/123
  - example.com/bob/logs
+
 Prohibits
  - example.com
  - example.com/alice
@@ -154,10 +160,10 @@ in which Action/Permission tuples are declared and evaluated is unimportant. The
 after the first Permitted result is discovered.
 
 Example of evaluating multiple actions in the same token:
-1. PUBLISH (Allow with a prefix match) example.com/bob
-2. PUBLISH (Allow with an exact match) example.com/logs/12345/bob
+* 1. PUBLISH (Allow with a prefix match) example.com/bob
+* 2. PUBLISH (Allow with an exact match) example.com/logs/12345/bob
 
-Evaluating "example.com/bob/123" would succeed on test [1] and [2] would never be evaluated
+Evaluating "example.com/bob/123" would succeed on test [1] and [2] would never be evaluated.
 Evaluating "example.com/logs/12345/bob" would fail on test [1] but then succeed on test [2].
 Evaluating "example.com" would fail on test [1] and on test [2].
 
