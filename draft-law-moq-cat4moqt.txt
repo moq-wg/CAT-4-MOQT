@@ -223,12 +223,18 @@ Table of Contents
 
 2.1.1.  Text examples of permissions to help with CDDL construction
 
-   Example: Allow with an exact match "example.com/bob" ~~~~~~~~~~~~~~~
-   Permits * example.com/bob
+   Example: Allow with an exact match "example.com/bob"
 
-   Prohibits * example.com * example.com/bob/123 * example.com/alice *
-   example.com/bob/logs * alternate/example.com/bob * 12345
-   ~~~~~~~~~~~~~~~
+   Permits
+   * example.com/bob
+
+   Prohibits
+   * example.com
+   * example.com/bob/123
+   * example.com/alice
+   * example.com/bob/logs
+   * alternate/example.com/bob
+   * 12345
 
    Example: Allow with a Positive prefix "match example.com/bob"
 

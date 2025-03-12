@@ -1398,18 +1398,21 @@ save wire size.<a href="#section-2.1-10" class="pilcrow">¶</a></p>
           <h4 id="name-text-examples-of-permission">
 <a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-text-examples-of-permission" class="section-name selfRef">Text examples of permissions to help with CDDL construction</a>
           </h4>
-<p id="section-2.1.1-1">Example: Allow with an exact match "example.com/bob"
-~~~~~~~~~~~~~~~
+<p id="section-2.1.1-1">Example: Allow with an exact match "example.com/bob"<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.1-2">
+<pre>
 Permits
-* example.com/bob<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1.1-2">Prohibits
+* example.com/bob
+
+Prohibits
 * example.com
 * example.com/bob/123
 * example.com/alice
 * example.com/bob/logs
 * alternate/example.com/bob
 * 12345
-~~~~~~~~~~~~~~~<a href="#section-2.1.1-2" class="pilcrow">¶</a></p>
+</pre><a href="#section-2.1.1-2" class="pilcrow">¶</a>
+</div>
 <p id="section-2.1.1-3">Example: Allow with a Positive prefix "match example.com/bob"<a href="#section-2.1.1-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-2.1.1-4">
 <pre>
