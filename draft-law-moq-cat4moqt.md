@@ -96,16 +96,18 @@ as a byte array. When it must be cast to a string for inclusion in a URL, it is 
 To provide control over the MOQT actions, this draft defines a new CBOR Web Token (CWT) Claim called "moqt".
 Use of the moqt claim is optional for clients. Support for processing the moqt claim is mandatory for relays.
 
+The default for all actions is "Blocked" and this does not need to be communicated in the token.
+As soon as a token is provided, all actions are explicitly blocked unless explicitly enabled.
+
 ## moqt claim
 
 The "moqt" claim is defined by the following CDDL:
 
-```
+~~~~~~~~~~~~~~~
 $$Claims-Set-Claims //= (moqt-label => moqt-value)
 moqt-label = XXX TODO - how do we register this?
 moqt-value = [ + moqt-object ]
-...
-```
+~~~~~~~~~~~~~~~
 
 TODO - need CDDL valid definition. The moqt token needs to encode multiple instances of 4 actions, currently
 
@@ -116,52 +118,67 @@ TODO - need CDDL valid definition. The moqt token needs to encode multiple insta
 
 For each action, we need to communicate the permission
 
-* 0 - Blocked (default)
-* 1 - Allowed
-* 2 - Allowed with an exact match
-* 3 - Allowed with a prefix match
+* 0 - Allowed for all Namespaces and Names
+* 1 - Allowed with an exact match
+* 2 - Allowed with a prefix match
 
-For permissions options 2 & 3, we also need to specify the prefix as a byte string.
-The default for all actions is "0 - Blocked" and this does not need to be communicated in the token.
-As soon as a token is provided, all actions are explicitly blocked unless enabled.
+For permissions options 1 & 2, we also need to specify the prefix as a byte string.
 
 * Prefix - byte string
 
 Specifying a permission type of 2 or 3 and then not supplying a byte string, or supplying a 0 length byte
 string is equivalent to Blocking that action.
 
+As an alternative to carrying two attributes values for each action, we could code these into a single varint to
+save wire size. 
+
++---------------+-------------------------------------------------------------+
+|  Code Point   |                    Definition                               |
++---------------+-------------------------------------------------------------+
+|     0x01      | ANNOUNCE - Allowed for all Namespaces and Names             |
+|     0x02      | ANNOUNCE - Allowed with an exact match                      |
+|     0x03      | ANNOUNCE - Allowed with a prefix match                      |
+|     0x04      | SUBSCRIBE_ANNOUNCES - Allowed for all Namespaces and Names  |
+|     0x05      | SUBSCRIBE_ANNOUNCES - Allowed with an exact match           |
+|     0x06      | SUBSCRIBE_ANNOUNCES - Allowed with a prefix match           |
+|     0x07      | PUBLISH - Allowed for all Namespaces and Names              |
+|     0x08      | PUBLISH - Allowed with an exact match                       |
+|     0x09      | PUBLISH - Allowed with a prefix match                       |
+|     0x0A      | FETCH - Allowed for all Namespaces and Names                |
+|     0x0B      | FETCH - Allowed with an exact match                         |
+|     0x0C      | FETCH - Allowed with a prefix match                         |
++---------------+-------------------------------------------------------------+
+
 ### Text examples of permissions to help with CDDL construction
 
-#### Example: Allow with an exact match "example.com/bob"
-
+Example: Allow with an exact match "example.com/bob"
+~~~~~~~~~~~~~~~
 Permits
-
 * example.com/bob
 
 Prohibits
-
 * example.com
 * example.com/bob/123
 * example.com/alice
 * example.com/bob/logs
 * alternate/example.com/bob
 * 12345
+~~~~~~~~~~~~~~~
 
+Example: Allow with a Positive prefix "match example.com/bob"
 
-#### Example: Allow with a Positive prefix "match example.com/bob"
-
+~~~~~~~~~~~~~~~
 Permits
-
 * example.com/bob
 * example.com/bob/123
 * example.com/bob/logs
 
 Prohibits
-
 * example.com
 * example.com/alice
 * alternate/example.com/bob
 * 12345
+~~~~~~~~~~~~~~~
 
 ### Multiple actions
 
@@ -181,7 +198,7 @@ Evaluating "example.com" would fail on test 1 and on test 2.
 
 # Authenticating the connection
 
-The connection to a MOQT distribution realy can take place over a Webtransport of native QUIC connection. In
+The connection to a MOQT distribution realy can take place over a WebTransport or native QUIC connection. In
 both cases, the token is transferred as a query parameter or else embedded in the URI PATH.
 
 ## Appending a token as a query parameter
