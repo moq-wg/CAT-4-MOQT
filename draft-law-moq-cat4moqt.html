@@ -1052,7 +1052,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Law &amp; Nandakumar</td>
-<td class="center">Expires 12 September 2025</td>
+<td class="center">Expires 13 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-law-moq-cat4moqt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-11" class="published">11 March 2025</time>
+<time datetime="2025-03-12" class="published">12 March 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-12">12 September 2025</time></dd>
+<dd class="expires"><time datetime="2025-09-13">13 September 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 13 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1280,77 +1280,99 @@ Use of the moqt claim is optional for clients. Support for processing the moqt c
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-moqt-claim" class="section-name selfRef">moqt claim</a>
         </h3>
 <p id="section-2.1-1">The "moqt" claim is defined by the following CDDL:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1-2">$$Claims-Set-Claims //= (moqt-label =&gt; moqt-value)
+<blockquote id="section-2.1-2">
+$$Claims-Set-Claims //= (moqt-label =&gt; moqt-value)
 moqt-label = XXX TODO - how do we register this?
 moqt-value = [ + moqt-object ]
-...
-TODO - need CDDL valid definition. The moqt token needs to encode multiple instances of 4 actions, currently<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+...<a href="#section-2.1-2" class="pilcrow">¶</a>
+</blockquote>
+<p id="section-2.1-3">TODO - need CDDL valid definition. The moqt token needs to encode multiple instances of 4 actions, currently<a href="#section-2.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.1-3.1">
-            <p id="section-2.1-3.1.1">0 - ANNOUNCE<a href="#section-2.1-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2.1-4.1">
+            <p id="section-2.1-4.1.1">0 - ANNOUNCE<a href="#section-2.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-2.1-3.2">
-            <p id="section-2.1-3.2.1">1 - SUBSCRIBE_ANNOUNCES<a href="#section-2.1-3.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-2.1-4.2">
+            <p id="section-2.1-4.2.1">1 - SUBSCRIBE_ANNOUNCES<a href="#section-2.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-2.1-3.3">
-            <p id="section-2.1-3.3.1">2 - PUBLISH<a href="#section-2.1-3.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-2.1-4.3">
+            <p id="section-2.1-4.3.1">2 - PUBLISH<a href="#section-2.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-2.1-3.4">
-            <p id="section-2.1-3.4.1">3 - FETCH<a href="#section-2.1-3.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-2.1-4.4">
+            <p id="section-2.1-4.4.1">3 - FETCH<a href="#section-2.1-4.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-2.1-4">For each action, we need to communicate the permission<a href="#section-2.1-4" class="pilcrow">¶</a></p>
+<p id="section-2.1-5">For each action, we need to communicate the permission<a href="#section-2.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.1-5.1">
-            <p id="section-2.1-5.1.1">0 - Blocked (default)<a href="#section-2.1-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2.1-6.1">
+            <p id="section-2.1-6.1.1">0 - Blocked (default)<a href="#section-2.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-2.1-5.2">
-            <p id="section-2.1-5.2.1">1 - Allowed<a href="#section-2.1-5.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-2.1-6.2">
+            <p id="section-2.1-6.2.1">1 - Allowed<a href="#section-2.1-6.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-2.1-5.3">
-            <p id="section-2.1-5.3.1">2 - Allowed with an exact match<a href="#section-2.1-5.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-2.1-6.3">
+            <p id="section-2.1-6.3.1">2 - Allowed with an exact match<a href="#section-2.1-6.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-2.1-5.4">
-            <p id="section-2.1-5.4.1">3 - Allowed with a prefix match<a href="#section-2.1-5.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-2.1-6.4">
+            <p id="section-2.1-6.4.1">3 - Allowed with a prefix match<a href="#section-2.1-6.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-2.1-6">For permissions options 2 &amp; 3, we also need to specify the prefix as a byte string.
+<p id="section-2.1-7">For permissions options 2 &amp; 3, we also need to specify the prefix as a byte string.
 The default for all actions is "0 - Blocked" and this does not need to be communicated in the token.
-As soon as a token is provided, all actions are explicitly blocked unless enabled.<a href="#section-2.1-6" class="pilcrow">¶</a></p>
+As soon as a token is provided, all actions are explicitly blocked unless enabled.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.1-7.1">
-            <p id="section-2.1-7.1.1">Prefix - byte string<a href="#section-2.1-7.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2.1-8.1">
+            <p id="section-2.1-8.1.1">Prefix - byte string<a href="#section-2.1-8.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-2.1-8">Specifying a permission type of 2 or 3 and then not supplying a byte string, or supplying a 0 length byte
-string is equivalent to Blocking that action.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
-<p id="section-2.1-9">Text examples of permissions to help with CDDL construction<a href="#section-2.1-9" class="pilcrow">¶</a></p>
-<p id="section-2.1-10">Example: Allow with an exact match "example.com/bob"<a href="#section-2.1-10" class="pilcrow">¶</a></p>
-<p id="section-2.1-11">Permits
- - example.com/bob<a href="#section-2.1-11" class="pilcrow">¶</a></p>
-<p id="section-2.1-12">Prohibits
+<p id="section-2.1-9">Specifying a permission type of 2 or 3 and then not supplying a byte string, or supplying a 0 length byte
+string is equivalent to Blocking that action.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
+<p id="section-2.1-10">Text examples of permissions to help with CDDL construction<a href="#section-2.1-10" class="pilcrow">¶</a></p>
+<p id="section-2.1-11">Example: Allow with an exact match "example.com/bob"<a href="#section-2.1-11" class="pilcrow">¶</a></p>
+<blockquote id="section-2.1-12">
+Permits
+ - example.com/bob
+
+Prohibits
  - example.com
  - example.com/bob/123
  - example.com/alice
  - example.com/bob/logs
  - alternate/example.com/bob
- - 12345<a href="#section-2.1-12" class="pilcrow">¶</a></p>
+ - 12345<a href="#section-2.1-12" class="pilcrow">¶</a>
+</blockquote>
 <p id="section-2.1-13">Example: Allow with a Positive prefix "match example.com/bob"<a href="#section-2.1-13" class="pilcrow">¶</a></p>
-<p id="section-2.1-14">Permits
+<blockquote id="section-2.1-14">
+Permits
  - example.com/bob
  - example.com/bob/123
- - example.com/bob/logs<a href="#section-2.1-14" class="pilcrow">¶</a></p>
-<p id="section-2.1-15">Prohibits
+ - example.com/bob/logs
+
+Prohibits
  - example.com
  - example.com/alice
  - alternate/example.com/bob
- - 12345<a href="#section-2.1-15" class="pilcrow">¶</a></p>
-<p id="section-2.1-16">Multiple actions may be communicated within the same token, with different permissions. The order
+ - 12345<a href="#section-2.1-14" class="pilcrow">¶</a>
+</blockquote>
+<p id="section-2.1-15">Multiple actions may be communicated within the same token, with different permissions. The order
 in which Action/Permission tuples are declared and evaluated is unimportant. The evaluation stops
-after the first Permitted result is discovered.<a href="#section-2.1-16" class="pilcrow">¶</a></p>
-<p id="section-2.1-17">Example of evaluating multiple actions in the same token:
-* 1. PUBLISH (Allow with a prefix match) example.com/bob
-* 2. PUBLISH (Allow with an exact match) example.com/logs/12345/bob<a href="#section-2.1-17" class="pilcrow">¶</a></p>
+after the first Permitted result is discovered.<a href="#section-2.1-15" class="pilcrow">¶</a></p>
+<p id="section-2.1-16">Example of evaluating multiple actions in the same token:<a href="#section-2.1-16" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.1-17.1">
+            <ol start="1" type="1" class="normal type-1" id="section-2.1-17.1.1">
+<li id="section-2.1-17.1.1.1">
+                <p id="section-2.1-17.1.1.1.1">PUBLISH (Allow with a prefix match) example.com/bob<a href="#section-2.1-17.1.1.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ol>
+</li>
+          <li class="normal" id="section-2.1-17.2">
+            <ol start="1" type="1" class="normal type-1" id="section-2.1-17.2.1">
+<li id="section-2.1-17.2.1.1">
+                <p id="section-2.1-17.2.1.1.1">PUBLISH (Allow with an exact match) example.com/logs/12345/bob<a href="#section-2.1-17.2.1.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ol>
+</li>
+        </ul>
 <p id="section-2.1-18">Evaluating "example.com/bob/123" would succeed on test 1 and 2 would never be evaluated.
 Evaluating "example.com/logs/12345/bob" would fail on test 1 but then succeed on test 2.
 Evaluating "example.com" would fail on test 1 and on test 2.<a href="#section-2.1-18" class="pilcrow">¶</a></p>
