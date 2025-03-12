@@ -134,33 +134,33 @@ Text examples of permissions to help with CDDL construction
 
 Example: Allow with an exact match "example.com/bob"
 
-<blockquote>
 Permits
- - example.com/bob
+* example.com/bob
 
 Prohibits
- - example.com
- - example.com/bob/123
- - example.com/alice
- - example.com/bob/logs
- - alternate/example.com/bob
- - 12345
-</blockquote>
+
+* example.com
+* example.com/bob/123
+* example.com/alice
+* example.com/bob/logs
+* alternate/example.com/bob
+* 12345
+
 
 Example: Allow with a Positive prefix "match example.com/bob"
 
-```
 Permits
- - example.com/bob
- - example.com/bob/123
- - example.com/bob/logs
+
+* example.com/bob
+* example.com/bob/123
+* example.com/bob/logs
 
 Prohibits
- - example.com
- - example.com/alice
- - alternate/example.com/bob
- - 12345
-```
+
+* example.com
+* example.com/alice
+* alternate/example.com/bob
+* 12345
 
 Multiple actions may be communicated within the same token, with different permissions. The order
 in which Action/Permission tuples are declared and evaluated is unimportant. The evaluation stops
@@ -168,10 +168,10 @@ after the first Permitted result is discovered.
 
 Example of evaluating multiple actions in the same token:
 
-* 1. PUBLISH (Allow with a prefix match) example.com/bob
-* 2. PUBLISH (Allow with an exact match) example.com/logs/12345/bob
+* (1) PUBLISH (Allow with a prefix match) example.com/bob
+* (2) PUBLISH (Allow with an exact match) example.com/logs/12345/bob
 
-Evaluating "example.com/bob/123" would succeed on test 1 and 2 would never be evaluated.
+Evaluating "example.com/bob/123" would succeed on test 1 and test 2 would never be evaluated.
 Evaluating "example.com/logs/12345/bob" would fail on test 1 but then succeed on test 2.
 Evaluating "example.com" would fail on test 1 and on test 2.
 
