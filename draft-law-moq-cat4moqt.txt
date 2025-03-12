@@ -146,9 +146,8 @@ Table of Contents
 
    The "moqt" claim is defined by the following CDDL:
 
-   |  $$Claims-Set-Claims //= (moqt-label => moqt-value) moqt-label =
-   |  XXX TODO - how do we register this? moqt-value = [ + moqt-object ]
-   |  ...
+   $$Claims-Set-Claims //= (moqt-label => moqt-value) moqt-label = XXX
+   TODO - how do we register this? moqt-value = [ + moqt-object ] ...
 
    TODO - need CDDL valid definition.  The moqt token needs to encode
    multiple instances of 4 actions, currently
@@ -192,9 +191,11 @@ Table of Contents
 
    Example: Allow with a Positive prefix "match example.com/bob"
 
-   |  Permits - example.com/bob - example.com/bob/123 - example.com/bob/
-   |  logs Prohibits - example.com - example.com/alice -
-   |  alternate/example.com/bob - 12345
+   ``` Permits - example.com/bob - example.com/bob/123 -
+   example.com/bob/logs
+
+   Prohibits - example.com - example.com/alice - alternate/example.com/
+   bob - 12345 ```
 
    Multiple actions may be communicated within the same token, with
    different permissions.  The order in which Action/Permission tuples
