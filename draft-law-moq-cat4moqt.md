@@ -130,11 +130,12 @@ As soon as a token is provided, all actions are explicitly blocked unless enable
 Specifying a permission type of 2 or 3 and then not supplying a byte string, or supplying a 0 length byte
 string is equivalent to Blocking that action.
 
-Text examples of permissions to help with CDDL construction
+### Text examples of permissions to help with CDDL construction
 
-Example: Allow with an exact match "example.com/bob"
+#### Example: Allow with an exact match "example.com/bob"
 
 Permits
+
 * example.com/bob
 
 Prohibits
@@ -147,7 +148,7 @@ Prohibits
 * 12345
 
 
-Example: Allow with a Positive prefix "match example.com/bob"
+#### Example: Allow with a Positive prefix "match example.com/bob"
 
 Permits
 
@@ -161,12 +162,14 @@ Prohibits
 * example.com/alice
 * alternate/example.com/bob
 * 12345
+
+### Multiple actions
 
 Multiple actions may be communicated within the same token, with different permissions. The order
 in which Action/Permission tuples are declared and evaluated is unimportant. The evaluation stops
 after the first Permitted result is discovered.
 
-Example of evaluating multiple actions in the same token:
+#### Example of evaluating multiple actions in the same token:
 
 * (1) PUBLISH (Allow with a prefix match) example.com/bob
 * (2) PUBLISH (Allow with an exact match) example.com/logs/12345/bob
