@@ -130,7 +130,7 @@ Specifying a permission type of 2 or 3 and then not supplying a byte string, or 
 string is equivalent to Blocking that action.
 
 As an alternative to carrying two attributes values for each action, we could code these into a single varint to
-save wire size. 
+save wire size.
 
 +---------------+-------------------------------------------------------------+
 |  Code Point   |                    Definition                               |
