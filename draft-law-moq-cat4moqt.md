@@ -154,6 +154,7 @@ save wire size.
 ### Text examples of permissions to help with CDDL construction
 
 Example: Allow with an exact match "example.com/bob"
+
 ~~~~~~~~~~~~~~~
 Permits
 * example.com/bob
