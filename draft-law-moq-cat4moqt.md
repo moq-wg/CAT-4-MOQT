@@ -106,7 +106,7 @@ moqt-label = XXX TODO - how do we register this?
 moqt-value = [ + moqt-object ]
 ...
  </blockquote>
- 
+
 TODO - need CDDL valid definition. The moqt token needs to encode multiple instances of 4 actions, currently
 
 * 0 - ANNOUNCE
