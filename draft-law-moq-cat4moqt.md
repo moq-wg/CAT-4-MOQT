@@ -33,11 +33,6 @@ author:
     organization: Akamai
     email: wilaw@akamai.com
 
-  -
-    ins: S. Nandakumar
-    name: Suhas Nandakumar
-    organization: Cisco
-    email: snandaku@cisco.com
 
 normative:
   MoQTransport: I-D.draft-ietf-moq-transport-10
