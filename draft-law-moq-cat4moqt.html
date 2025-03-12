@@ -1328,53 +1328,72 @@ As soon as a token is provided, all actions are explicitly blocked unless enable
 string is equivalent to Blocking that action.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
 <p id="section-2.1-10">Text examples of permissions to help with CDDL construction<a href="#section-2.1-10" class="pilcrow">¶</a></p>
 <p id="section-2.1-11">Example: Allow with an exact match "example.com/bob"<a href="#section-2.1-11" class="pilcrow">¶</a></p>
-<blockquote id="section-2.1-12">
-Permits
- - example.com/bob
-
-Prohibits
- - example.com
- - example.com/bob/123
- - example.com/alice
- - example.com/bob/logs
- - alternate/example.com/bob
- - 12345<a href="#section-2.1-12" class="pilcrow">¶</a>
-</blockquote>
-<p id="section-2.1-13">Example: Allow with a Positive prefix "match example.com/bob"<a href="#section-2.1-13" class="pilcrow">¶</a></p>
-<p id="section-2.1-14">```
-Permits
- - example.com/bob
- - example.com/bob/123
- - example.com/bob/logs<a href="#section-2.1-14" class="pilcrow">¶</a></p>
-<p id="section-2.1-15">Prohibits
- - example.com
- - example.com/alice
- - alternate/example.com/bob
- - 12345
-```<a href="#section-2.1-15" class="pilcrow">¶</a></p>
-<p id="section-2.1-16">Multiple actions may be communicated within the same token, with different permissions. The order
-in which Action/Permission tuples are declared and evaluated is unimportant. The evaluation stops
-after the first Permitted result is discovered.<a href="#section-2.1-16" class="pilcrow">¶</a></p>
-<p id="section-2.1-17">Example of evaluating multiple actions in the same token:<a href="#section-2.1-17" class="pilcrow">¶</a></p>
+<p id="section-2.1-12">Permits
+* example.com/bob<a href="#section-2.1-12" class="pilcrow">¶</a></p>
+<p id="section-2.1-13">Prohibits<a href="#section-2.1-13" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.1-18.1">
-            <ol start="1" type="1" class="normal type-1" id="section-2.1-18.1.1">
-<li id="section-2.1-18.1.1.1">
-                <p id="section-2.1-18.1.1.1.1">PUBLISH (Allow with a prefix match) example.com/bob<a href="#section-2.1-18.1.1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2.1-14.1">
+            <p id="section-2.1-14.1.1">example.com<a href="#section-2.1-14.1.1" class="pilcrow">¶</a></p>
 </li>
-            </ol>
+          <li class="normal" id="section-2.1-14.2">
+            <p id="section-2.1-14.2.1">example.com/bob/123<a href="#section-2.1-14.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-2.1-18.2">
-            <ol start="1" type="1" class="normal type-1" id="section-2.1-18.2.1">
-<li id="section-2.1-18.2.1.1">
-                <p id="section-2.1-18.2.1.1.1">PUBLISH (Allow with an exact match) example.com/logs/12345/bob<a href="#section-2.1-18.2.1.1.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-2.1-14.3">
+            <p id="section-2.1-14.3.1">example.com/alice<a href="#section-2.1-14.3.1" class="pilcrow">¶</a></p>
 </li>
-            </ol>
+          <li class="normal" id="section-2.1-14.4">
+            <p id="section-2.1-14.4.1">example.com/bob/logs<a href="#section-2.1-14.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-14.5">
+            <p id="section-2.1-14.5.1">alternate/example.com/bob<a href="#section-2.1-14.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-14.6">
+            <p id="section-2.1-14.6.1">12345<a href="#section-2.1-14.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-2.1-19">Evaluating "example.com/bob/123" would succeed on test 1 and 2 would never be evaluated.
+<p id="section-2.1-15">Example: Allow with a Positive prefix "match example.com/bob"<a href="#section-2.1-15" class="pilcrow">¶</a></p>
+<p id="section-2.1-16">Permits<a href="#section-2.1-16" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.1-17.1">
+            <p id="section-2.1-17.1.1">example.com/bob<a href="#section-2.1-17.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-17.2">
+            <p id="section-2.1-17.2.1">example.com/bob/123<a href="#section-2.1-17.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-17.3">
+            <p id="section-2.1-17.3.1">example.com/bob/logs<a href="#section-2.1-17.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-2.1-18">Prohibits<a href="#section-2.1-18" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.1-19.1">
+            <p id="section-2.1-19.1.1">example.com<a href="#section-2.1-19.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-19.2">
+            <p id="section-2.1-19.2.1">example.com/alice<a href="#section-2.1-19.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-19.3">
+            <p id="section-2.1-19.3.1">alternate/example.com/bob<a href="#section-2.1-19.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-19.4">
+            <p id="section-2.1-19.4.1">12345<a href="#section-2.1-19.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-2.1-20">Multiple actions may be communicated within the same token, with different permissions. The order
+in which Action/Permission tuples are declared and evaluated is unimportant. The evaluation stops
+after the first Permitted result is discovered.<a href="#section-2.1-20" class="pilcrow">¶</a></p>
+<p id="section-2.1-21">Example of evaluating multiple actions in the same token:<a href="#section-2.1-21" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.1-22.1">
+            <p id="section-2.1-22.1.1">(1) PUBLISH (Allow with a prefix match) example.com/bob<a href="#section-2.1-22.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-22.2">
+            <p id="section-2.1-22.2.1">(2) PUBLISH (Allow with an exact match) example.com/logs/12345/bob<a href="#section-2.1-22.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-2.1-23">Evaluating "example.com/bob/123" would succeed on test 1 and test 2 would never be evaluated.
 Evaluating "example.com/logs/12345/bob" would fail on test 1 but then succeed on test 2.
-Evaluating "example.com" would fail on test 1 and on test 2.<a href="#section-2.1-19" class="pilcrow">¶</a></p>
+Evaluating "example.com" would fail on test 1 and on test 2.<a href="#section-2.1-23" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
