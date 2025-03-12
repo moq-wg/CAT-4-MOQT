@@ -124,7 +124,7 @@ For permissions options 1 & 2, we also need to specify the prefix as a byte stri
 Specifying a permission type of 2 or 3 and then not supplying a byte string, or supplying a 0 length byte
 string is equivalent to Blocking that action.
 
-As an alternative to carrying two attributes values for each action, we could code these into a single varint to
+As an alternative to carrying two attributes values for each action, we could code these into a single number to
 save wire size.
 
 
@@ -163,7 +163,7 @@ Prohibits
 * 12345
 ~~~~~~~~~~~~~~~
 
-Example: Allow with a Positive prefix "match example.com/bob"
+Example: Allow with a prefix match "example.com/bob"
 
 ~~~~~~~~~~~~~~~
 Permits
@@ -215,56 +215,64 @@ prefixes of "CAT1", "CAT2" .. "CATN".
 With a WebTransport connection, the token can be transferred as a query parameter or as part of the PATH.
 
 Example of a single token in a query arg:
-<blockquote>
+
+~~~~~~~~~~~~~~~
 https://example.com/service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-</blockquote>
+~~~~~~~~~~~~~~~
 
 Example of multiple tokens in query args:
-<blockquote>
+
+~~~~~~~~~~~~~~~
 https://example.com/service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
 &CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==
-</blockquote>
+~~~~~~~~~~~~~~~
 
 Example of a single token in the PATH
-<blockquote>
+
+~~~~~~~~~~~~~~~
 https://example.com/service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/
-</blockquote>
+~~~~~~~~~~~~~~~
 
 Example of multiple tokens in the PATH:
-<blockquote>
+
+~~~~~~~~~~~~~~~
 https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
 ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
-</blockquote>
+~~~~~~~~~~~~~~~
 
 ## Usage with Native QUIC
 With a native QUIC connection, the query components and PATH are transmitted via the "PATH"
 parameter in the CLIENT_SETUP message.
 
 Example of a single token in a query arg:
-<blockquote>
+
+~~~~~~~~~~~~~~~
 moqt://203.0.113.0:4443
 PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="
-</blockquote>
+~~~~~~~~~~~~~~~
 
 Example of multiple tokens in query args:
-<blockquote>
+
+~~~~~~~~~~~~~~~
 moqt://203.0.113.0:4443
 PATH parameter in the CLIENT_SETUP message = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
 &CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
-</blockquote>
+~~~~~~~~~~~~~~~
 
 Example of a single token in the PATH
-<blockquote>
+
+~~~~~~~~~~~~~~~
 moqt://203.0.113.0:4443
 PATH parameter in the CLIENT_SETUP message = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"
-</blockquote>
+~~~~~~~~~~~~~~~
 
 Example of multiple tokens in the PATH:
-<blockquote>
+
+~~~~~~~~~~~~~~~
 moqt://203.0.113.0:4443
 PATH parameter in the CLIENT_SETUP message = "service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
 ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
-</blockquote>
+~~~~~~~~~~~~~~~
 
 # Controlling access to MOQT actions
 
@@ -283,7 +291,7 @@ TODO Security
 
 # IANA Considerations
 
-This document has no IANA actions.
+TODO We need to register the "moqt" claim in the IANA "CBOR Web Token (CWT) Claim" table. 
 
 
 --- back
