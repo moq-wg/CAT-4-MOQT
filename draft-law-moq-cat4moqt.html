@@ -1334,22 +1334,65 @@ moqt-value = [ + moqt-object ]
 string is equivalent to Blocking that action.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
 <p id="section-2.1-10">As an alternative to carrying two attributes values for each action, we could code these into a single varint to
 save wire size.<a href="#section-2.1-10" class="pilcrow">¶</a></p>
-<p id="section-2.1-11">+---------------+-------------------------------------------------------------+
-|  Code Point   |                    Definition                               |
-+---------------+-------------------------------------------------------------+
-|     0x01      | ANNOUNCE - Allowed for all Namespaces and Names             |
-|     0x02      | ANNOUNCE - Allowed with an exact match                      |
-|     0x03      | ANNOUNCE - Allowed with a prefix match                      |
-|     0x04      | SUBSCRIBE_ANNOUNCES - Allowed for all Namespaces and Names  |
-|     0x05      | SUBSCRIBE_ANNOUNCES - Allowed with an exact match           |
-|     0x06      | SUBSCRIBE_ANNOUNCES - Allowed with a prefix match           |
-|     0x07      | PUBLISH - Allowed for all Namespaces and Names              |
-|     0x08      | PUBLISH - Allowed with an exact match                       |
-|     0x09      | PUBLISH - Allowed with a prefix match                       |
-|     0x0A      | FETCH - Allowed for all Namespaces and Names                |
-|     0x0B      | FETCH - Allowed with an exact match                         |
-|     0x0C      | FETCH - Allowed with a prefix match                         |
-+---------------+-------------------------------------------------------------+<a href="#section-2.1-11" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Code Point</th>
+              <th class="text-left" rowspan="1" colspan="1">Definition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x01</td>
+              <td class="text-left" rowspan="1" colspan="1">ANNOUNCE - Allowed for all Namespaces and Names</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x02</td>
+              <td class="text-left" rowspan="1" colspan="1">ANNOUNCE - Allowed with an exact match</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x03</td>
+              <td class="text-left" rowspan="1" colspan="1">ANNOUNCE - Allowed with a prefix match</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x04</td>
+              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_ANNOUNCES - Allowed for all Namespaces and Names</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x05</td>
+              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_ANNOUNCES - Allowed with an exact match</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x06</td>
+              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_ANNOUNCES - Allowed with a prefix match</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x07</td>
+              <td class="text-left" rowspan="1" colspan="1">PUBLISH - Allowed for all Namespaces and Names</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x08</td>
+              <td class="text-left" rowspan="1" colspan="1">PUBLISH - Allowed with an exact match</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x09</td>
+              <td class="text-left" rowspan="1" colspan="1">PUBLISH - Allowed with a prefix match</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x0A</td>
+              <td class="text-left" rowspan="1" colspan="1">FETCH - Allowed for all Namespaces and Names</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x0B</td>
+              <td class="text-left" rowspan="1" colspan="1">FETCH - Allowed with an exact match</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x0C</td>
+              <td class="text-left" rowspan="1" colspan="1">FETCH - Allowed with a prefix match</td>
+            </tr>
+          </tbody>
+        </table>
 <div id="text-examples-of-permissions-to-help-with-cddl-construction">
 <section id="section-2.1.1">
           <h4 id="name-text-examples-of-permission">
