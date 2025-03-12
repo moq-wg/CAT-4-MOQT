@@ -132,9 +132,10 @@ string is equivalent to Blocking that action.
 As an alternative to carrying two attributes values for each action, we could code these into a single varint to
 save wire size.
 
-+---------------+-------------------------------------------------------------+
+
+|---------------|-------------------------------------------------------------|
 |  Code Point   |                    Definition                               |
-+---------------+-------------------------------------------------------------+
+|---------------|-------------------------------------------------------------|
 |     0x01      | ANNOUNCE - Allowed for all Namespaces and Names             |
 |     0x02      | ANNOUNCE - Allowed with an exact match                      |
 |     0x03      | ANNOUNCE - Allowed with a prefix match                      |
@@ -147,7 +148,8 @@ save wire size.
 |     0x0A      | FETCH - Allowed for all Namespaces and Names                |
 |     0x0B      | FETCH - Allowed with an exact match                         |
 |     0x0C      | FETCH - Allowed with a prefix match                         |
-+---------------+-------------------------------------------------------------+
+|---------------|-------------------------------------------------------------|
+
 
 ### Text examples of permissions to help with CDDL construction
 
