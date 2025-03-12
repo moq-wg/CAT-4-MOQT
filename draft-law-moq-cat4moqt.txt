@@ -71,6 +71,9 @@ Table of Contents
      1.1.  Overview of the authentication workflow
    2.  Token format
      2.1.  moqt claim
+       2.1.1.  Text examples of permissions to help with CDDL
+               construction
+       2.1.2.  Multiple actions
    3.  Authenticating the connection
      3.1.  Appending a token as a query parameter
      3.2.  Embedding a token in a PATH
@@ -181,11 +184,13 @@ Table of Contents
    string, or supplying a 0 length byte string is equivalent to Blocking
    that action.
 
-   Text examples of permissions to help with CDDL construction
+2.1.1.  Text examples of permissions to help with CDDL construction
 
-   Example: Allow with an exact match "example.com/bob"
+2.1.1.1.  Example: Allow with an exact match "example.com/bob"
 
-   Permits * example.com/bob
+   Permits
+
+   *  example.com/bob
 
    Prohibits
 
@@ -201,7 +206,7 @@ Table of Contents
 
    *  12345
 
-   Example: Allow with a Positive prefix "match example.com/bob"
+2.1.1.2.  Example: Allow with a Positive prefix "match example.com/bob"
 
    Permits
 
@@ -221,12 +226,14 @@ Table of Contents
 
    *  12345
 
+2.1.2.  Multiple actions
+
    Multiple actions may be communicated within the same token, with
    different permissions.  The order in which Action/Permission tuples
    are declared and evaluated is unimportant.  The evaluation stops
    after the first Permitted result is discovered.
 
-   Example of evaluating multiple actions in the same token:
+2.1.2.1.  Example of evaluating multiple actions in the same token:
 
    *  (1) PUBLISH (Allow with a prefix match) example.com/bob
 
