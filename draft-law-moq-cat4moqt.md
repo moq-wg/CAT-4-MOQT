@@ -131,16 +131,16 @@ save wire size.
 |---------------|-------------------------------------------------------------|
 |  Code Point   |                    Definition                               |
 |---------------|-------------------------------------------------------------|
-|     0x01      | ANNOUNCE - Allowed for all Namespaces and Names             |
+|     0x01      | ANNOUNCE - Allowed for all Namespaces|Names                 |
 |     0x02      | ANNOUNCE - Allowed with an exact match                      |
 |     0x03      | ANNOUNCE - Allowed with a prefix match                      |
-|     0x04      | SUBSCRIBE_ANNOUNCES - Allowed for all Namespaces and Names  |
+|     0x04      | SUBSCRIBE_ANNOUNCES - Allowed for all Namespaces|Names      |
 |     0x05      | SUBSCRIBE_ANNOUNCES - Allowed with an exact match           |
 |     0x06      | SUBSCRIBE_ANNOUNCES - Allowed with a prefix match           |
-|     0x07      | PUBLISH - Allowed for all Namespaces and Names              |
+|     0x07      | PUBLISH - Allowed for all Namespaces|Names                  |
 |     0x08      | PUBLISH - Allowed with an exact match                       |
 |     0x09      | PUBLISH - Allowed with a prefix match                       |
-|     0x0A      | FETCH - Allowed for all Namespaces and Names                |
+|     0x0A      | FETCH - Allowed for all Namespaces|Names                    |
 |     0x0B      | FETCH - Allowed with an exact match                         |
 |     0x0C      | FETCH - Allowed with a prefix match                         |
 |---------------|-------------------------------------------------------------|
@@ -216,9 +216,8 @@ With a WebTransport connection, the token can be transferred as a query paramete
 
 Example of a single token in a query arg:
 
-~~~~~~~~~~~~~~~
-https://example.com/service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-~~~~~~~~~~~~~~~
+>https://example.com/service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+
 
 Example of multiple tokens in query args:
 
