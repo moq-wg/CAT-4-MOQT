@@ -227,16 +227,14 @@ Example of multiple tokens in query args:
 
 Example of a single token in the PATH
 
-~~~~~~~~~~~~~~~
-https://example.com/service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/
-~~~~~~~~~~~~~~~
+>https://example.com/service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/
+
 
 Example of multiple tokens in the PATH:
 
-~~~~~~~~~~~~~~~
-https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
-ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
-~~~~~~~~~~~~~~~
+>https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
+>ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
+
 
 ## Usage with Native QUIC
 With a native QUIC connection, the query components and PATH are transmitted via the "PATH"
@@ -244,10 +242,9 @@ parameter in the CLIENT_SETUP message.
 
 Example of a single token in a query arg:
 
-~~~~~~~~~~~~~~~
-moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="
-~~~~~~~~~~~~~~~
+>moqt://203.0.113.0:4443
+>PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="
+
 
 Example of multiple tokens in query args:
 
@@ -258,18 +255,16 @@ Example of multiple tokens in query args:
 
 Example of a single token in the PATH
 
-~~~~~~~~~~~~~~~
-moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"
-~~~~~~~~~~~~~~~
+>moqt://203.0.113.0:4443
+>PATH parameter in the CLIENT_SETUP message = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"
+
 
 Example of multiple tokens in the PATH:
 
-~~~~~~~~~~~~~~~
-moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
-ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
-~~~~~~~~~~~~~~~
+>moqt://203.0.113.0:4443
+>PATH parameter in the CLIENT_SETUP message = "service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
+>ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
+
 
 # Controlling access to MOQT actions
 
