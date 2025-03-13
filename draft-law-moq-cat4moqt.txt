@@ -4,8 +4,9 @@
 
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
-Intended status: Informational                             13 March 2025
-Expires: 14 September 2025
+Intended status: Informational                             S. Nandakumar
+Expires: 14 September 2025                                         Cisco
+                                                           13 March 2025
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -84,7 +85,7 @@ Table of Contents
    7.  IANA Considerations
    8.  Normative References
    Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -391,8 +392,13 @@ Acknowledgments
 
    The IETF moq workgroup
 
-Author's Address
+Authors' Addresses
 
    Will Law
    Akamai
    Email: wilaw@akamai.com
+
+
+   Suhas Nandakumar
+   Cisco
+   Email: snandaku@cisco.com
