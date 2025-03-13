@@ -1504,18 +1504,18 @@ prefixes of "CAT1", "CAT2" .. "CATN".<a href="#section-3.2-1" class="pilcrow">¶
 </li>
         </ul>
 <p id="section-3.3-6">Example of a single token in the PATH<a href="#section-3.3-6" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.3-7">
-<pre>
-https://example.com/service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/
-</pre><a href="#section-3.3-7" class="pilcrow">¶</a>
-</div>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.3-7.1">
+            <p id="section-3.3-7.1.1">https://example.com/service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/<a href="#section-3.3-7.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 <p id="section-3.3-8">Example of multiple tokens in the PATH:<a href="#section-3.3-8" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.3-9">
-<pre>
-https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
-ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
-</pre><a href="#section-3.3-9" class="pilcrow">¶</a>
-</div>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.3-9.1">
+            <p id="section-3.3-9.1.1">https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
+ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/<a href="#section-3.3-9.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 <div id="usage-with-native-quic">
@@ -1526,12 +1526,12 @@ ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
 <p id="section-3.4-1">With a native QUIC connection, the query components and PATH are transmitted via the "PATH"
 parameter in the CLIENT_SETUP message.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 <p id="section-3.4-2">Example of a single token in a query arg:<a href="#section-3.4-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.4-3">
-<pre>
-moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="
-</pre><a href="#section-3.4-3" class="pilcrow">¶</a>
-</div>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.4-3.1">
+            <p id="section-3.4-3.1.1">moqt://203.0.113.0:4443
+PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="<a href="#section-3.4-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 <p id="section-3.4-4">Example of multiple tokens in query args:<a href="#section-3.4-4" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-3.4-5.1">
@@ -1541,20 +1541,20 @@ PATH parameter in the CLIENT_SETUP message = "service?CAT1=oRkBDqMAoQBlaHR0cHMDo
 </li>
         </ul>
 <p id="section-3.4-6">Example of a single token in the PATH<a href="#section-3.4-6" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.4-7">
-<pre>
-moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"
-</pre><a href="#section-3.4-7" class="pilcrow">¶</a>
-</div>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.4-7.1">
+            <p id="section-3.4-7.1.1">moqt://203.0.113.0:4443
+PATH parameter in the CLIENT_SETUP message = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"<a href="#section-3.4-7.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 <p id="section-3.4-8">Example of multiple tokens in the PATH:<a href="#section-3.4-8" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.4-9">
-<pre>
-moqt://203.0.113.0:4443
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.4-9.1">
+            <p id="section-3.4-9.1.1">moqt://203.0.113.0:4443
 PATH parameter in the CLIENT_SETUP message = "service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
-ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
-</pre><a href="#section-3.4-9" class="pilcrow">¶</a>
-</div>
+ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"<a href="#section-3.4-9.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 </section>
