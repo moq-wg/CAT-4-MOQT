@@ -290,7 +290,7 @@ TODO Security
 
 # IANA Considerations
 
-TODO We need to register the "moqt" claim in the IANA "CBOR Web Token (CWT) Claim" table. 
+TODO We need to register the "moqt" claim in the IANA "CBOR Web Token (CWT) Claim" table.
 
 
 --- back
