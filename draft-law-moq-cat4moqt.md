@@ -131,16 +131,16 @@ save wire size.
 |---------------|-------------------------------------------------------------|
 |  Code Point   |                    Definition                               |
 |---------------|-------------------------------------------------------------|
-|     0x01      | ANNOUNCE - Allowed for all Namespaces|Names                 |
+|     0x01      | ANNOUNCE - Allowed for all Namespaces/Names                 |
 |     0x02      | ANNOUNCE - Allowed with an exact match                      |
 |     0x03      | ANNOUNCE - Allowed with a prefix match                      |
-|     0x04      | SUBSCRIBE_ANNOUNCES - Allowed for all Namespaces|Names      |
+|     0x04      | SUBSCRIBE_ANNOUNCES - Allowed for all Namespaces/Names      |
 |     0x05      | SUBSCRIBE_ANNOUNCES - Allowed with an exact match           |
 |     0x06      | SUBSCRIBE_ANNOUNCES - Allowed with a prefix match           |
-|     0x07      | PUBLISH - Allowed for all Namespaces|Names                  |
+|     0x07      | PUBLISH - Allowed for all Namespaces/Names                  |
 |     0x08      | PUBLISH - Allowed with an exact match                       |
 |     0x09      | PUBLISH - Allowed with a prefix match                       |
-|     0x0A      | FETCH - Allowed for all Namespaces|Names                    |
+|     0x0A      | FETCH - Allowed for all Namespaces/Names                    |
 |     0x0B      | FETCH - Allowed with an exact match                         |
 |     0x0C      | FETCH - Allowed with a prefix match                         |
 |---------------|-------------------------------------------------------------|
@@ -221,10 +221,9 @@ Example of a single token in a query arg:
 
 Example of multiple tokens in query args:
 
-~~~~~~~~~~~~~~~
-https://example.com/service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==
-~~~~~~~~~~~~~~~
+>https://example.com/service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+>&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==
+
 
 Example of a single token in the PATH
 
@@ -252,11 +251,10 @@ PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQ
 
 Example of multiple tokens in query args:
 
-~~~~~~~~~~~~~~~
-moqt://203.0.113.0:4443
-PATH parameter in the CLIENT_SETUP message = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
-~~~~~~~~~~~~~~~
+>moqt://203.0.113.0:4443
+>PATH parameter in the CLIENT_SETUP message = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+>&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
+
 
 Example of a single token in the PATH
 
