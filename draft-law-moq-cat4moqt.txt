@@ -4,8 +4,8 @@
 
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
-Intended status: Informational                             12 March 2025
-Expires: 13 September 2025
+Intended status: Informational                             13 March 2025
+Expires: 14 September 2025
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 September 2025.
+   This Internet-Draft will expire on 14 September 2025.
 
 Copyright Notice
 
@@ -185,40 +185,40 @@ Table of Contents
    that action.
 
    As an alternative to carrying two attributes values for each action,
-   we could code these into a single varint to save wire size.
+   we could code these into a single number to save wire size.
 
-     +============+=================================================+
-     | Code Point | Definition                                      |
-     +============+=================================================+
-     | 0x01       | ANNOUNCE - Allowed for all Namespaces and Names |
-     +------------+-------------------------------------------------+
-     | 0x02       | ANNOUNCE - Allowed with an exact match          |
-     +------------+-------------------------------------------------+
-     | 0x03       | ANNOUNCE - Allowed with a prefix match          |
-     +------------+-------------------------------------------------+
-     | 0x04       | SUBSCRIBE_ANNOUNCES - Allowed for all           |
-     |            | Namespaces and Names                            |
-     +------------+-------------------------------------------------+
-     | 0x05       | SUBSCRIBE_ANNOUNCES - Allowed with an exact     |
-     |            | match                                           |
-     +------------+-------------------------------------------------+
-     | 0x06       | SUBSCRIBE_ANNOUNCES - Allowed with a prefix     |
-     |            | match                                           |
-     +------------+-------------------------------------------------+
-     | 0x07       | PUBLISH - Allowed for all Namespaces and Names  |
-     +------------+-------------------------------------------------+
-     | 0x08       | PUBLISH - Allowed with an exact match           |
-     +------------+-------------------------------------------------+
-     | 0x09       | PUBLISH - Allowed with a prefix match           |
-     +------------+-------------------------------------------------+
-     | 0x0A       | FETCH - Allowed for all Namespaces and Names    |
-     +------------+-------------------------------------------------+
-     | 0x0B       | FETCH - Allowed with an exact match             |
-     +------------+-------------------------------------------------+
-     | 0x0C       | FETCH - Allowed with a prefix match             |
-     +------------+-------------------------------------------------+
+      +============+========================================+=======+
+      | Code Point | Definition                             |       |
+      +============+========================================+=======+
+      | 0x01       | ANNOUNCE - Allowed for all Namespaces  | Names |
+      +------------+----------------------------------------+-------+
+      | 0x02       | ANNOUNCE - Allowed with an exact match |       |
+      +------------+----------------------------------------+-------+
+      | 0x03       | ANNOUNCE - Allowed with a prefix match |       |
+      +------------+----------------------------------------+-------+
+      | 0x04       | SUBSCRIBE_ANNOUNCES - Allowed for all  | Names |
+      |            | Namespaces                             |       |
+      +------------+----------------------------------------+-------+
+      | 0x05       | SUBSCRIBE_ANNOUNCES - Allowed with an  |       |
+      |            | exact match                            |       |
+      +------------+----------------------------------------+-------+
+      | 0x06       | SUBSCRIBE_ANNOUNCES - Allowed with a   |       |
+      |            | prefix match                           |       |
+      +------------+----------------------------------------+-------+
+      | 0x07       | PUBLISH - Allowed for all Namespaces   | Names |
+      +------------+----------------------------------------+-------+
+      | 0x08       | PUBLISH - Allowed with an exact match  |       |
+      +------------+----------------------------------------+-------+
+      | 0x09       | PUBLISH - Allowed with a prefix match  |       |
+      +------------+----------------------------------------+-------+
+      | 0x0A       | FETCH - Allowed for all Namespaces     | Names |
+      +------------+----------------------------------------+-------+
+      | 0x0B       | FETCH - Allowed with an exact match    |       |
+      +------------+----------------------------------------+-------+
+      | 0x0C       | FETCH - Allowed with a prefix match    |       |
+      +------------+----------------------------------------+-------+
 
-                                 Table 1
+                                  Table 1
 
 2.1.1.  Text examples of permissions to help with CDDL construction
 
@@ -235,7 +235,7 @@ Table of Contents
    * alternate/example.com/bob
    * 12345
 
-   Example: Allow with a Positive prefix "match example.com/bob"
+   Example: Allow with a prefix match "example.com/bob"
 
    Permits
    * example.com/bob
@@ -293,25 +293,22 @@ Table of Contents
 
    Example of a single token in a query arg:
 
-   |  https://example.com/
-   |  service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+      https://example.com/
+      service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
 
    Example of multiple tokens in query args:
 
-   |  https://example.com/
-   |  service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-   |  &CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==
+https://example.com/service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==
 
    Example of a single token in the PATH
 
-   |  https://example.com/service/CAT-
-   |  oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/
+https://example.com/service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/
 
    Example of multiple tokens in the PATH:
 
-   |  https://example.com/service/
-   |  CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
-   |  ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
+https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
+ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
 
 3.4.  Usage with Native QUIC
 
@@ -320,26 +317,25 @@ Table of Contents
 
    Example of a single token in a query arg:
 
-   |  moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
-   |  = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="
+moqt://203.0.113.0:4443
+PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="
 
    Example of multiple tokens in query args:
 
-   |  moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
-   |  = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-   |  &CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
+moqt://203.0.113.0:4443
+PATH parameter in the CLIENT_SETUP message = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
+&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
 
    Example of a single token in the PATH
 
-   |  moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
-   |  = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"
+moqt://203.0.113.0:4443
+PATH parameter in the CLIENT_SETUP message = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"
 
    Example of multiple tokens in the PATH:
 
-   |  moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
-   |  = "service/
-   |  CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
-   |  ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
+moqt://203.0.113.0:4443
+PATH parameter in the CLIENT_SETUP message = "service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
+ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
 
 4.  Controlling access to MOQT actions
 
@@ -359,7 +355,8 @@ Table of Contents
 
 7.  IANA Considerations
 
-   This document has no IANA actions.
+   TODO We need to register the "moqt" claim in the IANA "CBOR Web Token
+   (CWT) Claim" table.
 
 8.  Normative References
 
