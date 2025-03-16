@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-13T00:59:12.283479+00:00",
+  "timestamp": "2025-03-16T01:03:17.396506+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -49,6 +49,79 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOODoKls6uBWw2",
+      "title": "Token renewal",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/1",
+      "state": "OPEN",
+      "author": "gwendalsimon",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I volunteer to write some text to explain how the token renewal can be implemented.",
+      "createdAt": "2025-03-14T08:40:21Z",
+      "updatedAt": "2025-03-14T08:40:21Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOODoKls6uBiHC",
+      "title": "No token at connection but token for actions",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/2",
+      "state": "OPEN",
+      "author": "gwendalsimon",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "One of the limitations of having a unique global token to rule all future actions is that the token's expiration time must be long to anticipate the actions in the future. It can be preferrable to have tokens with short expiration time for specific action, but it contradicts the global unique token.\n\nI would like to define an alternative workflow, where the token at WebTransport is optional, but a token must be carried in the actions (SUBSCRIBE, FETCH, ...) as authentication-parameter.",
+      "createdAt": "2025-03-14T08:59:41Z",
+      "updatedAt": "2025-03-14T09:15:38Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "Some ideas on how to achieve this:\n1. You give the player two tokens - one for the connection and another for actions. \n2. In the moqt claim, we add an action for \"CONNECT\". We then rely on future implementation of composite claims so that each  moqt action can be combined with an existing CAT claim such as time, geo etc. ",
+          "createdAt": "2025-03-14T09:15:37Z",
+          "updatedAt": "2025-03-14T09:15:37Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOODoKls6uEJaW",
+      "title": "does the expiration of a token also apply to the ongoing SUBSCRIBE?",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/3",
+      "state": "OPEN",
+      "author": "gwendalsimon",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Let's say an end-user connects to a Relay with a token that expires in 60 minutes. What I understand is that, if the user emits a SUBSCRIBE 65 minutes later, then the Relay will reject the request. However, if the user sends a SUBSCRIBE to a track immediately after the connection, it got the stream. 60 minutes later, should the Relay abruptly stop the track delivery? It would require the Relay to keep trace of the finishing time of each ongoing track. ",
+      "createdAt": "2025-03-14T14:02:01Z",
+      "updatedAt": "2025-03-14T14:02:01Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOODoKls6uFN6-",
+      "title": "token revocation",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/4",
+      "state": "OPEN",
+      "author": "gwendalsimon",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "It can happen that the content distributor would like to revoke a token. It is an offline action, which can impact the ongoing sessions.\n\nIf the full token is revoked, then it should mean closure of the WebTransport or MoQ connection. This can happen when the content distributor has identified the end-user as a leak.\n\nIf only some MoQT actions are revoked, then the related actions should be stopped: for example the Relay should stop the subscription to a track whose grant has been revoked. The use cases are less clear, but, I can think of a countermeasure where an identified leak can no longer get the top video profile but can still access a subset of degraded tracks.",
+      "createdAt": "2025-03-14T15:49:20Z",
+      "updatedAt": "2025-03-14T15:49:20Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": []
 }
