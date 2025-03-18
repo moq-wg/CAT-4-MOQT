@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-16T01:03:17.396506+00:00",
+  "timestamp": "2025-03-18T00:59:03.504729+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -119,6 +119,22 @@
       "body": "It can happen that the content distributor would like to revoke a token. It is an offline action, which can impact the ongoing sessions.\n\nIf the full token is revoked, then it should mean closure of the WebTransport or MoQ connection. This can happen when the content distributor has identified the end-user as a leak.\n\nIf only some MoQT actions are revoked, then the related actions should be stopped: for example the Relay should stop the subscription to a track whose grant has been revoked. The use cases are less clear, but, I can think of a countermeasure where an identified leak can no longer get the top video profile but can still access a subset of degraded tracks.",
       "createdAt": "2025-03-14T15:49:20Z",
       "updatedAt": "2025-03-14T15:49:20Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOODoKls6uY6_m",
+      "title": "Add a new CONNECTION action to the moq claim",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/5",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Right now, we assume the existing CAT claims (exp, catu, geohash etc) apply to the initial connection via either Web transport or native QUIC.\n\nThis relationship becomes brittle if we introduce COMPOSITE claims, in which there may be multiple 'exp' claims bound to Actions, while some remain unbound and are assumed to apply to the connection.\n\nAn improvement here would be to make 2 changes\n1. Add in CONNECTION as a new ACTION type.\n2. Allow claims to be composite. \n\nFor example the following combination lets you connect from anywhere before a certain time,  but only publish from Germany with a prefix match of example.com\n\nMOQ CONNECTION allowed AND exp  = 1742229697 \nMOQ PUBLISH (prefix match 'example.com') AND catgeoiso3166 = DE",
+      "createdAt": "2025-03-17T16:47:05Z",
+      "updatedAt": "2025-03-17T16:47:05Z",
       "closedAt": null,
       "comments": []
     }
