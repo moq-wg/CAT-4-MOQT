@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-18T00:59:03.504729+00:00",
+  "timestamp": "2025-03-20T00:58:35.344037+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -102,9 +102,17 @@
       "labels": [],
       "body": "Let's say an end-user connects to a Relay with a token that expires in 60 minutes. What I understand is that, if the user emits a SUBSCRIBE 65 minutes later, then the Relay will reject the request. However, if the user sends a SUBSCRIBE to a track immediately after the connection, it got the stream. 60 minutes later, should the Relay abruptly stop the track delivery? It would require the Relay to keep trace of the finishing time of each ongoing track. ",
       "createdAt": "2025-03-14T14:02:01Z",
-      "updatedAt": "2025-03-14T14:02:01Z",
+      "updatedAt": "2025-03-18T13:50:53Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "As currently defined, the expiry time applies only to the initial connection. This means that if the client connects  to the relay with a 60min token at 10:00, then the client can do all the subscribing that it wants, but at 11:00, the relay will terminate the connection, which will effectively end all tracks being published and or subscribed in that session. ",
+          "createdAt": "2025-03-18T13:50:51Z",
+          "updatedAt": "2025-03-18T13:50:51Z"
+        }
+      ]
     },
     {
       "number": 4,
@@ -134,9 +142,17 @@
       "labels": [],
       "body": "Right now, we assume the existing CAT claims (exp, catu, geohash etc) apply to the initial connection via either Web transport or native QUIC.\n\nThis relationship becomes brittle if we introduce COMPOSITE claims, in which there may be multiple 'exp' claims bound to Actions, while some remain unbound and are assumed to apply to the connection.\n\nAn improvement here would be to make 2 changes\n1. Add in CONNECTION as a new ACTION type.\n2. Allow claims to be composite. \n\nFor example the following combination lets you connect from anywhere before a certain time,  but only publish from Germany with a prefix match of example.com\n\nMOQ CONNECTION allowed AND exp  = 1742229697 \nMOQ PUBLISH (prefix match 'example.com') AND catgeoiso3166 = DE",
       "createdAt": "2025-03-17T16:47:05Z",
-      "updatedAt": "2025-03-17T16:47:05Z",
+      "updatedAt": "2025-03-18T13:23:33Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "One problem I discovered with this approach is that you cannot repeat a claim in a CWT token. So you cannot have two expiry or geo claims, one for connect, another for publish. ",
+          "createdAt": "2025-03-18T13:23:32Z",
+          "updatedAt": "2025-03-18T13:23:32Z"
+        }
+      ]
     }
   ],
   "pulls": []
