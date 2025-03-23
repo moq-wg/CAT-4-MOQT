@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-20T00:58:35.344037+00:00",
+  "timestamp": "2025-03-23T01:03:45.252144+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -151,6 +151,37 @@
           "body": "One problem I discovered with this approach is that you cannot repeat a claim in a CWT token. So you cannot have two expiry or geo claims, one for connect, another for publish. ",
           "createdAt": "2025-03-18T13:23:32Z",
           "updatedAt": "2025-03-18T13:23:32Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOODoKls6vEm70",
+      "title": "Add TRACK_STATUS_REQUEST action",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/6",
+      "state": "OPEN",
+      "author": "afrind",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "See https://github.com/moq-wg/moq-transport/issues/720\n\nAlternately it could share SUBSCRIBE, or we could have a blanket action like CONSUME which would cover SUBSCRIBE, FETCH and TRACK_STATUS_REQUEST.",
+      "createdAt": "2025-03-21T04:20:12Z",
+      "updatedAt": "2025-03-21T23:56:44Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "Adding a TRACk_STATUS_REQUEST action is an easy move.\n\nI really like the idea of CONSUME. It is a logical aggregation which is likely to be highly common and it reduces the need to define a moqt claim for each child action. We should add SUBSCRIBE_ANNOUNCES to that pool. \n\nShould we have a counterpoint PRODUCE, which would aggregate ANNOUNCE and PUBLISH? ",
+          "createdAt": "2025-03-21T10:04:34Z",
+          "updatedAt": "2025-03-21T10:04:34Z"
+        },
+        {
+          "author": "afrind",
+          "authorAssociation": "NONE",
+          "body": "Maybe three actions: PRODUCE (Publish, Announce), CONSUME (Track Status Request, Subscribe, Fetch), DISCOVER (Subscribe Announces)?",
+          "createdAt": "2025-03-21T23:56:44Z",
+          "updatedAt": "2025-03-21T23:56:44Z"
         }
       ]
     }
