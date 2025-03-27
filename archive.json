@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-25T01:00:23.643241+00:00",
+  "timestamp": "2025-03-27T00:59:43.542874+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -184,6 +184,22 @@
           "updatedAt": "2025-03-21T23:56:44Z"
         }
       ]
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOODoKls6vyvuO",
+      "title": "When are claims evaluated in long duration sessions?",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/7",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "CAT claims are written assuming a request, which occurs at a single point in time. However MOQT has actions which can persist over the life of the session, which may last a long time. This issue raises the need to evaluate the claims within CAT and define how they might be applied to long running sessions. \n\nFor example, if a claim binds a connection to an IP address and that IP address later changes while the session is still active due to QUIC connection migration, should the connection be dropped? \n\nAt what interval is the server required to evaluate the IP address - with each incoming QUIC frame, or MOQT object or some other interval or event? ",
+      "createdAt": "2025-03-26T11:54:34Z",
+      "updatedAt": "2025-03-26T11:54:34Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": []
