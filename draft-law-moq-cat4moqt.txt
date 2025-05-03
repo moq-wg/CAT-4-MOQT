@@ -4,9 +4,11 @@
 
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
-Intended status: Informational                             S. Nandakumar
-Expires: 14 September 2025                                         Cisco
-                                                           13 March 2025
+Intended status: Informational                                C. Lemmons
+Expires: 4 November 2025                                         Comcast
+                                                           S. Nandakumar
+                                                                   Cisco
+                                                              3 May 2025
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -49,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 September 2025.
+   This Internet-Draft will expire on 4 November 2025.
 
 Copyright Notice
 
@@ -397,6 +399,11 @@ Authors' Addresses
    Will Law
    Akamai
    Email: wilaw@akamai.com
+
+
+   Chris Lemmons
+   Comcast
+   Email: Chris_Lemmons@comcast.com
 
 
    Suhas Nandakumar
