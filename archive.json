@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-01T01:08:49.703150+00:00",
+  "timestamp": "2025-05-04T01:09:27.579942+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -218,5 +218,101 @@
       "comments": []
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 9,
+      "id": "PR_kwDOODoKls6UzS5E",
+      "title": "First round of edits to fill out the definition of the claim.",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/pull/9",
+      "state": "OPEN",
+      "author": "alficles",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-02T22:30:52Z",
+      "updatedAt": "2025-05-03T11:27:21Z",
+      "baseRepository": "wilaw/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "7c068e5ecc179dc39a8fb306278577da3c7dd813",
+      "headRepository": "alficles/CAT-4-MOQT",
+      "headRefName": "main",
+      "headRefOid": "60550df5b17fb275074f3e5d0abddcba00698e55",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOODoKls6nrit7",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "This is a great start Chris - thanks for kicking it off. ",
+          "createdAt": "2025-05-03T10:51:09Z",
+          "updatedAt": "2025-05-03T11:27:21Z",
+          "comments": [
+            {
+              "originalPosition": 81,
+              "body": "The actions in MOQT are not extensible and are not defined in a registry,. They are defined by a particular version of the specification .  I think we can avoid the registry table and instead indicate that if anyone extends this specification to match a future version of MOQT, that they should provide a new action and its key.  \r\n\r\nThe actions we need to support with the current draft of MOQT are\r\n\r\nCONNECT\r\nANNOUNCE\r\nSUBSCRIBE_ANNOUNCES\r\nSUBSCRIBE\r\nFETCH\r\nPUBLISH (not yet defined but likely will be). \r\nTRACK_STATUS_REQUEST\r\n",
+              "createdAt": "2025-05-03T10:51:09Z",
+              "updatedAt": "2025-05-03T11:27:21Z"
+            },
+            {
+              "originalPosition": 91,
+              "body": "For simplicity we should exclude SHA* match types and just allow exact-match, prefix-match, suffix-match and contains-match. ",
+              "createdAt": "2025-05-03T10:53:13Z",
+              "updatedAt": "2025-05-03T11:27:21Z"
+            },
+            {
+              "originalPosition": 96,
+              "body": "Namespace is always a byte array, as is Name.  Even though URLs are used for clarity in most examples, in practice a streaming format would need to specify how these are serialized i.e UTF-8. ",
+              "createdAt": "2025-05-03T10:55:46Z",
+              "updatedAt": "2025-05-03T11:27:21Z"
+            },
+            {
+              "originalPosition": 107,
+              "body": "This needs to be a byte match, not a string match. ",
+              "createdAt": "2025-05-03T10:56:23Z",
+              "updatedAt": "2025-05-03T11:27:21Z"
+            },
+            {
+              "originalPosition": 108,
+              "body": "Name should also be a byte match",
+              "createdAt": "2025-05-03T10:56:53Z",
+              "updatedAt": "2025-05-03T11:27:21Z"
+            },
+            {
+              "originalPosition": 93,
+              "body": "in MOQT a Track Namespace is an ordered N-tuple of bytes where N can be between 1 and 32. Track Name is a sequence of bytes that identifies an individual track within the namespace.\r\nSee https://moq-wg.github.io/moq-transport/draft-ietf-moq-transport.html#name-track-naming\r\n\r\nFor the token, I don't think we need to specify a N-32 tuple for the match. We can indicate that the tuples should be concatenated and then compared. Language might be `Namespaces are compared using lexicographic ordering on their byte-wise representations, where each namespace is treated as a byte string formed by concatenating its constituent bytes in order.\r\n`",
+              "createdAt": "2025-05-03T11:09:45Z",
+              "updatedAt": "2025-05-03T11:27:21Z"
+            },
+            {
+              "originalPosition": 198,
+              "body": "Yes, this is an important point. I will raise for discussion at Stockholm interim. Some ideas\r\n1. We leave the interval up to the enforcer. Some might find it cheap to evaluate with each object sent, others at a time interval. This will lead to poor interop so I don't like this approach. \r\n2. We can set upper bounds on the maximum time at which each claim MUST be checked. This may be per object sent, 1s wallclock time, 10s, 60s etc. This may be set by this RFC, or it may be a part of the claim payload?",
+              "createdAt": "2025-05-03T11:17:34Z",
+              "updatedAt": "2025-05-03T11:27:21Z"
+            },
+            {
+              "originalPosition": 229,
+              "body": "As mentioned earlier, actions are defined by MOQT RFC and are not extensible. We can require that new specifications include and action and a key value when extending cat-4-moqt. \r\n\r\nReusing message id is not an option. The message id mutates with each message sent so it would not work for the repeated use of tokens. \r\n> The client's Request ID starts at 0 and are even and the server's Request ID starts at 1 and are odd. The Request ID increments by 2 with ANNOUNCE, FETCH, SUBSCRIBE, SUBSCRIBE_ANNOUNCES or TRACK_STATUS request.",
+              "createdAt": "2025-05-03T11:22:54Z",
+              "updatedAt": "2025-05-03T11:27:21Z"
+            },
+            {
+              "originalPosition": 181,
+              "body": "Would be nice to add an additional example showing a complete set of composite claims, using expiry, not before, cwt ID, geo, etc. ",
+              "createdAt": "2025-05-03T11:26:44Z",
+              "updatedAt": "2025-05-03T11:27:21Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
