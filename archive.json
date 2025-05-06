@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-04T01:09:27.579942+00:00",
+  "timestamp": "2025-05-06T01:03:35.153934+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -231,7 +231,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-02T22:30:52Z",
-      "updatedAt": "2025-05-03T11:27:21Z",
+      "updatedAt": "2025-05-05T19:20:07Z",
       "baseRepository": "wilaw/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "7c068e5ecc179dc39a8fb306278577da3c7dd813",
@@ -311,8 +311,214 @@
               "updatedAt": "2025-05-03T11:27:21Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6nvIH2",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "gwendalsimon",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-05T08:36:19Z",
+          "updatedAt": "2025-05-05T08:36:19Z",
+          "comments": [
+            {
+              "originalPosition": 91,
+              "body": "Should we consider contains-match? It could be heavy in terms of processing at the edge. We may also need to explain how to compute this match based on the N (1..32) set of bytes. For example, do we allow */foo/*/bar/*?\r\n\r\nSimilarly, is there a use-case for suffix-match? \r\n\r\nIn MOQT, the announces are based on Prefix only, aren't they?   ",
+              "createdAt": "2025-05-05T08:36:19Z",
+              "updatedAt": "2025-05-05T08:36:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6nvIdz",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "gwendalsimon",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-05T08:37:00Z",
+          "updatedAt": "2025-05-05T08:37:00Z",
+          "comments": [
+            {
+              "originalPosition": 93,
+              "body": "Same as previous comment. \r\nWe could restrict the operation to the Prefix-match, which is the one defined in MOQT.",
+              "createdAt": "2025-05-05T08:37:00Z",
+              "updatedAt": "2025-05-05T08:37:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6nwIev",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-05T10:37:46Z",
+          "updatedAt": "2025-05-05T10:37:47Z",
+          "comments": [
+            {
+              "originalPosition": 93,
+              "body": "We have a bigger problem in that I believe the match functions operate on strings only, not on byte arrays",
+              "createdAt": "2025-05-05T10:37:46Z",
+              "updatedAt": "2025-05-05T10:37:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6nyVmt",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "gwendalsimon",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-05T14:19:33Z",
+          "updatedAt": "2025-05-05T14:19:33Z",
+          "comments": [
+            {
+              "originalPosition": 198,
+              "body": "The need for re-evaluation is indeed a point (also related to #3 and #7).\r\n\r\nYour idea 1 does not bring any guarantee of content protection, which is indeed not ideal.\r\nYour idea 2 may potentially be exploited. A pirates who knows when the server will check the IP address to verify some claims can migrate IP only for one object and continue streaming the rest of the time.\r\n\r\nA third idea would be to verify the claims when one of the characteristics related to the claims changes mid-stream. For example a HTTP/3 hook when the IP address changes at QUIC level would force a re-validation of the claims related to catnip and geo claims. The server would need to store, for every connection, all the characteristics that have been used to validate the claim at the latest verification. The advantage is that, for a stable connection, the server would never re-process the token,",
+              "createdAt": "2025-05-05T14:19:33Z",
+              "updatedAt": "2025-05-05T14:19:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6nzLOb",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-05T15:29:13Z",
+          "updatedAt": "2025-05-05T15:29:13Z",
+          "comments": [
+            {
+              "originalPosition": 91,
+              "body": "There's not a ton of point excluding the SHA options because making them optional for the receiver (that is, not a point on which you can guarantee interoperability) already effectively does it. For contains, the maximum cost is a single scan of the string, which is guaranteed to be relatively short.",
+              "createdAt": "2025-05-05T15:29:13Z",
+              "updatedAt": "2025-05-05T15:29:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6nzO6X",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-05T15:35:06Z",
+          "updatedAt": "2025-05-05T15:35:06Z",
+          "comments": [
+            {
+              "originalPosition": 198,
+              "body": "As I noodle on this, I'm thinking that we might handle token evaluation the same way you handle caching. The token could tell you how long you're allowed to cache the results and if you ask the relay to revalidate more frequently than it is willing, it stops serving your content. In practice, implementers would pick a minimum and reject tokens that ask for too frequent revalidation.\r\n\r\nConsidering that in the ABR world, people can and do re-evaluate the token, including the signature (which doesn't need re-checking for MOQT), every single fragment, I suspect that even extremely frequent re-evaluation isn't going to break anything.",
+              "createdAt": "2025-05-05T15:35:06Z",
+              "updatedAt": "2025-05-05T15:35:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6nzU7Z",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-05T15:43:27Z",
+          "updatedAt": "2025-05-05T15:43:27Z",
+          "comments": [
+            {
+              "originalPosition": 229,
+              "body": "I should have said Message Type IDs here. See Figure 3 in Section 8 of draft-ietf-moq-transport. So, for example, ANNOUNCE is 0x6, FETCH is 0x16, SUBSCRIBE is 0x3, SUBSCRIBE_ANNOUNCES is 0x11, and TRACK_STATUS is 0xE. The advantage is that you don't wind up using different numbers to describe the same concept and it means you don't have to define a list in the auth token. It also makes it effectively automatically extensible if someone defines a new frame in the future.\r\n\r\nThe main downside is that it allows you to express the idea of having the auth token apply to message types that might not make sense, like \"FETCH_ERROR\" or \"MAX_REQUEST_ID\". This could lead to confusion, or in the worst case, a naive implementation causing real problems for themselves.",
+              "createdAt": "2025-05-05T15:43:27Z",
+              "updatedAt": "2025-05-05T15:43:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6nzZiM",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-05T15:50:55Z",
+          "updatedAt": "2025-05-05T15:50:55Z",
+          "comments": [
+            {
+              "originalPosition": 91,
+              "body": "I think I'm going to have to re-define the match object, though, which is mildly annoying. I'd be fine if I had defined the input to match in CAT as a byte array, but alas, this is the kind of minor incompatibility I was worried about. The devil is always in the details. :)\r\n\r\nThere genuinely is a difference here, because the byte array is allowed to contain invalid unicode characters. And if someone implemented this with a library that handles unicode, concatenating a namespace with invalid unicode with a track name that you incorrectly assume is unicode can result in misinterpreting the first byte, which in the context of an auth token can result in incorrect access.",
+              "createdAt": "2025-05-05T15:50:55Z",
+              "updatedAt": "2025-05-05T15:50:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6n1mZw",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-05T19:20:06Z",
+          "updatedAt": "2025-05-05T19:20:07Z",
+          "comments": [
+            {
+              "originalPosition": 229,
+              "body": "I like idea of reusing the message type as its naturally extensible without having to rev this draft.  There is no danger in having the token apply to message types that don't carry auth precisely because the serialization of those message types doesn't provide for transmission of the auth token. \r\n\r\nOne problem is that if we want to protect CONNECT, it is not a message. We could use the special type of 0x0 for this, but now we have a blend of custom defined types and MOQT message types. \r\n\r\nAnother problem is that MOQT might reassign message types between versions? ",
+              "createdAt": "2025-05-05T19:20:06Z",
+              "updatedAt": "2025-05-05T19:25:10Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDOODoKls6U6F0O",
+      "title": "Update draft-law-moq-cat4moqt.md",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/pull/10",
+      "state": "OPEN",
+      "author": "gwendalsimon",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Polishing the Introduction to refine the concept of \"trusted MoQ distribution network\"",
+      "createdAt": "2025-05-05T09:27:42Z",
+      "updatedAt": "2025-05-05T09:27:43Z",
+      "baseRepository": "wilaw/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "8687628347be73234f01fdf16e06ff5bcbadce70",
+      "headRepository": "gwendalsimon/CAT-4-MOQT",
+      "headRefName": "patch-1",
+      "headRefOid": "c241235bd5a7c73c05b5bd2390b656b6b46bb0b2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
