@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-06T01:03:35.153934+00:00",
+  "timestamp": "2025-05-08T01:04:28.806286+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -216,6 +216,22 @@
       "updatedAt": "2025-04-21T11:48:21Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOODoKls61j04J",
+      "title": "Explain how DPOP will work and add field to MOQT if required.",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/11",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "There is a commercial desire to ensure that Demonstrating Proof of Possession (DPOP) can work with CAT-4-MOQT. \n\nThere should be a section in the draft outlining what claims should be used, the data they should carry and how the proof is communicated to the server. \n\nIf a new MOQT field is required to transmit the proof, then a clear request should be made to https://github.com/moq-wg/moq-transport/issues/968\n",
+      "createdAt": "2025-05-07T13:56:26Z",
+      "updatedAt": "2025-05-07T13:56:26Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -231,7 +247,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-02T22:30:52Z",
-      "updatedAt": "2025-05-05T19:20:07Z",
+      "updatedAt": "2025-05-07T03:31:02Z",
       "baseRepository": "wilaw/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "7c068e5ecc179dc39a8fb306278577da3c7dd813",
@@ -489,6 +505,86 @@
               "body": "I like idea of reusing the message type as its naturally extensible without having to rev this draft.  There is no danger in having the token apply to message types that don't carry auth precisely because the serialization of those message types doesn't provide for transmission of the auth token. \r\n\r\nOne problem is that if we want to protect CONNECT, it is not a message. We could use the special type of 0x0 for this, but now we have a blend of custom defined types and MOQT message types. \r\n\r\nAnother problem is that MOQT might reassign message types between versions? ",
               "createdAt": "2025-05-05T19:20:06Z",
               "updatedAt": "2025-05-05T19:25:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6oGQ49",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-07T03:21:25Z",
+          "updatedAt": "2025-05-07T03:21:25Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "wonder if we can make moq actions just an array with the base case being array of single element",
+              "createdAt": "2025-05-07T03:21:25Z",
+              "updatedAt": "2025-05-07T03:21:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6oGR04",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-07T03:24:33Z",
+          "updatedAt": "2025-05-07T03:24:33Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "may be we should limit the match possibilities to exact and prefix match. Also a CAT question, can't prefix match also perform exact match as well ?",
+              "createdAt": "2025-05-07T03:24:33Z",
+              "updatedAt": "2025-05-07T03:24:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6oGU-a",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-07T03:28:04Z",
+          "updatedAt": "2025-05-07T03:28:04Z",
+          "comments": [
+            {
+              "originalPosition": 93,
+              "body": "Agree with @wilaw. Does we need a new match operation ?",
+              "createdAt": "2025-05-07T03:28:04Z",
+              "updatedAt": "2025-05-07T03:28:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6oGWTf",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-07T03:31:01Z",
+          "updatedAt": "2025-05-07T03:31:02Z",
+          "comments": [
+            {
+              "originalPosition": 75,
+              "body": "just an observation, can we call it \"scope\" or \"authz-scope\" or \"authz-cover\" instead of limit. ",
+              "createdAt": "2025-05-07T03:31:02Z",
+              "updatedAt": "2025-05-07T03:31:02Z"
             }
           ]
         }
