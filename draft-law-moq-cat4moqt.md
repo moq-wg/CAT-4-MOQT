@@ -283,6 +283,47 @@ while the stream is open. The most obvious of these is the expiration time. The
 connection is migrated or the client moves. Do we need to do something special
 to require periodic re-evalution?
 
+## moqt-reval claim
+
+The "moqt-reval" claim is defined by the following CDDL:
+
+~~~~~~~~~~~~~~~
+$$Claims-Set-Claims //= (moqt-reval-label => moqt-reval-value)
+moqt-reval-label = TBD_MOQT_REVAL
+moqt-reval-value = number
+~~~~~~~~~~~~~~~
+
+The "moqt-reval" claim indicates the frequency with which the token must be
+revalidated for ongoing streams. If the token is no longer acceptable, the
+actions authorized by it MUST not be permitted to continue.
+
+The frequency is expressed in seconds. It provides an upper bound on how long a
+token may be considered acceptable for an ongoing stream. A revalidator MAY
+revalidate sooner.
+
+If the revalidation frequency is more frequent than the recipient is prepared
+or able to revalidate, the recipient MUST reject the token. If a recipient is
+unable to revalidate tokens, it MUST reject all tokens with a "moqt-reval"
+claim.
+
+A token can be revalidated by simply validating it again, just as if it were
+new. However, since some claims, signatures, MACs, and other attributes that
+could contribute to unacceptability may be incapable of changing acceptability
+in the duration, a revalidator may optimize by skipping some of the checks as
+long as the outcome of the validation is the same. Revalidators SHOULD skip
+reverifying MACs and signatures when the list of acceptable issuer keys is
+unchanged.
+
+When the value of this claim is zero, the token MUST NOT be revalidated. This
+is the default behaviour when the claim is not present.
+
+This claim MUST NOT be used outside of a base claimset. If used within a composition
+claims, the token is not well-formed.
+
+The claim key for this claim is TBD_MOQT_REVAL and the claim value is a number.
+Recipients MUST support this claim. This claim is OPTIONAL for issuers.
+
+
 # Authenticating the connection
 
 The connection to a MOQT distribution relay can take place over a WebTransport or native QUIC connection. In
