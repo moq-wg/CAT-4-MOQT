@@ -113,56 +113,59 @@ The "moqt" claim is defined by the following CDDL:
 ~~~~~~~~~~~~~~~
 $$Claims-Set-Claims //= (moqt-label => moqt-value)
 moqt-label = TBD_MOQT
-moqt-value = [ + moqt-limit ]
-moqt-limit = [ moqt-actions, moqt-ns-match, moqt-track-match ]
-moqt-actions = moqt-action | [ + moqt-action ]
+moqt-value = [ + moqt-scope ]
+moqt-scope = [ moqt-actions, moqt-ns-match, moqt-track-match ]
+moqt-actions = [ + moqt-action ]
 moqt-action = int
-moqt-ns-match = match
-moqt-track-match = match
+moqt-ns-match = bin-match
+moqt-track-match = bin-match
 
-/ match defined in CTA-5007-B 4.6.1, repeated here for convenience /
-match = {
-  ? exact-match ^ => tstr,
-  ? prefix-match ^ => tstr,
-  ? suffix-match ^ => tstr,
-  ? contains-match ^ => tstr,
-  ? regex-match ^ => [ tstr, * tstr ],
-  ? sha256-match ^ => bstr,
-  ? sha512-256-match ^ => bstr
+bin-match = {
+  ? exact-match ^ => bstr,
+  ? prefix-match ^ => bstr,
+  ? suffix-match ^ => bstr,
+  ? contains-match ^ => bstr,
 }
 
+/ match labels defined in CTA-5007-B 4.6.1 /
 exact-match = 0
 prefix-match = 1
 suffix-match = 2
 contains-match = 3
-regex-match = 4
-sha256-match = -1
-sha512-256-match = -2
 ~~~~~~~~~~~~~~~
 
-The "moqt" claim limits the MOQT actions for which the token can provide
-access. It is an array of action limits. Each limit is an array with three
-elements: an integer or array of integers that identifies the action or
-actions, respectively, a match object for the namespace, and a match object for
-the track name.
+The "moqt" claim bounds the scope of MOQT actions for which the token can provide
+access. It is an array of action scopes. Each scope is an array with three
+elements: an array of integers that identifies the actions, a match object for
+the namespace, and a match object for the track name.
 
-The action keys are defined in the "MOQT Action Key" subregistry. When this is
-an array, it matches any of the actions defined within. (DISCUSS: We could
-collapse this into a single integer if we use at bitmask instead. This might be
-overkill optimization, though, and it puts a hard cap on the number of possible
-actions.)
+The actions are integers defined as follows:
 
-The match object is defined in {{CAT}} Section 4.6.1. When used in a "moqt"
-claim, a match MUST NOT use the regex match type. The SHA256 and SHA512/256
-match types are OPTIONAL for implementation in relays, so issuers MUST NOT rely
-on them without separate arrangement. A limit with a match type that a relay
-does not support is never acceptable.
+|----------------------|-----|-------------------------------|
+| Action               | Key | Reference                     |
+|----------------------|-----|-------------------------------|
+| CONNECT              | -1  | TODO: Find a reference        |
+| ANNOUNCE             |  1  | {{MoQTransport}} Section 8.9  |
+| SUBSCRIBE_ANNOUNCES  |  2  | {{MoQTransport}} Section 8.24 |
+| SUBSCRIBE            |  3  | {{MoQTransport}} Section 8.7  |
+| PUBLISH              |  4  | {{MoQTransport}} Section TODO |
+| FETCH                |  5  | {{MoQTransport}} Section 8.13 |
+| TRACK_STATUS_REQUEST |  6  | {{MoQTransport}} Section 8.17 |
+|----------------------|-----|-------------------------------|
 
-The first match operation is performed against the namespace (as defined in
-Section 2.4.1 of {draft-ietf-moq-transport}). Since the match is not being
-performed against a URI, no normalization is performed and the matches are
-performed against the entire string. An empty match object is a legal construct
-that matches all names.
+The scope of the moqt claim is limited to the actions provided in the array.
+Any action not present in the array is not authorized by moqt claim.
+
+The match object is defined to be a binary form of the match object defined in
+{{CAT}} Section 4.6.1. The regex and hash match types are not defined for use
+with binary values in this document.
+
+The first match operation is performed against the namespace and the second
+against the track name (as defined in Section 2.4.1 of
+{draft-ietf-moq-transport}). Since the match is not being performed against a
+URI, no normalization is performed and the matches are performed against the
+entire string. An empty match object is a legal construct that matches all
+names.
 
 ### Text examples of permissions to help with CDDL construction
 
@@ -171,24 +174,25 @@ Example: Allow with an exact match "example.com/bob"
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 0, /SUBSCRIBE_ANNOUNCES/ 1, /PUBLISH/ 2, /FETCH/ 3 ],
-        { /exact/ 0: "example.com"},
-        { /exact/ 0: "bob"}
+        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        { /exact/ 0: 'example.com'},
+        { /exact/ 0: '/bob'}
     ]]
 }
 ~~~~~~~~~~~~~~~
 
 ~~~~~~~~~~~~~~~
 Permits
-* example.com/bob
+* 'example.com', '/bob'
 
 Prohibits
-* example.com
-* example.com/bob/123
-* example.com/alice
-* example.com/bob/logs
-* alternate/example.com/bob
-* 12345
+* 'example.com', ''
+* 'example.com', '/bob/123'
+* 'example.com', '/alice'
+* 'example.com', '/bob/logs'
+* 'alternate/example.com', /bob
+* '12345', ''
+* 'example', '.com/bob'
 ~~~~~~~~~~~~~~~
 
 Example: Allow with a prefix match "example.com/bob"
@@ -196,24 +200,25 @@ Example: Allow with a prefix match "example.com/bob"
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 0, /SUBSCRIBE_ANNOUNCES/ 1, /PUBLISH/ 2, /FETCH/ 3 ],
-        { /exact/ 0: "example.com"},
-        { /prefix/ 1: "bob"}
+        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        { /exact/ 0: 'example.com'},
+        { /prefix/ 1: '/bob'}
     ]]
 }
 ~~~~~~~~~~~~~~~
 
 ~~~~~~~~~~~~~~~
 Permits
-* example.com/bob
-* example.com/bob/123
-* example.com/bob/logs
+* 'example.com', '/bob'
+* 'example.com', '/bob/123'
+* 'example.com', '/bob/logs'
 
 Prohibits
-* example.com
-* example.com/alice
-* alternate/example.com/bob
-* 12345
+* 'example.com', ''
+* 'example.com', '/alice'
+* 'alternate/example.com', '/bob'
+* '12345', ''
+* 'example', '.com/bob'
 ~~~~~~~~~~~~~~~
 
 ### Multiple actions
@@ -230,8 +235,8 @@ the first acceptable result is discovered.
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [
-        [/PUBLISH/ 2, { /exact/ 0: "example.com"}, { /prefix/ 1: "bob"}],
-        [/PUBLISH/ 2, { /exact/ 0: "example.com"}, { /exact/ 0: "logs/12345/bob"}]
+        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}],
+        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]
     ],
     /exp/ 4: 1750000000
 }
@@ -254,11 +259,11 @@ If there are other claims that depend on which MOQT limit applies, a logical cla
 {
     /or/ TBD_OR: [
         {
-            /moqt/ TBD_MOQT: [[/PUBLISH/ 2, { /exact/ 0: "example.com"}, { /prefix/ 1: "bob"}]],
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}]],
             /exp/ 4: 1750000000
         },
         {
-            /moqt/ TBD_MOQT: [[/PUBLISH/ 2, { /exact/ 0: "example.com"}, { /exact/ 0: "logs/12345/bob"}]],
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]],
             /exp/ 4: 1750000600
         }
     ]
@@ -280,7 +285,7 @@ to require periodic re-evalution?
 
 # Authenticating the connection
 
-The connection to a MOQT distribution realy can take place over a WebTransport or native QUIC connection. In
+The connection to a MOQT distribution relay can take place over a WebTransport or native QUIC connection. In
 both cases, the token is transferred as a query parameter or else embedded in the URI PATH.
 
 ## Appending a token as a query parameter
@@ -383,28 +388,6 @@ IANA will register the following claim in the "CBOR Web Token (CWT) Claims" regi
 
 \[RFC Editor: Please replace RFCthis with the published RFC number for this
 document.\]
-
-IANA will create a subregistry within the "\[TODO: Put the name of the registry
-in here when draft-ietf-moq-transport defines it\]" registry. The subregistry
-will be named "MOQT Auth Action Keys". (DISCUSS: If actions are not extensible,
-we can avoid the registry entirely and simply require that new specifications
-that include an action include a key value? Maybe we can straight up reuse the
-Message ID?)
-
-TODO: Fill this out if we need it. Need all the standard stuff like template,
-specification required, and such.
-
-The registry will start with these values:
-
-|---------------------|-----|
-| Action              | Key |
-|---------------------|-----|
-| ANNOUNCE            |  0  |
-| SUBSCRIBE_ANNOUNCES |  1  |
-| PUBLISH             |  2  |
-| FETCH               |  3  |
-|---------------------|-----|
-
 
 --- back
 
