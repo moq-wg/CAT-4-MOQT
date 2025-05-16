@@ -34,6 +34,12 @@ author:
     email: wilaw@akamai.com
 
   -
+    ins: C. Lemmons
+    name: Chris Lemmons
+    organization: Comcast
+    email: Chris_Lemmons@comcast.com
+
+  -
     ins: S. Nandakumar
     name: Suhas Nandakumar
     organization: Cisco
