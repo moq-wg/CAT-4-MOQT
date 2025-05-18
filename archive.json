@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-08T01:04:28.806286+00:00",
+  "timestamp": "2025-05-18T01:09:07.220711+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -247,13 +247,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-02T22:30:52Z",
-      "updatedAt": "2025-05-07T03:31:02Z",
+      "updatedAt": "2025-05-16T22:29:32Z",
       "baseRepository": "wilaw/CAT-4-MOQT",
       "baseRefName": "main",
-      "baseRefOid": "7c068e5ecc179dc39a8fb306278577da3c7dd813",
+      "baseRefOid": "8687628347be73234f01fdf16e06ff5bcbadce70",
       "headRepository": "alficles/CAT-4-MOQT",
       "headRefName": "main",
-      "headRefOid": "60550df5b17fb275074f3e5d0abddcba00698e55",
+      "headRefOid": "1399b1d0eb685327bf15727d77de938d6bd26e58",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -585,6 +585,132 @@
               "body": "just an observation, can we call it \"scope\" or \"authz-scope\" or \"authz-cover\" instead of limit. ",
               "createdAt": "2025-05-07T03:31:02Z",
               "updatedAt": "2025-05-07T03:31:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6pu1wd",
+          "commit": {
+            "abbreviatedOid": "96281e1"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-16T21:09:45Z",
+          "updatedAt": "2025-05-16T21:26:30Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "Not sure I understand the question. A prefix match on \"/bob\" matches \"/bob\", \"/bobby\", \"/bob/stuff\". An exact match would only match the first.",
+              "createdAt": "2025-05-16T21:09:45Z",
+              "updatedAt": "2025-05-16T21:26:30Z"
+            },
+            {
+              "originalPosition": 181,
+              "body": "Yeah, once we're happy with the claim itself, a couple of fulsome examples are definitely in order.",
+              "createdAt": "2025-05-16T21:16:24Z",
+              "updatedAt": "2025-05-16T21:26:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6pu7Gm",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-16T21:27:13Z",
+          "updatedAt": "2025-05-16T21:27:14Z",
+          "comments": [
+            {
+              "originalPosition": 91,
+              "body": "I redefined this to work for binary strings.",
+              "createdAt": "2025-05-16T21:27:14Z",
+              "updatedAt": "2025-05-16T21:27:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6pu7bt",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-16T21:28:22Z",
+          "updatedAt": "2025-05-16T21:28:22Z",
+          "comments": [
+            {
+              "originalPosition": 96,
+              "body": "I left this comment in, because it might be easy for someone to assume that the URI-looking things should be treated that way. I could reword it, though.",
+              "createdAt": "2025-05-16T21:28:22Z",
+              "updatedAt": "2025-05-16T21:28:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6pu8n_",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-16T21:32:44Z",
+          "updatedAt": "2025-05-16T21:32:45Z",
+          "comments": [
+            {
+              "originalPosition": 229,
+              "body": "The CONNECT example convinced me that we should just enumerate the correct values here.",
+              "createdAt": "2025-05-16T21:32:44Z",
+              "updatedAt": "2025-05-16T21:32:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6pvLBS",
+          "commit": {
+            "abbreviatedOid": "1399b1d"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-16T22:26:34Z",
+          "updatedAt": "2025-05-16T22:26:34Z",
+          "comments": [
+            {
+              "originalPosition": 198,
+              "body": "Ok, check out below. I have a suggestion for a revalidation scheme. This might be simpler than the \"expires\" suggestion from https://github.com/moq-wg/moq-transport/pull/1012 , but it is specific to this token. Other tokens would then necessarily have to include their own revalidation scheme, which might be simpler or more complex than this one.",
+              "createdAt": "2025-05-16T22:26:34Z",
+              "updatedAt": "2025-05-16T22:26:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6pvLtV",
+          "commit": {
+            "abbreviatedOid": "1399b1d"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-16T22:29:32Z",
+          "updatedAt": "2025-05-16T22:29:32Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Making a note here that I did not switch to a concatenated version. Unless ['example.com', 'bob'] is supposed to be semantically interchangeable with ['example.co', 'mbob'], I don't think we can safely concat them.",
+              "createdAt": "2025-05-16T22:29:32Z",
+              "updatedAt": "2025-05-16T22:29:32Z"
             }
           ]
         }
