@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-18T01:09:07.220711+00:00",
+  "timestamp": "2025-05-20T01:05:37.610518+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -247,7 +247,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-02T22:30:52Z",
-      "updatedAt": "2025-05-16T22:29:32Z",
+      "updatedAt": "2025-05-19T17:42:46Z",
       "baseRepository": "wilaw/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "8687628347be73234f01fdf16e06ff5bcbadce70",
@@ -711,6 +711,106 @@
               "body": "Making a note here that I did not switch to a concatenated version. Unless ['example.com', 'bob'] is supposed to be semantically interchangeable with ['example.co', 'mbob'], I don't think we can safely concat them.",
               "createdAt": "2025-05-16T22:29:32Z",
               "updatedAt": "2025-05-16T22:29:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6p3nCj",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "gwendalsimon",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T08:42:47Z",
+          "updatedAt": "2025-05-19T08:42:47Z",
+          "comments": [
+            {
+              "originalPosition": 198,
+              "body": "Thanks for the idea. I like it. Though, we need to disambiguate\r\n- **revalidation time**: as you suggested, it would be smart to have a claim that instructs the Relay when it should revalidate the token claims. We don't have such a claim in CAT. Should it be in the token, or should it be carried by another mean so that the Relay can read it?\r\n- **expiration time**: we already have an optional claim in CAT. The need to renew token in MoQ is debatable. Since we have an established Client/Server connection, CDN leeching based on token reuse can be handled (replay is harder). \r\n\r\nIf I understands, the \"expires\" parameter aims at notifying the client that it must renew the token, just for the sake of revalidating it. I believe it is unnecessary. Revalidation is an internal (Relay-only) operation, which does not require client (nor control-plane) intervention. I am not comfortable with this \"expires\" parameter in MoQ. ",
+              "createdAt": "2025-05-19T08:42:47Z",
+              "updatedAt": "2025-05-19T08:42:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6p8KjX",
+          "commit": {
+            "abbreviatedOid": "60550df"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T15:09:31Z",
+          "updatedAt": "2025-05-19T15:09:31Z",
+          "comments": [
+            {
+              "originalPosition": 198,
+              "body": "I added a new claim for revalidation called moqt-reval in this updated PR. Check out how it works and let me know what you think. It adds the claim directly into the CAT, in the base claimset where it can be reliably located. Expiration is handled the way it always is.\r\n\r\nAnd yeah, the fact that the expires claim requires resubmission of the token feels wrong. We could move the \"mandatory revalidation time\" into the parameters for the request, like \"expires\", but then a token that needed a different revalidation strategy wouldn't be able to implement it differently.\r\n\r\nIt's worth noting that we'll have to do a touch of work to make catr or catif work with MOQ, because both of those are defined in terms of HTTP. Doable, but not automatic.",
+              "createdAt": "2025-05-19T15:09:31Z",
+              "updatedAt": "2025-05-19T15:09:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6p8gpG",
+          "commit": {
+            "abbreviatedOid": "1399b1d"
+          },
+          "author": "gwendalsimon",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T15:29:49Z",
+          "updatedAt": "2025-05-19T15:29:49Z",
+          "comments": [
+            {
+              "originalPosition": 249,
+              "body": "It is overall excellent. Though, \"frequency expressed in seconds\" seems wrong to me (I am used to period in seconds and frequency in hertz). Maybe another word than frequency should be used? ",
+              "createdAt": "2025-05-19T15:29:49Z",
+              "updatedAt": "2025-05-19T15:29:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6p9GOv",
+          "commit": {
+            "abbreviatedOid": "1399b1d"
+          },
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T16:18:35Z",
+          "updatedAt": "2025-05-19T16:18:36Z",
+          "comments": [
+            {
+              "originalPosition": 249,
+              "body": "I think we noun we want is \"interval\". ",
+              "createdAt": "2025-05-19T16:18:35Z",
+              "updatedAt": "2025-05-19T16:18:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6p95s-",
+          "commit": {
+            "abbreviatedOid": "1399b1d"
+          },
+          "author": "alficles",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T17:42:46Z",
+          "updatedAt": "2025-05-19T17:42:46Z",
+          "comments": [
+            {
+              "originalPosition": 249,
+              "body": "Yup. Interval is correct here. I'll fix.",
+              "createdAt": "2025-05-19T17:42:46Z",
+              "updatedAt": "2025-05-19T17:42:46Z"
             }
           ]
         }
