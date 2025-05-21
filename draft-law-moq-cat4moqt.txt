@@ -5,10 +5,10 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 4 November 2025                                         Comcast
+Expires: 22 November 2025                                        Comcast
                                                            S. Nandakumar
                                                                    Cisco
-                                                              3 May 2025
+                                                             21 May 2025
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 November 2025.
+   This Internet-Draft will expire on 22 November 2025.
 
 Copyright Notice
 
@@ -114,16 +114,19 @@ Table of Contents
       to make it tamper-resistent.
 
    *  The token is given in the clear to the end-user, along with a URL
-      to connect to the edge relay of a MOQT distribution network.
+      to connect to the edge relay of a MOQT distribution network.  The
+      edge relay is part of a trusted MOQT distribution network.  It has
+      previously shared secrets with the distribution service, so that
+      this relay is entitled to decrypt related tokens and to validate
+      signatures.
 
    *  The end-user client application provides the token to the MOQT
       distribution relay when it connects.  This connection may be
       established over WebTransport or raw QUIC.
 
    *  The relay decrypts the token upon receipt and validates the
-      signature, using secrets previously shared between the content
-      distributor and the distribution network.  Based upon claims
-      conveyed in the token, relay will accept or reject the conneciton.
+      signature.  Based upon claims conveyed in the token, the relay
+      accepts or rejects the connection.
 
    *  If the relay accepts the connection, then the client will take a
       series of MOQT actions: ANNOUNCE, SUBSCRIBE_ANNOUNCES, SUBSCRIBE
