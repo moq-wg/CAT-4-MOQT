@@ -83,12 +83,13 @@ This draft defines version 1 of this specification.
   contraints on the actions they can take once connected. The token may be signed to make it
   tamper-resistent.
 * The token is given in the clear to the end-user, along with a URL to connect to the edge relay of a MOQT
-  distribution network.
+  distribution network. The edge relay is part of a trusted MOQT distribution network. It has previously
+  shared secrets with the distribution service, so that this relay is entitled to decrypt related tokens and
+  to validate signatures.
 * The end-user client application provides the token to the MOQT distribution relay when it connects. This
   connection may be established over WebTransport or raw QUIC.
-* The relay decrypts the token upon receipt and validates the signature, using secrets previously shared
-  between the content distributor and the distribution network. Based upon claims conveyed in the token,
-  relay will accept or reject the conneciton.
+* The relay decrypts the token upon receipt and validates the signature. Based upon claims conveyed in
+  the token, the relay accepts or rejects the connection.
 * If the relay accepts the connection, then the client will take a series of MOQT actions: ANNOUNCE,
   SUBSCRIBE_ANNOUNCES, SUBSCRIBE or FETCH. For each of these, it will supply the token it received using
   the AUTHENTICATION parameter.
