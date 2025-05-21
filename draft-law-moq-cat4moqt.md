@@ -85,7 +85,7 @@ This draft defines version 1 of this specification.
 * The token is given in the clear to the end-user, along with a URL to connect to the edge relay of a MOQT
   distribution network. The edge relay is part of a trusted MOQT distribution network. It has previously
   shared secrets with the distribution service, so that this relay is entitled to decrypt related tokens and
-  to validate signatures. 
+  to validate signatures.
 * The end-user client application provides the token to the MOQT distribution relay when it connects. This
   connection may be established over WebTransport or raw QUIC.
 * The relay decrypts the token upon receipt and validates the signature. Based upon claims conveyed in
