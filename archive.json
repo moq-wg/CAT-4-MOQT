@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-20T01:05:37.610518+00:00",
+  "timestamp": "2025-05-22T01:04:40.925172+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -821,26 +821,62 @@
       "id": "PR_kwDOODoKls6U6F0O",
       "title": "Update draft-law-moq-cat4moqt.md",
       "url": "https://github.com/wilaw/CAT-4-MOQT/pull/10",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gwendalsimon",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Polishing the Introduction to refine the concept of \"trusted MoQ distribution network\"",
       "createdAt": "2025-05-05T09:27:42Z",
-      "updatedAt": "2025-05-05T09:27:43Z",
+      "updatedAt": "2025-05-21T09:57:49Z",
       "baseRepository": "wilaw/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "8687628347be73234f01fdf16e06ff5bcbadce70",
       "headRepository": "gwendalsimon/CAT-4-MOQT",
       "headRefName": "patch-1",
-      "headRefOid": "c241235bd5a7c73c05b5bd2390b656b6b46bb0b2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "961ee58c8ad7e77acdcf8ce0d0b4afc74c276fe4",
+      "closedAt": "2025-05-21T09:57:49Z",
+      "mergedAt": "2025-05-21T09:57:49Z",
+      "mergedBy": "wilaw",
+      "mergeCommit": {
+        "oid": "53abf752984c235e9a05837ab21e5df4fad446c7"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOODoKls6qS3Rg",
+          "commit": {
+            "abbreviatedOid": "c241235"
+          },
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-05-21T09:54:25Z",
+          "updatedAt": "2025-05-21T09:54:25Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOODoKls6qS46l",
+          "commit": {
+            "abbreviatedOid": "c241235"
+          },
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-21T09:56:24Z",
+          "updatedAt": "2025-05-21T09:56:25Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\n  to validate signatures.\r\n```",
+              "createdAt": "2025-05-21T09:56:24Z",
+              "updatedAt": "2025-05-21T09:56:25Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
