@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-22T01:04:40.925172+00:00",
+  "timestamp": "2025-05-25T01:10:42.217140+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -232,6 +232,30 @@
       "updatedAt": "2025-05-07T13:56:26Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOODoKls63x2QT",
+      "title": "Revocation may require a lot of processing at Relay(s)",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/12",
+      "state": "OPEN",
+      "author": "gwendalsimon",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "When a service provider wants to revoke a user, the revocation system should update the denylist of all Relays. Typically adding a token ID (e.g., cti) to a local database. Yet, in moQ, a Relay is expected to maintain a list of \"validated tokens\" associated with some established connections (WebTransports) and to continue streaming to these connections, until revalidation of the token.\n\nAt the reception of an update in the denylist, the Relay should parse all existing validated tokens to check whether it should be denied. It may be a significant processing task.\n\nNot sure how to fix it.\n\nOne option would be for the token issuer to indicate, in the token, the claim that is expected to be used for denial (it may be cti, but also some other claims), so that the Relay may store all validated token in a HashTable with the said claim in key.",
+      "createdAt": "2025-05-22T12:58:16Z",
+      "updatedAt": "2025-05-23T12:19:22Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "I think we should indicate that if you intend to revoke tokens, you MUST include a cti claim. The relay can then store the CTI against that session and easily match it against a denylist update.\n\n> At the reception of an update in the denylist, the Relay should parse all existing validated tokens to check whether it should be denied. It may be a significant processing task.\n\nThe relay does not have to re-parse tokens it has already parsed. It parses them once upon receipt and stores the CTI as metadata against that session. ",
+          "createdAt": "2025-05-23T12:19:21Z",
+          "updatedAt": "2025-05-23T12:19:21Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -247,7 +271,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-02T22:30:52Z",
-      "updatedAt": "2025-05-19T17:42:46Z",
+      "updatedAt": "2025-05-22T14:43:13Z",
       "baseRepository": "wilaw/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "8687628347be73234f01fdf16e06ff5bcbadce70",
@@ -334,7 +358,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "gwendalsimon",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-05T08:36:19Z",
@@ -354,7 +378,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "gwendalsimon",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-05T08:37:00Z",
@@ -394,7 +418,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "gwendalsimon",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-05T14:19:33Z",
@@ -720,7 +744,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "gwendalsimon",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-19T08:42:47Z",
@@ -760,7 +784,7 @@
             "abbreviatedOid": "1399b1d"
           },
           "author": "gwendalsimon",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-19T15:29:49Z",
@@ -811,6 +835,66 @@
               "body": "Yup. Interval is correct here. I'll fix.",
               "createdAt": "2025-05-19T17:42:46Z",
               "updatedAt": "2025-05-19T17:42:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6qiCLa",
+          "commit": {
+            "abbreviatedOid": "1399b1d"
+          },
+          "author": "gwendalsimon",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-22T12:32:55Z",
+          "updatedAt": "2025-05-22T12:32:55Z",
+          "comments": [
+            {
+              "originalPosition": 247,
+              "body": "Should we consider having actions in **catif** for a failed moqt-reval?\r\n\r\nMore generally, what should we do if the action is not permitted to continue?  ",
+              "createdAt": "2025-05-22T12:32:55Z",
+              "updatedAt": "2025-05-22T12:32:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6qiDUP",
+          "commit": {
+            "abbreviatedOid": "1399b1d"
+          },
+          "author": "gwendalsimon",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-22T12:34:26Z",
+          "updatedAt": "2025-05-22T12:34:27Z",
+          "comments": [
+            {
+              "originalPosition": 267,
+              "body": "If the token includes an expiration, the cat-reval should be at least the delay until the expiration time. Should we write something in this regard?",
+              "createdAt": "2025-05-22T12:34:26Z",
+              "updatedAt": "2025-05-22T12:34:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls6qj3-x",
+          "commit": {
+            "abbreviatedOid": "1399b1d"
+          },
+          "author": "gwendalsimon",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-22T14:43:13Z",
+          "updatedAt": "2025-05-22T14:43:13Z",
+          "comments": [
+            {
+              "originalPosition": 267,
+              "body": "More generally, the exp and the cat-reval should be disjoint  In that case, the exp will trigger a revalidation, regardless of the cat-reval value. So, an exp at a given time and a cat-reval 0 or a cat-reval that would trigger a revalidation _after_ the exp would not matter. It would also cover the cases where the token includes an exp but no cat-reval.",
+              "createdAt": "2025-05-22T14:43:13Z",
+              "updatedAt": "2025-05-22T14:43:13Z"
             }
           ]
         }
