@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-25T01:10:42.217140+00:00",
+  "timestamp": "2025-05-29T01:05:30.238627+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -256,6 +256,22 @@
           "updatedAt": "2025-05-23T12:19:21Z"
         }
       ]
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOODoKls64lAnR",
+      "title": "Add CLIENT-SETUP as a protected action.",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/13",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Per https://github.com/moq-wg/moq-transport/pull/1013#, there is a likelihood that we need to add the CLIENT-SETUP message to our list of protected MOQT actions. ",
+      "createdAt": "2025-05-28T09:36:51Z",
+      "updatedAt": "2025-05-28T09:36:51Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
