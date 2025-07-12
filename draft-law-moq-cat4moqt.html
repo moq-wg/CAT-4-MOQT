@@ -11,25 +11,25 @@
 <meta content="
        A token-based authentication scheme for use with Media Over QUIC Transport. 
     " name="description">
-<meta content="xml2rfc 3.28.1" name="generator">
+<meta content="xml2rfc 3.29.0" name="generator">
 <meta content="media over quic" name="keyword">
 <meta content="authentication" name="keyword">
 <meta content="common access token" name="keyword">
 <meta content="CAT" name="keyword">
 <meta content="draft-law-moq-cat4moqt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.1
-    Python 3.12.10
+  xml2rfc 3.29.0
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
-    lxml 5.3.0
+    lxml 5.3.1
     platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
+    requests 2.32.4
+    setuptools 80.9.0
     wcwidth 0.2.13
 -->
 <link href="draft-law-moq-cat4moqt.xml" rel="alternate" type="application/rfc+xml">
@@ -1049,11 +1049,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CAT-4-MOQT</td>
-<td class="right">May 2025</td>
+<td class="right">July 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Law, et al.</td>
-<td class="center">Expires 22 November 2025</td>
+<td class="center">Expires 13 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-law-moq-cat4moqt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-05-21" class="published">21 May 2025</time>
+<time datetime="2025-07-12" class="published">12 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-11-22">22 November 2025</time></dd>
+<dd class="expires"><time datetime="2026-01-13">13 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1129,7 +1129,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 13 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1179,6 +1179,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="auto internal xref">2.1.2</a>.  <a href="#name-multiple-actions" class="internal xref">Multiple actions</a></p>
 </li>
                 </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-moqt-reval-claim" class="internal xref">moqt-reval claim</a></p>
 </li>
             </ul>
 </li>
@@ -1299,106 +1302,97 @@ As soon as a token is provided, all actions are explicitly blocked unless explic
 <div class="alignLeft art-text artwork" id="section-2.1-2">
 <pre>
 $$Claims-Set-Claims //= (moqt-label =&gt; moqt-value)
-moqt-label = XXX TODO - how do we register this?
-moqt-value = [ + moqt-object ]
+moqt-label = TBD_MOQT
+moqt-value = [ + moqt-scope ]
+moqt-scope = [ moqt-actions, moqt-ns-match, moqt-track-match ]
+moqt-actions = [ + moqt-action ]
+moqt-action = int
+moqt-ns-match = bin-match
+moqt-track-match = bin-match
+
+bin-match = {
+  ? exact-match ^ =&gt; bstr,
+  ? prefix-match ^ =&gt; bstr,
+  ? suffix-match ^ =&gt; bstr,
+  ? contains-match ^ =&gt; bstr,
+}
+
+/ match labels defined in CTA-5007-B 4.6.1 /
+exact-match = 0
+prefix-match = 1
+suffix-match = 2
+contains-match = 3
 </pre><a href="#section-2.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1-3">TODO - need CDDL valid definition. The moqt token needs to encode multiple instances of 4 actions, currently<a href="#section-2.1-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-2.1-4.1">
-            <p id="section-2.1-4.1.1">0 - ANNOUNCE<a href="#section-2.1-4.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-2.1-4.2">
-            <p id="section-2.1-4.2.1">1 - SUBSCRIBE_ANNOUNCES<a href="#section-2.1-4.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-2.1-4.3">
-            <p id="section-2.1-4.3.1">2 - PUBLISH<a href="#section-2.1-4.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-2.1-4.4">
-            <p id="section-2.1-4.4.1">3 - FETCH<a href="#section-2.1-4.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-2.1-5">For each action, we need to communicate the permission<a href="#section-2.1-5" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-2.1-6.1">
-            <p id="section-2.1-6.1.1">0 - Allowed for all Namespaces and Names<a href="#section-2.1-6.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-2.1-6.2">
-            <p id="section-2.1-6.2.1">1 - Allowed with an exact match<a href="#section-2.1-6.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-2.1-6.3">
-            <p id="section-2.1-6.3.1">2 - Allowed with a prefix match<a href="#section-2.1-6.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-2.1-7">For permissions options 1 &amp; 2, we also need to specify the prefix as a byte string.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-2.1-8.1">
-            <p id="section-2.1-8.1.1">Prefix - byte string<a href="#section-2.1-8.1.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-2.1-9">Specifying a permission type of 2 or 3 and then not supplying a byte string, or supplying a 0 length byte
-string is equivalent to Blocking that action.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
-<p id="section-2.1-10">As an alternative to carrying two attributes values for each action, we could code these into a single number to
-save wire size.<a href="#section-2.1-10" class="pilcrow">¶</a></p>
+<p id="section-2.1-3">The "moqt" claim bounds the scope of MOQT actions for which the token can provide
+access. It is an array of action scopes. Each scope is an array with three
+elements: an array of integers that identifies the actions, a match object for
+the namespace, and a match object for the track name.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.1-4">The actions are integers defined as follows:<a href="#section-2.1-4" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
           <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
             <tr>
-              <th class="text-left" rowspan="1" colspan="1">Code Point</th>
-              <th class="text-left" rowspan="1" colspan="1">Definition</th>
+              <th class="text-left" rowspan="1" colspan="1">Action</th>
+              <th class="text-left" rowspan="1" colspan="1">Key</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x01</td>
-              <td class="text-left" rowspan="1" colspan="1">ANNOUNCE - Allowed for all Namespaces/Names</td>
+              <td class="text-left" rowspan="1" colspan="1">CONNECT</td>
+              <td class="text-left" rowspan="1" colspan="1">-1</td>
+              <td class="text-left" rowspan="1" colspan="1">TODO: Find a reference</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x02</td>
-              <td class="text-left" rowspan="1" colspan="1">ANNOUNCE - Allowed with an exact match</td>
+              <td class="text-left" rowspan="1" colspan="1">ANNOUNCE</td>
+              <td class="text-left" rowspan="1" colspan="1">1</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.9</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x03</td>
-              <td class="text-left" rowspan="1" colspan="1">ANNOUNCE - Allowed with a prefix match</td>
+              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_ANNOUNCES</td>
+              <td class="text-left" rowspan="1" colspan="1">2</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.24</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x04</td>
-              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_ANNOUNCES - Allowed for all Namespaces/Names</td>
+              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE</td>
+              <td class="text-left" rowspan="1" colspan="1">3</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.7</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x05</td>
-              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_ANNOUNCES - Allowed with an exact match</td>
+              <td class="text-left" rowspan="1" colspan="1">PUBLISH</td>
+              <td class="text-left" rowspan="1" colspan="1">4</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section TODO</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x06</td>
-              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_ANNOUNCES - Allowed with a prefix match</td>
+              <td class="text-left" rowspan="1" colspan="1">FETCH</td>
+              <td class="text-left" rowspan="1" colspan="1">5</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.13</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x07</td>
-              <td class="text-left" rowspan="1" colspan="1">PUBLISH - Allowed for all Namespaces/Names</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x08</td>
-              <td class="text-left" rowspan="1" colspan="1">PUBLISH - Allowed with an exact match</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x09</td>
-              <td class="text-left" rowspan="1" colspan="1">PUBLISH - Allowed with a prefix match</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0A</td>
-              <td class="text-left" rowspan="1" colspan="1">FETCH - Allowed for all Namespaces/Names</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0B</td>
-              <td class="text-left" rowspan="1" colspan="1">FETCH - Allowed with an exact match</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0C</td>
-              <td class="text-left" rowspan="1" colspan="1">FETCH - Allowed with a prefix match</td>
+              <td class="text-left" rowspan="1" colspan="1">TRACK_STATUS_REQUEST</td>
+              <td class="text-left" rowspan="1" colspan="1">6</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.17</td>
             </tr>
           </tbody>
         </table>
+<p id="section-2.1-6">The scope of the moqt claim is limited to the actions provided in the array.
+Any action not present in the array is not authorized by moqt claim.<a href="#section-2.1-6" class="pilcrow">¶</a></p>
+<p id="section-2.1-7">The match object is defined to be a binary form of the match object defined in
+<span>[<a href="#CAT" class="cite xref">CAT</a>]</span> Section 4.6.1. The regex and hash match types are not defined for use
+with binary values in this document.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
+<p id="section-2.1-8">The first match operation is performed against the namespace and the second
+against the track name (as defined in Section 2.4.1 of
+{draft-ietf-moq-transport}). Since the match is not being performed against a
+URI, no normalization is performed and the matches are performed against the
+entire string. An empty match object is a legal construct that matches all
+names.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
 <div id="text-examples-of-permissions-to-help-with-cddl-construction">
 <section id="section-2.1.1">
           <h4 id="name-text-examples-of-permission">
@@ -1407,32 +1401,56 @@ save wire size.<a href="#section-2.1-10" class="pilcrow">¶</a></p>
 <p id="section-2.1.1-1">Example: Allow with an exact match "example.com/bob"<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-2.1.1-2">
 <pre>
-Permits
-* example.com/bob
-
-Prohibits
-* example.com
-* example.com/bob/123
-* example.com/alice
-* example.com/bob/logs
-* alternate/example.com/bob
-* 12345
+{
+    /moqt/ TBD_MOQT: [[
+        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        { /exact/ 0: 'example.com'},
+        { /exact/ 0: '/bob'}
+    ]]
+}
 </pre><a href="#section-2.1.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1-3">Example: Allow with a prefix match "example.com/bob"<a href="#section-2.1.1-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1-4">
+<div class="alignLeft art-text artwork" id="section-2.1.1-3">
 <pre>
 Permits
-* example.com/bob
-* example.com/bob/123
-* example.com/bob/logs
+* 'example.com', '/bob'
 
 Prohibits
-* example.com
-* example.com/alice
-* alternate/example.com/bob
-* 12345
-</pre><a href="#section-2.1.1-4" class="pilcrow">¶</a>
+* 'example.com', ''
+* 'example.com', '/bob/123'
+* 'example.com', '/alice'
+* 'example.com', '/bob/logs'
+* 'alternate/example.com', /bob
+* '12345', ''
+* 'example', '.com/bob'
+</pre><a href="#section-2.1.1-3" class="pilcrow">¶</a>
+</div>
+<p id="section-2.1.1-4">Example: Allow with a prefix match "example.com/bob"<a href="#section-2.1.1-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.1-5">
+<pre>
+{
+    /moqt/ TBD_MOQT: [[
+        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        { /exact/ 0: 'example.com'},
+        { /prefix/ 1: '/bob'}
+    ]]
+}
+</pre><a href="#section-2.1.1-5" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="section-2.1.1-6">
+<pre>
+Permits
+* 'example.com', '/bob'
+* 'example.com', '/bob/123'
+* 'example.com', '/bob/logs'
+
+Prohibits
+* 'example.com', ''
+* 'example.com', '/alice'
+* 'alternate/example.com', '/bob'
+* '12345', ''
+* 'example', '.com/bob'
+</pre><a href="#section-2.1.1-6" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -1441,29 +1459,117 @@ Prohibits
           <h4 id="name-multiple-actions">
 <a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-multiple-actions" class="section-name selfRef">Multiple actions</a>
           </h4>
-<p id="section-2.1.2-1">Multiple actions may be communicated within the same token, with different permissions. The order
-in which Action/Permission tuples are declared and evaluated is unimportant. The evaluation stops
-after the first Permitted result is discovered.<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.2-1">Multiple actions may be communicated within the same token, with different
+permissions. This can be facilitated by the logical claims defined in
+{draft-lemmons-composite-claims} or simply by defining multiple limits,
+depending on the required restrictions. In both cases, the order in which
+limits are declared and evaluated is unimportant. The evaluation stops after
+the first acceptable result is discovered.<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
 <div id="example-of-evaluating-multiple-actions-in-the-same-token">
 <section id="section-2.1.2.1">
             <h5 id="name-example-of-evaluating-multi">
 <a href="#section-2.1.2.1" class="section-number selfRef">2.1.2.1. </a><a href="#name-example-of-evaluating-multi" class="section-name selfRef">Example of evaluating multiple actions in the same token:</a>
             </h5>
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-1">
+<pre>
+{
+    /moqt/ TBD_MOQT: [
+        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}],
+        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]
+    ],
+    /exp/ 4: 1750000000
+}
+</pre><a href="#section-2.1.2.1-1" class="pilcrow">¶</a>
+</div>
 <ul class="normal">
-<li class="normal" id="section-2.1.2.1-1.1">
-                <p id="section-2.1.2.1-1.1.1">(1) PUBLISH (Allow with a prefix match) example.com/bob<a href="#section-2.1.2.1-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2.1.2.1-2.1">
+                <p id="section-2.1.2.1-2.1.1">(1) PUBLISH (Allow with a prefix match) example.com/bob<a href="#section-2.1.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-2.1.2.1-1.2">
-                <p id="section-2.1.2.1-1.2.1">(2) PUBLISH (Allow with an exact match) example.com/logs/12345/bob<a href="#section-2.1.2.1-1.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-2.1.2.1-2.2">
+                <p id="section-2.1.2.1-2.2.1">(2) PUBLISH (Allow with an exact match) example.com/logs/12345/bob<a href="#section-2.1.2.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
-<p id="section-2.1.2.1-2">Evaluating "example.com/bob/123" would succeed on test 1 and test 2 would never be evaluated.
+<p id="section-2.1.2.1-3">Evaluating "example.com/bob/123" would succeed on test 1 and test 2 would never be evaluated.
 Evaluating "example.com/logs/12345/bob" would fail on test 1 but then succeed on test 2.
-Evaluating "example.com" would fail on test 1 and on test 2.<a href="#section-2.1.2.1-2" class="pilcrow">¶</a></p>
+Evaluating "example.com" would fail on test 1 and on test 2.<a href="#section-2.1.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.1.2.1-4">In addition, the entire token expires at 2025-05-02T21:57:24+00:00.<a href="#section-2.1.2.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="example-of-evaluating-multiple-actions-with-related-claims">
+<section id="section-2.1.2.2">
+            <h5 id="name-example-of-evaluating-multip">
+<a href="#section-2.1.2.2" class="section-number selfRef">2.1.2.2. </a><a href="#name-example-of-evaluating-multip" class="section-name selfRef">Example of evaluating multiple actions with related claims:</a>
+            </h5>
+<p id="section-2.1.2.2-1">If there are other claims that depend on which MOQT limit applies, a logical claim is required:<a href="#section-2.1.2.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.2.2-2">
+<pre>
+{
+    /or/ TBD_OR: [
+        {
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}]],
+            /exp/ 4: 1750000000
+        },
+        {
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]],
+            /exp/ 4: 1750000600
+        }
+    ]
+}
+</pre><a href="#section-2.1.2.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-2.1.2.2-3">This provides access to the same tracks as the previous example, but in this
+case, the token is valid for publishing logs up to 10 minutes after the time at
+which the publishing of the bob track expires.<a href="#section-2.1.2.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.1.2.2-4">DISCUSS: Because tokens are designed for instantanous evaluation, they
+naturally only evaluate to an "acceptable" or an "unacceptable". It's somewhat
+tricky to turn an evaluation into a complete bound on any particular value. The
+CAT has a number of claims about the context of the request that can change
+while the stream is open. The most obvious of these is the expiration time. The
+"catnip" (Network IP) and geographic claims can also change mid-stream if the
+connection is migrated or the client moves. Do we need to do something special
+to require periodic re-evalution?<a href="#section-2.1.2.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
+</section>
+</div>
+<div id="moqt-reval-claim">
+<section id="section-2.2">
+        <h3 id="name-moqt-reval-claim">
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-moqt-reval-claim" class="section-name selfRef">moqt-reval claim</a>
+        </h3>
+<p id="section-2.2-1">The "moqt-reval" claim is defined by the following CDDL:<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.2-2">
+<pre>
+$$Claims-Set-Claims //= (moqt-reval-label =&gt; moqt-reval-value)
+moqt-reval-label = TBD_MOQT_REVAL
+moqt-reval-value = number
+</pre><a href="#section-2.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-2.2-3">The "moqt-reval" claim indicates the frequency with which the token must be
+revalidated for ongoing streams. If the token is no longer acceptable, the
+actions authorized by it <span class="bcp14">MUST</span> not be permitted to continue.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.2-4">The frequency is expressed in seconds. It provides an upper bound on how long a
+token may be considered acceptable for an ongoing stream. A revalidator <span class="bcp14">MAY</span>
+revalidate sooner.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
+<p id="section-2.2-5">If the revalidation frequency is more frequent than the recipient is prepared
+or able to revalidate, the recipient <span class="bcp14">MUST</span> reject the token. If a recipient is
+unable to revalidate tokens, it <span class="bcp14">MUST</span> reject all tokens with a "moqt-reval"
+claim.<a href="#section-2.2-5" class="pilcrow">¶</a></p>
+<p id="section-2.2-6">A token can be revalidated by simply validating it again, just as if it were
+new. However, since some claims, signatures, MACs, and other attributes that
+could contribute to unacceptability may be incapable of changing acceptability
+in the duration, a revalidator may optimize by skipping some of the checks as
+long as the outcome of the validation is the same. Revalidators <span class="bcp14">SHOULD</span> skip
+reverifying MACs and signatures when the list of acceptable issuer keys is
+unchanged.<a href="#section-2.2-6" class="pilcrow">¶</a></p>
+<p id="section-2.2-7">When the value of this claim is zero, the token <span class="bcp14">MUST NOT</span> be revalidated. This
+is the default behaviour when the claim is not present.<a href="#section-2.2-7" class="pilcrow">¶</a></p>
+<p id="section-2.2-8">This claim <span class="bcp14">MUST NOT</span> be used outside of a base claimset. If used within a composition
+claims, the token is not well-formed.<a href="#section-2.2-8" class="pilcrow">¶</a></p>
+<p id="section-2.2-9">The claim key for this claim is TBD_MOQT_REVAL and the claim value is a number.
+Recipients <span class="bcp14">MUST</span> support this claim. This claim is <span class="bcp14">OPTIONAL</span> for issuers.<a href="#section-2.2-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1473,7 +1579,7 @@ Evaluating "example.com" would fail on test 1 and on test 2.<a href="#section-2.
       <h2 id="name-authenticating-the-connecti">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-authenticating-the-connecti" class="section-name selfRef">Authenticating the connection</a>
       </h2>
-<p id="section-3-1">The connection to a MOQT distribution realy can take place over a WebTransport or native QUIC connection. In
+<p id="section-3-1">The connection to a MOQT distribution relay can take place over a WebTransport or native QUIC connection. In
 both cases, the token is transferred as a query parameter or else embedded in the URI PATH.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div id="appending-a-token-as-a-query-parameter">
 <section id="section-3.1">
@@ -1602,7 +1708,48 @@ appear in all capitals, as shown here.<a href="#section-5-1" class="pilcrow">¶<
       <h2 id="name-iana-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-7-1">TODO We need to register the "moqt" claim in the IANA "CBOR Web Token (CWT) Claim" table.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">IANA will register the following claim in the "CBOR Web Token (CWT) Claims" registry:<a href="#section-7-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-2">
+        <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1"> </th>
+            <th class="text-left" rowspan="1" colspan="1">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Claim Name</td>
+            <td class="text-left" rowspan="1" colspan="1">moqt</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Claim Description</td>
+            <td class="text-left" rowspan="1" colspan="1">MOQT Action</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">JWT Claim Name</td>
+            <td class="text-left" rowspan="1" colspan="1">N/A</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Claim Key</td>
+            <td class="text-left" rowspan="1" colspan="1">TBD_MOQT (1+2)</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Claim Value Type</td>
+            <td class="text-left" rowspan="1" colspan="1">array</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Change Controller</td>
+            <td class="text-left" rowspan="1" colspan="1">IESG</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Specification Document</td>
+            <td class="text-left" rowspan="1" colspan="1">RFCthis</td>
+          </tr>
+        </tbody>
+      </table>
+<p id="section-7-3">[RFC Editor: Please replace RFCthis with the published RFC number for this
+document.]<a href="#section-7-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-normative-references">
