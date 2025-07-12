@@ -113,91 +113,135 @@ The "moqt" claim is defined by the following CDDL:
 
 ~~~~~~~~~~~~~~~
 $$Claims-Set-Claims //= (moqt-label => moqt-value)
-moqt-label = XXX TODO - how do we register this?
-moqt-value = [ + moqt-object ]
+moqt-label = TBD_MOQT
+moqt-value = [ + moqt-scope ]
+moqt-scope = [ moqt-actions, moqt-ns-match, moqt-track-match ]
+moqt-actions = [ + moqt-action ]
+moqt-action = int
+moqt-ns-match = bin-match
+moqt-track-match = bin-match
+
+bin-match = {
+  ? exact-match ^ => bstr,
+  ? prefix-match ^ => bstr,
+  ? suffix-match ^ => bstr,
+  ? contains-match ^ => bstr,
+}
+
+/ match labels defined in CTA-5007-B 4.6.1 /
+exact-match = 0
+prefix-match = 1
+suffix-match = 2
+contains-match = 3
 ~~~~~~~~~~~~~~~
 
-TODO - need CDDL valid definition. The moqt token needs to encode multiple instances of 4 actions, currently
+The "moqt" claim bounds the scope of MOQT actions for which the token can provide
+access. It is an array of action scopes. Each scope is an array with three
+elements: an array of integers that identifies the actions, a match object for
+the namespace, and a match object for the track name.
 
-* 0 - ANNOUNCE
-* 1 - SUBSCRIBE_ANNOUNCES
-* 2 - PUBLISH
-* 3 - FETCH
+The actions are integers defined as follows:
 
-For each action, we need to communicate the permission
+|----------------------|-----|-------------------------------|
+| Action               | Key | Reference                     |
+|----------------------|-----|-------------------------------|
+| CONNECT              | -1  | TODO: Find a reference        |
+| ANNOUNCE             |  1  | {{MoQTransport}} Section 8.9  |
+| SUBSCRIBE_ANNOUNCES  |  2  | {{MoQTransport}} Section 8.24 |
+| SUBSCRIBE            |  3  | {{MoQTransport}} Section 8.7  |
+| PUBLISH              |  4  | {{MoQTransport}} Section TODO |
+| FETCH                |  5  | {{MoQTransport}} Section 8.13 |
+| TRACK_STATUS_REQUEST |  6  | {{MoQTransport}} Section 8.17 |
+|----------------------|-----|-------------------------------|
 
-* 0 - Allowed for all Namespaces and Names
-* 1 - Allowed with an exact match
-* 2 - Allowed with a prefix match
+The scope of the moqt claim is limited to the actions provided in the array.
+Any action not present in the array is not authorized by moqt claim.
 
-For permissions options 1 & 2, we also need to specify the prefix as a byte string.
+The match object is defined to be a binary form of the match object defined in
+{{CAT}} Section 4.6.1. The regex and hash match types are not defined for use
+with binary values in this document.
 
-* Prefix - byte string
-
-Specifying a permission type of 2 or 3 and then not supplying a byte string, or supplying a 0 length byte
-string is equivalent to Blocking that action.
-
-As an alternative to carrying two attributes values for each action, we could code these into a single number to
-save wire size.
-
-
-|---------------|-------------------------------------------------------------|
-|  Code Point   |                    Definition                               |
-|---------------|-------------------------------------------------------------|
-|     0x01      | ANNOUNCE - Allowed for all Namespaces/Names                 |
-|     0x02      | ANNOUNCE - Allowed with an exact match                      |
-|     0x03      | ANNOUNCE - Allowed with a prefix match                      |
-|     0x04      | SUBSCRIBE_ANNOUNCES - Allowed for all Namespaces/Names      |
-|     0x05      | SUBSCRIBE_ANNOUNCES - Allowed with an exact match           |
-|     0x06      | SUBSCRIBE_ANNOUNCES - Allowed with a prefix match           |
-|     0x07      | PUBLISH - Allowed for all Namespaces/Names                  |
-|     0x08      | PUBLISH - Allowed with an exact match                       |
-|     0x09      | PUBLISH - Allowed with a prefix match                       |
-|     0x0A      | FETCH - Allowed for all Namespaces/Names                    |
-|     0x0B      | FETCH - Allowed with an exact match                         |
-|     0x0C      | FETCH - Allowed with a prefix match                         |
-|---------------|-------------------------------------------------------------|
-
+The first match operation is performed against the namespace and the second
+against the track name (as defined in Section 2.4.1 of
+{draft-ietf-moq-transport}). Since the match is not being performed against a
+URI, no normalization is performed and the matches are performed against the
+entire string. An empty match object is a legal construct that matches all
+names.
 
 ### Text examples of permissions to help with CDDL construction
 
 Example: Allow with an exact match "example.com/bob"
 
 ~~~~~~~~~~~~~~~
+{
+    /moqt/ TBD_MOQT: [[
+        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        { /exact/ 0: 'example.com'},
+        { /exact/ 0: '/bob'}
+    ]]
+}
+~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~
 Permits
-* example.com/bob
+* 'example.com', '/bob'
 
 Prohibits
-* example.com
-* example.com/bob/123
-* example.com/alice
-* example.com/bob/logs
-* alternate/example.com/bob
-* 12345
+* 'example.com', ''
+* 'example.com', '/bob/123'
+* 'example.com', '/alice'
+* 'example.com', '/bob/logs'
+* 'alternate/example.com', /bob
+* '12345', ''
+* 'example', '.com/bob'
 ~~~~~~~~~~~~~~~
 
 Example: Allow with a prefix match "example.com/bob"
 
 ~~~~~~~~~~~~~~~
+{
+    /moqt/ TBD_MOQT: [[
+        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        { /exact/ 0: 'example.com'},
+        { /prefix/ 1: '/bob'}
+    ]]
+}
+~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~
 Permits
-* example.com/bob
-* example.com/bob/123
-* example.com/bob/logs
+* 'example.com', '/bob'
+* 'example.com', '/bob/123'
+* 'example.com', '/bob/logs'
 
 Prohibits
-* example.com
-* example.com/alice
-* alternate/example.com/bob
-* 12345
+* 'example.com', ''
+* 'example.com', '/alice'
+* 'alternate/example.com', '/bob'
+* '12345', ''
+* 'example', '.com/bob'
 ~~~~~~~~~~~~~~~
 
 ### Multiple actions
 
-Multiple actions may be communicated within the same token, with different permissions. The order
-in which Action/Permission tuples are declared and evaluated is unimportant. The evaluation stops
-after the first Permitted result is discovered.
+Multiple actions may be communicated within the same token, with different
+permissions. This can be facilitated by the logical claims defined in
+{draft-lemmons-composite-claims} or simply by defining multiple limits,
+depending on the required restrictions. In both cases, the order in which
+limits are declared and evaluated is unimportant. The evaluation stops after
+the first acceptable result is discovered.
 
 #### Example of evaluating multiple actions in the same token:
+
+~~~~~~~~~~~~~~~
+{
+    /moqt/ TBD_MOQT: [
+        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}],
+        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]
+    ],
+    /exp/ 4: 1750000000
+}
+~~~~~~~~~~~~~~~
 
 * (1) PUBLISH (Allow with a prefix match) example.com/bob
 * (2) PUBLISH (Allow with an exact match) example.com/logs/12345/bob
@@ -206,10 +250,84 @@ Evaluating "example.com/bob/123" would succeed on test 1 and test 2 would never 
 Evaluating "example.com/logs/12345/bob" would fail on test 1 but then succeed on test 2.
 Evaluating "example.com" would fail on test 1 and on test 2.
 
+In addition, the entire token expires at 2025-05-02T21:57:24+00:00.
+
+#### Example of evaluating multiple actions with related claims:
+
+If there are other claims that depend on which MOQT limit applies, a logical claim is required:
+
+~~~~~~~~~~~~~~~
+{
+    /or/ TBD_OR: [
+        {
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}]],
+            /exp/ 4: 1750000000
+        },
+        {
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]],
+            /exp/ 4: 1750000600
+        }
+    ]
+}
+~~~~~~~~~~~~~~~
+
+This provides access to the same tracks as the previous example, but in this
+case, the token is valid for publishing logs up to 10 minutes after the time at
+which the publishing of the bob track expires.
+
+DISCUSS: Because tokens are designed for instantanous evaluation, they
+naturally only evaluate to an "acceptable" or an "unacceptable". It's somewhat
+tricky to turn an evaluation into a complete bound on any particular value. The
+CAT has a number of claims about the context of the request that can change
+while the stream is open. The most obvious of these is the expiration time. The
+"catnip" (Network IP) and geographic claims can also change mid-stream if the
+connection is migrated or the client moves. Do we need to do something special
+to require periodic re-evalution?
+
+## moqt-reval claim
+
+The "moqt-reval" claim is defined by the following CDDL:
+
+~~~~~~~~~~~~~~~
+$$Claims-Set-Claims //= (moqt-reval-label => moqt-reval-value)
+moqt-reval-label = TBD_MOQT_REVAL
+moqt-reval-value = number
+~~~~~~~~~~~~~~~
+
+The "moqt-reval" claim indicates the frequency with which the token must be
+revalidated for ongoing streams. If the token is no longer acceptable, the
+actions authorized by it MUST not be permitted to continue.
+
+The frequency is expressed in seconds. It provides an upper bound on how long a
+token may be considered acceptable for an ongoing stream. A revalidator MAY
+revalidate sooner.
+
+If the revalidation frequency is more frequent than the recipient is prepared
+or able to revalidate, the recipient MUST reject the token. If a recipient is
+unable to revalidate tokens, it MUST reject all tokens with a "moqt-reval"
+claim.
+
+A token can be revalidated by simply validating it again, just as if it were
+new. However, since some claims, signatures, MACs, and other attributes that
+could contribute to unacceptability may be incapable of changing acceptability
+in the duration, a revalidator may optimize by skipping some of the checks as
+long as the outcome of the validation is the same. Revalidators SHOULD skip
+reverifying MACs and signatures when the list of acceptable issuer keys is
+unchanged.
+
+When the value of this claim is zero, the token MUST NOT be revalidated. This
+is the default behaviour when the claim is not present.
+
+This claim MUST NOT be used outside of a base claimset. If used within a composition
+claims, the token is not well-formed.
+
+The claim key for this claim is TBD_MOQT_REVAL and the claim value is a number.
+Recipients MUST support this claim. This claim is OPTIONAL for issuers.
+
 
 # Authenticating the connection
 
-The connection to a MOQT distribution realy can take place over a WebTransport or native QUIC connection. In
+The connection to a MOQT distribution relay can take place over a WebTransport or native QUIC connection. In
 both cases, the token is transferred as a query parameter or else embedded in the URI PATH.
 
 ## Appending a token as a query parameter
@@ -296,8 +414,22 @@ TODO Security
 
 # IANA Considerations
 
-TODO We need to register the "moqt" claim in the IANA "CBOR Web Token (CWT) Claim" table.
+IANA will register the following claim in the "CBOR Web Token (CWT) Claims" registry:
 
+|------------------------|----------------|
+|                        | Value          |
+|------------------------|----------------|
+| Claim Name             | moqt           |
+| Claim Description      | MOQT Action    |
+| JWT Claim Name         | N/A            |
+| Claim Key              | TBD_MOQT (1+2) |
+| Claim Value Type       | array          |
+| Change Controller      | IESG           |
+| Specification Document | RFCthis        |
+|------------------------|----------------|
+
+\[RFC Editor: Please replace RFCthis with the published RFC number for this
+document.\]
 
 --- back
 
