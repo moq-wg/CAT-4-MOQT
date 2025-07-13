@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-29T01:05:30.238627+00:00",
+  "timestamp": "2025-07-13T01:15:55.588949+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -73,12 +73,12 @@
       "url": "https://github.com/wilaw/CAT-4-MOQT/issues/2",
       "state": "OPEN",
       "author": "gwendalsimon",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "One of the limitations of having a unique global token to rule all future actions is that the token's expiration time must be long to anticipate the actions in the future. It can be preferrable to have tokens with short expiration time for specific action, but it contradicts the global unique token.\n\nI would like to define an alternative workflow, where the token at WebTransport is optional, but a token must be carried in the actions (SUBSCRIBE, FETCH, ...) as authentication-parameter.",
       "createdAt": "2025-03-14T08:59:41Z",
-      "updatedAt": "2025-03-14T09:15:38Z",
+      "updatedAt": "2025-07-12T22:18:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -87,6 +87,13 @@
           "body": "Some ideas on how to achieve this:\n1. You give the player two tokens - one for the connection and another for actions. \n2. In the moqt claim, we add an action for \"CONNECT\". We then rely on future implementation of composite claims so that each  moqt action can be combined with an existing CAT claim such as time, geo etc. ",
           "createdAt": "2025-03-14T09:15:37Z",
           "updatedAt": "2025-03-14T09:15:37Z"
+        },
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "This use case is address by https://datatracker.ietf.org/doc/draft-lemmons-composite-claims/",
+          "createdAt": "2025-07-12T22:18:17Z",
+          "updatedAt": "2025-07-12T22:18:17Z"
         }
       ]
     },
@@ -206,16 +213,24 @@
       "id": "I_kwDOODoKls6zTjzr",
       "title": "A wrapper for composite claims",
       "url": "https://github.com/wilaw/CAT-4-MOQT/issues/8",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "wilaw",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "How do we bind ACTIONs to differentiated base CAT claims? For example , you can connect and SUBSCRIBE from anywhere in Europe after 4pm  but you can only PUBLISH after 6pm in Germany?\n\nOne solution would be to define a wrapper to hold different CAT tokens and allow them to be assigned to different ACTIONS. \nThe wrapper needs to be signed to be prevent tampering, but not encrypted, since the core CAT tokens it includes are already encrypted. \n\n![Image](https://github.com/user-attachments/assets/284afdbd-c4e7-4eda-bf45-e2c9f068bf68)\n",
       "createdAt": "2025-04-21T11:48:21Z",
-      "updatedAt": "2025-04-21T11:48:21Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-07-12T22:17:42Z",
+      "closedAt": "2025-07-12T22:17:42Z",
+      "comments": [
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "Composite claims are now addressed by https://datatracker.ietf.org/doc/draft-lemmons-composite-claims/.",
+          "createdAt": "2025-07-12T22:17:42Z",
+          "updatedAt": "2025-07-12T22:17:42Z"
+        }
+      ]
     },
     {
       "number": 11,
@@ -272,6 +287,38 @@
       "updatedAt": "2025-05-28T09:36:51Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOODoKls7ARUj-",
+      "title": "Binary match required instead of text match.",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/14",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "CTA-5007-B 4.6.1, as referenced in the [moqt claim](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#name-moqt-claim), defines matching for text strings. We need a binary match definition for namespace and name. ",
+      "createdAt": "2025-07-12T20:57:20Z",
+      "updatedAt": "2025-07-12T20:57:20Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 16,
+      "id": "I_kwDOODoKls7ARp3G",
+      "title": "What type of matches do we really need?",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/16",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "The current draft proposes match types of \n\nPrefix - match from start\nExact - exact match\nSuffix - match from end\nMatches  - mid-content match. \n\nComments have been made that MOQT specifies only prefix matching for NAMEPACES and NAMES and therefore that this is all we need on the auth side too.\n\nHowever a counter argument is that we need more flexibility when specifying constraints than we do when matching namespaces. \n\nMy recommendation would be to \n1. Keep PREFIX and EXACT  - these are well aligned with MOQT semantics \n2. Drop SUFFIX and MATCH as I can't see a use case for these",
+      "createdAt": "2025-07-12T22:24:25Z",
+      "updatedAt": "2025-07-12T22:24:25Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -280,24 +327,26 @@
       "id": "PR_kwDOODoKls6UzS5E",
       "title": "First round of edits to fill out the definition of the claim.",
       "url": "https://github.com/wilaw/CAT-4-MOQT/pull/9",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "alficles",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-05-02T22:30:52Z",
-      "updatedAt": "2025-05-22T14:43:13Z",
+      "updatedAt": "2025-07-12T20:30:11Z",
       "baseRepository": "wilaw/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "8687628347be73234f01fdf16e06ff5bcbadce70",
       "headRepository": "alficles/CAT-4-MOQT",
       "headRefName": "main",
       "headRefOid": "1399b1d0eb685327bf15727d77de938d6bd26e58",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-07-12T20:30:11Z",
+      "mergedAt": "2025-07-12T20:30:11Z",
+      "mergedBy": "wilaw",
+      "mergeCommit": {
+        "oid": "fd8dff1ad0609a28ac6a6fb5b3f402aebaec60cd"
+      },
       "comments": [],
       "reviews": [
         {
@@ -454,7 +503,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-05T15:29:13Z",
@@ -474,7 +523,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-05T15:35:06Z",
@@ -494,7 +543,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-05T15:43:27Z",
@@ -514,7 +563,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-05T15:50:55Z",
@@ -634,7 +683,7 @@
             "abbreviatedOid": "96281e1"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-16T21:09:45Z",
@@ -660,7 +709,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-16T21:27:13Z",
@@ -680,7 +729,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-16T21:28:22Z",
@@ -700,7 +749,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-16T21:32:44Z",
@@ -720,7 +769,7 @@
             "abbreviatedOid": "1399b1d"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-16T22:26:34Z",
@@ -740,7 +789,7 @@
             "abbreviatedOid": "1399b1d"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-16T22:29:32Z",
@@ -780,7 +829,7 @@
             "abbreviatedOid": "60550df"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-19T15:09:31Z",
@@ -840,7 +889,7 @@
             "abbreviatedOid": "1399b1d"
           },
           "author": "alficles",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-05-19T17:42:46Z",
@@ -977,6 +1026,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 15,
+      "id": "PR_kwDOODoKls6epjI7",
+      "title": "Updating action table and examples",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/pull/15",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #13\r\nFixes #6 \r\nFixes #5 ",
+      "createdAt": "2025-07-12T21:38:45Z",
+      "updatedAt": "2025-07-12T21:38:45Z",
+      "baseRepository": "wilaw/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "fd8dff1ad0609a28ac6a6fb5b3f402aebaec60cd",
+      "headRepository": "wilaw/CAT-4-MOQT",
+      "headRefName": "wilaw-patch-1",
+      "headRefOid": "abe2d465f1a9a0a078e0a75472ace6037e4a33db",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
