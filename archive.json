@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-13T01:15:55.588949+00:00",
+  "timestamp": "2025-07-15T01:12:27.699207+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -128,14 +128,22 @@
       "url": "https://github.com/wilaw/CAT-4-MOQT/issues/4",
       "state": "OPEN",
       "author": "gwendalsimon",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "It can happen that the content distributor would like to revoke a token. It is an offline action, which can impact the ongoing sessions.\n\nIf the full token is revoked, then it should mean closure of the WebTransport or MoQ connection. This can happen when the content distributor has identified the end-user as a leak.\n\nIf only some MoQT actions are revoked, then the related actions should be stopped: for example the Relay should stop the subscription to a track whose grant has been revoked. The use cases are less clear, but, I can think of a countermeasure where an identified leak can no longer get the top video profile but can still access a subset of degraded tracks.",
       "createdAt": "2025-03-14T15:49:20Z",
-      "updatedAt": "2025-03-14T15:49:20Z",
+      "updatedAt": "2025-07-14T17:21:28Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "alficles",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Check to see if the moqt-reval claim helps: https://github.com/wilaw/CAT-4-MOQT/blob/main/draft-law-moq-cat4moqt.md#moqt-reval-claim \n\nThe idea here is that relays will keep the token associated with the stream and simply schedule re-evaluation at a future time. When you get a revocation, you add it to the bad list and then the next time you reval the token, it will fail and you'll terminate the stream.",
+          "createdAt": "2025-07-14T17:21:28Z",
+          "updatedAt": "2025-07-14T17:21:28Z"
+        }
+      ]
     },
     {
       "number": 5,
@@ -244,9 +252,17 @@
       "labels": [],
       "body": "There is a commercial desire to ensure that Demonstrating Proof of Possession (DPOP) can work with CAT-4-MOQT. \n\nThere should be a section in the draft outlining what claims should be used, the data they should carry and how the proof is communicated to the server. \n\nIf a new MOQT field is required to transmit the proof, then a clear request should be made to https://github.com/moq-wg/moq-transport/issues/968\n",
       "createdAt": "2025-05-07T13:56:26Z",
-      "updatedAt": "2025-05-07T13:56:26Z",
+      "updatedAt": "2025-07-14T16:56:08Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "alficles",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I _think_ that the existing DPOP-supporting claims in CAT will work, but MOQ will need a way to communicate the POP. HTTP provides the POP in a header, so MOQ will need a control message that can include a POP.",
+          "createdAt": "2025-07-14T16:56:08Z",
+          "updatedAt": "2025-07-14T16:56:08Z"
+        }
+      ]
     },
     {
       "number": 12,
@@ -300,9 +316,17 @@
       "labels": [],
       "body": "CTA-5007-B 4.6.1, as referenced in the [moqt claim](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#name-moqt-claim), defines matching for text strings. We need a binary match definition for namespace and name. ",
       "createdAt": "2025-07-12T20:57:20Z",
-      "updatedAt": "2025-07-12T20:57:20Z",
+      "updatedAt": "2025-07-14T16:42:28Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "alficles",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Double-check the merged text. This is one that I updated after our conversation. The current text handles the binary match definition. Whether people like it or not is a totally different question, but it's defined. :)",
+          "createdAt": "2025-07-14T16:42:27Z",
+          "updatedAt": "2025-07-14T16:42:27Z"
+        }
+      ]
     },
     {
       "number": 16,
@@ -316,9 +340,17 @@
       "labels": [],
       "body": "The current draft proposes match types of \n\nPrefix - match from start\nExact - exact match\nSuffix - match from end\nMatches  - mid-content match. \n\nComments have been made that MOQT specifies only prefix matching for NAMEPACES and NAMES and therefore that this is all we need on the auth side too.\n\nHowever a counter argument is that we need more flexibility when specifying constraints than we do when matching namespaces. \n\nMy recommendation would be to \n1. Keep PREFIX and EXACT  - these are well aligned with MOQT semantics \n2. Drop SUFFIX and MATCH as I can't see a use case for these",
       "createdAt": "2025-07-12T22:24:25Z",
-      "updatedAt": "2025-07-12T22:24:25Z",
+      "updatedAt": "2025-07-14T17:16:08Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "alficles",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "One typical use for \"SUFFIX\" is when extensions or names are used to provide information about the resource. For example, in HTTP, you can often say something like:\n\n```\n{\n    /catu/ 312: { /path/ 3: { /prefix/ 1: \"/path/to/folder/\" } },\n    /or/ TBD_OR: [\n        { /catu/ 312: { /path/ 3: { /suffix/ 2: \"/manifest.m3u8\" } } },\n        { /catu/ 312: { /path/ 3: { /suffix/ 2: \".ts\" } } }\n   ]\n}\n```\n\nIn HTTP, the prefix usually represents some kind of \"category\" for the content and the suffix tends to have information about the \"kind\" of the content, with stuff like extension or file name. None of these are hard-and-fast rules, but because people usually structure things that way make both prefix and suffix useful.\n\nMATCH does mostly exist for completeness, though. It would be pretty easy to drop. (Though it's also easy to perform, cause it's doable with a simple scan.)",
+          "createdAt": "2025-07-14T17:16:08Z",
+          "updatedAt": "2025-07-14T17:16:08Z"
+        }
+      ]
     }
   ],
   "pulls": [
