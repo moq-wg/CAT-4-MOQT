@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-15T01:12:27.699207+00:00",
+  "timestamp": "2025-07-20T01:17:34.256364+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -351,6 +351,22 @@
           "updatedAt": "2025-07-14T17:16:08Z"
         }
       ]
+    },
+    {
+      "number": 18,
+      "id": "I_kwDOODoKls7BVIbq",
+      "title": "Definition of catif for MoQ actions",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/18",
+      "state": "OPEN",
+      "author": "gwendalsimon",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Related to https://github.com/wilaw/CAT-4-MOQT/pull/9/files#r2095934066\n\nToday's catif sections in CAT is \"_The type of this claim is a map; the keys of the map are either claim keys or arrays of claim keys and the values are arrays; the arrays have up to three elements: the status code to return, a map with headers and values (the header map), and a TextString that identifies a key to sign the resultant URI with (the key id)_\"\n\nA moqt-reval-label can typically be used as the key, but the response would ideally be a MoQ message. For example, if an ongoing Suscription is stopped, the Publisher should send a SUBSCRIBE_ERROR with code 0x1, while an ongoing fetch would require a FETCH_ERROR.     ",
+      "createdAt": "2025-07-18T15:09:04Z",
+      "updatedAt": "2025-07-18T15:09:04Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -1078,6 +1094,32 @@
       "headRepository": "wilaw/CAT-4-MOQT",
       "headRefName": "wilaw-patch-1",
       "headRefOid": "abe2d465f1a9a0a078e0a75472ace6037e4a33db",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 17,
+      "id": "PR_kwDOODoKls6flq2S",
+      "title": "\"Interval\" instead of \"frequency\" in the revalidation section",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/pull/17",
+      "state": "OPEN",
+      "author": "gwendalsimon",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Related to https://github.com/wilaw/CAT-4-MOQT/pull/9#discussion_r2096221009",
+      "createdAt": "2025-07-18T14:41:01Z",
+      "updatedAt": "2025-07-18T14:41:02Z",
+      "baseRepository": "wilaw/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "fd8dff1ad0609a28ac6a6fb5b3f402aebaec60cd",
+      "headRepository": "gwendalsimon/CAT-4-MOQT",
+      "headRefName": "patch-2",
+      "headRefOid": "5cc3fe7d1ce318c73ae6227c9971a9cce377ef47",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
