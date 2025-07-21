@@ -40,6 +40,12 @@ author:
     email: Chris_Lemmons@comcast.com
 
   -
+    ins: G. Simon
+    name: Gwendal Simon
+    organization: Synamedia
+    email: gsimon@synamedia.com
+
+  -
     ins: S. Nandakumar
     name: Suhas Nandakumar
     organization: Cisco
