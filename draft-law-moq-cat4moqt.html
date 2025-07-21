@@ -1552,13 +1552,14 @@ moqt-reval-label = TBD_MOQT_REVAL
 moqt-reval-value = number
 </pre><a href="#section-2.2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-2.2-3">The "moqt-reval" claim indicates the frequency with which the token must be
+<p id="section-2.2-3">The "moqt-reval" claim indicates that the token must be
 revalidated for ongoing streams. If the token is no longer acceptable, the
 actions authorized by it <span class="bcp14">MUST</span> not be permitted to continue.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
-<p id="section-2.2-4">The frequency is expressed in seconds. It provides an upper bound on how long a
+<p id="section-2.2-4">The "moqt-reval-value" is a revalidation interval, expressed in seconds.
+It provides an upper bound on how long a
 token may be considered acceptable for an ongoing stream. A revalidator <span class="bcp14">MAY</span>
 revalidate sooner.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
-<p id="section-2.2-5">If the revalidation frequency is more frequent than the recipient is prepared
+<p id="section-2.2-5">If the revalidation interval is smaller than the recipient is prepared
 or able to revalidate, the recipient <span class="bcp14">MUST</span> reject the token. If a recipient is
 unable to revalidate tokens, it <span class="bcp14">MUST</span> reject all tokens with a "moqt-reval"
 claim.<a href="#section-2.2-5" class="pilcrow">¶</a></p>
