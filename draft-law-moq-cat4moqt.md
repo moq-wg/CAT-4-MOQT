@@ -298,7 +298,7 @@ The "moqt-reval" claim indicates that the token must be
 revalidated for ongoing streams. If the token is no longer acceptable, the
 actions authorized by it MUST not be permitted to continue.
 
-The "moqt-reval-value" is a revalidation interval, expressed in seconds. 
+The "moqt-reval-value" is a revalidation interval, expressed in seconds.
 It provides an upper bound on how long a
 token may be considered acceptable for an ongoing stream. A revalidator MAY
 revalidate sooner.
