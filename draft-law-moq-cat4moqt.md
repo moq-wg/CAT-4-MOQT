@@ -333,83 +333,11 @@ claims, the token is not well-formed.
 The claim key for this claim is TBD_MOQT_REVAL and the claim value is a number.
 Recipients MUST support this claim. This claim is OPTIONAL for issuers.
 
+# Adding a token to a URL
 
-# Authenticating the connection
-
-The connection to a MOQT distribution relay can take place over a WebTransport or native QUIC connection. In
-both cases, the token is transferred as a query parameter or else embedded in the URI PATH.
-
-## Appending a token as a query parameter
-
-The query parameter name SHOULD be "CAT" (case-sensitive) and the query parameter value SHOULD be the
-Base64 encoded {{BASE64}} token. If more than one token is transferred, then the sequential query parameter
-names "CAT1", "CAT2" .. "CATN" SHOULD be used.
-
-## Embedding a token in a PATH
-
-The token SHOULD span only a single PATH component and the component SHOULD be prefixed with the string "CAT-".
-If more than one token is transferred, then they SHOULD occupy different components and SHOULD carry sequential
-prefixes of "CAT1", "CAT2" .. "CATN".
-
-## Usage with WebTransport
-With a WebTransport connection, the token can be transferred as a query parameter or as part of the PATH.
-
-Example of a single token in a query arg:
-
->https://example.com/service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-
-
-Example of multiple tokens in query args:
-
->https://example.com/service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
->&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==
-
-
-Example of a single token in the PATH
-
->https://example.com/service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/
-
-
-Example of multiple tokens in the PATH:
-
->https://example.com/service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
->ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
-
-
-## Usage with Native QUIC
-With a native QUIC connection, the query components and PATH are transmitted via the "PATH"
-parameter in the CLIENT_SETUP message.
-
-Example of a single token in a query arg:
-
->moqt://203.0.113.0:4443
->PATH parameter in the CLIENT_SETUP message = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="
-
-
-Example of multiple tokens in query args:
-
->moqt://203.0.113.0:4443
->PATH parameter in the CLIENT_SETUP message = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
->&CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
-
-
-Example of a single token in the PATH
-
->moqt://203.0.113.0:4443
->PATH parameter in the CLIENT_SETUP message = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"
-
-
-Example of multiple tokens in the PATH:
-
->moqt://203.0.113.0:4443
->PATH parameter in the CLIENT_SETUP message = "service/CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
->ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
-
-
-# Controlling access to MOQT actions
-
-TODO
-
+Any time an application wishes to add a CAT token to a URL or path element, the token SHOULD first
+be Base64 encoded {{BASE64}}. The syntax and method of modifying the URL is left to the application
+to define and is not constrained by this specification.
 
 # Conventions and Definitions
 
