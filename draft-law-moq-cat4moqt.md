@@ -151,13 +151,15 @@ The actions are integers defined as follows:
 |----------------------|-----|-------------------------------|
 | Action               | Key | Reference                     |
 |----------------------|-----|-------------------------------|
-| CONNECT              | -1  | TODO: Find a reference        |
-| ANNOUNCE             |  1  | {{MoQTransport}} Section 8.9  |
-| SUBSCRIBE_ANNOUNCES  |  2  | {{MoQTransport}} Section 8.24 |
-| SUBSCRIBE            |  3  | {{MoQTransport}} Section 8.7  |
-| PUBLISH              |  4  | {{MoQTransport}} Section TODO |
-| FETCH                |  5  | {{MoQTransport}} Section 8.13 |
-| TRACK_STATUS_REQUEST |  6  | {{MoQTransport}} Section 8.17 |
+| CLIENT_SETUP         |  0  | {{MoQTransport}} Section 8.3  |
+| SERVER_SETUP         |  1  | {{MoQTransport}} Section 8.3  |
+| ANNOUNCE             |  2  | {{MoQTransport}} Section 8.23 |
+| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 8.28 |
+| SUBSCRIBE            |  4  | {{MoQTransport}} Section 8.7  |
+| SUBSCRIBE_UPDATE     |  5  | {{MoQTransport}} Section 8.10 |
+| PUBLISH              |  6  | {{MoQTransport}} Section 8.13 |
+| FETCH                |  7  | {{MoQTransport}} Section 8.16 |
+| TRACK_STATUS         |  8  | {{MoQTransport}} Section 8.20 |
 |----------------------|-----|-------------------------------|
 
 The scope of the moqt claim is limited to the actions provided in the array.
@@ -181,7 +183,7 @@ Example: Allow with an exact match "example.com/bob"
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         { /exact/ 0: 'example.com'},
         { /exact/ 0: '/bob'}
     ]]
@@ -207,7 +209,7 @@ Example: Allow with a prefix match "example.com/bob"
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         { /exact/ 0: 'example.com'},
         { /prefix/ 1: '/bob'}
     ]]
@@ -242,8 +244,8 @@ the first acceptable result is discovered.
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [
-        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}],
-        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]
+        [/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}],
+        [/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]
     ],
     /exp/ 4: 1750000000
 }
@@ -266,11 +268,11 @@ If there are other claims that depend on which MOQT limit applies, a logical cla
 {
     /or/ TBD_OR: [
         {
-            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}]],
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}]],
             /exp/ 4: 1750000000
         },
         {
-            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]],
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]],
             /exp/ 4: 1750000600
         }
     ]
