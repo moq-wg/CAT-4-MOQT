@@ -5,10 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 13 January 2026                                         Comcast
+Expires: 23 January 2026                                         Comcast
+                                                                G. Simon
+                                                               Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                            12 July 2025
+                                                            22 July 2025
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -51,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 January 2026.
+   This Internet-Draft will expire on 23 January 2026.
 
 Copyright Notice
 
@@ -77,16 +79,11 @@ Table of Contents
                construction
        2.1.2.  Multiple actions
      2.2.  moqt-reval claim
-   3.  Authenticating the connection
-     3.1.  Appending a token as a query parameter
-     3.2.  Embedding a token in a PATH
-     3.3.  Usage with WebTransport
-     3.4.  Usage with Native QUIC
-   4.  Controlling access to MOQT actions
-   5.  Conventions and Definitions
-   6.  Security Considerations
-   7.  IANA Considerations
-   8.  Normative References
+   3.  Adding a token to a URL
+   4.  Conventions and Definitions
+   5.  Security Considerations
+   6.  IANA Considerations
+   7.  Normative References
    Acknowledgments
    Authors' Addresses
 
@@ -345,16 +342,16 @@ Table of Contents
    moqt-reval-label = TBD_MOQT_REVAL
    moqt-reval-value = number
 
-   The "moqt-reval" claim indicates the frequency with which the token
-   must be revalidated for ongoing streams.  If the token is no longer
-   acceptable, the actions authorized by it MUST not be permitted to
-   continue.
+   The "moqt-reval" claim indicates that the token must be revalidated
+   for ongoing streams.  If the token is no longer acceptable, the
+   actions authorized by it MUST not be permitted to continue.
 
-   The frequency is expressed in seconds.  It provides an upper bound on
-   how long a token may be considered acceptable for an ongoing stream.
-   A revalidator MAY revalidate sooner.
+   The "moqt-reval-value" is a revalidation interval, expressed in
+   seconds.  It provides an upper bound on how long a token may be
+   considered acceptable for an ongoing stream.  A revalidator MAY
+   revalidate sooner.
 
-   If the revalidation frequency is more frequent than the recipient is
+   If the revalidation interval is smaller than the recipient is
    prepared or able to revalidate, the recipient MUST reject the token.
    If a recipient is unable to revalidate tokens, it MUST reject all
    tokens with a "moqt-reval" claim.
@@ -378,86 +375,14 @@ Table of Contents
    a number.  Recipients MUST support this claim.  This claim is
    OPTIONAL for issuers.
 
-3.  Authenticating the connection
+3.  Adding a token to a URL
 
-   The connection to a MOQT distribution relay can take place over a
-   WebTransport or native QUIC connection.  In both cases, the token is
-   transferred as a query parameter or else embedded in the URI PATH.
+   Any time an application wishes to add a CAT token to a URL or path
+   element, the token SHOULD first be Base64 encoded [BASE64].  The
+   syntax and method of modifying the URL is left to the application to
+   define and is not constrained by this specification.
 
-3.1.  Appending a token as a query parameter
-
-   The query parameter name SHOULD be "CAT" (case-sensitive) and the
-   query parameter value SHOULD be the Base64 encoded [BASE64] token.
-   If more than one token is transferred, then the sequential query
-   parameter names "CAT1", "CAT2" .. "CATN" SHOULD be used.
-
-3.2.  Embedding a token in a PATH
-
-   The token SHOULD span only a single PATH component and the component
-   SHOULD be prefixed with the string "CAT-".  If more than one token is
-   transferred, then they SHOULD occupy different components and SHOULD
-   carry sequential prefixes of "CAT1", "CAT2" .. "CATN".
-
-3.3.  Usage with WebTransport
-
-   With a WebTransport connection, the token can be transferred as a
-   query parameter or as part of the PATH.
-
-   Example of a single token in a query arg:
-
-      https://example.com/
-      service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-
-   Example of multiple tokens in query args:
-
-      https://example.com/
-      service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-      &CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==
-
-   Example of a single token in the PATH
-
-      https://example.com/service/CAT-
-      oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/
-
-   Example of multiple tokens in the PATH:
-
-      https://example.com/service/
-      CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
-      ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/
-
-3.4.  Usage with Native QUIC
-
-   With a native QUIC connection, the query components and PATH are
-   transmitted via the "PATH" parameter in the CLIENT_SETUP message.
-
-   Example of a single token in a query arg:
-
-      moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
-      = "service?CAT=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg="
-
-   Example of multiple tokens in query args:
-
-      moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
-      = "service?CAT1=oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=
-      &CAT2=IHNramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA=="
-
-   Example of a single token in the PATH
-
-      moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
-      = "service/CAT-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/"
-
-   Example of multiple tokens in the PATH:
-
-      moqt://203.0.113.0:4443 PATH parameter in the CLIENT_SETUP message
-      = "service/
-      CAT1-oRkBDqMAoQBlaHR0cHMDoQFoL2NvbnRlbnQIoQBlLm0zdTg=/CAT2-IHN
-      ramRoZmtjc2pkaGYgc2pkaCBhaCBzIGFzS0pEIDthbGtqIA==/"
-
-4.  Controlling access to MOQT actions
-
-   TODO
-
-5.  Conventions and Definitions
+4.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -465,11 +390,11 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-6.  Security Considerations
+5.  Security Considerations
 
    TODO Security
 
-7.  IANA Considerations
+6.  IANA Considerations
 
    IANA will register the following claim in the "CBOR Web Token (CWT)
    Claims" registry:
@@ -497,7 +422,7 @@ Table of Contents
    [RFC Editor: Please replace RFCthis with the published RFC number for
    this document.]
 
-8.  Normative References
+7.  Normative References
 
    [BASE64]   Josefsson, S., "The Base16, Base32, and Base64 Data
               Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
@@ -536,6 +461,11 @@ Authors' Addresses
    Chris Lemmons
    Comcast
    Email: Chris_Lemmons@comcast.com
+
+
+   Gwendal Simon
+   Synamedia
+   Email: gsimon@synamedia.com
 
 
    Suhas Nandakumar
