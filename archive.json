@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-20T01:17:34.256364+00:00",
+  "timestamp": "2025-07-22T01:10:58.883101+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -1106,24 +1106,88 @@
       "id": "PR_kwDOODoKls6flq2S",
       "title": "\"Interval\" instead of \"frequency\" in the revalidation section",
       "url": "https://github.com/wilaw/CAT-4-MOQT/pull/17",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gwendalsimon",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Related to https://github.com/wilaw/CAT-4-MOQT/pull/9#discussion_r2096221009",
       "createdAt": "2025-07-18T14:41:01Z",
-      "updatedAt": "2025-07-18T14:41:02Z",
+      "updatedAt": "2025-07-21T14:17:00Z",
       "baseRepository": "wilaw/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "fd8dff1ad0609a28ac6a6fb5b3f402aebaec60cd",
       "headRepository": "gwendalsimon/CAT-4-MOQT",
       "headRefName": "patch-2",
-      "headRefOid": "5cc3fe7d1ce318c73ae6227c9971a9cce377ef47",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "00110101b65eb169d8bb49b9bef62eeb2a33bdbe",
+      "closedAt": "2025-07-21T14:17:00Z",
+      "mergedAt": "2025-07-21T14:17:00Z",
+      "mergedBy": "wilaw",
+      "mergeCommit": {
+        "oid": "7be3a9d8c8e592a1c1cbaacf22cd79300a2a5062"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOODoKls61GTiT",
+          "commit": {
+            "abbreviatedOid": "5cc3fe7"
+          },
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-07-21T14:14:04Z",
+          "updatedAt": "2025-07-21T14:14:04Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOODoKls61GWnz",
+          "commit": {
+            "abbreviatedOid": "5cc3fe7"
+          },
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-21T14:16:11Z",
+          "updatedAt": "2025-07-21T14:16:12Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\r\nThe \"moqt-reval-value\" is a revalidation interval, expressed in seconds.\r\n```",
+              "createdAt": "2025-07-21T14:16:11Z",
+              "updatedAt": "2025-07-21T14:16:12Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDOODoKls6fwdN2",
+      "title": "Adding Gwendal Simon as author",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/pull/19",
+      "state": "MERGED",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-21T00:16:18Z",
+      "updatedAt": "2025-07-21T00:17:20Z",
+      "baseRepository": "wilaw/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "fd8dff1ad0609a28ac6a6fb5b3f402aebaec60cd",
+      "headRepository": "wilaw/CAT-4-MOQT",
+      "headRefName": "wilaw-patch-2",
+      "headRefOid": "3563f5a1f4dac89640192eed74739dc12d09cb7e",
+      "closedAt": "2025-07-21T00:17:14Z",
+      "mergedAt": "2025-07-21T00:17:14Z",
+      "mergedBy": "wilaw",
+      "mergeCommit": {
+        "oid": "b4abef4124c5bf09eacecba20599e5a1e2fb208f"
+      },
       "comments": [],
       "reviews": []
     }
