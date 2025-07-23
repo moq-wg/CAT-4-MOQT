@@ -423,19 +423,19 @@ TODO Security
 
 # IANA Considerations
 
-IANA will register the following claim in the "CBOR Web Token (CWT) Claims" registry:
+IANA will register the following claims in the "CBOR Web Token (CWT) Claims" registry:
 
-|------------------------|----------------|
-|                        | Value          |
-|------------------------|----------------|
-| Claim Name             | moqt           |
-| Claim Description      | MOQT Action    |
-| JWT Claim Name         | N/A            |
-| Claim Key              | TBD_MOQT (1+2) |
-| Claim Value Type       | array          |
-| Change Controller      | IESG           |
-| Specification Document | RFCthis        |
-|------------------------|----------------|
+|------------------------|----------------|-------------------|
+|                        | moqt           | moqt-reval        |
+|------------------------|----------------|-------------------|
+| Claim Name             | moqt           | moqt-reval        |
+| Claim Description      | MOQT Action    | MOQT revalidation |
+| JWT Claim Name         | N/A            | N/A               |
+| Claim Key              | TBD_MOQT (1+2) | TBD_MOQT (1+2)    |
+| Claim Value Type       | array          | number            |
+| Change Controller      | IESG           | IESG              |
+| Specification Document | RFCthis        | RFCthis           |
+|------------------------|----------------|-------------------|
 
 \[RFC Editor: Please replace RFCthis with the published RFC number for this
 document.\]
