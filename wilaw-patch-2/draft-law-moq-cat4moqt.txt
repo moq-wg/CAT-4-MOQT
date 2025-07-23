@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 22 January 2026                                         Comcast
+Expires: 24 January 2026                                         Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                            21 July 2025
+                                                            23 July 2025
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 January 2026.
+   This Internet-Draft will expire on 24 January 2026.
 
 Copyright Notice
 
@@ -191,25 +191,29 @@ Table of Contents
 
    The actions are integers defined as follows:
 
-       +======================+=====+=============================+
-       | Action               | Key | Reference                   |
-       +======================+=====+=============================+
-       | CONNECT              | -1  | TODO: Find a reference      |
-       +----------------------+-----+-----------------------------+
-       | ANNOUNCE             | 1   | [MoQTransport] Section 8.9  |
-       +----------------------+-----+-----------------------------+
-       | SUBSCRIBE_ANNOUNCES  | 2   | [MoQTransport] Section 8.24 |
-       +----------------------+-----+-----------------------------+
-       | SUBSCRIBE            | 3   | [MoQTransport] Section 8.7  |
-       +----------------------+-----+-----------------------------+
-       | PUBLISH              | 4   | [MoQTransport] Section TODO |
-       +----------------------+-----+-----------------------------+
-       | FETCH                | 5   | [MoQTransport] Section 8.13 |
-       +----------------------+-----+-----------------------------+
-       | TRACK_STATUS_REQUEST | 6   | [MoQTransport] Section 8.17 |
-       +----------------------+-----+-----------------------------+
+        +=====================+=====+=============================+
+        | Action              | Key | Reference                   |
+        +=====================+=====+=============================+
+        | CLIENT_SETUP        | 0   | [MoQTransport] Section 8.3  |
+        +---------------------+-----+-----------------------------+
+        | SERVER_SETUP        | 1   | [MoQTransport] Section 8.3  |
+        +---------------------+-----+-----------------------------+
+        | ANNOUNCE            | 2   | [MoQTransport] Section 8.23 |
+        +---------------------+-----+-----------------------------+
+        | SUBSCRIBE_NAMESPACE | 3   | [MoQTransport] Section 8.28 |
+        +---------------------+-----+-----------------------------+
+        | SUBSCRIBE           | 4   | [MoQTransport] Section 8.7  |
+        +---------------------+-----+-----------------------------+
+        | SUBSCRIBE_UPDATE    | 5   | [MoQTransport] Section 8.10 |
+        +---------------------+-----+-----------------------------+
+        | PUBLISH             | 6   | [MoQTransport] Section 8.13 |
+        +---------------------+-----+-----------------------------+
+        | FETCH               | 7   | [MoQTransport] Section 8.16 |
+        +---------------------+-----+-----------------------------+
+        | TRACK_STATUS        | 8   | [MoQTransport] Section 8.20 |
+        +---------------------+-----+-----------------------------+
 
-                                 Table 1
+                                  Table 1
 
    The scope of the moqt claim is limited to the actions provided in the
    array.  Any action not present in the array is not authorized by moqt
@@ -232,7 +236,7 @@ Table of Contents
 
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         { /exact/ 0: 'example.com'},
         { /exact/ 0: '/bob'}
     ]]
@@ -254,7 +258,7 @@ Table of Contents
 
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         { /exact/ 0: 'example.com'},
         { /prefix/ 1: '/bob'}
     ]]
@@ -286,8 +290,8 @@ Table of Contents
 
 {
     /moqt/ TBD_MOQT: [
-        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}],
-        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]
+        [/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}],
+        [/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]
     ],
     /exp/ 4: 1750000000
 }
@@ -311,11 +315,11 @@ Table of Contents
 {
     /or/ TBD_OR: [
         {
-            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}]],
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}]],
             /exp/ 4: 1750000000
         },
         {
-            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]],
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]],
             /exp/ 4: 1750000600
         }
     ]
@@ -343,16 +347,16 @@ Table of Contents
    moqt-reval-label = TBD_MOQT_REVAL
    moqt-reval-value = number
 
-   The "moqt-reval" claim indicates the frequency with which the token
-   must be revalidated for ongoing streams.  If the token is no longer
-   acceptable, the actions authorized by it MUST not be permitted to
-   continue.
+   The "moqt-reval" claim indicates that the token must be revalidated
+   for ongoing streams.  If the token is no longer acceptable, the
+   actions authorized by it MUST not be permitted to continue.
 
-   The frequency is expressed in seconds.  It provides an upper bound on
-   how long a token may be considered acceptable for an ongoing stream.
-   A revalidator MAY revalidate sooner.
+   The "moqt-reval-value" is a revalidation interval, expressed in
+   seconds.  It provides an upper bound on how long a token may be
+   considered acceptable for an ongoing stream.  A revalidator MAY
+   revalidate sooner.
 
-   If the revalidation frequency is more frequent than the recipient is
+   If the revalidation interval is smaller than the recipient is
    prepared or able to revalidate, the recipient MUST reject the token.
    If a recipient is unable to revalidate tokens, it MUST reject all
    tokens with a "moqt-reval" claim.
@@ -469,26 +473,26 @@ Table of Contents
 
 7.  IANA Considerations
 
-   IANA will register the following claim in the "CBOR Web Token (CWT)
+   IANA will register the following claims in the "CBOR Web Token (CWT)
    Claims" registry:
 
-                +========================+================+
-                |                        | Value          |
-                +========================+================+
-                | Claim Name             | moqt           |
-                +------------------------+----------------+
-                | Claim Description      | MOQT Action    |
-                +------------------------+----------------+
-                | JWT Claim Name         | N/A            |
-                +------------------------+----------------+
-                | Claim Key              | TBD_MOQT (1+2) |
-                +------------------------+----------------+
-                | Claim Value Type       | array          |
-                +------------------------+----------------+
-                | Change Controller      | IESG           |
-                +------------------------+----------------+
-                | Specification Document | RFCthis        |
-                +------------------------+----------------+
+      +========================+================+===================+
+      |                        | moqt           | moqt-reval        |
+      +========================+================+===================+
+      | Claim Name             | moqt           | moqt-reval        |
+      +------------------------+----------------+-------------------+
+      | Claim Description      | MOQT Action    | MOQT revalidation |
+      +------------------------+----------------+-------------------+
+      | JWT Claim Name         | N/A            | N/A               |
+      +------------------------+----------------+-------------------+
+      | Claim Key              | TBD_MOQT (1+2) | TBD_MOQT (1+2)    |
+      +------------------------+----------------+-------------------+
+      | Claim Value Type       | array          | number            |
+      +------------------------+----------------+-------------------+
+      | Change Controller      | IESG           | IESG              |
+      +------------------------+----------------+-------------------+
+      | Specification Document | RFCthis        | RFCthis           |
+      +------------------------+----------------+-------------------+
 
                                   Table 2
 

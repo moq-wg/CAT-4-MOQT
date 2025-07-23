@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Law, et al.</td>
-<td class="center">Expires 22 January 2026</td>
+<td class="center">Expires 24 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-law-moq-cat4moqt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-07-21" class="published">21 July 2025</time>
+<time datetime="2025-07-23" class="published">23 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-01-22">22 January 2026</time></dd>
+<dd class="expires"><time datetime="2026-01-24">24 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1134,7 +1134,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1345,45 +1345,58 @@ the namespace, and a match object for the track name.<a href="#section-2.1-3" cl
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">CONNECT</td>
-              <td class="text-left" rowspan="1" colspan="1">-1</td>
-              <td class="text-left" rowspan="1" colspan="1">TODO: Find a reference</td>
+              <td class="text-left" rowspan="1" colspan="1">CLIENT_SETUP</td>
+              <td class="text-left" rowspan="1" colspan="1">0</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.3</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">SERVER_SETUP</td>
+              <td class="text-left" rowspan="1" colspan="1">1</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.3</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">ANNOUNCE</td>
-              <td class="text-left" rowspan="1" colspan="1">1</td>
-              <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.9</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_ANNOUNCES</td>
               <td class="text-left" rowspan="1" colspan="1">2</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.24</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.23</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_NAMESPACE</td>
+              <td class="text-left" rowspan="1" colspan="1">3</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.28</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE</td>
-              <td class="text-left" rowspan="1" colspan="1">3</td>
+              <td class="text-left" rowspan="1" colspan="1">4</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.7</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">PUBLISH</td>
-              <td class="text-left" rowspan="1" colspan="1">4</td>
+              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_UPDATE</td>
+              <td class="text-left" rowspan="1" colspan="1">5</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section TODO</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.10</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">FETCH</td>
-              <td class="text-left" rowspan="1" colspan="1">5</td>
+              <td class="text-left" rowspan="1" colspan="1">PUBLISH</td>
+              <td class="text-left" rowspan="1" colspan="1">6</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.13</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">TRACK_STATUS_REQUEST</td>
-              <td class="text-left" rowspan="1" colspan="1">6</td>
+              <td class="text-left" rowspan="1" colspan="1">FETCH</td>
+              <td class="text-left" rowspan="1" colspan="1">7</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.17</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.16</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">TRACK_STATUS</td>
+              <td class="text-left" rowspan="1" colspan="1">8</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.20</td>
             </tr>
           </tbody>
         </table>
@@ -1408,7 +1421,7 @@ names.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
 <pre>
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         { /exact/ 0: 'example.com'},
         { /exact/ 0: '/bob'}
     ]]
@@ -1435,7 +1448,7 @@ Prohibits
 <pre>
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 1, /SUBSCRIBE_ANNOUNCES/ 2, /PUBLISH/ 4, /FETCH/ 5 ],
+        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         { /exact/ 0: 'example.com'},
         { /prefix/ 1: '/bob'}
     ]]
@@ -1479,8 +1492,8 @@ the first acceptable result is discovered.<a href="#section-2.1.2-1" class="pilc
 <pre>
 {
     /moqt/ TBD_MOQT: [
-        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}],
-        [/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]
+        [/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}],
+        [/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]
     ],
     /exp/ 4: 1750000000
 }
@@ -1511,11 +1524,11 @@ Evaluating "example.com" would fail on test 1 and on test 2.<a href="#section-2.
 {
     /or/ TBD_OR: [
         {
-            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}]],
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}]],
             /exp/ 4: 1750000000
         },
         {
-            /moqt/ TBD_MOQT: [[/PUBLISH/ 4, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]],
+            /moqt/ TBD_MOQT: [[/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]],
             /exp/ 4: 1750000600
         }
     ]
@@ -1552,13 +1565,14 @@ moqt-reval-label = TBD_MOQT_REVAL
 moqt-reval-value = number
 </pre><a href="#section-2.2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-2.2-3">The "moqt-reval" claim indicates the frequency with which the token must be
+<p id="section-2.2-3">The "moqt-reval" claim indicates that the token must be
 revalidated for ongoing streams. If the token is no longer acceptable, the
 actions authorized by it <span class="bcp14">MUST</span> not be permitted to continue.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
-<p id="section-2.2-4">The frequency is expressed in seconds. It provides an upper bound on how long a
+<p id="section-2.2-4">The "moqt-reval-value" is a revalidation interval, expressed in seconds.
+It provides an upper bound on how long a
 token may be considered acceptable for an ongoing stream. A revalidator <span class="bcp14">MAY</span>
 revalidate sooner.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
-<p id="section-2.2-5">If the revalidation frequency is more frequent than the recipient is prepared
+<p id="section-2.2-5">If the revalidation interval is smaller than the recipient is prepared
 or able to revalidate, the recipient <span class="bcp14">MUST</span> reject the token. If a recipient is
 unable to revalidate tokens, it <span class="bcp14">MUST</span> reject all tokens with a "moqt-reval"
 claim.<a href="#section-2.2-5" class="pilcrow">¶</a></p>
@@ -1713,42 +1727,50 @@ appear in all capitals, as shown here.<a href="#section-5-1" class="pilcrow">¶<
       <h2 id="name-iana-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-7-1">IANA will register the following claim in the "CBOR Web Token (CWT) Claims" registry:<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">IANA will register the following claims in the "CBOR Web Token (CWT) Claims" registry:<a href="#section-7-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-2">
         <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
           <tr>
             <th class="text-left" rowspan="1" colspan="1"> </th>
-            <th class="text-left" rowspan="1" colspan="1">Value</th>
+            <th class="text-left" rowspan="1" colspan="1">moqt</th>
+            <th class="text-left" rowspan="1" colspan="1">moqt-reval</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Claim Name</td>
             <td class="text-left" rowspan="1" colspan="1">moqt</td>
+            <td class="text-left" rowspan="1" colspan="1">moqt-reval</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Claim Description</td>
             <td class="text-left" rowspan="1" colspan="1">MOQT Action</td>
+            <td class="text-left" rowspan="1" colspan="1">MOQT revalidation</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">JWT Claim Name</td>
+            <td class="text-left" rowspan="1" colspan="1">N/A</td>
             <td class="text-left" rowspan="1" colspan="1">N/A</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Claim Key</td>
             <td class="text-left" rowspan="1" colspan="1">TBD_MOQT (1+2)</td>
+            <td class="text-left" rowspan="1" colspan="1">TBD_MOQT (1+2)</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Claim Value Type</td>
             <td class="text-left" rowspan="1" colspan="1">array</td>
+            <td class="text-left" rowspan="1" colspan="1">number</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Change Controller</td>
             <td class="text-left" rowspan="1" colspan="1">IESG</td>
+            <td class="text-left" rowspan="1" colspan="1">IESG</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Specification Document</td>
+            <td class="text-left" rowspan="1" colspan="1">RFCthis</td>
             <td class="text-left" rowspan="1" colspan="1">RFCthis</td>
           </tr>
         </tbody>
