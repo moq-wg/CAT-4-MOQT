@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-22T01:10:58.883101+00:00",
+  "timestamp": "2025-07-24T01:11:14.569090+00:00",
   "repo": "wilaw/CAT-4-MOQT",
   "labels": [
     {
@@ -71,15 +71,15 @@
       "id": "I_kwDOODoKls6uBiHC",
       "title": "No token at connection but token for actions",
       "url": "https://github.com/wilaw/CAT-4-MOQT/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gwendalsimon",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "One of the limitations of having a unique global token to rule all future actions is that the token's expiration time must be long to anticipate the actions in the future. It can be preferrable to have tokens with short expiration time for specific action, but it contradicts the global unique token.\n\nI would like to define an alternative workflow, where the token at WebTransport is optional, but a token must be carried in the actions (SUBSCRIBE, FETCH, ...) as authentication-parameter.",
       "createdAt": "2025-03-14T08:59:41Z",
-      "updatedAt": "2025-07-12T22:18:17Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-22T09:54:06Z",
+      "closedAt": "2025-07-22T09:54:06Z",
       "comments": [
         {
           "author": "wilaw",
@@ -94,6 +94,13 @@
           "body": "This use case is address by https://datatracker.ietf.org/doc/draft-lemmons-composite-claims/",
           "createdAt": "2025-07-12T22:18:17Z",
           "updatedAt": "2025-07-12T22:18:17Z"
+        },
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "We now have support for claims that can apply to the CLIENT-SETUP and SERVER_SETUP actions. Additionally, composite claims allow short duration claims to be applied for these connection actions, while longer duration claims can be applied to PUBLISH or SUBSCRIBE. \n\nClosing as resolved. ",
+          "createdAt": "2025-07-22T09:54:06Z",
+          "updatedAt": "2025-07-22T09:54:06Z"
         }
       ]
     },
@@ -150,15 +157,15 @@
       "id": "I_kwDOODoKls6uY6_m",
       "title": "Add a new CONNECTION action to the moq claim",
       "url": "https://github.com/wilaw/CAT-4-MOQT/issues/5",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "wilaw",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "Right now, we assume the existing CAT claims (exp, catu, geohash etc) apply to the initial connection via either Web transport or native QUIC.\n\nThis relationship becomes brittle if we introduce COMPOSITE claims, in which there may be multiple 'exp' claims bound to Actions, while some remain unbound and are assumed to apply to the connection.\n\nAn improvement here would be to make 2 changes\n1. Add in CONNECTION as a new ACTION type.\n2. Allow claims to be composite. \n\nFor example the following combination lets you connect from anywhere before a certain time,  but only publish from Germany with a prefix match of example.com\n\nMOQ CONNECTION allowed AND exp  = 1742229697 \nMOQ PUBLISH (prefix match 'example.com') AND catgeoiso3166 = DE",
       "createdAt": "2025-03-17T16:47:05Z",
-      "updatedAt": "2025-03-18T13:23:33Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-22T09:38:12Z",
+      "closedAt": "2025-07-22T09:38:12Z",
       "comments": [
         {
           "author": "wilaw",
@@ -174,15 +181,15 @@
       "id": "I_kwDOODoKls6vEm70",
       "title": "Add TRACK_STATUS_REQUEST action",
       "url": "https://github.com/wilaw/CAT-4-MOQT/issues/6",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "afrind",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "See https://github.com/moq-wg/moq-transport/issues/720\n\nAlternately it could share SUBSCRIBE, or we could have a blanket action like CONSUME which would cover SUBSCRIBE, FETCH and TRACK_STATUS_REQUEST.",
       "createdAt": "2025-03-21T04:20:12Z",
-      "updatedAt": "2025-03-21T23:56:44Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-22T09:38:12Z",
+      "closedAt": "2025-07-22T09:38:12Z",
       "comments": [
         {
           "author": "wilaw",
@@ -205,16 +212,24 @@
       "id": "I_kwDOODoKls6vyvuO",
       "title": "When are claims evaluated in long duration sessions?",
       "url": "https://github.com/wilaw/CAT-4-MOQT/issues/7",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "wilaw",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "CAT claims are written assuming a request, which occurs at a single point in time. However MOQT has actions which can persist over the life of the session, which may last a long time. This issue raises the need to evaluate the claims within CAT and define how they might be applied to long running sessions. \n\nFor example, if a claim binds a connection to an IP address and that IP address later changes while the session is still active due to QUIC connection migration, should the connection be dropped? \n\nAt what interval is the server required to evaluate the IP address - with each incoming QUIC frame, or MOQT object or some other interval or event? ",
       "createdAt": "2025-03-26T11:54:34Z",
-      "updatedAt": "2025-03-26T11:54:34Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-07-22T09:50:54Z",
+      "closedAt": "2025-07-22T09:50:53Z",
+      "comments": [
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "#9 introduced the [moqt-reval claim](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#name-moqt-reval-claim), which specifies when to revalidate a particular claim. The \"moqt-reval-value\" is a revalidation interval, expressed in seconds. ",
+          "createdAt": "2025-07-22T09:50:53Z",
+          "updatedAt": "2025-07-22T09:50:53Z"
+        }
+      ]
     },
     {
       "number": 8,
@@ -293,15 +308,15 @@
       "id": "I_kwDOODoKls64lAnR",
       "title": "Add CLIENT-SETUP as a protected action.",
       "url": "https://github.com/wilaw/CAT-4-MOQT/issues/13",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "wilaw",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "Per https://github.com/moq-wg/moq-transport/pull/1013#, there is a likelihood that we need to add the CLIENT-SETUP message to our list of protected MOQT actions. ",
       "createdAt": "2025-05-28T09:36:51Z",
-      "updatedAt": "2025-05-28T09:36:51Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-22T09:38:12Z",
+      "closedAt": "2025-07-22T09:38:12Z",
       "comments": []
     },
     {
@@ -309,15 +324,15 @@
       "id": "I_kwDOODoKls7ARUj-",
       "title": "Binary match required instead of text match.",
       "url": "https://github.com/wilaw/CAT-4-MOQT/issues/14",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "wilaw",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "CTA-5007-B 4.6.1, as referenced in the [moqt claim](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#name-moqt-claim), defines matching for text strings. We need a binary match definition for namespace and name. ",
       "createdAt": "2025-07-12T20:57:20Z",
-      "updatedAt": "2025-07-14T16:42:28Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-22T09:26:24Z",
+      "closedAt": "2025-07-22T09:26:24Z",
       "comments": [
         {
           "author": "alficles",
@@ -325,6 +340,13 @@
           "body": "Double-check the merged text. This is one that I updated after our conversation. The current text handles the binary match definition. Whether people like it or not is a totally different question, but it's defined. :)",
           "createdAt": "2025-07-14T16:42:27Z",
           "updatedAt": "2025-07-14T16:42:27Z"
+        },
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "Closing as resolved by #9 ",
+          "createdAt": "2025-07-22T09:26:24Z",
+          "updatedAt": "2025-07-22T09:26:24Z"
         }
       ]
     },
@@ -340,7 +362,7 @@
       "labels": [],
       "body": "The current draft proposes match types of \n\nPrefix - match from start\nExact - exact match\nSuffix - match from end\nMatches  - mid-content match. \n\nComments have been made that MOQT specifies only prefix matching for NAMEPACES and NAMES and therefore that this is all we need on the auth side too.\n\nHowever a counter argument is that we need more flexibility when specifying constraints than we do when matching namespaces. \n\nMy recommendation would be to \n1. Keep PREFIX and EXACT  - these are well aligned with MOQT semantics \n2. Drop SUFFIX and MATCH as I can't see a use case for these",
       "createdAt": "2025-07-12T22:24:25Z",
-      "updatedAt": "2025-07-14T17:16:08Z",
+      "updatedAt": "2025-07-22T10:02:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -349,6 +371,13 @@
           "body": "One typical use for \"SUFFIX\" is when extensions or names are used to provide information about the resource. For example, in HTTP, you can often say something like:\n\n```\n{\n    /catu/ 312: { /path/ 3: { /prefix/ 1: \"/path/to/folder/\" } },\n    /or/ TBD_OR: [\n        { /catu/ 312: { /path/ 3: { /suffix/ 2: \"/manifest.m3u8\" } } },\n        { /catu/ 312: { /path/ 3: { /suffix/ 2: \".ts\" } } }\n   ]\n}\n```\n\nIn HTTP, the prefix usually represents some kind of \"category\" for the content and the suffix tends to have information about the \"kind\" of the content, with stuff like extension or file name. None of these are hard-and-fast rules, but because people usually structure things that way make both prefix and suffix useful.\n\nMATCH does mostly exist for completeness, though. It would be pretty easy to drop. (Though it's also easy to perform, cause it's doable with a simple scan.)",
           "createdAt": "2025-07-14T17:16:08Z",
           "updatedAt": "2025-07-14T17:16:08Z"
+        },
+        {
+          "author": "wilaw",
+          "authorAssociation": "OWNER",
+          "body": "> In HTTP, the prefix usually represents some kind of \"category\" for the content and the suffix tends to have information about the \"kind\" of the content, with stuff like extension or file name. None of these are hard-and-fast rules, but because people usually structure things that way make both prefix and suffix useful.\n\nIn MOQT however, there are no trailing extensions or the equivalent of file extensions. All tuple field matches are left-matches for both namespace and name. \n\nA quesiton I have is - are contiguous tuple fields matched, or partial fields?\n\nFor example, is \"example\" a prefix match for \"example.com/cusomerid/appID\", assuming the field boundary is represented by a \"/\" ?\n\n",
+          "createdAt": "2025-07-22T09:34:36Z",
+          "updatedAt": "2025-07-22T10:02:40Z"
         }
       ]
     },
@@ -365,6 +394,38 @@
       "body": "Related to https://github.com/wilaw/CAT-4-MOQT/pull/9/files#r2095934066\n\nToday's catif sections in CAT is \"_The type of this claim is a map; the keys of the map are either claim keys or arrays of claim keys and the values are arrays; the arrays have up to three elements: the status code to return, a map with headers and values (the header map), and a TextString that identifies a key to sign the resultant URI with (the key id)_\"\n\nA moqt-reval-label can typically be used as the key, but the response would ideally be a MoQ message. For example, if an ongoing Suscription is stopped, the Publisher should send a SUBSCRIBE_ERROR with code 0x1, while an ongoing fetch would require a FETCH_ERROR.     ",
       "createdAt": "2025-07-18T15:09:04Z",
       "updatedAt": "2025-07-18T15:09:04Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 20,
+      "id": "I_kwDOODoKls7B9JZ_",
+      "title": "Section 3 can be removed",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/20",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Section 3 deals with definitions for \n\n[3. Authenticating the connection](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#name-authenticating-the-connecti)\n\n[3.1](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#section-3.1).  [Appending a token as a query parameter](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#name-appending-a-token-as-a-quer)\n\n[3.2](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#section-3.2).  [Embedding a token in a PATH](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#name-embedding-a-token-in-a-path)\n\n[3.3](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#section-3.3).  [Usage with WebTransport](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#name-usage-with-webtransport)\n\n[3.4](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#section-3.4).  [Usage with Native QUIC](https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html#name-usage-with-native-quic)\n\nThese should not be defined in this document, as they are particulars of an application format such as [WARP](https://moq-wg.github.io/warp-streaming-format/draft-ietf-moq-warp.html). The application will define how it wishes to transmit the token. Different CDNs may also have different formatting rules of where the token should be placed.  It is not appropriate for this specification to mandate one particular method of adding the token to a URL or path. \n\nWhat the specification should describe instead is a standard way to serialize the token in any URL-based scheme. Something like base64 would be sufficient for that. ",
+      "createdAt": "2025-07-22T20:45:37Z",
+      "updatedAt": "2025-07-22T20:45:37Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 22,
+      "id": "I_kwDOODoKls7CC-dQ",
+      "title": "Add moqt-reval to IANA Considerations section",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/issues/22",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "The [IANA Considerations](https://wilaw.github.io/CAT-4-MOQT/wilaw-patch-1/draft-law-moq-cat4moqt.html#name-iana-considerations) section currently only specifies the moqt claim. The moqt-reval claim should be added. ",
+      "createdAt": "2025-07-23T09:05:33Z",
+      "updatedAt": "2025-07-23T09:05:33Z",
       "closedAt": null,
       "comments": []
     }
@@ -1080,24 +1141,26 @@
       "id": "PR_kwDOODoKls6epjI7",
       "title": "Updating action table and examples",
       "url": "https://github.com/wilaw/CAT-4-MOQT/pull/15",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "wilaw",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "Fixes #13\r\nFixes #6 \r\nFixes #5 ",
       "createdAt": "2025-07-12T21:38:45Z",
-      "updatedAt": "2025-07-12T21:38:45Z",
+      "updatedAt": "2025-07-22T09:38:15Z",
       "baseRepository": "wilaw/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "fd8dff1ad0609a28ac6a6fb5b3f402aebaec60cd",
       "headRepository": "wilaw/CAT-4-MOQT",
       "headRefName": "wilaw-patch-1",
       "headRefOid": "abe2d465f1a9a0a078e0a75472ace6037e4a33db",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-07-22T09:38:11Z",
+      "mergedAt": "2025-07-22T09:38:11Z",
+      "mergedBy": "wilaw",
+      "mergeCommit": {
+        "oid": "850e3b0e9d8225c5c01893ed3dcbbe7197d5f8d6"
+      },
       "comments": [],
       "reviews": []
     },
@@ -1188,6 +1251,58 @@
       "mergeCommit": {
         "oid": "b4abef4124c5bf09eacecba20599e5a1e2fb208f"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 21,
+      "id": "PR_kwDOODoKls6gJSa6",
+      "title": "Removing Section 3 for URL-based transmission",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/pull/21",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #20 ",
+      "createdAt": "2025-07-22T20:52:03Z",
+      "updatedAt": "2025-07-22T20:52:03Z",
+      "baseRepository": "wilaw/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "850e3b0e9d8225c5c01893ed3dcbbe7197d5f8d6",
+      "headRepository": "wilaw/CAT-4-MOQT",
+      "headRefName": "wilaw-patch-1",
+      "headRefOid": "03aa0bf171a99de0b3fb0714aad80cf3f2a4881e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 23,
+      "id": "PR_kwDOODoKls6gOgHq",
+      "title": "Adding moqt-reval to IANA section",
+      "url": "https://github.com/wilaw/CAT-4-MOQT/pull/23",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #22",
+      "createdAt": "2025-07-23T09:17:23Z",
+      "updatedAt": "2025-07-23T09:17:23Z",
+      "baseRepository": "wilaw/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "850e3b0e9d8225c5c01893ed3dcbbe7197d5f8d6",
+      "headRepository": "wilaw/CAT-4-MOQT",
+      "headRefName": "wilaw-patch-2",
+      "headRefOid": "c5b340ecfdcd87c667ca7942a9be97f0af7e09ab",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
