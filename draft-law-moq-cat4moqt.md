@@ -102,6 +102,35 @@ This draft defines version 1 of this specification.
 * As an alternative to this workflow, the distribution service may vend multiple tokens to the client. The
   client may use one of those tokens to establish the initial conneciton and others to authenticate its actions.
 
+ ~~~ascii
+     End User              Distribution Service         MOQT Relay
+        |                         |                         |
+        |  1. Login/Authenticate  |                         |
+        |<----------------------->|                         |
+        |                         |                         |
+        |  2. Generate CAT Token  |                         |
+        |       + Relay URL       |                         |
+        |<------------------------|                         |
+        |                         |                         |
+        |  3. Connect to Relay with Token                   |
+        |-------------------------------------------------->|
+        |                         |                         |
+        |                         |  4. Validate Token      |
+        |                         |<----------------------->|
+        |                         |    (shared secrets)     |
+        |                         |                         |
+        |  5. Accept/Reject Connection                      |
+        |<--------------------------------------------------|
+        |                         |                         |
+        |  6. MOQT Actions with Token Authentication        |
+        |<------------------------------------------------->|
+        |     (ANNOUNCE, SUBSCRIBE, PUBLISH, FETCH)         |
+        |                         |                         |
+        |                         |  7. Revalidate Token    |
+        |                         |<----------------------->|
+        |                         |   (if moqt-reval set)   |
+  ~~~
+
 # Token format
 
 This draft uses a single token format, namely the Common Access Token (CAT) {{CAT}}. The token is supplied
