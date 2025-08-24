@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-21T01:02:26.252489+00:00",
+  "timestamp": "2025-08-24T01:09:55.393867+00:00",
   "repo": "moq-wg/CAT-4-MOQT",
   "labels": [
     {
@@ -263,11 +263,13 @@
       "state": "OPEN",
       "author": "wilaw",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "suhasHere"
+      ],
       "labels": [],
       "body": "There is a commercial desire to ensure that Demonstrating Proof of Possession (DPOP) can work with CAT-4-MOQT. \n\nThere should be a section in the draft outlining what claims should be used, the data they should carry and how the proof is communicated to the server. \n\nIf a new MOQT field is required to transmit the proof, then a clear request should be made to https://github.com/moq-wg/moq-transport/issues/968\n",
       "createdAt": "2025-05-07T13:56:26Z",
-      "updatedAt": "2025-07-14T16:56:08Z",
+      "updatedAt": "2025-08-23T08:34:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -362,7 +364,7 @@
       "labels": [],
       "body": "The current draft proposes match types of \n\nPrefix - match from start\nExact - exact match\nSuffix - match from end\nMatches  - mid-content match. \n\nComments have been made that MOQT specifies only prefix matching for NAMEPACES and NAMES and therefore that this is all we need on the auth side too.\n\nHowever a counter argument is that we need more flexibility when specifying constraints than we do when matching namespaces. \n\nMy recommendation would be to \n1. Keep PREFIX and EXACT  - these are well aligned with MOQT semantics \n2. Drop SUFFIX and MATCH as I can't see a use case for these",
       "createdAt": "2025-07-12T22:24:25Z",
-      "updatedAt": "2025-07-22T10:02:40Z",
+      "updatedAt": "2025-08-23T08:36:27Z",
       "closedAt": null,
       "comments": [
         {
@@ -378,6 +380,13 @@
           "body": "> In HTTP, the prefix usually represents some kind of \"category\" for the content and the suffix tends to have information about the \"kind\" of the content, with stuff like extension or file name. None of these are hard-and-fast rules, but because people usually structure things that way make both prefix and suffix useful.\n\nIn MOQT however, there are no trailing extensions or the equivalent of file extensions. All tuple field matches are left-matches for both namespace and name. \n\nA quesiton I have is - are contiguous tuple fields matched, or partial fields?\n\nFor example, is \"example\" a prefix match for \"example.com/cusomerid/appID\", assuming the field boundary is represented by a \"/\" ?\n\n",
           "createdAt": "2025-07-22T09:34:36Z",
           "updatedAt": "2025-07-22T10:02:40Z"
+        },
+        {
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "body": "For token matching, I feel have parts of tuples matched is useful .. something like \n */abc/def/*/123 ",
+          "createdAt": "2025-08-23T08:36:27Z",
+          "updatedAt": "2025-08-23T08:36:27Z"
         }
       ]
     },
@@ -1315,6 +1324,58 @@
       "mergeCommit": {
         "oid": "9b790bac51efb8f5c72fe8b1a004563fce1893d3"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 24,
+      "id": "PR_kwDOODoKls6lAY4f",
+      "title": "add illustration to the sample auth flow",
+      "url": "https://github.com/moq-wg/CAT-4-MOQT/pull/24",
+      "state": "CLOSED",
+      "author": "suhasHere",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-08-23T07:43:13Z",
+      "updatedAt": "2025-08-23T07:45:05Z",
+      "baseRepository": "moq-wg/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "9b790bac51efb8f5c72fe8b1a004563fce1893d3",
+      "headRepository": "moq-wg/CAT-4-MOQT",
+      "headRefName": "snk-sec",
+      "headRefOid": "fbce3335fad1db37f224259e38ee5bfddefa057d",
+      "closedAt": "2025-08-23T07:45:04Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 25,
+      "id": "PR_kwDOODoKls6lAZ50",
+      "title": "add illustration for example auth flow",
+      "url": "https://github.com/moq-wg/CAT-4-MOQT/pull/25",
+      "state": "OPEN",
+      "author": "suhasHere",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-08-23T07:46:35Z",
+      "updatedAt": "2025-08-23T07:46:36Z",
+      "baseRepository": "moq-wg/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "9b790bac51efb8f5c72fe8b1a004563fce1893d3",
+      "headRepository": "moq-wg/CAT-4-MOQT",
+      "headRefName": "snk-pic",
+      "headRefOid": "fbce3335fad1db37f224259e38ee5bfddefa057d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
