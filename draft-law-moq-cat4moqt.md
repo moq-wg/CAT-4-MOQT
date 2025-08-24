@@ -53,13 +53,13 @@ author:
 
 
 normative:
-  MoQTransport: I-D.draft-ietf-moq-transport-10
+  MoQTransport: I-D.draft-ietf-moq-transport-13
   BASE64: RFC4648
   CAT:
     title: "CTA 5007-A Common Access Token"
     date: December 2024
     target: https://shop.cta.tech/products/cta-5007
-
+  DPoP: RFC9449
 informative:
 
 
@@ -333,6 +333,286 @@ claims, the token is not well-formed.
 The claim key for this claim is TBD_MOQT_REVAL and the claim value is a number.
 Recipients MUST support this claim. This claim is OPTIONAL for issuers.
 
+# DPoP Integration with CAT for MOQT
+
+This section defines the use of CAT's Demonstrating Proof of Possession (DPoP)
+claims {{DPoP}} to enhance security in MOQT environments. This approach
+leverages the CAT token's "cnf" (confirmation) claim with JWK Thumbprint
+binding and the "catdpop" (CAT DPoP Settings) claim to provide
+proof-of-possession capabilities that prevent token theft and replay
+attacks in MOQT systems.
+
+## CAT DPoP Claims for MOQT
+
+CAT tokens used for MOQT SHOULD include DPoP-related claims as defined in
+{{CAT}} Section 4.8 to enable sender-constrained token usage. This proposal
+extends the basic CAT authentication model by binding tokens to client
+cryptographic key pairs, ensuring that only the legitimate token holder can
+use the token for MOQT operations.
+
+### Key Benefits
+
+- **Token Binding**: CAT tokens are cryptographically bound to client key pairs
+- **Replay Protection**: Fresh DPoP proofs required for each MOQT action
+- **Theft Prevention**: Stolen tokens cannot be used without the corresponding
+                        private key
+- **Enhanced Trust**: Relays can verify both token authenticity and
+                      client possession
+
+### Confirmation (cnf) Claim with JWK Thumbprint
+
+The CAT token MUST include a "cnf" claim with "jkt" (JWK Thumbprint)
+confirmation method to enable DPoP binding
+
+Below is an exmaple showing jkt token binding.
+~~~~~~~~~~~~~~~
+{
+  "cnf": {
+    "jkt": <32-byte JWK SHA-256 Thumbprint>
+  },
+  "moqt": [
+    [
+      [2, 3, 6, 7], // ANNOUNCE, SUBSCRIBE_NAMESPACE, PUBLISH, FETCH
+      {"exact": "cdn.example.com"},
+      {"prefix": "/sports/"}
+    ]
+  ],
+  "catdpop": {
+    "0": 300,  // 5-minute window
+    "1": 1     // Honor jti for replay protection
+  },
+  "exp": 1750000000
+}
+~~~~~~~~~~~~~~~
+
+Implementation Requirements:
+
+- Relay Validation: MOQT relays MUST verify that DPoP proofs are signed with
+  the private key corresponding to the "jkt" value
+- Proof Binding: Relays MUST reject requests where DPoP proof validation or
+  key binding fails
+- Processing Semantics: Relays MUST process DPoP proofs as Protected Resource
+  Access requests per {{DPoP}} Section 7
+
+### Common Access Token DPoP Settings (catdpop) Claim
+
+The "catdpop" claim (key 321) provides essential processing parameters
+for DPoP proof validation:
+
+Window Setting (key 0): Defines acceptable time window for DPoP proof validity
+in seconds
+
+- Type: Unsigned integer
+- Usage: Relays MUST use this value to validate DPoP proof timestamps
+- Example: 300 (5-minute acceptance window)
+
+JTI Setting (key 1): Controls processing of "jti" claim in DPoP proofs for
+replay protection
+
+- Value 0: Ignore "jti" claims (no replay protection)
+- Value 1: Honor "jti" claims when available for replay protection
+- Default: 0 if not specified
+
+Critical Setting (key -1): Array of setting keys that MUST be understood
+
+- Type: Array of integers
+- Usage: Recipients MUST reject "catdpop" claim if they don't understand
+  listed critical settings
+- Restriction: MUST NOT contain -1, 0, or 1 (these are always required to
+  be understood)
+
+### MOQT Action to HTTP Method Mapping
+
+For DPoP "htm" claim construction, MOQT actions map to HTTP methods as follows:
+
+|----------------------|-----|
+| MOQT Action          | HTM |
+|----------------------|-----|
+| CLIENT_SETUP         | POST|
+| SERVER_SETUP         | POST|
+| ANNOUNCE             | PUT |
+| SUBSCRIBE_NAMESPACE  | GET |
+| SUBSCRIBE            | GET |
+| PUBLISH              | POST|
+| FETCH                | GET |
+|----------------------|-----|
+
+### URI Construction for MOQT Resources
+
+The DPoP "htu" claim should use the following URI format for MOQT resources:
+
+- Connection setup: `moqt://<relay-endpoint>`
+- Namespace operations: `moqt://<relay-endpoint>/<namespace>`
+- Track operations: `moqt://<relay-endpoint>/<namespace>/<track>`
+
+## DPoP Proof Process and Token Binding Flow
+
+The following process illustrates how DPoP proof provision results in CAT
+token binding and subsequent MOQT relay validation:
+
+### Phase 1: Token Acquisition with DPoP Binding
+
+~~~~
+┌──────────────┐                ┌─────────────────────┐                ┌──────┐
+│MOQT Client   │                │Authorization Server │                │MOQT  │
+│              │                │                     │                │Relay │
+└──────┬───────┘                └──────────┬──────────┘                └──────┘
+       │                                   │                                │
+       │ (1) Generate Key Pair             │                                │
+       │     EC P-256/RSA                  │                                │
+       │     private_key, public_key       │                                │
+       │                                   │                                │
+       │ (2) Authentication Request        │                                │
+       │     + User Credentials            │                                │
+       │     + Public Key (JWK format)     │                                │
+       ├──────────────────────────────────►│                                │
+       │                                   │                                │
+       │                                   │ (3) User Authentication        │
+       │                                   │     & Authorization            │
+       │                                   │                                │
+       │                                   │ (4) Generate CAT Token:        │
+       │                                   │     • "cnf" claim with         │
+       │                                   │       "jkt": SHA256(public_key)│
+       │                                   │     • "catdpop" processing     │
+       │                                   │       settings                 │
+       │                                   │     • "moqt" action scope      │
+       │                                   │     • Sign with shared secret  │
+       │                                   │                                │
+       │ (5) CAT Token Response            │                                │
+       │     + Bound CAT Token             │                                │
+       │     + Relay Endpoint URL          │                                │
+       |◄──────────────────────────────────┤                                │
+       │                                   │                                │
+~~~~
+
+Steps 1-5 Detail:
+
+1. Client Key Generation: The MOQT client generates an asymmetric key pair
+(typically EC P-256) for DPoP operations
+2. Authentication with Public Key: Client authenticates with the authorization
+   server, providing user credentials and the public key
+3. User Authentication: Authorization server validates user identity and
+permissions
+1. CAT Token Generation: Server creates a CAT token containing:
+   - "cnf" claim: JWK Thumbprint ("jkt") of the client's public key
+     (32-byte SHA-256 hash)
+   - "catdpop" claim: DPoP processing settings (window, jti handling,
+     critical settings)
+   - "moqt" claim: Authorized MOQT actions and scope restrictions
+2. Token Delivery: Server provides the bound CAT token and relay endpoint
+   information to the client
+
+### Phase 2: MOQT Operations with DPoP Proof Validation
+
+~~~~
+┌──────────────┐                ┌─────────────────────┐                ┌───────┐
+│MOQT Client   │                │Authorization Server │                │MOQT   │
+│              │                │                     │                │Relay  │
+└──────┬───────┘                └──────────┬──────────┘                └──────┬┘
+       │                                   │                                  │
+       │                                   │                                  │
+       │ (6) For each MOQT action:         │                                  │
+       │     Create fresh DPoP proof JWT   │                                  │
+       │     • Header: typ="dpop+jwt"      │                                  │
+       │     •         alg, jwk            │                                  │
+       │     • Claims: jti, iat, htm, htu  │                                  │
+       │     • Sign with private_key       │                                  │
+       │                                   │                                  │
+       │ (7) MOQT Request                  │                                  │
+       │     + CAT Token                   │                                  │
+       │     + Fresh DPoP Proof            │                                  │
+       │     (CLIENT_SETUP, ANNOUNCE,      │                                  │
+       │      SUBSCRIBE, PUBLISH, FETCH)   │                                  │
+       ├─────────────────────────────────────────────────────────────────────►│
+       │                                   │                                  │
+       │                                   │                               (8)│
+       │                                   │                   CAT Validation:│
+       │                                   │                  • Verify token  │
+       │                                   │                    signature     │
+       │                                   │                  • Check exp     │
+       │                                   │                  • Validate moqt │
+       │                                   │                    claim scope   │
+       │                                   │                                  │
+       │                                   │                               (9)│
+       │                                   │                 DPoP Validation: │
+       │                                   │                  • Extract "jkt" │
+       │                                   │                    from token    │
+       │                                   │                  • Verify DPoP   │
+       │                                   │                    JWT signature │
+       │                                   │                  • Validate key  │
+       │                                   │                    binding       │
+       │                                   │                  • Check         │
+       │                                   │                    freshness     │
+       │                                   │                                  │
+       │                                   │                              (10)│
+       │                                   │              Action Authorization│
+       │                                   │                  • Match action  │
+       │                                   │                    to token scope│
+       │                                   │                  • Check ns/track│
+       │                                   │                    permissions   │
+       │                                   │                                  │
+       │ (11) Response                     │                                  │
+       │      Success/Error                │                                  │
+       ◄─────────────────────────────────────────────────────────────────────┤
+       │                                   │                                  │
+~~~~
+
+Steps 6-11 Detail:
+
+6. DPoP Proof Creation: For each MOQT action, the client creates a fresh
+  DPoP proof JWT with:
+   - Header: `typ: "dpop+jwt"`, `alg`, `jwk` (public key)
+   - Claims: `jti` (unique ID), `iat` (timestamp), `htm`
+             (HTTP method equivalent), `htu` (target URI)
+
+1. MOQT Request: Client sends MOQT action with both CAT token and fresh DPoP
+  proof
+
+2. CAT Token Validation: Relay validates:
+   - Token signature using shared secret with authorization server
+   - Token expiration time
+   - "moqt" claim scope for requested action
+
+3.  DPoP Proof Validation: Relay performs:
+   - Extract "jkt" (JWK Thumbprint) from CAT token's "cnf" claim
+   - Verify DPoP JWT signature using embedded public key
+   - Confirm that SHA-256 hash of DPoP public key matches "jkt" value
+   - Check proof freshness within "catdpop" window settings
+   - Process replay protection based on "jti" settings
+
+4.  Action Authorization: Relay validates the specific MOQT action against
+   token scope and namespace/track permissions
+
+5.  Response: Relay responds with success or appropriate error information
+
+
+
+
+## Security Considerations for DPoP in MOQT
+
+### Enhanced Token Security
+- **Binding Assurance**: CAT tokens bound to client keys cannot be used by unauthorized parties
+- **Proof Freshness**: Fresh DPoP proofs prevent replay of intercepted authentication materials
+- **Cryptographic Validation**: Multi-layer validation provides defense in depth
+
+### Key Management
+- **Client Responsibilities**: Secure private key storage and protection against extraction
+- **Relay Requirements**: Proper validation of key binding and proof verification
+- **Key Rotation**: Support for periodic key refresh without service disruption
+
+### Replay Protection
+- **JTI Processing**: Configurable replay protection based on CAT token "catdpop" settings
+- **Window Validation**: Time-bounded proof acceptance prevents extended replay attacks
+- **State Management**: Relay-side JTI tracking within configured windows
+
+### Error Handling
+MOQT relays MUST provide distinguishable error responses for:
+- CAT token validation failures
+- DPoP proof signature verification failures
+- Key binding validation failures
+- Temporal validation failures (expired proofs, outside window)
+- Replay detection (duplicate JTI values)
+
 # Adding a token to a URL
 
 Any time an application wishes to add a CAT token to a URL or path element, the token SHOULD first
@@ -346,8 +626,7 @@ to define and is not constrained by this specification.
 
 # Security Considerations
 
-TODO Security
-
+TODO
 
 # IANA Considerations
 
