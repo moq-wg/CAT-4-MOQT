@@ -437,6 +437,62 @@ For DPoP "htm" claim construction, MOQT actions map to HTTP methods as follows:
 | FETCH                | GET |
 |----------------------|-----|
 
+### Alternate Proposal: DPoP Extension with Generic Command Type Framework
+
+This section proposes an alternate approach where DPoP is extended to
+support a generic command type framework, allowing for more flexible and
+protocol-specific command representations. Instead of constraining all
+actions to HTTP method semantics, this framework introduces a "cmd" (command)
+claim that can accommodate different command type systems.
+
+
+The DPoP proof JWT is extended with an optional "cmd" (command) claim that
+works alongside or replaces the traditional "htm" (HTTP method) claim, as
+shown in the example below:
+
+~~~~~~~~~~~~~~~
+{
+  "typ": "dpop+jwt",
+  "alg": "ES256",
+  "jwk": { ... }
+}
+.
+{
+  "jti": "unique-request-id",
+  "iat": 1705123456,
+  "htu": "moqt://relay.example.com/sports/live-feed",
+  "cmd": {
+    "type": "moqt",
+    "value": "ANNOUNCE"
+  }
+}
+~~~~~~~~~~~~~~~
+
+
+This proposal introduces native MOQT command semantics that better
+represent the actual protocol operations:
+
+|----------------------|------------------------------------|
+| MOQT Action          | Generic Command                    |
+|----------------------|------------------------------------|
+| CLIENT_SETUP         | {"type":"moqt","value":"SETUP"}    |
+| SERVER_SETUP         | {"type":"moqt","value":"SETUP"}    |
+| ANNOUNCE             | {"type":"moqt","value":"ANNOUNCE"} |
+| SUBSCRIBE_NAMESPACE  | {"type":"moqt","value":"SUB_NS"}   |
+| SUBSCRIBE            | {"type":"moqt","value":"SUBSCRIBE"}|
+| PUBLISH              | {"type":"moqt","value":"PUBLISH"}  |
+| FETCH                | {"type":"moqt","value":"FETCH"}    |
+|----------------------|------------------------------------|
+
+
+Relays supporting this enhanced DPoP framework MUST:
+
+- Support both "htm" and "cmd" claims in DPoP proofs
+- Validate that the command type and value match the requested MOQT action
+- For unknown command types, fall back to HTTP method validation if
+  "htm" claim is present
+- Reject requests where neither "htm" nor "cmd" claims are present or valid
+
 ### URI Construction for MOQT Resources
 
 The DPoP "htu" claim should use the following URI format for MOQT resources:
@@ -585,34 +641,6 @@ Steps 6-11 Detail:
 
 5.  Response: Relay responds with success or appropriate error information
 
-
-
-
-## Security Considerations for DPoP in MOQT
-
-### Enhanced Token Security
-- **Binding Assurance**: CAT tokens bound to client keys cannot be used by unauthorized parties
-- **Proof Freshness**: Fresh DPoP proofs prevent replay of intercepted authentication materials
-- **Cryptographic Validation**: Multi-layer validation provides defense in depth
-
-### Key Management
-- **Client Responsibilities**: Secure private key storage and protection against extraction
-- **Relay Requirements**: Proper validation of key binding and proof verification
-- **Key Rotation**: Support for periodic key refresh without service disruption
-
-### Replay Protection
-- **JTI Processing**: Configurable replay protection based on CAT token "catdpop" settings
-- **Window Validation**: Time-bounded proof acceptance prevents extended replay attacks
-- **State Management**: Relay-side JTI tracking within configured windows
-
-### Error Handling
-MOQT relays MUST provide distinguishable error responses for:
-- CAT token validation failures
-- DPoP proof signature verification failures
-- Key binding validation failures
-- Temporal validation failures (expired proofs, outside window)
-- Replay detection (duplicate JTI values)
-
 # Adding a token to a URL
 
 Any time an application wishes to add a CAT token to a URL or path element, the token SHOULD first
@@ -626,7 +654,8 @@ to define and is not constrained by this specification.
 
 # Security Considerations
 
-TODO
+TODO Add security considerations for DPoP Claims
+
 
 # IANA Considerations
 
