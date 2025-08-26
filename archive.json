@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-24T01:09:55.393867+00:00",
+  "timestamp": "2025-08-26T01:03:55.638968+00:00",
   "repo": "moq-wg/CAT-4-MOQT",
   "labels": [
     {
@@ -1365,7 +1365,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-08-23T07:46:35Z",
-      "updatedAt": "2025-08-23T07:46:36Z",
+      "updatedAt": "2025-08-25T10:07:42Z",
       "baseRepository": "moq-wg/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "9b790bac51efb8f5c72fe8b1a004563fce1893d3",
@@ -1377,7 +1377,87 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOODoKls67x2Rq",
+          "commit": {
+            "abbreviatedOid": "fbce333"
+          },
+          "author": "wilaw",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks for the contribution. The diagram helps with workflow comprehension. A few suggested changes. ",
+          "createdAt": "2025-08-25T08:24:01Z",
+          "updatedAt": "2025-08-25T10:07:42Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "The service will return a CAT-4-MOQT token, which may bundle multiple CAT tokens within it. We need a more elegant name for this bundle - maybe C4M? ",
+              "createdAt": "2025-08-25T08:24:01Z",
+              "updatedAt": "2025-08-25T10:07:42Z"
+            },
+            {
+              "originalPosition": 19,
+              "body": "Maybe add a flow at the very start of the sequence before Login/Auth), where the Distribution service and the MOQT relay share secrets. This is to emphasize that these secrets are shared well ahead of the client workflow and are not a real-time exchage. \r\nThen at line 120 you can indicate \"previously shared secrets\" ",
+              "createdAt": "2025-08-25T08:27:17Z",
+              "updatedAt": "2025-08-25T10:07:42Z"
+            },
+            {
+              "originalPosition": 30,
+              "body": "Is it worth trying to indicate that the reval cycle can be a loop? i.e validate location every 5 minutes for an hour? ",
+              "createdAt": "2025-08-25T10:06:07Z",
+              "updatedAt": "2025-08-25T10:07:42Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "id": "PR_kwDOODoKls6lFIY-",
+      "title": "Add support for DPoP Claims in CAT for MOQT",
+      "url": "https://github.com/moq-wg/CAT-4-MOQT/pull/26",
+      "state": "OPEN",
+      "author": "suhasHere",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "resolves #11 ",
+      "createdAt": "2025-08-24T05:44:01Z",
+      "updatedAt": "2025-08-25T01:49:49Z",
+      "baseRepository": "moq-wg/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "9b790bac51efb8f5c72fe8b1a004563fce1893d3",
+      "headRepository": "moq-wg/CAT-4-MOQT",
+      "headRefName": "snk-sec",
+      "headRefOid": "780ad227b39d25811e03ff2c1e81861801f607b1",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOODoKls67u6Zx",
+          "commit": {
+            "abbreviatedOid": "780ad22"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-25T01:49:43Z",
+          "updatedAt": "2025-08-25T01:49:49Z",
+          "comments": [
+            {
+              "originalPosition": 170,
+              "body": "I have a draft write up in progress on these lines . I plan to post the details soon ",
+              "createdAt": "2025-08-25T01:49:43Z",
+              "updatedAt": "2025-08-25T01:49:49Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
