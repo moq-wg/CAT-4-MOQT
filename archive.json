@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-26T01:03:55.638968+00:00",
+  "timestamp": "2025-08-28T01:00:55.886001+00:00",
   "repo": "moq-wg/CAT-4-MOQT",
   "labels": [
     {
@@ -1365,7 +1365,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-08-23T07:46:35Z",
-      "updatedAt": "2025-08-25T10:07:42Z",
+      "updatedAt": "2025-08-26T03:52:57Z",
       "baseRepository": "moq-wg/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "9b790bac51efb8f5c72fe8b1a004563fce1893d3",
@@ -1407,6 +1407,66 @@
               "body": "Is it worth trying to indicate that the reval cycle can be a loop? i.e validate location every 5 minutes for an hour? ",
               "createdAt": "2025-08-25T10:06:07Z",
               "updatedAt": "2025-08-25T10:07:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls67-ug5",
+          "commit": {
+            "abbreviatedOid": "fbce333"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-26T03:52:26Z",
+          "updatedAt": "2025-08-26T03:52:26Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "good point. I will udapte it to",
+              "createdAt": "2025-08-26T03:52:26Z",
+              "updatedAt": "2025-08-26T03:52:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls67-ukg",
+          "commit": {
+            "abbreviatedOid": "fbce333"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-26T03:52:38Z",
+          "updatedAt": "2025-08-26T03:52:38Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "will do",
+              "createdAt": "2025-08-26T03:52:38Z",
+              "updatedAt": "2025-08-26T03:52:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls67-upi",
+          "commit": {
+            "abbreviatedOid": "fbce333"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-26T03:52:57Z",
+          "updatedAt": "2025-08-26T03:52:57Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "I think it will be a good idea. I will update it so",
+              "createdAt": "2025-08-26T03:52:57Z",
+              "updatedAt": "2025-08-26T03:52:57Z"
             }
           ]
         }
