@@ -60,6 +60,12 @@ normative:
     date: December 2024
     target: https://shop.cta.tech/products/cta-5007
   DPoP: RFC9449
+  DPOP-PROOF:
+    title: "Application-Agnostic Demonstrating Proof-of-Possession"
+    author:
+      name: "S. Nandakumar"
+    date: December 2024
+    target: https://www.ietf.org/archive/id/draft-nandakumar-oauth-dpop-proof-00.txt
 informative:
 
 
@@ -365,6 +371,7 @@ The CAT token MUST include a "cnf" claim with "jkt" (JWK Thumbprint)
 confirmation method to enable DPoP binding
 
 Below is an exmaple showing jkt token binding.
+
 ~~~~~~~~~~~~~~~
 {
   "cnf": {
@@ -421,38 +428,48 @@ Critical Setting (key -1): Array of setting keys that MUST be understood
 - Restriction: MUST NOT contain -1, 0, or 1 (these are always required to
   be understood)
 
-### MOQT Action to HTTP Method Mapping
+### DPoP Extension with Application-Agnostic Proof Framework
 
-For DPoP "htm" claim construction, MOQT actions map to HTTP methods as follows:
+This section defines the use of DPoP with an application-agnostic proof
+framework as specified in {{DPOP-PROOF}}, which
+extends the traditional HTTP-centric DPoP model to support arbitrary
+protocols including MOQT. This approach replaces HTTP-specific claims
+with a flexible authorization context structure that can accommodate
+protocol-specific command representations.
 
-|----------------------|-----|
-| MOQT Action          | HTM |
-|----------------------|-----|
-| CLIENT_SETUP         | POST|
-| SERVER_SETUP         | POST|
-| ANNOUNCE             | PUT |
-| SUBSCRIBE_NAMESPACE  | GET |
-| SUBSCRIBE            | GET |
-| PUBLISH              | POST|
-| FETCH                | GET |
-|----------------------|-----|
+The DPoP proof JWT follows the structure defined in Section 4 of
+{{DPOP-PROOF}} with the following required claims:
 
-### Alternate Proposal: DPoP Extension with Generic Command Type Framework
+JWT Header:
 
-This section proposes an alternate approach where DPoP is extended to
-support a generic command type framework, allowing for more flexible and
-protocol-specific command representations. Instead of constraining all
-actions to HTTP method semantics, this framework introduces a "cmd" (command)
-claim that can accommodate different command type systems.
+- "typ": "dpop-proof+jwt"
+- "alg": Asymmetric signature algorithm identifier
+- "jwk": Public key for verification
 
+JWT Payload:
 
-The DPoP proof JWT is extended with an optional "cmd" (command) claim that
-works alongside or replaces the traditional "htm" (HTTP method) claim, as
-shown in the example below:
+- "jti": Unique identifier for the JWT
+- "iat": Issued-at time
+- "actx": Authorization Context object
+
+For MOQT operations, the Authorization Context ("actx") object contains:
+
+- "type": "moqt" (registered identifier for MOQT protocol)
+- "action": MOQT action identifier
+- "tns": Track namespace (required)
+- "tn": Track name (required)
+- "resource": MOQT resource identifier (optional)
+
+When the optional "resource" parameter is included, it MUST be consistent with the
+"tns" and "tn" parameters. The resource URI should follow the format
+`moqt://<relay-endpoint>?tns=<namespace>&tn=<track>` where the tns and tn query
+parameters match the respective "tns" and "tn" fields in the Authorization Context.
+
+Example DPoP proof for MOQT ANNOUNCE operation:
 
 ~~~~~~~~~~~~~~~
 {
-  "typ": "dpop+jwt",
+  "typ": "dpop-proof+jwt",
   "alg": "ES256",
   "jwk": { ... }
 }
@@ -460,46 +477,46 @@ shown in the example below:
 {
   "jti": "unique-request-id",
   "iat": 1705123456,
-  "htu": "moqt://relay.example.com/sports/live-feed",
-  "cmd": {
+  "actx": {
     "type": "moqt",
-    "value": "ANNOUNCE"
+    "action": "ANNOUNCE",
+    "tns": "sports",
+    "tn": "live-feed"
   }
 }
 ~~~~~~~~~~~~~~~
 
+MOQT action mapping for Authorization Context:
 
-This proposal introduces native MOQT command semantics that better
-represent the actual protocol operations:
+|----------------------|-------------|
+| MOQT Action          | actx.action |
+|----------------------|-------------|
+| CLIENT_SETUP         | SETUP       |
+| SERVER_SETUP         | SETUP       |
+| ANNOUNCE             | ANNOUNCE    |
+| SUBSCRIBE_NAMESPACE  | SUB_NS      |
+| SUBSCRIBE            | SUBSCRIBE   |
+| PUBLISH              | PUBLISH     |
+| FETCH                | FETCH       |
+|----------------------|-------------|
 
-|----------------------|------------------------------------|
-| MOQT Action          | Generic Command                    |
-|----------------------|------------------------------------|
-| CLIENT_SETUP         | {"type":"moqt","value":"SETUP"}    |
-| SERVER_SETUP         | {"type":"moqt","value":"SETUP"}    |
-| ANNOUNCE             | {"type":"moqt","value":"ANNOUNCE"} |
-| SUBSCRIBE_NAMESPACE  | {"type":"moqt","value":"SUB_NS"}   |
-| SUBSCRIBE            | {"type":"moqt","value":"SUBSCRIBE"}|
-| PUBLISH              | {"type":"moqt","value":"PUBLISH"}  |
-| FETCH                | {"type":"moqt","value":"FETCH"}    |
-|----------------------|------------------------------------|
+Relays supporting this application-agnostic DPoP framework MUST:
 
+- Validate DPoP proofs according to {{DPOP-PROOF}}
+- Verify that the "actx.type" is "moqt" for MOQT operations
+- Validate that the "actx.action" matches the requested MOQT action
+- Verify that the "actx.tns" corresponds to the target track namespace
+- Verify that the "actx.tn" corresponds to the target track name
+- If present, verify the "actx.resource" is consistent with "tns" and "tn"
+- Reject requests where Authorization Context validation fails
 
-Relays supporting this enhanced DPoP framework MUST:
+### MOQT Resource URI Construction
 
-- Support both "htm" and "cmd" claims in DPoP proofs
-- Validate that the command type and value match the requested MOQT action
-- For unknown command types, fall back to HTTP method validation if
-  "htm" claim is present
-- Reject requests where neither "htm" nor "cmd" claims are present or valid
-
-### URI Construction for MOQT Resources
-
-The DPoP "htu" claim should use the following URI format for MOQT resources:
+The Authorization Context "resource" field should specify track namespace (tns) and track name (tn) parameters for MOQT resources:
 
 - Connection setup: `moqt://<relay-endpoint>`
-- Namespace operations: `moqt://<relay-endpoint>/<namespace>`
-- Track operations: `moqt://<relay-endpoint>/<namespace>/<track>`
+- Namespace operations: `moqt://<relay-endpoint>?tns=<namespace>`
+- Track operations: `moqt://<relay-endpoint>?tns=<namespace>&tn=<track>`
 
 ## DPoP Proof Process and Token Binding Flow
 
@@ -569,9 +586,9 @@ permissions
        │                                   │                                  │
        │ (6) For each MOQT action:         │                                  │
        │     Create fresh DPoP proof JWT   │                                  │
-       │     • Header: typ="dpop+jwt"      │                                  │
+       │     • Header: typ="dpop-proof+jwt"│                                  │
        │     •         alg, jwk            │                                  │
-       │     • Claims: jti, iat, htm, htu  │                                  │
+       │     • Claims: jti, iat, actx      │                                  │
        │     • Sign with private_key       │                                  │
        │                                   │                                  │
        │ (7) MOQT Request                  │                                  │
@@ -617,9 +634,9 @@ Steps 6-11 Detail:
 
 6. DPoP Proof Creation: For each MOQT action, the client creates a fresh
   DPoP proof JWT with:
-   - Header: `typ: "dpop+jwt"`, `alg`, `jwk` (public key)
-   - Claims: `jti` (unique ID), `iat` (timestamp), `htm`
-             (HTTP method equivalent), `htu` (target URI)
+   - Header: `typ: "dpop-proof+jwt"`, `alg`, `jwk` (public key)
+   - Claims: `jti` (unique ID), `iat` (timestamp), `actx`
+             (Authorization Context with type, action, tns, tn)
 
 1. MOQT Request: Client sends MOQT action with both CAT token and fresh DPoP
   proof
@@ -629,14 +646,19 @@ Steps 6-11 Detail:
    - Token expiration time
    - "moqt" claim scope for requested action
 
-3.  DPoP Proof Validation: Relay performs:
+3. DPoP Proof Validation: Relay performs:
+
    - Extract "jkt" (JWK Thumbprint) from CAT token's "cnf" claim
    - Verify DPoP JWT signature using embedded public key
    - Confirm that SHA-256 hash of DPoP public key matches "jkt" value
    - Check proof freshness within "catdpop" window settings
    - Process replay protection based on "jti" settings
+   - Validate Authorization Context ("actx") according to {{DPOP-PROOF}}
+   - Verify "actx.type" is "moqt"
+   - Validate "actx.action" matches the requested MOQT action
+   - Verify "actx.tns" and "actx.tn" correspond to target resources
 
-4.  Action Authorization: Relay validates the specific MOQT action against
+4. Action Authorization: Relay validates the specific MOQT action against
    token scope and namespace/track permissions
 
 5.  Response: Relay responds with success or appropriate error information
