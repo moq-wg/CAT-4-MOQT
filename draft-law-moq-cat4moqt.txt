@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 6 February 2026                                         Comcast
+Expires: 20 March 2026                                           Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                           5 August 2025
+                                                       16 September 2025
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 February 2026.
+   This Internet-Draft will expire on 20 March 2026.
 
 Copyright Notice
 
@@ -135,6 +135,21 @@ Table of Contents
       vend multiple tokens to the client.  The client may use one of
       those tokens to establish the initial conneciton and others to
       authenticate its actions.
+
+   ~~~ascii End User Distribution Service MOQT Relay | | | | | 0.  Share
+   secrets | | |<----------------------->| | | (offline/pre-
+   setup) | | | | | 1.  Login/
+   Authenticate | | |<----------------------->| | | | | | 2.  Generate
+   C4M Token | | | + Relay URL | | |<------------------------| | | | | |
+   3.  Connect to Relay with Token | |----------------------------------
+   ---------------->| | | | | | 4.  Validate
+   Token | | |<----------------------->| | | (previously shared | | |
+   secrets) | | | | | 5.  Accept/Reject Connection | |<-----------------
+   ---------------------------------| | | | | 6.  MOQT Actions with
+   Token Authentication | |<--------------------------------------------
+   ----->| | (ANNOUNCE, SUBSCRIBE, PUBLISH, FETCH) | | | | | | 7.
+   Revalidate Token | | |<----------------------->| | | (if moqt-reval
+   set, | | | repeats at interval | | | e.g., every 5 min) | ~~~
 
 2.  Token format
 

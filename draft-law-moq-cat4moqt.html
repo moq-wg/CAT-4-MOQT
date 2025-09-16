@@ -12,24 +12,24 @@
 <meta content="
        A token-based authentication scheme for use with Media Over QUIC Transport. 
     " name="description">
-<meta content="xml2rfc 3.30.0" name="generator">
+<meta content="xml2rfc 3.30.1" name="generator">
 <meta content="media over quic" name="keyword">
 <meta content="authentication" name="keyword">
 <meta content="common access token" name="keyword">
 <meta content="CAT" name="keyword">
 <meta content="draft-law-moq-cat4moqt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.0
+  xml2rfc 3.30.1
     Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.1
-    platformdirs 4.3.8
+    platformdirs 4.4.0
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.4
+    requests 2.32.5
     setuptools 80.9.0
     wcwidth 0.2.13
 -->
@@ -1050,11 +1050,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CAT-4-MOQT</td>
-<td class="right">August 2025</td>
+<td class="right">September 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Law, et al.</td>
-<td class="center">Expires 6 February 2026</td>
+<td class="center">Expires 20 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-law-moq-cat4moqt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-08-05" class="published">5 August 2025</time>
+<time datetime="2025-09-16" class="published">16 September 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-02-06">6 February 2026</time></dd>
+<dd class="expires"><time datetime="2026-03-20">20 March 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1134,7 +1134,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 February 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1266,6 +1266,41 @@ the AUTHENTICATION parameter.<a href="#section-1.1-1.6.1" class="pilcrow">¶</a>
 client may use one of those tokens to establish the initial conneciton and others to authenticate its actions.<a href="#section-1.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
+<p id="section-1.1-2">~~~ascii
+     End User              Distribution Service         MOQT Relay
+        |                         |                         |
+        |                         |  0. Share secrets       |
+        |                         |&lt;-----------------------&gt;|
+        |                         |   (offline/pre-setup)   |
+        |                         |                         |
+        |  1. Login/Authenticate  |                         |
+        |&lt;-----------------------&gt;|                         |
+        |                         |                         |
+        |  2. Generate C4M Token  |                         |
+        |       + Relay URL       |                         |
+        |&lt;------------------------|                         |
+        |                         |                         |
+        |  3. Connect to Relay with Token                   |
+        |--------------------------------------------------&gt;|
+        |                         |                         |
+        |                         |  4. Validate Token      |
+        |                         |&lt;-----------------------&gt;|
+        |                         | (previously shared      |
+        |                         |     secrets)            |
+        |                         |                         |
+        |  5. Accept/Reject Connection                      |
+        |&lt;--------------------------------------------------|
+        |                         |                         |
+        |  6. MOQT Actions with Token Authentication        |
+        |&lt;-------------------------------------------------&gt;|
+        |     (ANNOUNCE, SUBSCRIBE, PUBLISH, FETCH)         |
+        |                         |                         |
+        |                         |  7. Revalidate Token    |
+        |                         |&lt;-----------------------&gt;|
+        |                         |   (if moqt-reval set,   |
+        |                         |    repeats at interval  |
+        |                         |    e.g., every 5 min)   |
+  ~~~<a href="#section-1.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
