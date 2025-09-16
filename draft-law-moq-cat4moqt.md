@@ -105,10 +105,14 @@ This draft defines version 1 of this specification.
  ~~~ascii
      End User              Distribution Service         MOQT Relay
         |                         |                         |
+        |                         |  0. Share secrets       |
+        |                         |<----------------------->|
+        |                         |   (offline/pre-setup)   |
+        |                         |                         |
         |  1. Login/Authenticate  |                         |
         |<----------------------->|                         |
         |                         |                         |
-        |  2. Generate CAT Token  |                         |
+        |  2. Generate C4M Token  |                         |
         |       + Relay URL       |                         |
         |<------------------------|                         |
         |                         |                         |
@@ -117,7 +121,8 @@ This draft defines version 1 of this specification.
         |                         |                         |
         |                         |  4. Validate Token      |
         |                         |<----------------------->|
-        |                         |    (shared secrets)     |
+        |                         | (previously shared      |
+        |                         |     secrets)            |
         |                         |                         |
         |  5. Accept/Reject Connection                      |
         |<--------------------------------------------------|
@@ -128,7 +133,9 @@ This draft defines version 1 of this specification.
         |                         |                         |
         |                         |  7. Revalidate Token    |
         |                         |<----------------------->|
-        |                         |   (if moqt-reval set)   |
+        |                         |   (if moqt-reval set,   |
+        |                         |    repeats at interval  |
+        |                         |    e.g., every 5 min)   |
   ~~~
 
 # Token format
