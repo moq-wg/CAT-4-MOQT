@@ -271,7 +271,7 @@ Prohibits
 
 Multiple actions may be communicated within the same token, with different
 permissions. This can be facilitated by the logical claims defined in
-{{composite-claims}} or simply by defining multiple limits,
+{{composite}} or simply by defining multiple limits,
 depending on the required restrictions. In both cases, the order in which
 limits are declared and evaluated is unimportant. The evaluation stops after
 the first acceptable result is discovered.
