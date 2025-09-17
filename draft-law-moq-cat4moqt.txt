@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 20 March 2026                                           Comcast
+Expires: 21 March 2026                                           Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                       16 September 2025
+                                                       17 September 2025
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 March 2026.
+   This Internet-Draft will expire on 21 March 2026.
 
 Copyright Notice
 
@@ -290,11 +290,10 @@ Table of Contents
 
    Multiple actions may be communicated within the same token, with
    different permissions.  This can be facilitated by the logical claims
-   defined in {draft-lemmons-composite-claims} or simply by defining
-   multiple limits, depending on the required restrictions.  In both
-   cases, the order in which limits are declared and evaluated is
-   unimportant.  The evaluation stops after the first acceptable result
-   is discovered.
+   defined in [Composite] or simply by defining multiple limits,
+   depending on the required restrictions.  In both cases, the order in
+   which limits are declared and evaluated is unimportant.  The
+   evaluation stops after the first acceptable result is discovered.
 
 2.1.2.1.  Example of evaluating multiple actions in the same token:
 
@@ -443,8 +442,14 @@ Table of Contents
               Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
               <https://www.rfc-editor.org/rfc/rfc4648>.
 
-   [CAT]      "CTA 5007-A Common Access Token", December 2024,
+   [CAT]      "CTA 5007-B Common Access Token", April 2025,
               <https://shop.cta.tech/products/cta-5007>.
+
+   [Composite]
+              Lemmons, C., "Composite Token Claims", Work in Progress,
+              Internet-Draft, draft-lemmons-cose-composite-claims-01, 23
+              July 2025, <https://datatracker.ietf.org/doc/html/draft-
+              lemmons-cose-composite-claims-01>.
 
    [MoQTransport]
               Curley, L., Pugin, K., Nandakumar, S., Vasiliev, V., and
