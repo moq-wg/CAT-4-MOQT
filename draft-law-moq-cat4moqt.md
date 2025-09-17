@@ -54,10 +54,11 @@ author:
 
 normative:
   MoQTransport: I-D.draft-ietf-moq-transport-10
+  Composite: I-D.draft-lemmons-cose-composite-claims-01
   BASE64: RFC4648
   CAT:
-    title: "CTA 5007-A Common Access Token"
-    date: December 2024
+    title: "CTA 5007-B Common Access Token"
+    date: April 2025
     target: https://shop.cta.tech/products/cta-5007
 
 informative:
@@ -270,7 +271,7 @@ Prohibits
 
 Multiple actions may be communicated within the same token, with different
 permissions. This can be facilitated by the logical claims defined in
-{draft-lemmons-composite-claims} or simply by defining multiple limits,
+{{Composite}} or simply by defining multiple limits,
 depending on the required restrictions. In both cases, the order in which
 limits are declared and evaluated is unimportant. The evaluation stops after
 the first acceptable result is discovered.
