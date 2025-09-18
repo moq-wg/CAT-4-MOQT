@@ -110,7 +110,8 @@ This draft defines version 1 of this specification.
 * As an alternative to this workflow, the distribution service may vend multiple tokens to the client. The
   client may use one of those tokens to establish the initial conneciton and others to authenticate its actions.
 
- ~~~ascii
+~~~ascii
+
      End User              Distribution Service         MOQT Relay
         |                         |                         |
         |                         |  0. Share secrets       |
@@ -144,7 +145,7 @@ This draft defines version 1 of this specification.
         |                         |   (if moqt-reval set,   |
         |                         |    repeats at interval  |
         |                         |    e.g., every 5 min)   |
-  ~~~
+~~~
 
 # Token format
 
