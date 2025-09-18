@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-28T01:00:55.886001+00:00",
+  "timestamp": "2025-09-18T00:58:42.107295+00:00",
   "repo": "moq-wg/CAT-4-MOQT",
   "labels": [
     {
@@ -1358,25 +1358,35 @@
       "id": "PR_kwDOODoKls6lAZ50",
       "title": "add illustration for example auth flow",
       "url": "https://github.com/moq-wg/CAT-4-MOQT/pull/25",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "suhasHere",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-08-23T07:46:35Z",
-      "updatedAt": "2025-08-26T03:52:57Z",
+      "updatedAt": "2025-09-16T10:41:30Z",
       "baseRepository": "moq-wg/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "9b790bac51efb8f5c72fe8b1a004563fce1893d3",
       "headRepository": "moq-wg/CAT-4-MOQT",
       "headRefName": "snk-pic",
-      "headRefOid": "fbce3335fad1db37f224259e38ee5bfddefa057d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "79a1946f92c3421b97ee62d50ae1d1b227887a0a",
+      "closedAt": "2025-09-16T10:40:59Z",
+      "mergedAt": "2025-09-16T10:40:59Z",
+      "mergedBy": "wilaw",
+      "mergeCommit": {
+        "oid": "98071cc7e2f074ad6af1bb4ecc09276d1c076243"
+      },
+      "comments": [
+        {
+          "author": "suhasHere",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@wilaw please check if the changes look fine. Thanks",
+          "createdAt": "2025-09-16T06:04:14Z",
+          "updatedAt": "2025-09-16T06:04:14Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOODoKls67x2Rq",
@@ -1416,7 +1426,7 @@
             "abbreviatedOid": "fbce333"
           },
           "author": "suhasHere",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-08-26T03:52:26Z",
@@ -1436,7 +1446,7 @@
             "abbreviatedOid": "fbce333"
           },
           "author": "suhasHere",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-08-26T03:52:38Z",
@@ -1456,7 +1466,7 @@
             "abbreviatedOid": "fbce333"
           },
           "author": "suhasHere",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-08-26T03:52:57Z",
@@ -1469,6 +1479,19 @@
               "updatedAt": "2025-08-26T03:52:57Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOODoKls7AeLci",
+          "commit": {
+            "abbreviatedOid": "79a1946"
+          },
+          "author": "wilaw",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-09-16T10:40:48Z",
+          "updatedAt": "2025-09-16T10:40:48Z",
+          "comments": []
         }
       ]
     },
@@ -1479,23 +1502,45 @@
       "url": "https://github.com/moq-wg/CAT-4-MOQT/pull/26",
       "state": "OPEN",
       "author": "suhasHere",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "resolves #11 ",
       "createdAt": "2025-08-24T05:44:01Z",
-      "updatedAt": "2025-08-25T01:49:49Z",
+      "updatedAt": "2025-09-17T22:36:31Z",
       "baseRepository": "moq-wg/CAT-4-MOQT",
       "baseRefName": "main",
       "baseRefOid": "9b790bac51efb8f5c72fe8b1a004563fce1893d3",
       "headRepository": "moq-wg/CAT-4-MOQT",
       "headRefName": "snk-sec",
-      "headRefOid": "780ad227b39d25811e03ff2c1e81861801f607b1",
+      "headRefOid": "cb65ca2017d63bf2e25a2f68d9ace4d210c3fe0c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "suhasHere",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@wilaw updated the Dpop section to refer to the new dpop draft. Please let me know. Thanks",
+          "createdAt": "2025-09-16T06:33:21Z",
+          "updatedAt": "2025-09-16T06:33:21Z"
+        },
+        {
+          "author": "wilaw",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gwendalsimon  and @alficles  - can you guys review this PR before I merge it? ",
+          "createdAt": "2025-09-16T10:48:36Z",
+          "updatedAt": "2025-09-16T10:48:36Z"
+        },
+        {
+          "author": "gwendalsimon",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> @gwendalsimon and @alficles - can you guys review this PR before I merge it?\r\n\r\nOverall I find the proposal OK, along with the other draft. We just need to make sure that readers do not believe that DPoP is mandatory to use with MOQ.",
+          "createdAt": "2025-09-17T16:19:50Z",
+          "updatedAt": "2025-09-17T16:19:50Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOODoKls67u6Zx",
@@ -1503,7 +1548,7 @@
             "abbreviatedOid": "780ad22"
           },
           "author": "suhasHere",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-08-25T01:49:43Z",
@@ -1516,8 +1561,152 @@
               "updatedAt": "2025-08-25T01:49:49Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOODoKls7AYy_a",
+          "commit": {
+            "abbreviatedOid": "780ad22"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-16T06:32:34Z",
+          "updatedAt": "2025-09-16T06:32:34Z",
+          "comments": [
+            {
+              "originalPosition": 170,
+              "body": "Submitted a new draft: https://www.ietf.org/archive/id/draft-nandakumar-oauth-dpop-proof-00.html",
+              "createdAt": "2025-09-16T06:32:34Z",
+              "updatedAt": "2025-09-16T06:32:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls7A1ZP_",
+          "commit": {
+            "abbreviatedOid": "cb65ca2"
+          },
+          "author": "gwendalsimon",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-17T16:08:55Z",
+          "updatedAt": "2025-09-17T16:08:56Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "I am not comfortable with the wording of the sentence and in particular the SHOULD. As it reads, it looks like 1/ the document (and so more generally IETF) indicates that the normal use of CAT is with DPoP. With respect to the limited reach of DPoP in the streaming industry, it makes me uncomfortable; 2/ the sentence may be interpreted as \"CAT Sec 4.8 says that CAT tokens SHOULD include DPoP\". This is not true. \r\n\r\nA more neutral wording could be:\r\n_This proposal extends the CAT authentication model by binding tokens to client cryptographic key pairs. To enable sender-constrained token usage, the CAT tokens include DPoP-related claims as defined {{CAT}} Section 4.8._\r\n  ",
+              "createdAt": "2025-09-17T16:08:56Z",
+              "updatedAt": "2025-09-17T16:08:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls7A1fhw",
+          "commit": {
+            "abbreviatedOid": "cb65ca2"
+          },
+          "author": "gwendalsimon",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-17T16:16:26Z",
+          "updatedAt": "2025-09-17T16:16:27Z",
+          "comments": [
+            {
+              "originalPosition": 56,
+              "body": "Here, it makes me more uncomfortable. The MUST can be misinterpreted. Also true in lines 397, 399, and 401.",
+              "createdAt": "2025-09-17T16:16:26Z",
+              "updatedAt": "2025-09-17T16:16:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOODoKls7A59wT",
+          "commit": {
+            "abbreviatedOid": "cb65ca2"
+          },
+          "author": "alficles",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "I don't object to merging this in. I left some comments, some of which I think we'll need to address, but this PR moves the document forward. If you're hoping to get the text 100% done and correct before merging the DPoP in, we should make some changes, but I suspect the PR will get a little messy if you try to do that.",
+          "createdAt": "2025-09-17T22:10:06Z",
+          "updatedAt": "2025-09-17T22:36:31Z",
+          "comments": [
+            {
+              "originalPosition": 56,
+              "body": "Concur. This sounds like the use of DPoP binding is mandatory. I would rewrite this descriptively: \"DPoP binding is accomplished by providing the \"cnf\" claim with the \"jkt\" (JWK Thumbprint) confirmation method.",
+              "createdAt": "2025-09-17T22:10:07Z",
+              "updatedAt": "2025-09-17T22:36:31Z"
+            },
+            {
+              "originalPosition": 77,
+              "body": "Example should be EDN (CBOR Diagnostic Notation). JSON will confuse people.",
+              "createdAt": "2025-09-17T22:11:32Z",
+              "updatedAt": "2025-09-17T22:36:31Z"
+            },
+            {
+              "originalPosition": 88,
+              "body": "This section appears to reiterate the definitions in CAT. Should we consider just referencing instead of repeating?",
+              "createdAt": "2025-09-17T22:15:46Z",
+              "updatedAt": "2025-09-17T22:36:31Z"
+            },
+            {
+              "originalPosition": 291,
+              "body": "I think this section isn't normative, but perhaps this should say:\r\n- Verify token signature\r\n- Validate claims, including exp and moqt\r\n\r\n?",
+              "createdAt": "2025-09-17T22:25:13Z",
+              "updatedAt": "2025-09-17T22:36:31Z"
+            },
+            {
+              "originalPosition": 302,
+              "body": "This isn't actually a separate step, though, the \"cnf\" claim is just another claim that needs to be checked. We might need to play with this section a little.",
+              "createdAt": "2025-09-17T22:27:36Z",
+              "updatedAt": "2025-09-17T22:36:31Z"
+            },
+            {
+              "originalPosition": 331,
+              "body": "Yeah, I commented on this above, but validating the DPoP Proof is just a step in validating a \"cnf\" claim and the related \"catdpop\" claim.",
+              "createdAt": "2025-09-17T22:31:24Z",
+              "updatedAt": "2025-09-17T22:36:31Z"
+            },
+            {
+              "originalPosition": 343,
+              "body": "I think this binding is correct. The tns + tn should be a unique identifier that fully defines the resource to the relay.",
+              "createdAt": "2025-09-17T22:33:31Z",
+              "updatedAt": "2025-09-17T22:36:31Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 27,
+      "id": "PR_kwDOODoKls6pAzxy",
+      "title": "Fixing external references",
+      "url": "https://github.com/moq-wg/CAT-4-MOQT/pull/27",
+      "state": "MERGED",
+      "author": "wilaw",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-09-17T07:49:49Z",
+      "updatedAt": "2025-09-17T07:59:22Z",
+      "baseRepository": "moq-wg/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "ba6493890ff874e771544e3dca02d6ae816e4065",
+      "headRepository": "moq-wg/CAT-4-MOQT",
+      "headRefName": "wilaw-patch-1",
+      "headRefOid": "1a4a16d133e5e0f4edd40c2698fd286ab6188af6",
+      "closedAt": "2025-09-17T07:59:18Z",
+      "mergedAt": "2025-09-17T07:59:18Z",
+      "mergedBy": "wilaw",
+      "mergeCommit": {
+        "oid": "57c2b33c42e8179c3743199ae23b1cf735800c28"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
