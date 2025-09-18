@@ -2,7 +2,7 @@
 
 This is the working area for the individual Internet-Draft, "Authentication scheme for MOQT using Common Access Tokens".
 
-* [Editor's Copy](https://wilaw.github.io/CAT-4-MOQT/)
+* [Editor's Copy](https://moq-wg.github.io/CAT-4-MOQT/)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-law-moq-cat4moqt)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-law-moq-cat4moqt)
 * [Compare Editor's Copy to Individual Draft](https://wilaw.github.io/CAT-4-MOQT/#go.draft-law-moq-cat4moqt.diff)

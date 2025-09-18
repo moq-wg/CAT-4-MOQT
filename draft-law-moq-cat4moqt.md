@@ -53,11 +53,13 @@ author:
 
 
 normative:
-  MoQTransport: I-D.draft-ietf-moq-transport-13
+  MoQTransport: I-D.draft-ietf-moq-transport-10
+  Composite: I-D.draft-lemmons-cose-composite-claims-01
+  MoQTransport: I-D.draft-ietf-moq-transport-14
   BASE64: RFC4648
   CAT:
-    title: "CTA 5007-A Common Access Token"
-    date: December 2024
+    title: "CTA 5007-B Common Access Token"
+    date: April 2025
     target: https://shop.cta.tech/products/cta-5007
   DPoP: RFC9449
   DPOP-PROOF:
@@ -107,6 +109,42 @@ This draft defines version 1 of this specification.
   the AUTHENTICATION parameter.
 * As an alternative to this workflow, the distribution service may vend multiple tokens to the client. The
   client may use one of those tokens to establish the initial conneciton and others to authenticate its actions.
+
+ ~~~ascii
+     End User              Distribution Service         MOQT Relay
+        |                         |                         |
+        |                         |  0. Share secrets       |
+        |                         |<----------------------->|
+        |                         |   (offline/pre-setup)   |
+        |                         |                         |
+        |  1. Login/Authenticate  |                         |
+        |<----------------------->|                         |
+        |                         |                         |
+        |  2. Generate C4M Token  |                         |
+        |       + Relay URL       |                         |
+        |<------------------------|                         |
+        |                         |                         |
+        |  3. Connect to Relay with Token                   |
+        |-------------------------------------------------->|
+        |                         |                         |
+        |                         |  4. Validate Token      |
+        |                         |<----------------------->|
+        |                         | (previously shared      |
+        |                         |     secrets)            |
+        |                         |                         |
+        |  5. Accept/Reject Connection                      |
+        |<--------------------------------------------------|
+        |                         |                         |
+        |  6. MOQT Actions with Token Authentication        |
+        |<------------------------------------------------->|
+        |     (ANNOUNCE, SUBSCRIBE, PUBLISH, FETCH)         |
+        |                         |                         |
+        |                         |  7. Revalidate Token    |
+        |                         |<----------------------->|
+        |                         |   (if moqt-reval set,   |
+        |                         |    repeats at interval  |
+        |                         |    e.g., every 5 min)   |
+  ~~~
 
 # Token format
 
@@ -240,7 +278,7 @@ Prohibits
 
 Multiple actions may be communicated within the same token, with different
 permissions. This can be facilitated by the logical claims defined in
-{draft-lemmons-composite-claims} or simply by defining multiple limits,
+{{Composite}} or simply by defining multiple limits,
 depending on the required restrictions. In both cases, the order in which
 limits are declared and evaluated is unimportant. The evaluation stops after
 the first acceptable result is discovered.
