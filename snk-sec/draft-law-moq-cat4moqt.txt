@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 20 March 2026                                           Comcast
+Expires: 22 March 2026                                           Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                       16 September 2025
+                                                       18 September 2025
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 March 2026.
+   This Internet-Draft will expire on 22 March 2026.
 
 Copyright Notice
 
@@ -146,6 +146,40 @@ Table of Contents
       vend multiple tokens to the client.  The client may use one of
       those tokens to establish the initial conneciton and others to
       authenticate its actions.
+
+        End User              Distribution Service         MOQT Relay
+           |                         |                         |
+           |                         |  0. Share secrets       |
+           |                         |<----------------------->|
+           |                         |   (offline/pre-setup)   |
+           |                         |                         |
+           |  1. Login/Authenticate  |                         |
+           |<----------------------->|                         |
+           |                         |                         |
+           |  2. Generate C4M Token  |                         |
+           |       + Relay URL       |                         |
+           |<------------------------|                         |
+           |                         |                         |
+           |  3. Connect to Relay with Token                   |
+           |-------------------------------------------------->|
+           |                         |                         |
+           |                         |  4. Validate Token      |
+           |                         |<----------------------->|
+           |                         | (previously shared      |
+           |                         |     secrets)            |
+           |                         |                         |
+           |  5. Accept/Reject Connection                      |
+           |<--------------------------------------------------|
+           |                         |                         |
+           |  6. MOQT Actions with Token Authentication        |
+           |<------------------------------------------------->|
+           |     (ANNOUNCE, SUBSCRIBE, PUBLISH, FETCH)         |
+           |                         |                         |
+           |                         |  7. Revalidate Token    |
+           |                         |<----------------------->|
+           |                         |   (if moqt-reval set,   |
+           |                         |    repeats at interval  |
+           |                         |    e.g., every 5 min)   |
 
 2.  Token format
 
@@ -286,11 +320,10 @@ Table of Contents
 
    Multiple actions may be communicated within the same token, with
    different permissions.  This can be facilitated by the logical claims
-   defined in {draft-lemmons-composite-claims} or simply by defining
-   multiple limits, depending on the required restrictions.  In both
-   cases, the order in which limits are declared and evaluated is
-   unimportant.  The evaluation stops after the first acceptable result
-   is discovered.
+   defined in [Composite] or simply by defining multiple limits,
+   depending on the required restrictions.  In both cases, the order in
+   which limits are declared and evaluated is unimportant.  The
+   evaluation stops after the first acceptable result is discovered.
 
 2.1.2.1.  Example of evaluating multiple actions in the same token:
 
@@ -825,8 +858,14 @@ Table of Contents
               Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
               <https://www.rfc-editor.org/rfc/rfc4648>.
 
-   [CAT]      "CTA 5007-A Common Access Token", December 2024,
+   [CAT]      "CTA 5007-B Common Access Token", April 2025,
               <https://shop.cta.tech/products/cta-5007>.
+
+   [Composite]
+              Lemmons, C., "Composite Token Claims", Work in Progress,
+              Internet-Draft, draft-lemmons-cose-composite-claims-01, 23
+              July 2025, <https://datatracker.ietf.org/doc/html/draft-
+              lemmons-cose-composite-claims-01>.
 
    [DPoP]     Fett, D., Campbell, B., Bradley, J., Lodderstedt, T.,
               Jones, M., and D. Waite, "OAuth 2.0 Demonstrating Proof of
@@ -842,9 +881,9 @@ Table of Contents
    [MoQTransport]
               Nandakumar, S., Vasiliev, V., Swett, I., and A. Frindell,
               "Media over QUIC Transport", Work in Progress, Internet-
-              Draft, draft-ietf-moq-transport-13, 7 July 2025,
+              Draft, draft-ietf-moq-transport-14, 2 September 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-moq-
-              transport-13>.
+              transport-14>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
