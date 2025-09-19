@@ -389,25 +389,16 @@ attacks in MOQT systems.
 
 ## CAT DPoP Claims for MOQT
 
-CAT tokens used for MOQT SHOULD include DPoP-related claims as defined in
-{{CAT}} Section 4.8 to enable sender-constrained token usage. This proposal
-extends the basic CAT authentication model by binding tokens to client
-cryptographic key pairs, ensuring that only the legitimate token holder can
-use the token for MOQT operations.
-
-### Key Benefits
-
-- **Token Binding**: CAT tokens are cryptographically bound to client key pairs
-- **Replay Protection**: Fresh DPoP proofs required for each MOQT action
-- **Theft Prevention**: Stolen tokens cannot be used without the corresponding
-                        private key
-- **Enhanced Trust**: Relays can verify both token authenticity and
-                      client possession
+This proposal extends the CAT authentication model by binding tokens to
+client cryptographic key pairs. To enable sender-constrained token usage,
+the CAT tokens include DPoP-related claims as defined {{CAT}} Section 4.8,
+ensuring that only the legitimate token holder can use the token for MOQT
+operations.
 
 ### Confirmation (cnf) Claim with JWK Thumbprint
 
-The CAT token MUST include a "cnf" claim with "jkt" (JWK Thumbprint)
-confirmation method to enable DPoP binding
+DPoP binding is accomplished by providing the "cnf" claim with the "jkt"
+(JWK Thumbprint) confirmation method.
 
 Below is an exmaple showing jkt token binding.
 
@@ -440,32 +431,6 @@ Implementation Requirements:
 - Processing Semantics: Relays MUST process DPoP proofs as Protected Resource
   Access requests per {{DPoP}} Section 7
 
-### Common Access Token DPoP Settings (catdpop) Claim
-
-The "catdpop" claim (key 321) provides essential processing parameters
-for DPoP proof validation:
-
-Window Setting (key 0): Defines acceptable time window for DPoP proof validity
-in seconds
-
-- Type: Unsigned integer
-- Usage: Relays MUST use this value to validate DPoP proof timestamps
-- Example: 300 (5-minute acceptance window)
-
-JTI Setting (key 1): Controls processing of "jti" claim in DPoP proofs for
-replay protection
-
-- Value 0: Ignore "jti" claims (no replay protection)
-- Value 1: Honor "jti" claims when available for replay protection
-- Default: 0 if not specified
-
-Critical Setting (key -1): Array of setting keys that MUST be understood
-
-- Type: Array of integers
-- Usage: Recipients MUST reject "catdpop" claim if they don't understand
-  listed critical settings
-- Restriction: MUST NOT contain -1, 0, or 1 (these are always required to
-  be understood)
 
 ### DPoP Extension with Application-Agnostic Proof Framework
 
@@ -638,12 +603,12 @@ permissions
        ├─────────────────────────────────────────────────────────────────────►│
        │                                   │                                  │
        │                                   │                               (8)│
-       │                                   │                   CAT Validation:│
-       │                                   │                  • Verify token  │
-       │                                   │                    signature     │
-       │                                   │                  • Check exp     │
-       │                                   │                  • Validate moqt │
-       │                                   │                    claim scope   │
+       │                                   │                  CAT Validation: │
+       │                                   │                 • Verify token   │
+       │                                   │                   signature      │
+       │                                   │                 • Validate claims│
+       │                                   │                   including exp, |
+       |                                   |                   scope          │
        │                                   │                                  │
        │                                   │                               (9)│
        │                                   │                 DPoP Validation: │
