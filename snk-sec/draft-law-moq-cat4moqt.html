@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Law, et al.</td>
-<td class="center">Expires 22 March 2026</td>
+<td class="center">Expires 23 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-law-moq-cat4moqt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-09-18" class="published">18 September 2025</time>
+<time datetime="2025-09-19" class="published">19 September 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-03-22">22 March 2026</time></dd>
+<dd class="expires"><time datetime="2026-03-23">23 March 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1134,7 +1134,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1197,19 +1197,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-cat-dpop-claims-for-moqt" class="internal xref">CAT DPoP Claims for MOQT</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
-                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-key-benefits" class="internal xref">Key Benefits</a></p>
+                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-confirmation-cnf-claim-with" class="internal xref">Confirmation (cnf) Claim with JWK Thumbprint</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.2">
-                    <p id="section-toc.1-1.3.2.1.2.2.1"><a href="#section-3.1.2" class="auto internal xref">3.1.2</a>.  <a href="#name-confirmation-cnf-claim-with" class="internal xref">Confirmation (cnf) Claim with JWK Thumbprint</a></p>
+                    <p id="section-toc.1-1.3.2.1.2.2.1"><a href="#section-3.1.2" class="auto internal xref">3.1.2</a>.  <a href="#name-dpop-extension-with-applica" class="internal xref">DPoP Extension with Application-Agnostic Proof Framework</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.3">
-                    <p id="section-toc.1-1.3.2.1.2.3.1"><a href="#section-3.1.3" class="auto internal xref">3.1.3</a>.  <a href="#name-common-access-token-dpop-se" class="internal xref">Common Access Token DPoP Settings (catdpop) Claim</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.4">
-                    <p id="section-toc.1-1.3.2.1.2.4.1"><a href="#section-3.1.4" class="auto internal xref">3.1.4</a>.  <a href="#name-dpop-extension-with-applica" class="internal xref">DPoP Extension with Application-Agnostic Proof Framework</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.5">
-                    <p id="section-toc.1-1.3.2.1.2.5.1"><a href="#section-3.1.5" class="auto internal xref">3.1.5</a>.  <a href="#name-moqt-resource-uri-construct" class="internal xref">MOQT Resource URI Construction</a></p>
+                    <p id="section-toc.1-1.3.2.1.2.3.1"><a href="#section-3.1.3" class="auto internal xref">3.1.3</a>.  <a href="#name-moqt-resource-uri-construct" class="internal xref">MOQT Resource URI Construction</a></p>
 </li>
                 </ul>
 </li>
@@ -1665,43 +1659,20 @@ attacks in MOQT systems.<a href="#section-3-1" class="pilcrow">¶</a></p>
         <h3 id="name-cat-dpop-claims-for-moqt">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-cat-dpop-claims-for-moqt" class="section-name selfRef">CAT DPoP Claims for MOQT</a>
         </h3>
-<p id="section-3.1-1">CAT tokens used for MOQT <span class="bcp14">SHOULD</span> include DPoP-related claims as defined in
-<span>[<a href="#CAT" class="cite xref">CAT</a>]</span> Section 4.8 to enable sender-constrained token usage. This proposal
-extends the basic CAT authentication model by binding tokens to client
-cryptographic key pairs, ensuring that only the legitimate token holder can
-use the token for MOQT operations.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<div id="key-benefits">
-<section id="section-3.1.1">
-          <h4 id="name-key-benefits">
-<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-key-benefits" class="section-name selfRef">Key Benefits</a>
-          </h4>
-<ul class="normal">
-<li class="normal" id="section-3.1.1-1.1">
-              <p id="section-3.1.1-1.1.1"><strong>Token Binding</strong>: CAT tokens are cryptographically bound to client key pairs<a href="#section-3.1.1-1.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.1-1.2">
-              <p id="section-3.1.1-1.2.1"><strong>Replay Protection</strong>: Fresh DPoP proofs required for each MOQT action<a href="#section-3.1.1-1.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.1-1.3">
-              <p id="section-3.1.1-1.3.1"><strong>Theft Prevention</strong>: Stolen tokens cannot be used without the corresponding
-                      private key<a href="#section-3.1.1-1.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.1-1.4">
-              <p id="section-3.1.1-1.4.1"><strong>Enhanced Trust</strong>: Relays can verify both token authenticity and
-                    client possession<a href="#section-3.1.1-1.4.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
+<p id="section-3.1-1">This proposal extends the CAT authentication model by binding tokens to
+client cryptographic key pairs. To enable sender-constrained token usage,
+the CAT tokens include DPoP-related claims as defined <span>[<a href="#CAT" class="cite xref">CAT</a>]</span> Section 4.8,
+ensuring that only the legitimate token holder can use the token for MOQT
+operations.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <div id="confirmation-cnf-claim-with-jwk-thumbprint">
-<section id="section-3.1.2">
+<section id="section-3.1.1">
           <h4 id="name-confirmation-cnf-claim-with">
-<a href="#section-3.1.2" class="section-number selfRef">3.1.2. </a><a href="#name-confirmation-cnf-claim-with" class="section-name selfRef">Confirmation (cnf) Claim with JWK Thumbprint</a>
+<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-confirmation-cnf-claim-with" class="section-name selfRef">Confirmation (cnf) Claim with JWK Thumbprint</a>
           </h4>
-<p id="section-3.1.2-1">The CAT token <span class="bcp14">MUST</span> include a "cnf" claim with "jkt" (JWK Thumbprint)
-confirmation method to enable DPoP binding<a href="#section-3.1.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.1.2-2">Below is an exmaple showing jkt token binding.<a href="#section-3.1.2-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.1.2-3">
+<p id="section-3.1.1-1">DPoP binding is accomplished by providing the "cnf" claim with the "jkt"
+(JWK Thumbprint) confirmation method.<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-2">Below is an exmaple showing jkt token binding.<a href="#section-3.1.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1.1-3">
 <pre>
 {
   "cnf": {
@@ -1720,135 +1691,86 @@ confirmation method to enable DPoP binding<a href="#section-3.1.2-1" class="pilc
   },
   "exp": 1750000000
 }
-</pre><a href="#section-3.1.2-3" class="pilcrow">¶</a>
+</pre><a href="#section-3.1.1-3" class="pilcrow">¶</a>
 </div>
-<p id="section-3.1.2-4">Implementation Requirements:<a href="#section-3.1.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-4">Implementation Requirements:<a href="#section-3.1.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.1.2-5.1">
-              <p id="section-3.1.2-5.1.1">Relay Validation: MOQT relays <span class="bcp14">MUST</span> verify that DPoP proofs are signed with
-the private key corresponding to the "jkt" value<a href="#section-3.1.2-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.1.1-5.1">
+              <p id="section-3.1.1-5.1.1">Relay Validation: MOQT relays <span class="bcp14">MUST</span> verify that DPoP proofs are signed with
+the private key corresponding to the "jkt" value<a href="#section-3.1.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.2-5.2">
-              <p id="section-3.1.2-5.2.1">Proof Binding: Relays <span class="bcp14">MUST</span> reject requests where DPoP proof validation or
-key binding fails<a href="#section-3.1.2-5.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.1-5.2">
+              <p id="section-3.1.1-5.2.1">Proof Binding: Relays <span class="bcp14">MUST</span> reject requests where DPoP proof validation or
+key binding fails<a href="#section-3.1.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.2-5.3">
-              <p id="section-3.1.2-5.3.1">Processing Semantics: Relays <span class="bcp14">MUST</span> process DPoP proofs as Protected Resource
-Access requests per <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span> Section 7<a href="#section-3.1.2-5.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="common-access-token-dpop-settings-catdpop-claim">
-<section id="section-3.1.3">
-          <h4 id="name-common-access-token-dpop-se">
-<a href="#section-3.1.3" class="section-number selfRef">3.1.3. </a><a href="#name-common-access-token-dpop-se" class="section-name selfRef">Common Access Token DPoP Settings (catdpop) Claim</a>
-          </h4>
-<p id="section-3.1.3-1">The "catdpop" claim (key 321) provides essential processing parameters
-for DPoP proof validation:<a href="#section-3.1.3-1" class="pilcrow">¶</a></p>
-<p id="section-3.1.3-2">Window Setting (key 0): Defines acceptable time window for DPoP proof validity
-in seconds<a href="#section-3.1.3-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.1.3-3.1">
-              <p id="section-3.1.3-3.1.1">Type: Unsigned integer<a href="#section-3.1.3-3.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.3-3.2">
-              <p id="section-3.1.3-3.2.1">Usage: Relays <span class="bcp14">MUST</span> use this value to validate DPoP proof timestamps<a href="#section-3.1.3-3.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.3-3.3">
-              <p id="section-3.1.3-3.3.1">Example: 300 (5-minute acceptance window)<a href="#section-3.1.3-3.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<p id="section-3.1.3-4">JTI Setting (key 1): Controls processing of "jti" claim in DPoP proofs for
-replay protection<a href="#section-3.1.3-4" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.1.3-5.1">
-              <p id="section-3.1.3-5.1.1">Value 0: Ignore "jti" claims (no replay protection)<a href="#section-3.1.3-5.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.3-5.2">
-              <p id="section-3.1.3-5.2.1">Value 1: Honor "jti" claims when available for replay protection<a href="#section-3.1.3-5.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.3-5.3">
-              <p id="section-3.1.3-5.3.1">Default: 0 if not specified<a href="#section-3.1.3-5.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<p id="section-3.1.3-6">Critical Setting (key -1): Array of setting keys that <span class="bcp14">MUST</span> be understood<a href="#section-3.1.3-6" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.1.3-7.1">
-              <p id="section-3.1.3-7.1.1">Type: Array of integers<a href="#section-3.1.3-7.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.3-7.2">
-              <p id="section-3.1.3-7.2.1">Usage: Recipients <span class="bcp14">MUST</span> reject "catdpop" claim if they don't understand
-listed critical settings<a href="#section-3.1.3-7.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.3-7.3">
-              <p id="section-3.1.3-7.3.1">Restriction: <span class="bcp14">MUST NOT</span> contain -1, 0, or 1 (these are always required to
-be understood)<a href="#section-3.1.3-7.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.1-5.3">
+              <p id="section-3.1.1-5.3.1">Processing Semantics: Relays <span class="bcp14">MUST</span> process DPoP proofs as Protected Resource
+Access requests per <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span> Section 7<a href="#section-3.1.1-5.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
 <div id="dpop-extension-with-application-agnostic-proof-framework">
-<section id="section-3.1.4">
+<section id="section-3.1.2">
           <h4 id="name-dpop-extension-with-applica">
-<a href="#section-3.1.4" class="section-number selfRef">3.1.4. </a><a href="#name-dpop-extension-with-applica" class="section-name selfRef">DPoP Extension with Application-Agnostic Proof Framework</a>
+<a href="#section-3.1.2" class="section-number selfRef">3.1.2. </a><a href="#name-dpop-extension-with-applica" class="section-name selfRef">DPoP Extension with Application-Agnostic Proof Framework</a>
           </h4>
-<p id="section-3.1.4-1">This section defines the use of DPoP with an application-agnostic proof
+<p id="section-3.1.2-1">This section defines the use of DPoP with an application-agnostic proof
 framework as specified in <span>[<a href="#DPOP-PROOF" class="cite xref">DPOP-PROOF</a>]</span>, which
 extends the traditional HTTP-centric DPoP model to support arbitrary
 protocols including MOQT. This approach replaces HTTP-specific claims
 with a flexible authorization context structure that can accommodate
-protocol-specific command representations.<a href="#section-3.1.4-1" class="pilcrow">¶</a></p>
-<p id="section-3.1.4-2">The DPoP proof JWT follows the structure defined in Section 4 of
-<span>[<a href="#DPOP-PROOF" class="cite xref">DPOP-PROOF</a>]</span> with the following required claims:<a href="#section-3.1.4-2" class="pilcrow">¶</a></p>
-<p id="section-3.1.4-3">JWT Header:<a href="#section-3.1.4-3" class="pilcrow">¶</a></p>
+protocol-specific command representations.<a href="#section-3.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.1.2-2">The DPoP proof JWT follows the structure defined in Section 4 of
+<span>[<a href="#DPOP-PROOF" class="cite xref">DPOP-PROOF</a>]</span> with the following required claims:<a href="#section-3.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.1.2-3">JWT Header:<a href="#section-3.1.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.1.4-4.1">
-              <p id="section-3.1.4-4.1.1">"typ": "dpop-proof+jwt"<a href="#section-3.1.4-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.1.2-4.1">
+              <p id="section-3.1.2-4.1.1">"typ": "dpop-proof+jwt"<a href="#section-3.1.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-4.2">
-              <p id="section-3.1.4-4.2.1">"alg": Asymmetric signature algorithm identifier<a href="#section-3.1.4-4.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-4.2">
+              <p id="section-3.1.2-4.2.1">"alg": Asymmetric signature algorithm identifier<a href="#section-3.1.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-4.3">
-              <p id="section-3.1.4-4.3.1">"jwk": Public key for verification<a href="#section-3.1.4-4.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-4.3">
+              <p id="section-3.1.2-4.3.1">"jwk": Public key for verification<a href="#section-3.1.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-3.1.4-5">JWT Payload:<a href="#section-3.1.4-5" class="pilcrow">¶</a></p>
+<p id="section-3.1.2-5">JWT Payload:<a href="#section-3.1.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.1.4-6.1">
-              <p id="section-3.1.4-6.1.1">"jti": Unique identifier for the JWT<a href="#section-3.1.4-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.1.2-6.1">
+              <p id="section-3.1.2-6.1.1">"jti": Unique identifier for the JWT<a href="#section-3.1.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-6.2">
-              <p id="section-3.1.4-6.2.1">"iat": Issued-at time<a href="#section-3.1.4-6.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-6.2">
+              <p id="section-3.1.2-6.2.1">"iat": Issued-at time<a href="#section-3.1.2-6.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-6.3">
-              <p id="section-3.1.4-6.3.1">"actx": Authorization Context object<a href="#section-3.1.4-6.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-6.3">
+              <p id="section-3.1.2-6.3.1">"actx": Authorization Context object<a href="#section-3.1.2-6.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-3.1.4-7">For MOQT operations, the Authorization Context ("actx") object contains:<a href="#section-3.1.4-7" class="pilcrow">¶</a></p>
+<p id="section-3.1.2-7">For MOQT operations, the Authorization Context ("actx") object contains:<a href="#section-3.1.2-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.1.4-8.1">
-              <p id="section-3.1.4-8.1.1">"type": "moqt" (registered identifier for MOQT protocol)<a href="#section-3.1.4-8.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.1.2-8.1">
+              <p id="section-3.1.2-8.1.1">"type": "moqt" (registered identifier for MOQT protocol)<a href="#section-3.1.2-8.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-8.2">
-              <p id="section-3.1.4-8.2.1">"action": MOQT action identifier<a href="#section-3.1.4-8.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-8.2">
+              <p id="section-3.1.2-8.2.1">"action": MOQT action identifier<a href="#section-3.1.2-8.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-8.3">
-              <p id="section-3.1.4-8.3.1">"tns": Track namespace (required)<a href="#section-3.1.4-8.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-8.3">
+              <p id="section-3.1.2-8.3.1">"tns": Track namespace (required)<a href="#section-3.1.2-8.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-8.4">
-              <p id="section-3.1.4-8.4.1">"tn": Track name (required)<a href="#section-3.1.4-8.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-8.4">
+              <p id="section-3.1.2-8.4.1">"tn": Track name (required)<a href="#section-3.1.2-8.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-8.5">
-              <p id="section-3.1.4-8.5.1">"resource": MOQT resource identifier (optional)<a href="#section-3.1.4-8.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-8.5">
+              <p id="section-3.1.2-8.5.1">"resource": MOQT resource identifier (optional)<a href="#section-3.1.2-8.5.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-3.1.4-9">When the optional "resource" parameter is included, it <span class="bcp14">MUST</span> be consistent with the
+<p id="section-3.1.2-9">When the optional "resource" parameter is included, it <span class="bcp14">MUST</span> be consistent with the
 "tns" and "tn" parameters. The resource URI should follow the format
 <code>moqt://&lt;relay-endpoint&gt;?tns=&lt;namespace&gt;&amp;tn=&lt;track&gt;</code> where the tns and tn query
-parameters match the respective "tns" and "tn" fields in the Authorization Context.<a href="#section-3.1.4-9" class="pilcrow">¶</a></p>
-<p id="section-3.1.4-10">Example DPoP proof for MOQT ANNOUNCE operation:<a href="#section-3.1.4-10" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.1.4-11">
+parameters match the respective "tns" and "tn" fields in the Authorization Context.<a href="#section-3.1.2-9" class="pilcrow">¶</a></p>
+<p id="section-3.1.2-10">Example DPoP proof for MOQT ANNOUNCE operation:<a href="#section-3.1.2-10" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1.2-11">
 <pre>
 {
   "typ": "dpop-proof+jwt",
@@ -1866,9 +1788,9 @@ parameters match the respective "tns" and "tn" fields in the Authorization Conte
     "tn": "live-feed"
   }
 }
-</pre><a href="#section-3.1.4-11" class="pilcrow">¶</a>
+</pre><a href="#section-3.1.2-11" class="pilcrow">¶</a>
 </div>
-<p id="section-3.1.4-12">MOQT action mapping for Authorization Context:<a href="#section-3.1.4-12" class="pilcrow">¶</a></p>
+<p id="section-3.1.2-12">MOQT action mapping for Authorization Context:<a href="#section-3.1.2-12" class="pilcrow">¶</a></p>
 <table class="center" id="table-2">
             <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
@@ -1908,47 +1830,47 @@ parameters match the respective "tns" and "tn" fields in the Authorization Conte
               </tr>
             </tbody>
           </table>
-<p id="section-3.1.4-14">Relays supporting this application-agnostic DPoP framework <span class="bcp14">MUST</span>:<a href="#section-3.1.4-14" class="pilcrow">¶</a></p>
+<p id="section-3.1.2-14">Relays supporting this application-agnostic DPoP framework <span class="bcp14">MUST</span>:<a href="#section-3.1.2-14" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.1.4-15.1">
-              <p id="section-3.1.4-15.1.1">Validate DPoP proofs according to <span>[<a href="#DPOP-PROOF" class="cite xref">DPOP-PROOF</a>]</span><a href="#section-3.1.4-15.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.1.2-15.1">
+              <p id="section-3.1.2-15.1.1">Validate DPoP proofs according to <span>[<a href="#DPOP-PROOF" class="cite xref">DPOP-PROOF</a>]</span><a href="#section-3.1.2-15.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-15.2">
-              <p id="section-3.1.4-15.2.1">Verify that the "actx.type" is "moqt" for MOQT operations<a href="#section-3.1.4-15.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-15.2">
+              <p id="section-3.1.2-15.2.1">Verify that the "actx.type" is "moqt" for MOQT operations<a href="#section-3.1.2-15.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-15.3">
-              <p id="section-3.1.4-15.3.1">Validate that the "actx.action" matches the requested MOQT action<a href="#section-3.1.4-15.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-15.3">
+              <p id="section-3.1.2-15.3.1">Validate that the "actx.action" matches the requested MOQT action<a href="#section-3.1.2-15.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-15.4">
-              <p id="section-3.1.4-15.4.1">Verify that the "actx.tns" corresponds to the target track namespace<a href="#section-3.1.4-15.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-15.4">
+              <p id="section-3.1.2-15.4.1">Verify that the "actx.tns" corresponds to the target track namespace<a href="#section-3.1.2-15.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-15.5">
-              <p id="section-3.1.4-15.5.1">Verify that the "actx.tn" corresponds to the target track name<a href="#section-3.1.4-15.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-15.5">
+              <p id="section-3.1.2-15.5.1">Verify that the "actx.tn" corresponds to the target track name<a href="#section-3.1.2-15.5.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-15.6">
-              <p id="section-3.1.4-15.6.1">If present, verify the "actx.resource" is consistent with "tns" and "tn"<a href="#section-3.1.4-15.6.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-15.6">
+              <p id="section-3.1.2-15.6.1">If present, verify the "actx.resource" is consistent with "tns" and "tn"<a href="#section-3.1.2-15.6.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.4-15.7">
-              <p id="section-3.1.4-15.7.1">Reject requests where Authorization Context validation fails<a href="#section-3.1.4-15.7.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.2-15.7">
+              <p id="section-3.1.2-15.7.1">Reject requests where Authorization Context validation fails<a href="#section-3.1.2-15.7.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
 <div id="moqt-resource-uri-construction">
-<section id="section-3.1.5">
+<section id="section-3.1.3">
           <h4 id="name-moqt-resource-uri-construct">
-<a href="#section-3.1.5" class="section-number selfRef">3.1.5. </a><a href="#name-moqt-resource-uri-construct" class="section-name selfRef">MOQT Resource URI Construction</a>
+<a href="#section-3.1.3" class="section-number selfRef">3.1.3. </a><a href="#name-moqt-resource-uri-construct" class="section-name selfRef">MOQT Resource URI Construction</a>
           </h4>
-<p id="section-3.1.5-1">The Authorization Context "resource" field should specify track namespace (tns) and track name (tn) parameters for MOQT resources:<a href="#section-3.1.5-1" class="pilcrow">¶</a></p>
+<p id="section-3.1.3-1">The Authorization Context "resource" field should specify track namespace (tns) and track name (tn) parameters for MOQT resources:<a href="#section-3.1.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.1.5-2.1">
-              <p id="section-3.1.5-2.1.1">Connection setup: <code>moqt://&lt;relay-endpoint&gt;</code><a href="#section-3.1.5-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.1.3-2.1">
+              <p id="section-3.1.3-2.1.1">Connection setup: <code>moqt://&lt;relay-endpoint&gt;</code><a href="#section-3.1.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.5-2.2">
-              <p id="section-3.1.5-2.2.1">Namespace operations: <code>moqt://&lt;relay-endpoint&gt;?tns=&lt;namespace&gt;</code><a href="#section-3.1.5-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.3-2.2">
+              <p id="section-3.1.3-2.2.1">Namespace operations: <code>moqt://&lt;relay-endpoint&gt;?tns=&lt;namespace&gt;</code><a href="#section-3.1.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.1.5-2.3">
-              <p id="section-3.1.5-2.3.1">Track operations: <code>moqt://&lt;relay-endpoint&gt;?tns=&lt;namespace&gt;&amp;tn=&lt;track&gt;</code><a href="#section-3.1.5-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.1.3-2.3">
+              <p id="section-3.1.3-2.3.1">Track operations: <code>moqt://&lt;relay-endpoint&gt;?tns=&lt;namespace&gt;&amp;tn=&lt;track&gt;</code><a href="#section-3.1.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2066,12 +1988,12 @@ information to the client<a href="#section-3.2.1-3.5.1" class="pilcrow">¶</a></
        ├─────────────────────────────────────────────────────────────────────►│
        │                                   │                                  │
        │                                   │                               (8)│
-       │                                   │                   CAT Validation:│
-       │                                   │                  • Verify token  │
-       │                                   │                    signature     │
-       │                                   │                  • Check exp     │
-       │                                   │                  • Validate moqt │
-       │                                   │                    claim scope   │
+       │                                   │                  CAT Validation: │
+       │                                   │                 • Verify token   │
+       │                                   │                   signature      │
+       │                                   │                 • Validate claims│
+       │                                   │                   including exp, |
+       |                                   |                   scope          │
        │                                   │                                  │
        │                                   │                               (9)│
        │                                   │                 DPoP Validation: │

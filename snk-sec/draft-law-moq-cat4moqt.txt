@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 22 March 2026                                           Comcast
+Expires: 23 March 2026                                           Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                       18 September 2025
+                                                       19 September 2025
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 March 2026.
+   This Internet-Draft will expire on 23 March 2026.
 
 Copyright Notice
 
@@ -81,12 +81,10 @@ Table of Contents
      2.2.  moqt-reval claim
    3.  DPoP Integration with CAT for MOQT
      3.1.  CAT DPoP Claims for MOQT
-       3.1.1.  Key Benefits
-       3.1.2.  Confirmation (cnf) Claim with JWK Thumbprint
-       3.1.3.  Common Access Token DPoP Settings (catdpop) Claim
-       3.1.4.  DPoP Extension with Application-Agnostic Proof
+       3.1.1.  Confirmation (cnf) Claim with JWK Thumbprint
+       3.1.2.  DPoP Extension with Application-Agnostic Proof
                Framework
-       3.1.5.  MOQT Resource URI Construction
+       3.1.3.  MOQT Resource URI Construction
      3.2.  DPoP Proof Process and Token Binding Flow
        3.2.1.  Phase 1: Token Acquisition with DPoP Binding
        3.2.2.  Phase 2: MOQT Operations with DPoP Proof Validation
@@ -430,30 +428,16 @@ Table of Contents
 
 3.1.  CAT DPoP Claims for MOQT
 
-   CAT tokens used for MOQT SHOULD include DPoP-related claims as
-   defined in [CAT] Section 4.8 to enable sender-constrained token
-   usage.  This proposal extends the basic CAT authentication model by
-   binding tokens to client cryptographic key pairs, ensuring that only
-   the legitimate token holder can use the token for MOQT operations.
+   This proposal extends the CAT authentication model by binding tokens
+   to client cryptographic key pairs.  To enable sender-constrained
+   token usage, the CAT tokens include DPoP-related claims as defined
+   [CAT] Section 4.8, ensuring that only the legitimate token holder can
+   use the token for MOQT operations.
 
-3.1.1.  Key Benefits
+3.1.1.  Confirmation (cnf) Claim with JWK Thumbprint
 
-   *  *Token Binding*: CAT tokens are cryptographically bound to client
-      key pairs
-
-   *  *Replay Protection*: Fresh DPoP proofs required for each MOQT
-      action
-
-   *  *Theft Prevention*: Stolen tokens cannot be used without the
-      corresponding private key
-
-   *  *Enhanced Trust*: Relays can verify both token authenticity and
-      client possession
-
-3.1.2.  Confirmation (cnf) Claim with JWK Thumbprint
-
-   The CAT token MUST include a "cnf" claim with "jkt" (JWK Thumbprint)
-   confirmation method to enable DPoP binding
+   DPoP binding is accomplished by providing the "cnf" claim with the
+   "jkt" (JWK Thumbprint) confirmation method.
 
    Below is an exmaple showing jkt token binding.
 
@@ -486,42 +470,7 @@ Table of Contents
    *  Processing Semantics: Relays MUST process DPoP proofs as Protected
       Resource Access requests per [DPoP] Section 7
 
-3.1.3.  Common Access Token DPoP Settings (catdpop) Claim
-
-   The "catdpop" claim (key 321) provides essential processing
-   parameters for DPoP proof validation:
-
-   Window Setting (key 0): Defines acceptable time window for DPoP proof
-   validity in seconds
-
-   *  Type: Unsigned integer
-
-   *  Usage: Relays MUST use this value to validate DPoP proof
-      timestamps
-
-   *  Example: 300 (5-minute acceptance window)
-
-   JTI Setting (key 1): Controls processing of "jti" claim in DPoP
-   proofs for replay protection
-
-   *  Value 0: Ignore "jti" claims (no replay protection)
-
-   *  Value 1: Honor "jti" claims when available for replay protection
-
-   *  Default: 0 if not specified
-
-   Critical Setting (key -1): Array of setting keys that MUST be
-   understood
-
-   *  Type: Array of integers
-
-   *  Usage: Recipients MUST reject "catdpop" claim if they don't
-      understand listed critical settings
-
-   *  Restriction: MUST NOT contain -1, 0, or 1 (these are always
-      required to be understood)
-
-3.1.4.  DPoP Extension with Application-Agnostic Proof Framework
+3.1.2.  DPoP Extension with Application-Agnostic Proof Framework
 
    This section defines the use of DPoP with an application-agnostic
    proof framework as specified in [DPOP-PROOF], which extends the
@@ -628,7 +577,7 @@ Table of Contents
 
    *  Reject requests where Authorization Context validation fails
 
-3.1.5.  MOQT Resource URI Construction
+3.1.3.  MOQT Resource URI Construction
 
    The Authorization Context "resource" field should specify track
    namespace (tns) and track name (tn) parameters for MOQT resources:
@@ -726,12 +675,12 @@ Table of Contents
        ├─────────────────────────────────────────────────────────────────────►│
        │                                   │                                  │
        │                                   │                               (8)│
-       │                                   │                   CAT Validation:│
-       │                                   │                  • Verify token  │
-       │                                   │                    signature     │
-       │                                   │                  • Check exp     │
-       │                                   │                  • Validate moqt │
-       │                                   │                    claim scope   │
+       │                                   │                  CAT Validation: │
+       │                                   │                 • Verify token   │
+       │                                   │                   signature      │
+       │                                   │                 • Validate claims│
+       │                                   │                   including exp, |
+       |                                   |                   scope          │
        │                                   │                                  │
        │                                   │                               (9)│
        │                                   │                 DPoP Validation: │
