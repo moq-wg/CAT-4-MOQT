@@ -3,7 +3,7 @@ title: "Authentication scheme for MOQT using Common Access Tokens"
 abbrev: "CAT-4-MOQT"
 category: info
 
-docname: draft-law-moq-cat4moqt-latest
+docname: draft-ietf-moq-c4m-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
@@ -21,8 +21,8 @@ venue:
   type: ""
   mail: "moq@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/moq/"
-  github: "wilaw/CAT-4-MOQT"
-  latest: "https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html"
+  github: "moq-wg/CAT-4-MOQT"
+  latest: "https://moq-wg.github.io/CAT-4-MOQT/"
 
 
 author:
