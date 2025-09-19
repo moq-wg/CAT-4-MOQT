@@ -442,21 +442,26 @@ Table of Contents
    Below is an exmaple showing jkt token binding.
 
    {
-     "cnf": {
-       "jkt": <32-byte JWK SHA-256 Thumbprint>
+     / cnf /
+     8: {
+       / jkt /
+       3: <32-byte JWK SHA-256 Thumbprint>
      },
-     "moqt": [
+     / moqt /
+     TBD_MOQT: [
        [
-         [2, 3, 6, 7], // ANNOUNCE, SUBSCRIBE_NAMESPACE, PUBLISH, FETCH
+         [2, 3, 6, 7], / ANNOUNCE, SUBSCRIBE_NAMESPACE, PUBLISH, FETCH /
          {"exact": "cdn.example.com"},
          {"prefix": "/sports/"}
        ]
      ],
-     "catdpop": {
-       "0": 300,  // 5-minute window
-       "1": 1     // Honor jti for replay protection
+     / catdpop /
+     321: {
+       0: 300,  / 5-minute window /
+       1: 1     / Honor jti for replay protection /
      },
-     "exp": 1750000000
+     / exp /
+     4: 1750000000
    }
 
    Implementation Requirements:
