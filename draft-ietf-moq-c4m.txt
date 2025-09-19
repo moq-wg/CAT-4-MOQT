@@ -14,7 +14,7 @@ Expires: 23 March 2026                                           Comcast
 
 
        Authentication scheme for MOQT using Common Access Tokens
-                     draft-law-moq-cat4moqt-latest
+                       draft-ietf-moq-c4m-latest
 
 Abstract
 
@@ -25,10 +25,9 @@ About This Document
 
    This note is to be removed before publishing as an RFC.
 
-   The latest revision of this draft can be found at
-   https://wilaw.github.io/CAT-4-MOQT/draft-law-moq-cat4moqt.html.
-   Status information for this document may be found at
-   https://datatracker.ietf.org/doc/draft-law-moq-cat4moqt/.
+   The latest revision of this draft can be found at https://moq-
+   wg.github.io/CAT-4-MOQT/.  Status information for this document may
+   be found at https://datatracker.ietf.org/doc/draft-ietf-moq-c4m/.
 
    Discussion of this document takes place on the Media Over QUIC
    mailing list (mailto:moq@ietf.org), which is archived at
@@ -36,7 +35,7 @@ About This Document
    https://www.ietf.org/mailman/listinfo/moq/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/wilaw/CAT-4-MOQT.
+   https://github.com/moq-wg/CAT-4-MOQT.
 
 Status of This Memo
 
