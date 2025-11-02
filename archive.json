@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-21T01:05:29.247324+00:00",
+  "timestamp": "2025-11-02T01:08:00.825148+00:00",
   "repo": "moq-wg/CAT-4-MOQT",
   "labels": [
     {
@@ -466,6 +466,22 @@
       "createdAt": "2025-07-23T09:05:33Z",
       "updatedAt": "2025-08-05T15:26:55Z",
       "closedAt": "2025-08-05T15:26:55Z",
+      "comments": []
+    },
+    {
+      "number": 28,
+      "id": "I_kwDOODoKls7VRStx",
+      "title": "Matching on namespace and track name",
+      "url": "https://github.com/moq-wg/CAT-4-MOQT/issues/28",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Section 2.1: `Since the match is not being performed against a URI, no normalization is performed and the matches are performed against the entire string.`\n\nThe namespace and track name are not strings, they are byte sequences. In addition I think you need to clarify the point of matching full elements of the name space. I guess matching the number of bytes for the prefix do works as long as this is full elements then whole byte sequence match will match. \n",
+      "createdAt": "2025-11-01T14:45:12Z",
+      "updatedAt": "2025-11-01T14:45:12Z",
+      "closedAt": null,
       "comments": []
     }
   ],
