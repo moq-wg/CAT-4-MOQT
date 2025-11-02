@@ -56,6 +56,7 @@ normative:
   MoQTransport: I-D.draft-ietf-moq-transport-10
   Composite: I-D.draft-lemmons-cose-composite-claims-01
   MoQTransport: I-D.draft-ietf-moq-transport-14
+  EDN: I-D.draft-ietf-cbor-edn-literals
   BASE64: RFC4648
   CAT:
     title: "CTA 5007-B Common Access Token"
@@ -204,7 +205,7 @@ The actions are integers defined as follows:
 The scope of the moqt claim is limited to the actions provided in the array.
 Any action not present in the array is not authorized by moqt claim.
 
-When a match object is a byte string, it is an exact match. When a match object is an array, the first element is the match type and the second is the match value. Matches are performed bytewise against the corresponding field of the Full Track Name (as defined in Section 2.4.1 of {{draft-ietf-moq-transport}}). The first namespace match object is applied to the first field in the Track Namespace, and so on. The match for the track name is matched against the Track Name. Exact matches must match exactly, prefix matches must match the beginning of the byte string, and suffix matches must match the end of the byte string.
+When a match object is a byte string, it is an exact match. When a match object is an array, the first element is the match type and the second is the match value. Matches are performed bytewise against the corresponding field of the Full Track Name (as defined in Section 2.4.1 of {{MoQTransport}}). The first namespace match object is applied to the first field in the Track Namespace, and so on. The match for the track name is matched against the Track Name. Exact matches must match exactly, prefix matches must match the beginning of the byte string, and suffix matches must match the end of the byte string.
 
 The track namespace match and track name match are optional. If the length of the scope array is two, then no track name match is performed at all and the scope of the token includes all track names. If the length is one, the scope includes all namespaces as well as no matching is performed. The list of actions is mandatory.
 
@@ -216,7 +217,7 @@ No normalization is applied to the values against which to match; it is performe
 
 #### Notation Used in Examples
 
-Full Track Names in this draft are represented using Extended Diagnostic Notation (EDN) as defined in {{draft-ietf-cbor-edn-literals}} as an array with two elements: an array of namespace fields and a track name.
+Full Track Names in this draft are represented using Extended Diagnostic Notation (EDN) as defined in {{EDN}} as an array with two elements: an array of namespace fields and a track name.
 
 Example: Allow with an exact match `[['example','com'],'/bob']`
 
