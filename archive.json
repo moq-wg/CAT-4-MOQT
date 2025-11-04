@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-02T01:08:00.825148+00:00",
+  "timestamp": "2025-11-04T01:03:45.207498+00:00",
   "repo": "moq-wg/CAT-4-MOQT",
   "labels": [
     {
@@ -483,6 +483,46 @@
       "updatedAt": "2025-11-01T14:45:12Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 29,
+      "id": "I_kwDOODoKls7VTvAC",
+      "title": "Handling extension of verbs in MOQT",
+      "url": "https://github.com/moq-wg/CAT-4-MOQT/issues/29",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The CAT 4 MoQT token will need to handle the extensibility of the MOQT protocol. As this is still being discussed in the WG it might be a little early to lock the solution down. But lets start discussing how to handle the part that effects the tokens.\n\nSo although it may be that the core verbs will be non-extensible under a particular moqt version, identified like this under a particular ALPN identifer. We need to discuss both extension being defined as part of the MOQT setup process. It is also a question of how to handle future ALPN versions of MOQT where additional or other verbs could be defined. To make the CAT token as stable as possible I believe that it would be good to ensure that new verbs that would require authorization can be registered relatively simple and that be expressed by the token. ",
+      "createdAt": "2025-11-02T01:33:46Z",
+      "updatedAt": "2025-11-02T01:33:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 31,
+      "id": "I_kwDOODoKls7VYRn3",
+      "title": "AUTHENTICATION versus AUTHORIZATION",
+      "url": "https://github.com/moq-wg/CAT-4-MOQT/issues/31",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See the concerns raised by Magnus online\n\n> I think we are not really correct on the terminology here between authentication and authorization. I think in almost all of the cases what these two drafts are providing are authorization. The endpoint is authorized to either subscribe to some namespace or publish into a namespace. In some case additional limitations or conditions are expressed, but the core of these documents are authorization to use a relay or publisher. Having looked at the draft these tokens do not really authenticate the user, that is happening to me as pre-requisite to issuing.  I think we should consider both titles and descriptions to use the appropriate language in the drafts.\n\nWe should rework draft title and contents to refer to AUTHORIZATION",
+      "createdAt": "2025-11-02T20:22:30Z",
+      "updatedAt": "2025-11-02T20:54:46Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "alficles",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I concur. This is absolutely an authorization token. We may even want to point out why it matters that it is different in the security consideration section.",
+          "createdAt": "2025-11-02T20:54:46Z",
+          "updatedAt": "2025-11-02T20:54:46Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -1833,6 +1873,40 @@
         "oid": "57c2b33c42e8179c3743199ae23b1cf735800c28"
       },
       "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 30,
+      "id": "PR_kwDOODoKls6xEkaE",
+      "title": "Update match logic to work with namespace tuples.",
+      "url": "https://github.com/moq-wg/CAT-4-MOQT/pull/30",
+      "state": "OPEN",
+      "author": "alficles",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The previous logic didn't correctly handle namespace tuples. This now properly treats each tuple as independent, and also has an easy \"default\" exact matching form. There are some minor example updates throughout to make everything match the new form.",
+      "createdAt": "2025-11-02T18:00:20Z",
+      "updatedAt": "2025-11-02T20:40:39Z",
+      "baseRepository": "moq-wg/CAT-4-MOQT",
+      "baseRefName": "main",
+      "baseRefOid": "a3fef6e0b8c3ff077b426a58eeca6b5f769c4536",
+      "headRepository": "alficles/CAT-4-MOQT",
+      "headRefName": "tuple-matching",
+      "headRefOid": "4fa3b350876ed5f8b3ca1087504dae0e573b7b2b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alficles",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This should also fix #28 .",
+          "createdAt": "2025-11-02T20:40:38Z",
+          "updatedAt": "2025-11-02T20:40:38Z"
+        }
+      ],
       "reviews": []
     }
   ]
