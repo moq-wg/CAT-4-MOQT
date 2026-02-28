@@ -53,9 +53,8 @@ author:
 
 
 normative:
-  MoQTransport: I-D.draft-ietf-moq-transport-10
   Composite: I-D.draft-lemmons-cose-composite-claims-01
-  MoQTransport: I-D.draft-ietf-moq-transport-14
+  MoQTransport: I-D.draft-ietf-moq-transport-16
   BASE64: RFC4648
   CAT:
     title: "CTA 5007-B Common Access Token"
@@ -104,8 +103,8 @@ This draft defines version 1 of this specification.
   connection may be established over WebTransport or raw QUIC.
 * The relay decrypts the token upon receipt and validates the signature. Based upon claims conveyed in
   the token, the relay accepts or rejects the connection.
-* If the relay accepts the connection, then the client will take a series of MOQT actions: ANNOUNCE,
-  SUBSCRIBE_ANNOUNCES, SUBSCRIBE or FETCH. For each of these, it will supply the token it received using
+* If the relay accepts the connection, then the client will take a series of MOQT actions: PUBLISH_NAMESPACE,
+  SUBSCRIBE_NAMESPACE, SUBSCRIBE or FETCH. For each of these, it will supply the token it received using
   the AUTHENTICATION parameter.
 * As an alternative to this workflow, the distribution service may vend multiple tokens to the client. The
   client may use one of those tokens to establish the initial conneciton and others to authenticate its actions.
@@ -138,7 +137,7 @@ This draft defines version 1 of this specification.
         |                         |                         |
         |  6. MOQT Actions with Token Authentication        |
         |<------------------------------------------------->|
-        |     (ANNOUNCE, SUBSCRIBE, PUBLISH, FETCH)         |
+        |     (PUBLISH_NAMESPACE, SUBSCRIBE, PUBLISH, FETCH)|
         |                         |                         |
         |                         |  7. Revalidate Token    |
         |                         |<----------------------->|
@@ -196,15 +195,15 @@ The actions are integers defined as follows:
 |----------------------|-----|-------------------------------|
 | Action               | Key | Reference                     |
 |----------------------|-----|-------------------------------|
-| CLIENT_SETUP         |  0  | {{MoQTransport}} Section 8.3  |
-| SERVER_SETUP         |  1  | {{MoQTransport}} Section 8.3  |
-| ANNOUNCE             |  2  | {{MoQTransport}} Section 8.23 |
-| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 8.28 |
-| SUBSCRIBE            |  4  | {{MoQTransport}} Section 8.7  |
-| SUBSCRIBE_UPDATE     |  5  | {{MoQTransport}} Section 8.10 |
-| PUBLISH              |  6  | {{MoQTransport}} Section 8.13 |
-| FETCH                |  7  | {{MoQTransport}} Section 8.16 |
-| TRACK_STATUS         |  8  | {{MoQTransport}} Section 8.20 |
+| CLIENT_SETUP         |  0  | {{MoQTransport}} Section 9.3  |
+| SERVER_SETUP         |  1  | {{MoQTransport}} Section 9.3  |
+| PUBLISH_NAMESPACE    |  2  | {{MoQTransport}} Section 9.20 |
+| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 9.25 |
+| SUBSCRIBE            |  4  | {{MoQTransport}} Section 9.9  |
+| REQUEST_UPDATE       |  5  | {{MoQTransport}} Section 9.11 |
+| PUBLISH              |  6  | {{MoQTransport}} Section 9.13 |
+| FETCH                |  7  | {{MoQTransport}} Section 9.16 |
+| TRACK_STATUS         |  8  | {{MoQTransport}} Section 9.19 |
 |----------------------|-----|-------------------------------|
 
 The scope of the moqt claim is limited to the actions provided in the array.
@@ -228,7 +227,7 @@ Example: Allow with an exact match "example.com/bob"
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         { /exact/ 0: 'example.com'},
         { /exact/ 0: '/bob'}
     ]]
@@ -254,7 +253,7 @@ Example: Allow with a prefix match "example.com/bob"
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         { /exact/ 0: 'example.com'},
         { /prefix/ 1: '/bob'}
     ]]
@@ -413,7 +412,7 @@ Below is an exmaple showing jkt token binding.
   / moqt /
   TBD_MOQT: [
     [
-      [2, 3, 6, 7], / ANNOUNCE, SUBSCRIBE_NAMESPACE, PUBLISH, FETCH /
+      [2, 3, 6, 7], / PUBLISH_NAMESPACE, SUBSCRIBE_NAMESPACE, PUBLISH, FETCH /
       {"exact": "cdn.example.com"},
       {"prefix": "/sports/"}
     ]
@@ -475,7 +474,7 @@ When the optional "resource" parameter is included, it MUST be consistent with t
 `moqt://<relay-endpoint>?tns=<namespace>&tn=<track>` where the tns and tn query
 parameters match the respective "tns" and "tn" fields in the Authorization Context.
 
-Example DPoP proof for MOQT ANNOUNCE operation:
+Example DPoP proof for MOQT PUBLISH_NAMESPACE operation:
 
 ~~~~~~~~~~~~~~~
 {
@@ -489,7 +488,7 @@ Example DPoP proof for MOQT ANNOUNCE operation:
   "iat": 1705123456,
   "actx": {
     "type": "moqt",
-    "action": "ANNOUNCE",
+    "action": "PUB_NS",
     "tns": "sports",
     "tn": "live-feed"
   }
@@ -503,11 +502,13 @@ MOQT action mapping for Authorization Context:
 |----------------------|-------------|
 | CLIENT_SETUP         | SETUP       |
 | SERVER_SETUP         | SETUP       |
-| ANNOUNCE             | ANNOUNCE    |
+| PUBLISH_NAMESPACE    | PUB_NS      |
 | SUBSCRIBE_NAMESPACE  | SUB_NS      |
 | SUBSCRIBE            | SUBSCRIBE   |
+| REQUEST_UPDATE       | REQ_UPDATE  |
 | PUBLISH              | PUBLISH     |
 | FETCH                | FETCH       |
+| TRACK_STATUS         | TRK_STATUS  |
 |----------------------|-------------|
 
 Relays supporting this application-agnostic DPoP framework MUST:
@@ -604,7 +605,7 @@ permissions
        │ (7) MOQT Request                  │                                  │
        │     + CAT Token                   │                                  │
        │     + Fresh DPoP Proof            │                                  │
-       │     (CLIENT_SETUP, ANNOUNCE,      │                                  │
+       │     (CLIENT_SETUP, PUBLISH_NAMESPACE,│                                │
        │      SUBSCRIBE, PUBLISH, FETCH)   │                                  │
        ├─────────────────────────────────────────────────────────────────────►│
        │                                   │                                  │
