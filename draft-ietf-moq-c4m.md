@@ -66,7 +66,7 @@ normative:
     author:
       name: "S. Nandakumar"
     date: December 2024
-    target: https://www.ietf.org/archive/id/draft-nandakumar-oauth-dpop-proof-00.txt
+    target: https://datatracker.ietf.org/doc/draft-nandakumar-moq-generic-dpop-proof/
 informative:
 
 
