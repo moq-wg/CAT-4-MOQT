@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 1 September 2026                                        Comcast
+Expires: 3 September 2026                                        Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                        28 February 2026
+                                                            2 March 2026
 
 
        Authentication scheme for MOQT using Common Access Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 September 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -832,8 +832,8 @@ Table of Contents
    [DPOP-PROOF]
               Nandakumar, S., "Application-Agnostic Demonstrating Proof-
               of-Possession", December 2024,
-              <https://www.ietf.org/archive/id/draft-nandakumar-oauth-
-              dpop-proof-00.txt>.
+              <https://datatracker.ietf.org/doc/draft-nandakumar-moq-
+              generic-dpop-proof/>.
 
    [MoQTransport]
               Nandakumar, S., Vasiliev, V., Swett, I., and A. Frindell,
