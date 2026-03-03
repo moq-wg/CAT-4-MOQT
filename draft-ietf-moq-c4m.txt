@@ -339,10 +339,15 @@ suffix-match = 2
    * [['example'], 'com/bob']
 
    Example: Allow namespaces starting with ['example','com'] (any
-   length) with exact track name '/bob' ~~~~~~~~~~~~~~~ { /moqt/
-   TBD_MOQT: [[ [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3,
-   /PUBLISH/ 6, /FETCH/ 7 ], { /exact/ 0: 'example.com'}, { /exact/ 0:
-   '/bob'} ]] } ~~~~~~~~~~~~~~~
+   length) with exact track name '/bob'
+
+{
+    /moqt/ TBD_MOQT: [[
+        [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        { /exact/ 0: 'example.com'},
+        { /exact/ 0: '/bob'}
+    ]]
+}
 
    Permits
    * [['example','com'], '/bob']
@@ -360,9 +365,14 @@ suffix-match = 2
    * [['example','com','/bob'], '']
 
    Example: Allow namespaces starting with ['example','com'] with any
-   track name ~~~~~~~~~~~~~~~ { /moqt/ TBD_MOQT: [[ [
-   /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/
-   7 ], ['example','com'] ]] } ~~~~~~~~~~~~~~~
+   track name
+
+{
+    /moqt/ TBD_MOQT: [[
+        [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        ['example','com']
+    ]]
+}
 
    Permits
    * [['example','com'], '/bob']

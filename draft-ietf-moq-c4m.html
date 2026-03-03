@@ -1535,8 +1535,9 @@ Prohibits
 * [['example'], 'com/bob']
 </pre><a href="#section-2.1.1.1-7" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-8">Example: Allow namespaces starting with <code>['example','com']</code> (any length) with exact track name <code>'/bob'</code>
-~~~~~~~~~~~~~~~
+<p id="section-2.1.1.1-8">Example: Allow namespaces starting with <code>['example','com']</code> (any length) with exact track name <code>'/bob'</code><a href="#section-2.1.1.1-8" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-9">
+<pre>
 {
     /moqt/ TBD_MOQT: [[
         [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
@@ -1544,8 +1545,9 @@ Prohibits
         { /exact/ 0: '/bob'}
     ]]
 }
-~~~~~~~~~~~~~~~<a href="#section-2.1.1.1-8" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-9">
+</pre><a href="#section-2.1.1.1-9" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-10">
 <pre>
 Permits
 * [['example','com'], '/bob']
@@ -1561,18 +1563,20 @@ Prohibits
 * [['12345'], '']
 * [['example'], 'com/bob']
 * [['example','com','/bob'], '']
-</pre><a href="#section-2.1.1.1-9" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.1.1-10" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-10">Example: Allow namespaces starting with <code>['example','com']</code> with any track name
-~~~~~~~~~~~~~~~
+<p id="section-2.1.1.1-11">Example: Allow namespaces starting with <code>['example','com']</code> with any track name<a href="#section-2.1.1.1-11" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-12">
+<pre>
 {
     /moqt/ TBD_MOQT: [[
         [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example','com']
     ]]
 }
-~~~~~~~~~~~~~~~<a href="#section-2.1.1.1-10" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-11">
+</pre><a href="#section-2.1.1.1-12" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-13">
 <pre>
 Permits
 * [['example','com'], '/bob']
@@ -1588,11 +1592,11 @@ Prohibits
 * [['alternate','example','com'], '/bob']
 * [['12345'], '']
 * [['example'], 'com/bob']
-</pre><a href="#section-2.1.1.1-11" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.1.1-13" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-12">Example: Allow with a prefix match on an individual namespace element<a href="#section-2.1.1.1-12" class="pilcrow">¶</a></p>
-<p id="section-2.1.1.1-13">This example shows how to use a prefix match within a specific namespace field. The second namespace element must start with <code>'user-'</code>.<a href="#section-2.1.1.1-13" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-14">
+<p id="section-2.1.1.1-14">Example: Allow with a prefix match on an individual namespace element<a href="#section-2.1.1.1-14" class="pilcrow">¶</a></p>
+<p id="section-2.1.1.1-15">This example shows how to use a prefix match within a specific namespace field. The second namespace element must start with <code>'user-'</code>.<a href="#section-2.1.1.1-15" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-16">
 <pre>
 {
     /moqt/ TBD_MOQT: [[
@@ -1601,9 +1605,9 @@ Prohibits
         '/data'
     ]]
 }
-</pre><a href="#section-2.1.1.1-14" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.1.1-16" class="pilcrow">¶</a>
 </div>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-15">
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-17">
 <pre>
 Permits
 * [['example','user-alice'], '/data']
@@ -1615,11 +1619,11 @@ Prohibits
 * [['example','user-alice','extra'], '/data']
 * [['example','USER-alice'], '/data']
 * [['example'], '/data']
-</pre><a href="#section-2.1.1.1-15" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.1.1-17" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-16">Example: Allow with a suffix match on track name<a href="#section-2.1.1.1-16" class="pilcrow">¶</a></p>
-<p id="section-2.1.1.1-17">This example demonstrates suffix matching, which matches the end of a byte string.<a href="#section-2.1.1.1-17" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-18">
+<p id="section-2.1.1.1-18">Example: Allow with a suffix match on track name<a href="#section-2.1.1.1-18" class="pilcrow">¶</a></p>
+<p id="section-2.1.1.1-19">This example demonstrates suffix matching, which matches the end of a byte string.<a href="#section-2.1.1.1-19" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-20">
 <pre>
 {
     /moqt/ TBD_MOQT: [[
@@ -1628,9 +1632,9 @@ Prohibits
         [ /suffix/ 2, '.json']
     ]]
 }
-</pre><a href="#section-2.1.1.1-18" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.1.1-20" class="pilcrow">¶</a>
 </div>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-19">
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-21">
 <pre>
 Permits
 * [['example','com'], 'data.json']
@@ -1642,7 +1646,7 @@ Prohibits
 * [['example','com'], 'json']
 * [['example','com'], 'data.JSON']
 * [['example','com'], 'data.json.bak']
-</pre><a href="#section-2.1.1.1-19" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.1.1-21" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
