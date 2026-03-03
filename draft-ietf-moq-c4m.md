@@ -55,6 +55,7 @@ author:
 normative:
   Composite: I-D.draft-lemmons-cose-composite-claims-01
   MoQTransport: I-D.draft-ietf-moq-transport-16
+  EDN: I-D.draft-ietf-cbor-edn-literals
   BASE64: RFC4648
   CAT:
     title: "CTA 5007-B Common Access Token"
@@ -165,29 +166,23 @@ The "moqt" claim is defined by the following CDDL:
 $$Claims-Set-Claims //= (moqt-label => moqt-value)
 moqt-label = TBD_MOQT
 moqt-value = [ + moqt-scope ]
-moqt-scope = [ moqt-actions, moqt-ns-match, moqt-track-match ]
+moqt-scope = [ moqt-actions, ? [ + moqt-ns-match ], ? moqt-track-match ]
 moqt-actions = [ + moqt-action ]
 moqt-action = int
-moqt-ns-match = bin-match
+moqt-ns-match = bin-match / nil
 moqt-track-match = bin-match
 
-bin-match = {
-  ? exact-match ^ => bstr,
-  ? prefix-match ^ => bstr,
-  ? suffix-match ^ => bstr,
-  ? contains-match ^ => bstr,
-}
+bin-match = bstr / [ match-type, match-value ]
+match-type = prefix-match / suffix-match
+match-value = bstr
 
-/ match labels defined in CTA-5007-B 4.6.1 /
-exact-match = 0
 prefix-match = 1
 suffix-match = 2
-contains-match = 3
 ~~~~~~~~~~~~~~~
 
 The "moqt" claim bounds the scope of MOQT actions for which the token can provide
 access. It is an array of action scopes. Each scope is an array with three
-elements: an array of integers that identifies the actions, a match object for
+elements: an array of integers that identifies the actions, an array of match objects for
 the namespace, and a match object for the track name.
 
 The actions are integers defined as follows:
@@ -209,21 +204,75 @@ The actions are integers defined as follows:
 The scope of the moqt claim is limited to the actions provided in the array.
 Any action not present in the array is not authorized by moqt claim.
 
-The match object is defined to be a binary form of the match object defined in
-{{CAT}} Section 4.6.1. The regex and hash match types are not defined for use
-with binary values in this document.
+When a match object is a byte string, it is an exact match. When a match object is an array, the first element is the match type and the second is the match value. Matches are performed bytewise against the corresponding field of the Full Track Name (as defined in Section 2.4.1 of {{MoQTransport}}). The first namespace match object is applied to the first field in the Track Namespace, and so on. The match for the track name is matched against the Track Name. Exact matches must match exactly, prefix matches must match the beginning of the byte string, and suffix matches must match the end of the byte string.
 
-The first match operation is performed against the namespace and the second
-against the track name (as defined in Section 2.4.1 of
-{draft-ietf-moq-transport}). Since the match is not being performed against a
-URI, no normalization is performed and the matches are performed against the
-entire string. An empty match object is a legal construct that matches all
-names.
+The track namespace match and track name match are optional. If the length of the scope array is two, then no track name match is performed at all and the scope of the token includes all track names. If the length is one, the scope includes all namespaces as well as no matching is performed. The list of actions is mandatory.
+
+A nil match object is special: it only matches the end of the list of namespaces. This allows the scope to be limited to a precise namespace. If the list of namespace match objects does not end with a nil match object, then the scope includes all longer namespaces that start with fields that match.
+
+No normalization is applied to the values against which to match; it is performed bytewise.
 
 ### Text examples of permissions to help with CDDL construction
 
-Example: Allow with an exact match "example.com/bob"
+#### Notation Used in Examples
 
+Full Track Names in this draft are represented using Extended Diagnostic Notation (EDN) as defined in {{EDN}} as an array with two elements: an array of namespace fields and a track name.
+
+Example: Allow with an exact match `[['example','com'],'/bob']`
+
+~~~~~~~~~~~~~~~
+{
+    /moqt/ TBD_MOQT: [[
+        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        ['example','com',nil],
+        '/bob'
+    ]]
+}
+~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~
+Permits
+* [['example','com'], '/bob']
+
+Prohibits
+* [['example','com'], '']
+* [['example','com'], '/bob/123']
+* [['example','com'], '/alice']
+* [['example','com'], '/bob/logs']
+* [['alternate','example','com'], '/bob']
+* [['12345'], '']
+* [['example'], 'com/bob']
+* [['example','com','/bob'], '']
+* [['example','com',''], '/bob']
+~~~~~~~~~~~~~~~
+
+Example: Allow with a prefix match `[['example','com'],'/bob']`
+
+~~~~~~~~~~~~~~~
+{
+    /moqt/ TBD_MOQT: [[
+        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        ['example','com',nil],
+        [ /prefix/ 1, '/bob']
+    ]]
+}
+~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~
+Permits
+* [['example','com'], '/bob']
+* [['example','com'], '/bob/123']
+* [['example','com'], '/bob/logs']
+
+Prohibits
+* [['example','com'], '']
+* [['example','com'], '/alice']
+* [['alternate','example','com'], '/bob']
+* [['12345'], '']
+* [['example'], 'com/bob']
+~~~~~~~~~~~~~~~
+
+Example: Allow with a prefix match on namespace and exact match on track name `[['example','com'],'/bob']`
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
@@ -236,42 +285,47 @@ Example: Allow with an exact match "example.com/bob"
 
 ~~~~~~~~~~~~~~~
 Permits
-* 'example.com', '/bob'
+* [['example','com'], '/bob']
+* [['example','com',''], '/bob']
+* [['example','com','bob'], '/bob']
 
 Prohibits
-* 'example.com', ''
-* 'example.com', '/bob/123'
-* 'example.com', '/alice'
-* 'example.com', '/bob/logs'
-* 'alternate/example.com', /bob
-* '12345', ''
-* 'example', '.com/bob'
+* [['example','com'], '']
+* [['example','com'], '/bob/123']
+* [['example','com'], '/alice']
+* [['example','com'], '/bob/logs']
+* [['alternate','example','com'], '/bob']
+* [['12345'], '']
+* [['example'], 'com/bob']
+* [['example','com','/bob'], '']
 ~~~~~~~~~~~~~~~
 
-Example: Allow with a prefix match "example.com/bob"
 
+Example: Allow with a prefix match on namespace `[['example','com']]`.
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
         [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
-        { /exact/ 0: 'example.com'},
-        { /prefix/ 1: '/bob'}
+        ['example','com']
     ]]
 }
 ~~~~~~~~~~~~~~~
 
 ~~~~~~~~~~~~~~~
 Permits
-* 'example.com', '/bob'
-* 'example.com', '/bob/123'
-* 'example.com', '/bob/logs'
+* [['example','com'], '/bob']
+* [['example','com',''], '/bob']
+* [['example','com','bob'], '/bob']
+* [['example','com'], '']
+* [['example','com'], '/bob/123']
+* [['example','com'], '/alice']
+* [['example','com'], '/bob/logs']
+* [['example','com','/bob'], '']
 
 Prohibits
-* 'example.com', ''
-* 'example.com', '/alice'
-* 'alternate/example.com', '/bob'
-* '12345', ''
-* 'example', '.com/bob'
+* [['alternate','example','com'], '/bob']
+* [['12345'], '']
+* [['example'], 'com/bob']
 ~~~~~~~~~~~~~~~
 
 ### Multiple actions
@@ -288,19 +342,19 @@ the first acceptable result is discovered.
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [
-        [/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}],
-        [/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]
+        [[/PUBLISH/ 6], ['example','com',nil], [ /prefix/ 1, 'bob']],
+        [[/PUBLISH/ 6], ['example','com',nil], 'logs/12345/bob']
     ],
     /exp/ 4: 1750000000
 }
 ~~~~~~~~~~~~~~~
 
-* (1) PUBLISH (Allow with a prefix match) example.com/bob
-* (2) PUBLISH (Allow with an exact match) example.com/logs/12345/bob
+* (1) PUBLISH (Allow with a prefix match) [['example','com'],'/bob']
+* (2) PUBLISH (Allow with an exact match) [['example','com'],'/logs/12345/bob']
 
-Evaluating "example.com/bob/123" would succeed on test 1 and test 2 would never be evaluated.
-Evaluating "example.com/logs/12345/bob" would fail on test 1 but then succeed on test 2.
-Evaluating "example.com" would fail on test 1 and on test 2.
+Evaluating `[['example','com'],'/bob/123']` would succeed on test 1 and test 2 would never be evaluated.
+Evaluating `[['example','com'],'/logs/12345/bob']` would fail on test 1 but then succeed on test 2.
+Evaluating `[['example','com'],'']` would fail on test 1 and on test 2.
 
 In addition, the entire token expires at 2025-05-02T21:57:24+00:00.
 
@@ -312,11 +366,11 @@ If there are other claims that depend on which MOQT limit applies, a logical cla
 {
     /or/ TBD_OR: [
         {
-            /moqt/ TBD_MOQT: [[/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /prefix/ 1: 'bob'}]],
+            /moqt/ TBD_MOQT: [[[/PUBLISH/ 6], ['example','com'], [ /prefix/ 1, 'bob']]],
             /exp/ 4: 1750000000
         },
         {
-            /moqt/ TBD_MOQT: [[/PUBLISH/ 6, { /exact/ 0: 'example.com'}, { /exact/ 0: 'logs/12345/bob'}]],
+            /moqt/ TBD_MOQT: [[[/PUBLISH/ 6], ['example','com'], 'logs/12345/bob']],
             /exp/ 4: 1750000600
         }
     ]
@@ -326,15 +380,6 @@ If there are other claims that depend on which MOQT limit applies, a logical cla
 This provides access to the same tracks as the previous example, but in this
 case, the token is valid for publishing logs up to 10 minutes after the time at
 which the publishing of the bob track expires.
-
-DISCUSS: Because tokens are designed for instantanous evaluation, they
-naturally only evaluate to an "acceptable" or an "unacceptable". It's somewhat
-tricky to turn an evaluation into a complete bound on any particular value. The
-CAT has a number of claims about the context of the request that can change
-while the stream is open. The most obvious of these is the expiration time. The
-"catnip" (Network IP) and geographic claims can also change mid-stream if the
-connection is migrated or the client moves. Do we need to do something special
-to require periodic re-evalution?
 
 ## moqt-reval claim
 
@@ -399,22 +444,18 @@ operations.
 DPoP binding is accomplished by providing the "cnf" claim with the "jkt"
 (JWK Thumbprint) confirmation method.
 
-Below is an exmaple showing jkt token binding.
+Below is an example showing jkt token binding.
 
 ~~~~
-
 {
-  / cnf /
-  8: {
-    / jkt /
-    3: <32-byte JWK SHA-256 Thumbprint>
+  / cnf / 8: {
+    / jkt / 3: h'0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'  / 32-byte SHA-256 JWK thumbprint (hex-encoded) /
   },
-  / moqt /
-  TBD_MOQT: [
+  / moqt / TBD_MOQT: [
     [
-      [2, 3, 6, 7], / PUBLISH_NAMESPACE, SUBSCRIBE_NAMESPACE, PUBLISH, FETCH /
-      {"exact": "cdn.example.com"},
-      {"prefix": "/sports/"}
+      [/PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7],
+      ['cdn','example','com',nil],
+      [ /prefix/ 1, '/sports/']
     ]
   ],
   / catdpop /
