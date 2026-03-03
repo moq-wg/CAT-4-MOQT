@@ -1288,8 +1288,8 @@ connection may be established over WebTransport or raw QUIC.<a href="#section-1.
 the token, the relay accepts or rejects the connection.<a href="#section-1.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-1.6">
-            <p id="section-1.1-1.6.1">If the relay accepts the connection, then the client will take a series of MOQT actions: ANNOUNCE,
-SUBSCRIBE_ANNOUNCES, SUBSCRIBE or FETCH. For each of these, it will supply the token it received using
+            <p id="section-1.1-1.6.1">If the relay accepts the connection, then the client will take a series of MOQT actions: PUBLISH_NAMESPACE,
+SUBSCRIBE_NAMESPACE, SUBSCRIBE or FETCH. For each of these, it will supply the token it received using
 the AUTHENTICATION parameter.<a href="#section-1.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-1.7">
@@ -1325,7 +1325,7 @@ client may use one of those tokens to establish the initial conneciton and other
         |                         |                         |
         |  6. MOQT Actions with Token Authentication        |
         |&lt;-------------------------------------------------&gt;|
-        |     (ANNOUNCE, SUBSCRIBE, PUBLISH, FETCH)         |
+        |     (PUBLISH_NAMESPACE, SUBSCRIBE, PUBLISH, FETCH)|
         |                         |                         |
         |                         |  7. Revalidate Token    |
         |                         |&lt;-----------------------&gt;|
@@ -1393,55 +1393,55 @@ the namespace, and a match object for the track name.<a href="#section-2.1-3" cl
               <td class="text-left" rowspan="1" colspan="1">CLIENT_SETUP</td>
               <td class="text-left" rowspan="1" colspan="1">0</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.3</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.3</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">SERVER_SETUP</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.3</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.3</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">ANNOUNCE</td>
+              <td class="text-left" rowspan="1" colspan="1">PUBLISH_NAMESPACE</td>
               <td class="text-left" rowspan="1" colspan="1">2</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.23</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.20</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_NAMESPACE</td>
               <td class="text-left" rowspan="1" colspan="1">3</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.28</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.25</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE</td>
               <td class="text-left" rowspan="1" colspan="1">4</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.7</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.9</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_UPDATE</td>
+              <td class="text-left" rowspan="1" colspan="1">REQUEST_UPDATE</td>
               <td class="text-left" rowspan="1" colspan="1">5</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.10</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.11</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">PUBLISH</td>
               <td class="text-left" rowspan="1" colspan="1">6</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.13</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.13</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">FETCH</td>
               <td class="text-left" rowspan="1" colspan="1">7</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.16</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.16</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">TRACK_STATUS</td>
               <td class="text-left" rowspan="1" colspan="1">8</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 8.20</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.19</td>
             </tr>
           </tbody>
         </table>
@@ -1522,9 +1522,9 @@ Prohibits
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
-        ['example','com'],
-        '/bob'
+        [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        { /exact/ 0: 'example.com'},
+        { /exact/ 0: '/bob'}
     ]]
 }
 ~~~~~~~~~~~~~~~<a href="#section-2.1.1.1-8" class="pilcrow">¶</a></p>
@@ -1550,7 +1550,7 @@ Prohibits
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example','com']
     ]]
 }
@@ -1727,7 +1727,7 @@ operations.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
   },
   / moqt / TBD_MOQT: [
     [
-      [/ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7],
+      [/PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7],
       ['cdn','example','com',nil],
       [ /prefix/ 1, '/sports/']
     ]
@@ -1818,7 +1818,7 @@ protocol-specific command representations.<a href="#section-3.1.2-1" class="pilc
 "tns" and "tn" parameters. The resource URI should follow the format
 <code>moqt://&lt;relay-endpoint&gt;?tns=&lt;namespace&gt;&amp;tn=&lt;track&gt;</code> where the tns and tn query
 parameters match the respective "tns" and "tn" fields in the Authorization Context.<a href="#section-3.1.2-9" class="pilcrow">¶</a></p>
-<p id="section-3.1.2-10">Example DPoP proof for MOQT ANNOUNCE operation:<a href="#section-3.1.2-10" class="pilcrow">¶</a></p>
+<p id="section-3.1.2-10">Example DPoP proof for MOQT PUBLISH_NAMESPACE operation:<a href="#section-3.1.2-10" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-3.1.2-11">
 <pre>
 {
@@ -1832,7 +1832,7 @@ parameters match the respective "tns" and "tn" fields in the Authorization Conte
   "iat": 1705123456,
   "actx": {
     "type": "moqt",
-    "action": "ANNOUNCE",
+    "action": "PUB_NS",
     "tns": "sports",
     "tn": "live-feed"
   }
@@ -1858,8 +1858,8 @@ parameters match the respective "tns" and "tn" fields in the Authorization Conte
                 <td class="text-left" rowspan="1" colspan="1">SETUP</td>
               </tr>
               <tr>
-                <td class="text-left" rowspan="1" colspan="1">ANNOUNCE</td>
-                <td class="text-left" rowspan="1" colspan="1">ANNOUNCE</td>
+                <td class="text-left" rowspan="1" colspan="1">PUBLISH_NAMESPACE</td>
+                <td class="text-left" rowspan="1" colspan="1">PUB_NS</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_NAMESPACE</td>
@@ -1870,12 +1870,20 @@ parameters match the respective "tns" and "tn" fields in the Authorization Conte
                 <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE</td>
               </tr>
               <tr>
+                <td class="text-left" rowspan="1" colspan="1">REQUEST_UPDATE</td>
+                <td class="text-left" rowspan="1" colspan="1">REQ_UPDATE</td>
+              </tr>
+              <tr>
                 <td class="text-left" rowspan="1" colspan="1">PUBLISH</td>
                 <td class="text-left" rowspan="1" colspan="1">PUBLISH</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">FETCH</td>
                 <td class="text-left" rowspan="1" colspan="1">FETCH</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">TRACK_STATUS</td>
+                <td class="text-left" rowspan="1" colspan="1">TRK_STATUS</td>
               </tr>
             </tbody>
           </table>
@@ -2032,7 +2040,7 @@ information to the client<a href="#section-3.2.1-3.5.1" class="pilcrow">¶</a></
        │ (7) MOQT Request                  │                                  │
        │     + CAT Token                   │                                  │
        │     + Fresh DPoP Proof            │                                  │
-       │     (CLIENT_SETUP, ANNOUNCE,      │                                  │
+       │     (CLIENT_SETUP, PUBLISH_NAMESPACE,│                                │
        │      SUBSCRIBE, PUBLISH, FETCH)   │                                  │
        ├─────────────────────────────────────────────────────────────────────►│
        │                                   │                                  │
@@ -2257,7 +2265,7 @@ document.]<a href="#section-7-3" class="pilcrow">¶</a></p>
 <dd class="break"></dd>
 <dt id="DPOP-PROOF">[DPOP-PROOF]</dt>
       <dd>
-<span class="refAuthor">Nandakumar, S.</span>, <span class="refTitle">"Application-Agnostic Demonstrating Proof-of-Possession"</span>, <time datetime="2024-12" class="refDate">December 2024</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-nandakumar-oauth-dpop-proof-00.txt">https://www.ietf.org/archive/id/draft-nandakumar-oauth-dpop-proof-00.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Nandakumar, S.</span>, <span class="refTitle">"Application-Agnostic Demonstrating Proof-of-Possession"</span>, <time datetime="2024-12" class="refDate">December 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-nandakumar-moq-generic-dpop-proof/">https://datatracker.ietf.org/doc/draft-nandakumar-moq-generic-dpop-proof/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="EDN">[EDN]</dt>
       <dd>
@@ -2265,7 +2273,7 @@ document.]<a href="#section-7-3" class="pilcrow">¶</a></p>
 <dd class="break"></dd>
 <dt id="MoQTransport">[MoQTransport]</dt>
       <dd>
-<span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">A. Frindell</span>, <span class="refTitle">"Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-transport-14</span>, <time datetime="2025-09-02" class="refDate">2 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-14">https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-14</a>&gt;</span>. </dd>
+<span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">A. Frindell</span>, <span class="refTitle">"Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-transport-16</span>, <time datetime="2026-01-13" class="refDate">13 January 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-16">https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-16</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
       <dd>
