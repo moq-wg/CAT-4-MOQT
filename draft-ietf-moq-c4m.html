@@ -1452,10 +1452,12 @@ the namespace, and a match object for the track name.<a href="#section-2.1-3" cl
         </table>
 <p id="section-2.1-6">The scope of the moqt claim is limited to the actions provided in the array.
 Any action not present in the array is not authorized by moqt claim.<a href="#section-2.1-6" class="pilcrow">¶</a></p>
-<p id="section-2.1-7">When a match object is a byte string, it is an exact match. When a match object is an array, the first element is the match type and the second is the match value. Matches are performed bytewise against the corresponding field of the Full Track Name (as defined in Section 2.4.1 of <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>). The first namespace match object is applied to the first field in the Track Namespace, and so on. The match for the track name is matched against the Track Name. Exact matches must match exactly, prefix matches must match the beginning of the byte string, and suffix matches must match the end of the byte string.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
-<p id="section-2.1-8">The track namespace match and track name match are optional. If the length of the scope array is two, then no track name match is performed at all and the scope of the token includes all track names. If the length is one, the scope includes all namespaces as well as no matching is performed. The list of actions is mandatory.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
-<p id="section-2.1-9">A nil match object is special: it only matches the end of the list of namespaces. This allows the scope to be limited to a precise namespace. If the list of namespace match objects does not end with a nil match object, then the scope includes all longer namespaces that start with fields that match.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
-<p id="section-2.1-10">No normalization is applied to the values against which to match; it is performed bytewise.<a href="#section-2.1-10" class="pilcrow">¶</a></p>
+<p id="section-2.1-7">When a match object is a byte string, it is an exact match. When a match object is an array, the first element is the match type and the second is the match value.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
+<p id="section-2.1-8">Matches are performed bytewise against the corresponding field of the Full Track Name (as defined in Section 2.4.1 of <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>). The first namespace match object is applied to the first field in the Track Namespace, and so on. The match for the track name is matched against the Track Name.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
+<p id="section-2.1-9">Exact matches must match exactly, prefix matches must match the beginning of the byte string, and suffix matches must match the end of the byte string.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
+<p id="section-2.1-10">The track namespace match and track name match are optional. If the length of the scope array is two, then no track name match is performed at all and the scope of the token includes all track names. If the length is one, the scope includes all namespaces as well as no matching is performed. The list of actions is mandatory.<a href="#section-2.1-10" class="pilcrow">¶</a></p>
+<p id="section-2.1-11">A nil match object is special: it only matches the end of the list of namespaces. This allows the scope to be limited to a precise namespace length. If the list of namespace match objects does not end with a nil match object, then the scope includes all longer namespaces that start with fields that match. Note that nil <span class="bcp14">MUST</span> only appear as the last element in the namespace match array; placing nil elsewhere is invalid.<a href="#section-2.1-11" class="pilcrow">¶</a></p>
+<p id="section-2.1-12">No normalization is applied to the values against which to match; it is performed bytewise.<a href="#section-2.1-12" class="pilcrow">¶</a></p>
 <div id="text-examples-of-permissions-to-help-with-cddl-construction">
 <section id="section-2.1.1">
           <h4 id="name-text-examples-of-permission">
@@ -1523,7 +1525,7 @@ Prohibits
 * [['example'], 'com/bob']
 </pre><a href="#section-2.1.1.1-7" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-8">Example: Allow with a prefix match on namespace and exact match on track name <code>[['example','com'],'/bob']</code>
+<p id="section-2.1.1.1-8">Example: Allow namespaces starting with <code>['example','com']</code> (any length) with exact track name <code>'/bob'</code>
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
@@ -1551,7 +1553,7 @@ Prohibits
 * [['example','com','/bob'], '']
 </pre><a href="#section-2.1.1.1-9" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-10">Example: Allow with a prefix match on namespace <code>[['example','com']]</code>.
+<p id="section-2.1.1.1-10">Example: Allow namespaces starting with <code>['example','com']</code> with any track name
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
@@ -1578,6 +1580,60 @@ Prohibits
 * [['example'], 'com/bob']
 </pre><a href="#section-2.1.1.1-11" class="pilcrow">¶</a>
 </div>
+<p id="section-2.1.1.1-12">Example: Allow with a prefix match on an individual namespace element<a href="#section-2.1.1.1-12" class="pilcrow">¶</a></p>
+<p id="section-2.1.1.1-13">This example shows how to use a prefix match within a specific namespace field. The second namespace element must start with <code>'user-'</code>.<a href="#section-2.1.1.1-13" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-14">
+<pre>
+{
+    /moqt/ TBD_MOQT: [[
+        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        ['example', [ /prefix/ 1, 'user-'], nil],
+        '/data'
+    ]]
+}
+</pre><a href="#section-2.1.1.1-14" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-15">
+<pre>
+Permits
+* [['example','user-alice'], '/data']
+* [['example','user-bob'], '/data']
+* [['example','user-'], '/data']
+
+Prohibits
+* [['example','alice'], '/data']
+* [['example','user-alice','extra'], '/data']
+* [['example','USER-alice'], '/data']
+* [['example'], '/data']
+</pre><a href="#section-2.1.1.1-15" class="pilcrow">¶</a>
+</div>
+<p id="section-2.1.1.1-16">Example: Allow with a suffix match on track name<a href="#section-2.1.1.1-16" class="pilcrow">¶</a></p>
+<p id="section-2.1.1.1-17">This example demonstrates suffix matching, which matches the end of a byte string.<a href="#section-2.1.1.1-17" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-18">
+<pre>
+{
+    /moqt/ TBD_MOQT: [[
+        [ /PUBLISH/ 6 ],
+        ['example','com',nil],
+        [ /suffix/ 2, '.json']
+    ]]
+}
+</pre><a href="#section-2.1.1.1-18" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="section-2.1.1.1-19">
+<pre>
+Permits
+* [['example','com'], 'data.json']
+* [['example','com'], '/api/response.json']
+* [['example','com'], '.json']
+
+Prohibits
+* [['example','com'], 'data.xml']
+* [['example','com'], 'json']
+* [['example','com'], 'data.JSON']
+* [['example','com'], 'data.json.bak']
+</pre><a href="#section-2.1.1.1-19" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
 </section>
@@ -1602,8 +1658,8 @@ the first acceptable result is discovered.<a href="#section-2.1.2-1" class="pilc
 <pre>
 {
     /moqt/ TBD_MOQT: [
-        [[/PUBLISH/ 6], ['example','com',nil], [ /prefix/ 1, 'bob']],
-        [[/PUBLISH/ 6], ['example','com',nil], 'logs/12345/bob']
+        [[/PUBLISH/ 6], ['example','com',nil], [ /prefix/ 1, '/bob']],
+        [[/PUBLISH/ 6], ['example','com',nil], '/logs/12345/bob']
     ],
     /exp/ 4: 1750000000
 }
@@ -1611,10 +1667,10 @@ the first acceptable result is discovered.<a href="#section-2.1.2-1" class="pilc
 </div>
 <ul class="normal">
 <li class="normal" id="section-2.1.2.1-2.1">
-                <p id="section-2.1.2.1-2.1.1">(1) PUBLISH (Allow with a prefix match) [['example','com'],'/bob']<a href="#section-2.1.2.1-2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-2.1.2.1-2.1.1">(1) PUBLISH (Allow with a prefix match on track name) [['example','com'], '/bob*']<a href="#section-2.1.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.1.2.1-2.2">
-                <p id="section-2.1.2.1-2.2.1">(2) PUBLISH (Allow with an exact match) [['example','com'],'/logs/12345/bob']<a href="#section-2.1.2.1-2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-2.1.2.1-2.2.1">(2) PUBLISH (Allow with an exact match) [['example','com'], '/logs/12345/bob']<a href="#section-2.1.2.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-2.1.2.1-3">Evaluating <code>[['example','com'],'/bob/123']</code> would succeed on test 1 and test 2 would never be evaluated.
