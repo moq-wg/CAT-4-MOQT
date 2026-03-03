@@ -819,11 +819,40 @@ IANA will register the following claims in the "CBOR Web Token (CWT) Claims" reg
 | Claim Key              | TBD_MOQT (1+2) | TBD_MOQT (1+2)    |
 | Claim Value Type       | array          | number            |
 | Change Controller      | IESG           | IESG              |
-| Specification Document | RFCthis        | RFCthis           |
+| Specification Document | RFCXXXX        | RFCXXXX           |
 |------------------------|----------------|-------------------|
 
-\[RFC Editor: Please replace RFCthis with the published RFC number for this
+\[RFC Editor: Please replace RFCXXXX with the published RFC number for this
 document.\]
+
+## MOQT Auth Token Type Registry
+
+This document registers the following entry in the "MOQT Auth Token Type"
+registry established by {{MoQTransport}}:
+
+|-------------|-------------------|---------------------------|
+| Token Type  | Token Name        | Specification             |
+|-------------|-------------------|---------------------------|
+| 0x01        | CAT               | RFCXXXX                   |
+|-------------|-------------------|---------------------------|
+
+### CAT Token Type (0x01)
+
+When the Auth Token Type is set to 0x01, the Token Payload field contains
+a Common Access Token (CAT) {{CAT}} serialized as a CBOR-encoded CWT
+(CBOR Web Token).
+
+The token MUST be processed according to the validation rules defined in
+this specification. Relays receiving a token with this type MUST:
+
+- Validate the token signature or MAC
+- Verify token expiration and other standard CWT claims
+- Process the "moqt" claim (if present) to authorize MOQT actions
+- Process the "moqt-reval" claim (if present) for revalidation requirements
+- Process DPoP claims (if present) according to Section 3 of this document
+
+If the token fails validation, the relay MUST reject the connection or
+action with an appropriate error.
 
 --- back
 
