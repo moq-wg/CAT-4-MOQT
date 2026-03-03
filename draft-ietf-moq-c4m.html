@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Authentication scheme for MOQT using Common Access Tokens</title>
+<title>Authorization scheme for MOQT using Common Access Tokens</title>
 <meta content="Will Law" name="author">
 <meta content="Chris Lemmons" name="author">
 <meta content="Gwendal Simon" name="author">
 <meta content="Suhas Nandakumar" name="author">
 <meta content="
-       A token-based authentication scheme for use with Media Over QUIC Transport. 
+       A token-based authorization scheme for use with Media Over QUIC Transport. 
     " name="description">
 <meta content="xml2rfc 3.31.0" name="generator">
 <meta content="media over quic" name="keyword">
-<meta content="authentication" name="keyword">
+<meta content="authorization" name="keyword">
 <meta content="common access token" name="keyword">
 <meta content="CAT" name="keyword">
 <meta content="draft-ietf-moq-c4m-latest" name="ietf.draft">
@@ -1095,10 +1095,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </dd>
 </dl>
 </div>
-<h1 id="title">Authentication scheme for MOQT using Common Access Tokens</h1>
+<h1 id="title">Authorization scheme for MOQT using Common Access Tokens</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">A token-based authentication scheme for use with Media Over QUIC Transport.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">A token-based authorization scheme for use with Media Over QUIC Transport.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1168,7 +1168,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-overview-of-the-authenticat" class="internal xref">Overview of the authentication workflow</a></p>
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-overview-of-the-authorizati" class="internal xref">Overview of the authorization workflow</a></p>
 </li>
             </ul>
 </li>
@@ -1229,6 +1229,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-authentication-vs-authoriza" class="internal xref">Authentication vs Authorization</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
@@ -1251,14 +1256,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This draft introduces a token-based authentication scheme for use with MOQT <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>.
+<p id="section-1-1">This draft introduces a token-based authorization scheme for use with MOQT <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>.
 The scheme protects access to the relay during session establishment and also contrains the
 actions which the client may take once connected.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">This draft defines version 1 of this specification.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<div id="overview-of-the-authentication-workflow">
+<div id="overview-of-the-authorization-workflow">
 <section id="section-1.1">
-        <h3 id="name-overview-of-the-authenticat">
-<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-overview-of-the-authenticat" class="section-name selfRef">Overview of the authentication workflow</a>
+        <h3 id="name-overview-of-the-authorizati">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-overview-of-the-authorizati" class="section-name selfRef">Overview of the authorization workflow</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="section-1.1-1.1">
@@ -1294,7 +1299,7 @@ the AUTHENTICATION parameter.<a href="#section-1.1-1.6.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-1.1-1.7">
             <p id="section-1.1-1.7.1">As an alternative to this workflow, the distribution service may vend multiple tokens to the client. The
-client may use one of those tokens to establish the initial conneciton and others to authenticate its actions.<a href="#section-1.1-1.7.1" class="pilcrow">¶</a></p>
+client may use one of those tokens to establish the initial conneciton and others to authorize its actions.<a href="#section-1.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <div class="lang-ascii sourcecode" id="section-1.1-2">
@@ -1323,7 +1328,7 @@ client may use one of those tokens to establish the initial conneciton and other
         |  5. Accept/Reject Connection                      |
         |&lt;--------------------------------------------------|
         |                         |                         |
-        |  6. MOQT Actions with Token Authentication        |
+        |  6. MOQT Actions with Token Authorization         |
         |&lt;-------------------------------------------------&gt;|
         |     (PUBLISH_NAMESPACE, SUBSCRIBE, PUBLISH, FETCH)|
         |                         |                         |
@@ -1706,7 +1711,7 @@ attacks in MOQT systems.<a href="#section-3-1" class="pilcrow">¶</a></p>
         <h3 id="name-cat-dpop-claims-for-moqt">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-cat-dpop-claims-for-moqt" class="section-name selfRef">CAT DPoP Claims for MOQT</a>
         </h3>
-<p id="section-3.1-1">This proposal extends the CAT authentication model by binding tokens to
+<p id="section-3.1-1">This proposal extends the CAT authorization model by binding tokens to
 client cryptographic key pairs. To enable sender-constrained token usage,
 the CAT tokens include DPoP-related claims as defined <span>[<a href="#CAT" class="cite xref">CAT</a>]</span> Section 4.8,
 ensuring that only the legitimate token holder can use the token for MOQT
@@ -2181,7 +2186,25 @@ appear in all capitals, as shown here.<a href="#section-5-1" class="pilcrow">¶<
       <h2 id="name-security-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-6-1">TODO Add security considerations for DPoP Claims<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div id="authentication-vs-authorization">
+<section id="section-6.1">
+        <h3 id="name-authentication-vs-authoriza">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-authentication-vs-authoriza" class="section-name selfRef">Authentication vs Authorization</a>
+        </h3>
+<p id="section-6.1-1">This specification defines an authorization scheme, not an authentication scheme.
+User authentication (verifying the identity of a user via credentials, OAuth, 2FA, etc.)
+occurs prior to token issuance and is outside the scope of this document.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">The tokens defined in this specification convey authorization - they grant permissions
+for specific MOQT actions (such as SUBSCRIBE, PUBLISH, ANNOUNCE) on specific namespaces
+and tracks. A valid token does not authenticate a user; rather, it authorizes
+the bearer to perform the actions specified in the token's claims.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">Implementers should ensure that user authentication is performed by appropriate
+mechanisms before tokens are issued. The security of the authorization scheme
+depends on the security of the token issuance process, including proper user
+authentication.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">TODO Add security considerations for DPoP Claims<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="iana-considerations">

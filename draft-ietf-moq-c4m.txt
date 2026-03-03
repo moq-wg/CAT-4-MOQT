@@ -13,12 +13,12 @@ Expires: 4 September 2026                                        Comcast
                                                             3 March 2026
 
 
-       Authentication scheme for MOQT using Common Access Tokens
+        Authorization scheme for MOQT using Common Access Tokens
                        draft-ietf-moq-c4m-latest
 
 Abstract
 
-   A token-based authentication scheme for use with Media Over QUIC
+   A token-based authorization scheme for use with Media Over QUIC
    Transport.
 
 About This Document
@@ -71,7 +71,7 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-     1.1.  Overview of the authentication workflow
+     1.1.  Overview of the authorization workflow
    2.  Token format
      2.1.  moqt claim
        2.1.1.  Text examples of permissions to help with CDDL
@@ -90,6 +90,7 @@ Table of Contents
    4.  Adding a token to a URL
    5.  Conventions and Definitions
    6.  Security Considerations
+     6.1.  Authentication vs Authorization
    7.  IANA Considerations
    8.  Normative References
    Acknowledgments
@@ -97,14 +98,14 @@ Table of Contents
 
 1.  Introduction
 
-   This draft introduces a token-based authentication scheme for use
-   with MOQT [MoQTransport].  The scheme protects access to the relay
-   during session establishment and also contrains the actions which the
-   client may take once connected.
+   This draft introduces a token-based authorization scheme for use with
+   MOQT [MoQTransport].  The scheme protects access to the relay during
+   session establishment and also contrains the actions which the client
+   may take once connected.
 
    This draft defines version 1 of this specification.
 
-1.1.  Overview of the authentication workflow
+1.1.  Overview of the authorization workflow
 
    *  An end-user logs-in to a distribution service.  The service
       authenticates the user (via username/password, OAuth, 2FA or
@@ -142,7 +143,7 @@ Table of Contents
    *  As an alternative to this workflow, the distribution service may
       vend multiple tokens to the client.  The client may use one of
       those tokens to establish the initial conneciton and others to
-      authenticate its actions.
+      authorize its actions.
 
         End User              Distribution Service         MOQT Relay
            |                         |                         |
@@ -168,7 +169,7 @@ Table of Contents
            |  5. Accept/Reject Connection                      |
            |<--------------------------------------------------|
            |                         |                         |
-           |  6. MOQT Actions with Token Authentication        |
+           |  6. MOQT Actions with Token Authorization         |
            |<------------------------------------------------->|
            |     (PUBLISH_NAMESPACE, SUBSCRIBE, PUBLISH, FETCH)|
            |                         |                         |
@@ -477,7 +478,7 @@ suffix-match = 2
 
 3.1.  CAT DPoP Claims for MOQT
 
-   This proposal extends the CAT authentication model by binding tokens
+   This proposal extends the CAT authorization model by binding tokens
    to client cryptographic key pairs.  To enable sender-constrained
    token usage, the CAT tokens include DPoP-related claims as defined
    [CAT] Section 4.8, ensuring that only the legitimate token holder can
@@ -825,6 +826,24 @@ suffix-match = 2
    capitals, as shown here.
 
 6.  Security Considerations
+
+6.1.  Authentication vs Authorization
+
+   This specification defines an authorization scheme, not an
+   authentication scheme.  User authentication (verifying the identity
+   of a user via credentials, OAuth, 2FA, etc.) occurs prior to token
+   issuance and is outside the scope of this document.
+
+   The tokens defined in this specification convey authorization - they
+   grant permissions for specific MOQT actions (such as SUBSCRIBE,
+   PUBLISH, ANNOUNCE) on specific namespaces and tracks.  A valid token
+   does not authenticate a user; rather, it authorizes the bearer to
+   perform the actions specified in the token's claims.
+
+   Implementers should ensure that user authentication is performed by
+   appropriate mechanisms before tokens are issued.  The security of the
+   authorization scheme depends on the security of the token issuance
+   process, including proper user authentication.
 
    TODO Add security considerations for DPoP Claims
 
