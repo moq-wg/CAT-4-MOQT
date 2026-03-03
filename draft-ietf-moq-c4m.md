@@ -1,5 +1,5 @@
 ---
-title: "Authentication scheme for MOQT using Common Access Tokens"
+title: "Authorization scheme for MOQT using Common Access Tokens"
 abbrev: "CAT-4-MOQT"
 category: info
 
@@ -13,7 +13,7 @@ area: ""
 workgroup: "Media Over QUIC"
 keyword:
  - media over quic
- - authentication
+ - authorization
  - common access token
  - CAT
 venue:
@@ -73,20 +73,20 @@ informative:
 
 --- abstract
 
-A token-based authentication scheme for use with Media Over QUIC Transport.
+A token-based authorization scheme for use with Media Over QUIC Transport.
 
 
 --- middle
 
 # Introduction
 
-This draft introduces a token-based authentication scheme for use with MOQT {{MoQTransport}}.
+This draft introduces a token-based authorization scheme for use with MOQT {{MoQTransport}}.
 The scheme protects access to the relay during session establishment and also contrains the
 actions which the client may take once connected.
 
 This draft defines version 1 of this specification.
 
-## Overview of the authentication workflow
+## Overview of the authorization workflow
 
 * An end-user logs-in to a distribution service. The service authenticates the user (via
   username/password, OAuth, 2FA or another method). The methods involved in this authentication step
@@ -108,7 +108,7 @@ This draft defines version 1 of this specification.
   SUBSCRIBE_NAMESPACE, SUBSCRIBE or FETCH. For each of these, it will supply the token it received using
   the AUTHENTICATION parameter.
 * As an alternative to this workflow, the distribution service may vend multiple tokens to the client. The
-  client may use one of those tokens to establish the initial conneciton and others to authenticate its actions.
+  client may use one of those tokens to establish the initial conneciton and others to authorize its actions.
 
 ~~~ascii
 
@@ -136,7 +136,7 @@ This draft defines version 1 of this specification.
         |  5. Accept/Reject Connection                      |
         |<--------------------------------------------------|
         |                         |                         |
-        |  6. MOQT Actions with Token Authentication        |
+        |  6. MOQT Actions with Token Authorization         |
         |<------------------------------------------------->|
         |     (PUBLISH_NAMESPACE, SUBSCRIBE, PUBLISH, FETCH)|
         |                         |                         |
@@ -433,7 +433,7 @@ attacks in MOQT systems.
 
 ## CAT DPoP Claims for MOQT
 
-This proposal extends the CAT authentication model by binding tokens to
+This proposal extends the CAT authorization model by binding tokens to
 client cryptographic key pairs. To enable sender-constrained token usage,
 the CAT tokens include DPoP-related claims as defined {{CAT}} Section 4.8,
 ensuring that only the legitimate token holder can use the token for MOQT
@@ -727,6 +727,22 @@ to define and is not constrained by this specification.
 
 
 # Security Considerations
+
+## Authentication vs Authorization
+
+This specification defines an authorization scheme, not an authentication scheme.
+User authentication (verifying the identity of a user via credentials, OAuth, 2FA, etc.)
+occurs prior to token issuance and is outside the scope of this document.
+
+The tokens defined in this specification convey authorization - they grant permissions
+for specific MOQT actions (such as SUBSCRIBE, PUBLISH, ANNOUNCE) on specific namespaces
+and tracks. A valid token does not authenticate a user; rather, it authorizes
+the bearer to perform the actions specified in the token's claims.
+
+Implementers should ensure that user authentication is performed by appropriate
+mechanisms before tokens are issued. The security of the authorization scheme
+depends on the security of the token issuance process, including proper user
+authentication.
 
 TODO Add security considerations for DPoP Claims
 
