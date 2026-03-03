@@ -53,6 +53,7 @@ author:
 
 
 normative:
+
   Composite: I-D.draft-lemmons-cose-composite-claims-01
   MoQTransport: I-D.draft-ietf-moq-transport-16
   EDN: I-D.draft-ietf-cbor-edn-literals
@@ -204,11 +205,15 @@ The actions are integers defined as follows:
 The scope of the moqt claim is limited to the actions provided in the array.
 Any action not present in the array is not authorized by moqt claim.
 
-When a match object is a byte string, it is an exact match. When a match object is an array, the first element is the match type and the second is the match value. Matches are performed bytewise against the corresponding field of the Full Track Name (as defined in Section 2.4.1 of {{MoQTransport}}). The first namespace match object is applied to the first field in the Track Namespace, and so on. The match for the track name is matched against the Track Name. Exact matches must match exactly, prefix matches must match the beginning of the byte string, and suffix matches must match the end of the byte string.
+When a match object is a byte string, it is an exact match. When a match object is an array, the first element is the match type and the second is the match value.
+
+Matches are performed bytewise against the corresponding field of the Full Track Name (as defined in Section 2.4.1 of {{MoQTransport}}). The first namespace match object is applied to the first field in the Track Namespace, and so on. The match for the track name is matched against the Track Name.
+
+Exact matches must match exactly, prefix matches must match the beginning of the byte string, and suffix matches must match the end of the byte string.
 
 The track namespace match and track name match are optional. If the length of the scope array is two, then no track name match is performed at all and the scope of the token includes all track names. If the length is one, the scope includes all namespaces as well as no matching is performed. The list of actions is mandatory.
 
-A nil match object is special: it only matches the end of the list of namespaces. This allows the scope to be limited to a precise namespace. If the list of namespace match objects does not end with a nil match object, then the scope includes all longer namespaces that start with fields that match.
+A nil match object is special: it only matches the end of the list of namespaces. This allows the scope to be limited to a precise namespace length. If the list of namespace match objects does not end with a nil match object, then the scope includes all longer namespaces that start with fields that match. Note that nil MUST only appear as the last element in the namespace match array; placing nil elsewhere is invalid.
 
 No normalization is applied to the values against which to match; it is performed bytewise.
 
@@ -272,7 +277,7 @@ Prohibits
 * [['example'], 'com/bob']
 ~~~~~~~~~~~~~~~
 
-Example: Allow with a prefix match on namespace and exact match on track name `[['example','com'],'/bob']`
+Example: Allow namespaces starting with `['example','com']` (any length) with exact track name `'/bob'`
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
@@ -301,7 +306,7 @@ Prohibits
 ~~~~~~~~~~~~~~~
 
 
-Example: Allow with a prefix match on namespace `[['example','com']]`.
+Example: Allow namespaces starting with `['example','com']` with any track name
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
@@ -328,6 +333,60 @@ Prohibits
 * [['example'], 'com/bob']
 ~~~~~~~~~~~~~~~
 
+Example: Allow with a prefix match on an individual namespace element
+
+This example shows how to use a prefix match within a specific namespace field. The second namespace element must start with `'user-'`.
+
+~~~~~~~~~~~~~~~
+{
+    /moqt/ TBD_MOQT: [[
+        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        ['example', [ /prefix/ 1, 'user-'], nil],
+        '/data'
+    ]]
+}
+~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~
+Permits
+* [['example','user-alice'], '/data']
+* [['example','user-bob'], '/data']
+* [['example','user-'], '/data']
+
+Prohibits
+* [['example','alice'], '/data']
+* [['example','user-alice','extra'], '/data']
+* [['example','USER-alice'], '/data']
+* [['example'], '/data']
+~~~~~~~~~~~~~~~
+
+Example: Allow with a suffix match on track name
+
+This example demonstrates suffix matching, which matches the end of a byte string.
+
+~~~~~~~~~~~~~~~
+{
+    /moqt/ TBD_MOQT: [[
+        [ /PUBLISH/ 6 ],
+        ['example','com',nil],
+        [ /suffix/ 2, '.json']
+    ]]
+}
+~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~
+Permits
+* [['example','com'], 'data.json']
+* [['example','com'], '/api/response.json']
+* [['example','com'], '.json']
+
+Prohibits
+* [['example','com'], 'data.xml']
+* [['example','com'], 'json']
+* [['example','com'], 'data.JSON']
+* [['example','com'], 'data.json.bak']
+~~~~~~~~~~~~~~~
+
 ### Multiple actions
 
 Multiple actions may be communicated within the same token, with different
@@ -342,15 +401,15 @@ the first acceptable result is discovered.
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [
-        [[/PUBLISH/ 6], ['example','com',nil], [ /prefix/ 1, 'bob']],
-        [[/PUBLISH/ 6], ['example','com',nil], 'logs/12345/bob']
+        [[/PUBLISH/ 6], ['example','com',nil], [ /prefix/ 1, '/bob']],
+        [[/PUBLISH/ 6], ['example','com',nil], '/logs/12345/bob']
     ],
     /exp/ 4: 1750000000
 }
 ~~~~~~~~~~~~~~~
 
-* (1) PUBLISH (Allow with a prefix match) [['example','com'],'/bob']
-* (2) PUBLISH (Allow with an exact match) [['example','com'],'/logs/12345/bob']
+* (1) PUBLISH (Allow with a prefix match on track name) [['example','com'], '/bob*']
+* (2) PUBLISH (Allow with an exact match) [['example','com'], '/logs/12345/bob']
 
 Evaluating `[['example','com'],'/bob/123']` would succeed on test 1 and test 2 would never be evaluated.
 Evaluating `[['example','com'],'/logs/12345/bob']` would fail on test 1 but then succeed on test 2.
