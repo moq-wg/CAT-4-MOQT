@@ -1237,6 +1237,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-moqt-auth-token-type-regist" class="internal xref">MOQT Auth Token Type Registry</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.1">
+                    <p id="section-toc.1-1.7.2.1.2.1.1"><a href="#section-7.1.1" class="auto internal xref">7.1.1</a>.  <a href="#name-cat-token-type-0x01" class="internal xref">CAT Token Type (0x01)</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
@@ -2311,13 +2321,70 @@ authentication.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Specification Document</td>
-            <td class="text-left" rowspan="1" colspan="1">RFCthis</td>
-            <td class="text-left" rowspan="1" colspan="1">RFCthis</td>
+            <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
+            <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
           </tr>
         </tbody>
       </table>
-<p id="section-7-3">[RFC Editor: Please replace RFCthis with the published RFC number for this
+<p id="section-7-3">[RFC Editor: Please replace RFCXXXX with the published RFC number for this
 document.]<a href="#section-7-3" class="pilcrow">¶</a></p>
+<div id="moqt-auth-token-type-registry">
+<section id="section-7.1">
+        <h3 id="name-moqt-auth-token-type-regist">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-moqt-auth-token-type-regist" class="section-name selfRef">MOQT Auth Token Type Registry</a>
+        </h3>
+<p id="section-7.1-1">This document registers the following entry in the "MOQT Auth Token Type"
+registry established by <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>:<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-4">
+          <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Token Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Token Name</th>
+              <th class="text-left" rowspan="1" colspan="1">Specification</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x01</td>
+              <td class="text-left" rowspan="1" colspan="1">CAT</td>
+              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
+            </tr>
+          </tbody>
+        </table>
+<div id="cat-token-type-0x01">
+<section id="section-7.1.1">
+          <h4 id="name-cat-token-type-0x01">
+<a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-cat-token-type-0x01" class="section-name selfRef">CAT Token Type (0x01)</a>
+          </h4>
+<p id="section-7.1.1-1">When the Auth Token Type is set to 0x01, the Token Payload field contains
+a Common Access Token (CAT) <span>[<a href="#CAT" class="cite xref">CAT</a>]</span> serialized as a CBOR-encoded CWT
+(CBOR Web Token).<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-2">The token <span class="bcp14">MUST</span> be processed according to the validation rules defined in
+this specification. Relays receiving a token with this type <span class="bcp14">MUST</span>:<a href="#section-7.1.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1.1-3.1">
+              <p id="section-7.1.1-3.1.1">Validate the token signature or MAC<a href="#section-7.1.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.1.1-3.2">
+              <p id="section-7.1.1-3.2.1">Verify token expiration and other standard CWT claims<a href="#section-7.1.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.1.1-3.3">
+              <p id="section-7.1.1-3.3.1">Process the "moqt" claim (if present) to authorize MOQT actions<a href="#section-7.1.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.1.1-3.4">
+              <p id="section-7.1.1-3.4.1">Process the "moqt-reval" claim (if present) for revalidation requirements<a href="#section-7.1.1-3.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.1.1-3.5">
+              <p id="section-7.1.1-3.5.1">Process DPoP claims (if present) according to Section 3 of this document<a href="#section-7.1.1-3.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-7.1.1-4">If the token fails validation, the relay <span class="bcp14">MUST</span> reject the connection or
+action with an appropriate error.<a href="#section-7.1.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
 </section>
 </div>
 <div id="sec-normative-references">

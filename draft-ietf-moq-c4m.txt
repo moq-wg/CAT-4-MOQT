@@ -92,6 +92,8 @@ Table of Contents
    6.  Security Considerations
      6.1.  Authentication vs Authorization
    7.  IANA Considerations
+     7.1.  MOQT Auth Token Type Registry
+       7.1.1.  CAT Token Type (0x01)
    8.  Normative References
    Acknowledgments
    Authors' Addresses
@@ -922,13 +924,50 @@ suffix-match = 2
       +------------------------+----------------+-------------------+
       | Change Controller      | IESG           | IESG              |
       +------------------------+----------------+-------------------+
-      | Specification Document | RFCthis        | RFCthis           |
+      | Specification Document | RFCXXXX        | RFCXXXX           |
       +------------------------+----------------+-------------------+
 
                                   Table 3
 
-   [RFC Editor: Please replace RFCthis with the published RFC number for
+   [RFC Editor: Please replace RFCXXXX with the published RFC number for
    this document.]
+
+7.1.  MOQT Auth Token Type Registry
+
+   This document registers the following entry in the "MOQT Auth Token
+   Type" registry established by [MoQTransport]:
+
+                +============+============+===============+
+                | Token Type | Token Name | Specification |
+                +============+============+===============+
+                | 0x01       | CAT        | RFCXXXX       |
+                +------------+------------+---------------+
+
+                                  Table 4
+
+7.1.1.  CAT Token Type (0x01)
+
+   When the Auth Token Type is set to 0x01, the Token Payload field
+   contains a Common Access Token (CAT) [CAT] serialized as a CBOR-
+   encoded CWT (CBOR Web Token).
+
+   The token MUST be processed according to the validation rules defined
+   in this specification.  Relays receiving a token with this type MUST:
+
+   *  Validate the token signature or MAC
+
+   *  Verify token expiration and other standard CWT claims
+
+   *  Process the "moqt" claim (if present) to authorize MOQT actions
+
+   *  Process the "moqt-reval" claim (if present) for revalidation
+      requirements
+
+   *  Process DPoP claims (if present) according to Section 3 of this
+      document
+
+   If the token fails validation, the relay MUST reject the connection
+   or action with an appropriate error.
 
 8.  Normative References
 
