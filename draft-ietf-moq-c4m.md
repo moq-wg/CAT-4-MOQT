@@ -1,5 +1,5 @@
 ---
-title: "Authentication scheme for MOQT using Common Access Tokens"
+title: "Authorization scheme for MOQT using Common Access Tokens"
 abbrev: "CAT-4-MOQT"
 category: info
 
@@ -13,7 +13,7 @@ area: ""
 workgroup: "Media Over QUIC"
 keyword:
  - media over quic
- - authentication
+ - authorization
  - common access token
  - CAT
 venue:
@@ -53,8 +53,9 @@ author:
 
 
 normative:
-  MoQTransport: I-D.draft-ietf-moq-transport-14
+
   Composite: I-D.draft-lemmons-cose-composite-claims-01
+  MoQTransport: I-D.draft-ietf-moq-transport-16
   EDN: I-D.draft-ietf-cbor-edn-literals
   BASE64: RFC4648
   CAT:
@@ -67,26 +68,26 @@ normative:
     author:
       name: "S. Nandakumar"
     date: December 2024
-    target: https://www.ietf.org/archive/id/draft-nandakumar-oauth-dpop-proof-00.txt
+    target: https://datatracker.ietf.org/doc/draft-nandakumar-moq-generic-dpop-proof/
 informative:
 
 
 --- abstract
 
-A token-based authentication scheme for use with Media Over QUIC Transport.
+A token-based authorization scheme for use with Media Over QUIC Transport.
 
 
 --- middle
 
 # Introduction
 
-This draft introduces a token-based authentication scheme for use with MOQT {{MoQTransport}}.
+This draft introduces a token-based authorization scheme for use with MOQT {{MoQTransport}}.
 The scheme protects access to the relay during session establishment and also contrains the
 actions which the client may take once connected.
 
 This draft defines version 1 of this specification.
 
-## Overview of the authentication workflow
+## Overview of the authorization workflow
 
 * An end-user logs-in to a distribution service. The service authenticates the user (via
   username/password, OAuth, 2FA or another method). The methods involved in this authentication step
@@ -104,11 +105,11 @@ This draft defines version 1 of this specification.
   connection may be established over WebTransport or raw QUIC.
 * The relay decrypts the token upon receipt and validates the signature. Based upon claims conveyed in
   the token, the relay accepts or rejects the connection.
-* If the relay accepts the connection, then the client will take a series of MOQT actions: ANNOUNCE,
-  SUBSCRIBE_ANNOUNCES, SUBSCRIBE or FETCH. For each of these, it will supply the token it received using
+* If the relay accepts the connection, then the client will take a series of MOQT actions: PUBLISH_NAMESPACE,
+  SUBSCRIBE_NAMESPACE, SUBSCRIBE or FETCH. For each of these, it will supply the token it received using
   the AUTHENTICATION parameter.
 * As an alternative to this workflow, the distribution service may vend multiple tokens to the client. The
-  client may use one of those tokens to establish the initial conneciton and others to authenticate its actions.
+  client may use one of those tokens to establish the initial conneciton and others to authorize its actions.
 
 ~~~ascii
 
@@ -136,9 +137,9 @@ This draft defines version 1 of this specification.
         |  5. Accept/Reject Connection                      |
         |<--------------------------------------------------|
         |                         |                         |
-        |  6. MOQT Actions with Token Authentication        |
+        |  6. MOQT Actions with Token Authorization         |
         |<------------------------------------------------->|
-        |     (ANNOUNCE, SUBSCRIBE, PUBLISH, FETCH)         |
+        |     (PUBLISH_NAMESPACE, SUBSCRIBE, PUBLISH, FETCH)|
         |                         |                         |
         |                         |  7. Revalidate Token    |
         |                         |<----------------------->|
@@ -190,15 +191,15 @@ The actions are integers defined as follows:
 |----------------------|-----|-------------------------------|
 | Action               | Key | Reference                     |
 |----------------------|-----|-------------------------------|
-| CLIENT_SETUP         |  0  | {{MoQTransport}} Section 8.3  |
-| SERVER_SETUP         |  1  | {{MoQTransport}} Section 8.3  |
-| ANNOUNCE             |  2  | {{MoQTransport}} Section 8.23 |
-| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 8.28 |
-| SUBSCRIBE            |  4  | {{MoQTransport}} Section 8.7  |
-| SUBSCRIBE_UPDATE     |  5  | {{MoQTransport}} Section 8.10 |
-| PUBLISH              |  6  | {{MoQTransport}} Section 8.13 |
-| FETCH                |  7  | {{MoQTransport}} Section 8.16 |
-| TRACK_STATUS         |  8  | {{MoQTransport}} Section 8.20 |
+| CLIENT_SETUP         |  0  | {{MoQTransport}} Section 9.3  |
+| SERVER_SETUP         |  1  | {{MoQTransport}} Section 9.3  |
+| PUBLISH_NAMESPACE    |  2  | {{MoQTransport}} Section 9.20 |
+| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 9.25 |
+| SUBSCRIBE            |  4  | {{MoQTransport}} Section 9.9  |
+| REQUEST_UPDATE       |  5  | {{MoQTransport}} Section 9.11 |
+| PUBLISH              |  6  | {{MoQTransport}} Section 9.13 |
+| FETCH                |  7  | {{MoQTransport}} Section 9.16 |
+| TRACK_STATUS         |  8  | {{MoQTransport}} Section 9.19 |
 |----------------------|-----|-------------------------------|
 
 The scope of the moqt claim is limited to the actions provided in the array.
@@ -280,9 +281,9 @@ Example: Allow namespaces starting with `['example','com']` (any length) with ex
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
-        ['example','com'],
-        '/bob'
+        [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        { /exact/ 0: 'example.com'},
+        { /exact/ 0: '/bob'}
     ]]
 }
 ~~~~~~~~~~~~~~~
@@ -309,7 +310,7 @@ Example: Allow namespaces starting with `['example','com']` with any track name
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
-        [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
+        [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example','com']
     ]]
 }
@@ -491,7 +492,7 @@ attacks in MOQT systems.
 
 ## CAT DPoP Claims for MOQT
 
-This proposal extends the CAT authentication model by binding tokens to
+This proposal extends the CAT authorization model by binding tokens to
 client cryptographic key pairs. To enable sender-constrained token usage,
 the CAT tokens include DPoP-related claims as defined {{CAT}} Section 4.8,
 ensuring that only the legitimate token holder can use the token for MOQT
@@ -511,7 +512,7 @@ Below is an example showing jkt token binding.
   },
   / moqt / TBD_MOQT: [
     [
-      [/ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7],
+      [/PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7],
       ['cdn','example','com',nil],
       [ /prefix/ 1, '/sports/']
     ]
@@ -573,7 +574,7 @@ When the optional "resource" parameter is included, it MUST be consistent with t
 `moqt://<relay-endpoint>?tns=<namespace>&tn=<track>` where the tns and tn query
 parameters match the respective "tns" and "tn" fields in the Authorization Context.
 
-Example DPoP proof for MOQT ANNOUNCE operation:
+Example DPoP proof for MOQT PUBLISH_NAMESPACE operation:
 
 ~~~~~~~~~~~~~~~
 {
@@ -587,7 +588,7 @@ Example DPoP proof for MOQT ANNOUNCE operation:
   "iat": 1705123456,
   "actx": {
     "type": "moqt",
-    "action": "ANNOUNCE",
+    "action": "PUB_NS",
     "tns": "sports",
     "tn": "live-feed"
   }
@@ -601,11 +602,13 @@ MOQT action mapping for Authorization Context:
 |----------------------|-------------|
 | CLIENT_SETUP         | SETUP       |
 | SERVER_SETUP         | SETUP       |
-| ANNOUNCE             | ANNOUNCE    |
+| PUBLISH_NAMESPACE    | PUB_NS      |
 | SUBSCRIBE_NAMESPACE  | SUB_NS      |
 | SUBSCRIBE            | SUBSCRIBE   |
+| REQUEST_UPDATE       | REQ_UPDATE  |
 | PUBLISH              | PUBLISH     |
 | FETCH                | FETCH       |
+| TRACK_STATUS         | TRK_STATUS  |
 |----------------------|-------------|
 
 Relays supporting this application-agnostic DPoP framework MUST:
@@ -702,7 +705,7 @@ permissions
        │ (7) MOQT Request                  │                                  │
        │     + CAT Token                   │                                  │
        │     + Fresh DPoP Proof            │                                  │
-       │     (CLIENT_SETUP, ANNOUNCE,      │                                  │
+       │     (CLIENT_SETUP, PUBLISH_NAMESPACE,│                                │
        │      SUBSCRIBE, PUBLISH, FETCH)   │                                  │
        ├─────────────────────────────────────────────────────────────────────►│
        │                                   │                                  │
@@ -783,6 +786,22 @@ to define and is not constrained by this specification.
 
 
 # Security Considerations
+
+## Authentication vs Authorization
+
+This specification defines an authorization scheme, not an authentication scheme.
+User authentication (verifying the identity of a user via credentials, OAuth, 2FA, etc.)
+occurs prior to token issuance and is outside the scope of this document.
+
+The tokens defined in this specification convey authorization - they grant permissions
+for specific MOQT actions (such as SUBSCRIBE, PUBLISH, ANNOUNCE) on specific namespaces
+and tracks. A valid token does not authenticate a user; rather, it authorizes
+the bearer to perform the actions specified in the token's claims.
+
+Implementers should ensure that user authentication is performed by appropriate
+mechanisms before tokens are issued. The security of the authorization scheme
+depends on the security of the token issuance process, including proper user
+authentication.
 
 TODO Add security considerations for DPoP Claims
 
