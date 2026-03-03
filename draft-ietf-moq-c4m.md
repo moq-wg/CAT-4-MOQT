@@ -278,6 +278,7 @@ Prohibits
 ~~~~~~~~~~~~~~~
 
 Example: Allow namespaces starting with `['example','com']` (any length) with exact track name `'/bob'`
+
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
@@ -307,6 +308,7 @@ Prohibits
 
 
 Example: Allow namespaces starting with `['example','com']` with any track name
+
 ~~~~~~~~~~~~~~~
 {
     /moqt/ TBD_MOQT: [[
