@@ -53,9 +53,8 @@ author:
 
 
 normative:
-  MoQTransport: I-D.draft-ietf-moq-transport-10
-  Composite: I-D.draft-lemmons-cose-composite-claims-01
-  MoQTransport: I-D.draft-ietf-moq-transport-14
+Composite: I-D.draft-lemmons-cose-composite-claims-01
+MoQTransport: I-D.draft-ietf-moq-transport-14
   EDN: I-D.draft-ietf-cbor-edn-literals
   BASE64: RFC4648
   CAT:
