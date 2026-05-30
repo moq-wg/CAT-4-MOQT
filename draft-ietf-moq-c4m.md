@@ -858,6 +858,660 @@ action with an appropriate error.
 
 --- back
 
+# Test Vectors
+
+This appendix provides test vectors in JSON format for cross-implementation
+validation of CAT tokens for MOQT. Token strings use the base64url encoding
+defined in {{BASE64}} with the three-part structure: header.payload.signature.
+
+## Keys
+
+The following keys are used throughout these test vectors:
+
+~~~ json
+{
+  "es256_private_key":
+    "c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721",
+  "es256_public_key_x":
+    "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6",
+  "es256_public_key_y":
+    "7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+  "hmac_sha256":
+    "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+}
+~~~
+
+## CBOR Encoding of Claims
+
+These vectors validate correct CBOR encoding of individual claim types.
+
+~~~ json
+[
+  {
+    "id": "cbor_issuer_only",
+    "description": "Minimal token with only issuer claim",
+    "claims": {
+      "iss": "https://auth.example.com"
+    },
+    "payload_cbor_hex":
+      "a101781868747470733a2f2f617574682e6578616d706c652e636f6d"
+  },
+  {
+    "id": "cbor_core_claims",
+    "description": "All core CWT claims (iss, aud, exp, nbf, cti)",
+    "claims": {
+      "iss": "https://auth.example.com",
+      "aud": ["https://relay.example.com"],
+      "exp": 1700086400,
+      "nbf": 1700000000,
+      "cti": "test-token-001"
+    },
+    "payload_cbor_hex":
+      "a501781868747470733a2f2f617574682e6578616d706c652e636f6d03
+       81781968747470733a2f2f72656c61792e6578616d706c652e636f6d04
+       1a65554280051a6553f100074e746573742d746f6b656e2d303031"
+  },
+  {
+    "id": "cbor_cat_version_usage",
+    "description": "CAT version string and usage limit",
+    "claims": {
+      "catv": "CAT-v1",
+      "catu": 5
+    },
+    "payload_cbor_hex":
+      "a2190136664341542d763119013805"
+  },
+  {
+    "id": "cbor_network_identifiers",
+    "description": "Network identifiers: IP, CIDR, ASN, ASN range",
+    "claims": {
+      "catnip": [
+        {"type": "ip_address", "value": "192.168.1.100"},
+        {"type": "ip_range", "value": "10.0.0.0/8"},
+        {"type": "asn", "value": 64512},
+        {"type": "asn_range", "value": [64512, 64768]}
+      ]
+    },
+    "payload_cbor_hex":
+      "a1190137846d3139322e3136382e312e313030a16869705f72616e6765
+       6a31302e302e302e302f38a16361736e19fc00a16961736e5f72616e67
+       658219fc0019fd00"
+  },
+  {
+    "id": "cbor_geographic_claims",
+    "description": "Geographic claims: coordinates, geohash, ISO 3166, altitude",
+    "claims": {
+      "geohash": "9q8yyk",
+      "catgeoiso3166": ["US", "CA"],
+      "catgeocoord": {"lat": 37.7749, "lon": -122.4194, "accuracy": 100.0},
+      "catgeoalt": 10
+    },
+    "payload_cbor_hex":
+      "a419011a6639713879796b19013c8262555362434119013da3636c6174
+       fb4042e32fec56d5d0636c6f6efbc05e9ad77318fc506861636375726
+       16379f956401901 3e0a"
+  },
+  {
+    "id": "cbor_uri_patterns",
+    "description": "URI patterns: exact, prefix, suffix",
+    "claims": {
+      "cath": [
+        {"type": "exact", "value": "https://example.com/live/stream1"},
+        {"type": "prefix", "value": "https://example.com/vod/"},
+        {"type": "suffix", "value": ".m3u8"}
+      ]
+    },
+    "payload_cbor_hex":
+      "a119013b83782068747470733a2f2f6578616d706c652e636f6d2f6c6
+       976652f73747265616d31a166707265666978781868747470733a2f2f65
+       78616d706c652e636f6d2f766f642fa166737566666978652e6d337538"
+  },
+  {
+    "id": "cbor_alpn",
+    "description": "ALPN protocol identifiers",
+    "claims": {
+      "catalpn": ["moq-00", "h3"]
+    },
+    "payload_cbor_hex":
+      "a119013a82666d6f712d3030626833"
+  }
+]
+~~~
+
+## Token Structure
+
+These vectors validate the full token structure (header.payload.signature)
+with cryptographic verification.
+
+~~~ json
+[
+  {
+    "id": "token_hmac_minimal",
+    "description": "Minimal token signed with HMAC-SHA256",
+    "algorithm": "HMAC-SHA256",
+    "algorithm_id": -4,
+    "claims": {
+      "iss": "https://auth.example.com",
+      "aud": ["https://relay.example.com"],
+      "exp": 1700086400
+    },
+    "header_cbor_hex": "a201231063434154",
+    "header_b64": "ogEjEGNDQVQ",
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       0381781968747470733a2f2f72656c61792e6578616d706c652e636f
+       6d041a65554280",
+    "payload_b64":
+      "owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3
+       JlbGF5LmV4YW1wbGUuY29tBBplVUKA",
+    "signature_hex":
+      "5b5ec60fb1a3f81d18b5e8d7edf4702e55261248def8c13cd6809cf6
+       865a6986",
+    "signature_b64":
+      "W17GD7Gj-B0YtejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+    "key_hex":
+      "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
+       1c1d1e1f",
+    "token":
+      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB
+       lodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.W17GD7Gj-B0Y
+       tejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+    "valid": true
+  },
+  {
+    "id": "token_hmac_full",
+    "description":
+      "Token with core + CAT + informational claims, HMAC-SHA256",
+    "algorithm": "HMAC-SHA256",
+    "algorithm_id": -4,
+    "claims": {
+      "iss": "https://issuer.moq.example",
+      "sub": "user:alice@example.com",
+      "aud": [
+        "https://relay1.example.com",
+        "https://relay2.example.com"
+      ],
+      "exp": 1700086400,
+      "nbf": 1700000000,
+      "iat": 1700000000,
+      "cti": "vector-002",
+      "catv": "CAT-v1",
+      "catnip": [{"type": "ip_address", "value": "203.0.113.50"}],
+      "catu": 10
+    },
+    "header_cbor_hex": "a201231063434154",
+    "header_b64": "ogEjEGNDQVQ",
+    "payload_cbor_hex":
+      "aa01781a68747470733a2f2f6973737565722e6d6f712e6578616d70
+       6c650276757365723a616c696365406578616d706c652e636f6d0382
+       781a68747470733a2f2f72656c6179312e6578616d706c652e636f6d
+       781a68747470733a2f2f72656c6179322e6578616d706c652e636f6d
+       041a65554280051a6553f100061a6553f100074a766563746f722d30
+       3032190136664341542d7631190137816c3230332e302e3131332e35
+       301901380a",
+    "payload_b64":
+      "qgF4Gmh0dHBzOi8vaXNzdWVyLm1vcS5leGFtcGxlAnZ1c2VyOmFsa
+       WNlQGV4YW1wbGUuY29tA4J4Gmh0dHBzOi8vcmVsYXkxLmV4YW1wbG
+       UuY29teBpodHRwczovL3JlbGF5Mi5leGFtcGxlLmNvbQQaZVVCgAUa
+       ZVPxAAYaZVPxAAdKdmVjdG9yLTAwMhkBNmZDQVQtdjEZATeBbDIwMy
+       4wLjExMy41MBkBOAo",
+    "signature_hex":
+      "02aa58a31e34ab53fab3c755b47cf08f458a3603da4d933d7c0b1ce4
+       614f44da",
+    "signature_b64":
+      "AqpYox40q1P6s8dVtHzwj0WKNgPaTZM9fAsc5GFPRNo",
+    "key_hex":
+      "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
+       1c1d1e1f",
+    "token":
+      "ogEjEGNDQVQ.qgF4Gmh0dHBzOi8vaXNzdWVyLm1vcS5leGFtcGxlAn
+       Z1c2VyOmFsaWNlQGV4YW1wbGUuY29tA4J4Gmh0dHBzOi8vcmVsYXkx
+       LmV4YW1wbGUuY29teBpodHRwczovL3JlbGF5Mi5leGFtcGxlLmNvbQQ
+       aZVVCgAUaZVPxAAYaZVPxAAdKdmVjdG9yLTAwMhkBNmZDQVQtdjEZAT
+       eBbDIwMy4wLjExMy41MBkBOAo.AqpYox40q1P6s8dVtHzwj0WKNgPaTZ
+       M9fAsc5GFPRNo",
+    "valid": true
+  },
+  {
+    "id": "token_es256",
+    "description":
+      "Token signed with ES256 (P-256 ECDSA, deterministic RFC 6979)",
+    "algorithm": "ES256",
+    "algorithm_id": -7,
+    "claims": {
+      "iss": "https://auth.example.com",
+      "aud": ["https://moq-relay.example.com"],
+      "exp": 1700086400,
+      "nbf": 1700000000
+    },
+    "header_cbor_hex": "a201261063434154",
+    "header_b64": "ogEmEGNDQVQ",
+    "payload_cbor_hex":
+      "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
+       0381781d68747470733a2f2f6d6f712d72656c61792e6578616d706c
+       652e636f6d041a65554280051a6553f100",
+    "payload_b64":
+      "pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB1odHRwczovL2
+       1vcS1yZWxheS5leGFtcGxlLmNvbQQaZVVCgAUaZVPxAA",
+    "signature_hex":
+      "fa3315e9de061fd77d814394428ae61da3d7a21fdffb19802b0c575c
+       578098e7cd4b6b75a1690deed4c2baae994bfc462e0d8a2006f3e897
+       80f3435738294d7a",
+    "signature_b64":
+      "-jMV6d4GH9d9gUOUQormHaPXoh_f-xmAKwxXXFeAmOfNS2t1oWkN7t
+       TCuq6ZS_xGLg2KIAbz6JeA80NXOClNeg",
+    "private_key_hex":
+      "c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b
+       120f6721",
+    "public_key_x_hex":
+      "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e
+       60f29fb6",
+    "public_key_y_hex":
+      "7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294
+       d4462299",
+    "token":
+      "ogEmEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB
+       1odHRwczovL21vcS1yZWxheS5leGFtcGxlLmNvbQQaZVVCgAUaZVPxA
+       A.-jMV6d4GH9d9gUOUQormHaPXoh_f-xmAKwxXXFeAmOfNS2t1oWkN7
+       tTCuq6ZS_xGLg2KIAbz6JeA80NXOClNeg",
+    "valid": true
+  }
+]
+~~~
+
+## DPoP Binding
+
+These vectors validate DPoP (Demonstrating Proof-of-Possession) key binding
+in CAT tokens.
+
+~~~ json
+[
+  {
+    "id": "dpop_jwk_binding",
+    "description":
+      "Token with DPoP key binding (JWK thumbprint in cnf claim)",
+    "dpop": {
+      "cnf_jkt_hex":
+        "a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1",
+      "window_seconds": 60,
+      "honor_jti": true
+    },
+    "payload_cbor_hex":
+      "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a6555428008a1035820a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6
+       f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1190141a200183c0101",
+    "token":
+      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
+       VCgAihA1ggoLHC0-T1prfI2eDxorPE1eb3qLnA0eLzpLXG1-j5oLEZA
+       UGiABg8AQE.sN9kLIp64zIN9zDXoTLYC0xsJU_1FNF3kaO0CbdA_3M"
+  },
+  {
+    "id": "dpop_no_jti",
+    "description":
+      "DPoP binding with longer window, JTI processing disabled",
+    "dpop": {
+      "cnf_jkt_hex":
+        "3c82dfd6358ba804bd90879c34e743bbe13aeab7980664944f37a0ec0063fe95",
+      "cnf_jkt_source": "SHA-256 of 'test-public-key-material'",
+      "window_seconds": 300,
+      "honor_jti": false
+    },
+    "payload_cbor_hex":
+      "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a6555428008a10358203c82dfd6358ba804bd90879c34e743bbe13a
+       eab7980664944f37a0ec0063fe95190141a20019012c0100",
+    "token":
+      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
+       VCgAihA1ggPILf1jWLqAS9kIecNOdDu-E66reYBmSUTzeg7ABj_pUZA
+       UGiABkBLAEA.M4lF5pQdxav6eIWqDjbchDkijVYOM7xa3oJR2IwWt9g"
+  },
+  {
+    "id": "dpop_es256_real_binding",
+    "description":
+      "ES256 token with real JWK thumbprint binding to the signing key",
+    "algorithm": "ES256",
+    "jwk_thumbprint_input":
+      "{\"crv\":\"P-256\",\"kty\":\"EC\",\"x\":\"YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y\",\"y\":\"eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk\"}",
+    "dpop": {
+      "cnf_jkt_hex":
+        "0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+      "window_seconds": 120,
+      "honor_jti": null
+    },
+    "public_key_x_hex":
+      "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6",
+    "public_key_y_hex":
+      "7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+    "payload_cbor_hex":
+      "a501781868747470733a2f2f617574682e6578616d706c652e636f6d
+       0381781968747470733a2f2f72656c61792e6578616d706c652e636f6d
+       041a6555428008a10358200cebf1bc9880748a95588905b79843b42ba7
+       5cb174055e3e246bf87fe00b4a6d190141a1001878",
+    "token":
+      "ogEmEGNDQVQ.pQF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB
+       lodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKACKEDWCAM6_G8m
+       IB0ipVYiQW3mEO0K6dcsXQFXj4ka_h_4AtKbRkBQaEAGHg.5andoxOh
+       WXQIKWR3EMHWT-WIMPBDMYQFc61nzlfZs8zmgzwcOARpmlaB3ZS5MbJ
+       9iCYWykYAcIzJ81nMyyZoQw"
+  }
+]
+~~~
+
+## MOQT Authorization Scopes
+
+These vectors validate MOQT scope encoding and authorization matching.
+Each vector includes authorization tests that specify expected pass/fail
+results for various action, namespace, and track combinations.
+
+~~~ json
+[
+  {
+    "id": "moqt_publisher_exact",
+    "description":
+      "Publisher scope: exact namespace match, prefix track match",
+    "moqt_scopes": [
+      {
+        "actions": [2, 6],
+        "action_names": ["PublishNamespace", "Publish"],
+        "namespace_matches": [
+          {"type": "exact", "pattern_utf8": "example.com",
+           "pattern_hex": "6578616d706c652e636f6d"},
+          {"type": "exact", "pattern_utf8": "alice",
+           "pattern_hex": "616c696365"}
+        ],
+        "track_match": {
+          "type": "prefix", "pattern_utf8": "video-",
+          "pattern_hex": "766964656f2d"
+        }
+      }
+    ],
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a6555428019014781838202068 24b6578616d706c652e636f6d4561
+       6c696365820146766964656f2d",
+    "token":
+      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
+       VCgBkBR4GDggIGgktleGFtcGxlLmNvbUVhbGljZYIBRnZpZGVvLQ.oA
+       PD24Wu_zHnDcuM6a-ePeGvRJjbCa6U7iswdsKzFDk",
+    "authorization_tests": [
+      {"action": 2, "namespace": ["example.com", "alice"],
+       "track": "video-hd", "expected": true},
+      {"action": 6, "namespace": ["example.com", "alice"],
+       "track": "video-sd", "expected": true},
+      {"action": 6, "namespace": ["example.com", "alice"],
+       "track": "audio-main", "expected": false},
+      {"action": 4, "namespace": ["example.com", "alice"],
+       "track": "video-hd", "expected": false},
+      {"action": 6, "namespace": ["example.com", "bob"],
+       "track": "video-hd", "expected": false}
+    ]
+  },
+  {
+    "id": "moqt_subscriber_prefix",
+    "description":
+      "Subscriber scope: prefix namespace match, any track",
+    "moqt_scopes": [
+      {
+        "actions": [3, 4, 7],
+        "action_names": ["SubscribeNamespace", "Subscribe", "Fetch"],
+        "namespace_matches": [
+          {"type": "prefix",
+           "pattern_utf8": "conference.example",
+           "pattern_hex": "636f6e666572656e63652e6578616d706c65"}
+        ],
+        "track_match": null
+      }
+    ],
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a65554280190147818283030407818201 52636f6e666572656e6365
+       2e6578616d706c65",
+    "token":
+      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
+       VCgBkBR4GCgwMEB4GCAVJjb25mZXJlbmNlLmV4YW1wbGU.pfUPZultm
+       yCm1GF2PvPXAYXzvK6d1D-OFNBLG1AwjDg",
+    "authorization_tests": [
+      {"action": 4, "namespace": ["conference.example.room1"],
+       "track": "audio", "expected": true},
+      {"action": 7, "namespace": ["conference.example.room2"],
+       "track": "video", "expected": true},
+      {"action": 4, "namespace": ["other.domain"],
+       "track": "audio", "expected": false},
+      {"action": 6, "namespace": ["conference.example.room1"],
+       "track": "audio", "expected": false}
+    ]
+  },
+  {
+    "id": "moqt_multi_scope",
+    "description":
+      "Multi-scope token: publish to specific namespace, subscribe to prefix, with revalidation",
+    "moqt_reval": 300.0,
+    "moqt_scopes": [
+      {
+        "actions": [2, 6],
+        "action_names": ["PublishNamespace", "Publish"],
+        "namespace_matches": [
+          {"type": "exact", "pattern_utf8": "live.example",
+           "pattern_hex": "6c6976652e6578616d706c65"},
+          {"type": "exact", "pattern_utf8": "studio-a",
+           "pattern_hex": "73747564696f2d61"}
+        ],
+        "track_match": null
+      },
+      {
+        "actions": [4, 7],
+        "action_names": ["Subscribe", "Fetch"],
+        "namespace_matches": [
+          {"type": "prefix", "pattern_utf8": "live.example",
+           "pattern_hex": "6c6976652e6578616d706c65"}
+        ],
+        "track_match": null
+      }
+    ],
+    "payload_cbor_hex":
+      "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a655542801901478282820206824c6c6976652e6578616d706c6548
+       73747564696f2d61828204078182014c6c6976652e6578616d706c6519
+       0148f95cb0",
+    "token":
+      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
+       VCgBkBR4KCggIGgkxsaXZlLmV4YW1wbGVIc3R1ZGlvLWGCggQHgYIBT
+       GxpdmUuZXhhbXBsZRkBSPlcsA.byEzQmxc28UXFyFekHtgOtaVmWyIPl
+       -63xNMOF0Q_IU",
+    "authorization_tests": [
+      {"action": 6, "namespace": ["live.example", "studio-a"],
+       "track": "cam1", "expected": true},
+      {"action": 4, "namespace": ["live.example.studio-b"],
+       "track": "cam1", "expected": true},
+      {"action": 6, "namespace": ["live.example", "studio-b"],
+       "track": "cam1", "expected": false},
+      {"action": 2, "namespace": ["other.example", "studio-a"],
+       "track": "", "expected": false}
+    ]
+  },
+  {
+    "id": "moqt_admin_wildcard",
+    "description":
+      "Admin scope: all actions, no namespace/track restriction",
+    "moqt_scopes": [
+      {
+        "actions": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        "action_names": [
+          "ClientSetup", "ServerSetup", "PublishNamespace",
+          "SubscribeNamespace", "Subscribe", "RequestUpdate",
+          "Publish", "Fetch", "TrackStatus"
+        ],
+        "namespace_matches": [],
+        "track_match": null
+      }
+    ],
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a65554280190147818189000102030405060708",
+    "token":
+      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
+       VCgBkBR4GBiQABAgMEBQYHCA.XlNItz7OGqnNEbaqZ_bQh6TL-wV6SDr
+       8hXyOLmtQkj4",
+    "authorization_tests": [
+      {"action": 0, "namespace": ["any.namespace"],
+       "track": "any-track", "expected": true},
+      {"action": 6, "namespace": ["any.namespace"],
+       "track": "any-track", "expected": true},
+      {"action": 8, "namespace": ["any.namespace"],
+       "track": "status", "expected": true}
+    ]
+  },
+  {
+    "id": "moqt_suffix_match",
+    "description":
+      "Suffix matching on both namespace and track",
+    "moqt_scopes": [
+      {
+        "actions": [4],
+        "action_names": ["Subscribe"],
+        "namespace_matches": [
+          {"type": "suffix", "pattern_utf8": ".example.com",
+           "pattern_hex": "2e6578616d706c652e636f6d"}
+        ],
+        "track_match": {
+          "type": "suffix", "pattern_utf8": "-audio",
+          "pattern_hex": "2d617564696f"
+        }
+      }
+    ],
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a6555428019014781838104818202 4c2e6578616d706c652e636f6d
+       8202462d617564696f",
+    "token":
+      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
+       VCgBkBR4GDgQSBggJMLmV4YW1wbGUuY29tggJGLWF1ZGlv.-eGYTPe_n
+       1PeC0sgHdWCqgnKRHGYF-T89WTk269liBg",
+    "authorization_tests": [
+      {"action": 4, "namespace": ["cdn.example.com"],
+       "track": "stream1-audio", "expected": true},
+      {"action": 4, "namespace": ["cdn.example.com"],
+       "track": "stream1-video", "expected": false},
+      {"action": 4, "namespace": ["cdn.other.org"],
+       "track": "stream1-audio", "expected": false}
+    ]
+  }
+]
+~~~
+
+## Token Validation
+
+These vectors validate token processing: expected pass and fail scenarios.
+All tokens use HMAC-SHA256 with the key specified in the Keys section unless
+otherwise noted.
+
+~~~ json
+[
+  {
+    "id": "valid_basic",
+    "description":
+      "Valid token with correct issuer, audience, and time bounds",
+    "token":
+      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKABRplU_EA.9SztgnG4xgw8U9zDFnqPIuPn6hLwuilSigQcfPsArSg",
+    "validation": {
+      "reference_time": 1700003600,
+      "expected_issuers": ["https://auth.example.com"],
+      "expected_audiences": ["https://relay.example.com"],
+      "expected_result": "valid"
+    }
+  },
+  {
+    "id": "invalid_expired",
+    "description": "Token with expiration in the past",
+    "token":
+      "ogEjEGNDQVQ.ogF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaX14QAA.lq8nGBiZm80yUwl1kH_Tv2prKu_nV20JvxVJW8ZGkho",
+    "validation": {
+      "reference_time": 1700000000,
+      "expected_result": "error",
+      "expected_error": "TokenExpired"
+    }
+  },
+  {
+    "id": "invalid_not_yet_valid",
+    "description": "Token with not-before in the future",
+    "token":
+      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZVaUAAUaZVVCgA.fPIUugY7_oSeHlheu83_8Yyljsk3iP2zGeWRUi7NtUs",
+    "validation": {
+      "reference_time": 1700000000,
+      "expected_result": "error",
+      "expected_error": "TokenNotYetValid"
+    }
+  },
+  {
+    "id": "invalid_wrong_issuer",
+    "description": "Token from untrusted issuer",
+    "token":
+      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vZXZpbC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.Xo7FCr_MGSyVX0C9sueeapSfboIHkrkysurn2VjC9PU",
+    "validation": {
+      "reference_time": 1700003600,
+      "expected_issuers": ["https://auth.example.com"],
+      "expected_result": "error",
+      "expected_error": "InvalidIssuer"
+    }
+  },
+  {
+    "id": "invalid_wrong_audience",
+    "description": "Token not intended for this audience",
+    "token":
+      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB9odHRwczovL290aGVyLXJlbGF5LmV4YW1wbGUuY29tBBplVUKA.b8KxAKxJglzhELMuc9bYmsikrx3F9Y3YdvpfHLbsyk0",
+    "validation": {
+      "reference_time": 1700003600,
+      "expected_issuers": ["https://auth.example.com"],
+      "expected_audiences": ["https://relay.example.com"],
+      "expected_result": "error",
+      "expected_error": "InvalidAudience"
+    }
+  },
+  {
+    "id": "invalid_tampered_signature",
+    "description":
+      "Token with corrupted signature (first byte flipped)",
+    "original_token":
+      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.W17GD7Gj-B0YtejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+    "token":
+      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.pF7GD7Gj-B0YtejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+    "validation": {
+      "expected_result": "error",
+      "expected_error": "SignatureVerificationFailed",
+      "key_hex":
+        "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+    }
+  },
+  {
+    "id": "invalid_wrong_key",
+    "description": "Token verified with incorrect key",
+    "token":
+      "ogEjEGNDQVQ.ogF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZVVCgA.zmbxdkvbWtGtX0DExLC2nIxPDDmgAVImqk4rRSCCkCY",
+    "validation": {
+      "correct_key_hex":
+        "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+      "wrong_key_hex":
+        "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "expected_result": "error",
+      "expected_error": "SignatureVerificationFailed"
+    }
+  },
+  {
+    "id": "invalid_algorithm_mismatch",
+    "description":
+      "Token header says HMAC-SHA256 but verifier expects ES256",
+    "token":
+      "ogEjEGNDQVQ.ogF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZVVCgA.zmbxdkvbWtGtX0DExLC2nIxPDDmgAVImqk4rRSCCkCY",
+    "validation": {
+      "token_algorithm_id": -4,
+      "verifier_algorithm_id": -7,
+      "expected_result": "error",
+      "expected_error": "AlgorithmMismatch"
+    }
+  }
+]
+~~~
+
 # Acknowledgments
 {:numbered="false"}
 
