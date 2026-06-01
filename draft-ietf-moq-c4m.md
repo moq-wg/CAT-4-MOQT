@@ -858,7 +858,7 @@ action with an appropriate error.
 
 --- back
 
-# Test Vectors
+#  Appendix A: Test Vectors
 
 This appendix provides test vectors in JSON format for cross-implementation
 validation of CAT tokens for MOQT. Token strings use the base64url encoding
