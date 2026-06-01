@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 1 December 2026                                         Comcast
+Expires: 3 December 2026                                         Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                             30 May 2026
+                                                             1 June 2026
 
 
         Authorization scheme for MOQT using Common Access Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 December 2026.
+   This Internet-Draft will expire on 3 December 2026.
 
 Copyright Notice
 
@@ -95,7 +95,7 @@ Table of Contents
      7.1.  MOQT Auth Token Type Registry
        7.1.1.  CAT Token Type (0x01)
    8.  Normative References
-   Appendix A.  Test Vectors
+   Appendix A.  Appendix A: Test Vectors
      A.1.  Keys
      A.2.  CBOR Encoding of Claims
      A.3.  Token Structure
@@ -1033,7 +1033,7 @@ suffix-match = 2
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-Appendix A.  Test Vectors
+Appendix A.  Appendix A: Test Vectors
 
    This appendix provides test vectors in JSON format for cross-
    implementation validation of CAT tokens for MOQT.  Token strings use
