@@ -54,8 +54,8 @@ author:
 
 normative:
 
-  Composite: I-D.draft-lemmons-cose-composite-claims-01
-  MoQTransport: I-D.draft-ietf-moq-transport-16
+  Composite: I-D.draft-lemmons-cose-composite-claims-02
+  MoQTransport: I-D.draft-ietf-moq-transport-18
   EDN: I-D.draft-ietf-cbor-edn-literals
   BASE64: RFC4648
   CAT:
@@ -454,7 +454,7 @@ moqt-reval-value = number
 
 The "moqt-reval" claim indicates that the token must be
 revalidated for ongoing streams. If the token is no longer acceptable, the
-actions authorized by it MUST not be permitted to continue.
+actions authorized by it MUST NOT be permitted to continue.
 
 The "moqt-reval-value" is a revalidation interval, expressed in seconds.
 It provides an upper bound on how long a
