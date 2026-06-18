@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 3 December 2026                                         Comcast
+Expires: 20 December 2026                                        Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                             1 June 2026
+                                                            18 June 2026
 
 
         Authorization scheme for MOQT using Common Access Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 December 2026.
+   This Internet-Draft will expire on 20 December 2026.
 
 Copyright Notice
 
@@ -510,7 +510,7 @@ suffix-match = 2
 
    The "moqt-reval" claim indicates that the token must be revalidated
    for ongoing streams.  If the token is no longer acceptable, the
-   actions authorized by it MUST not be permitted to continue.
+   actions authorized by it MUST NOT be permitted to continue.
 
    The "moqt-reval-value" is a revalidation interval, expressed in
    seconds.  It provides an upper bound on how long a token may be
@@ -997,9 +997,9 @@ suffix-match = 2
 
    [Composite]
               Lemmons, C., "Composite Token Claims", Work in Progress,
-              Internet-Draft, draft-lemmons-cose-composite-claims-01, 23
-              July 2025, <https://datatracker.ietf.org/doc/html/draft-
-              lemmons-cose-composite-claims-01>.
+              Internet-Draft, draft-lemmons-cose-composite-claims-02, 17
+              February 2026, <https://datatracker.ietf.org/doc/html/
+              draft-lemmons-cose-composite-claims-02>.
 
    [DPoP]     Fett, D., Campbell, B., Bradley, J., Lodderstedt, T.,
               Jones, M., and D. Waite, "OAuth 2.0 Demonstrating Proof of
@@ -1013,16 +1013,16 @@ suffix-match = 2
               generic-dpop-proof/>.
 
    [EDN]      Bormann, C., "Concise Diagnostic Notation (CDN)", Work in
-              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-25,
-              18 May 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-cbor-edn-literals-25>.
+              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-26,
+              15 June 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-edn-literals-26>.
 
    [MoQTransport]
               Nandakumar, S., Vasiliev, V., Swett, I., and A. Frindell,
               "Media over QUIC Transport", Work in Progress, Internet-
-              Draft, draft-ietf-moq-transport-16, 13 January 2026,
+              Draft, draft-ietf-moq-transport-18, 12 May 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-moq-
-              transport-16>.
+              transport-18>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
