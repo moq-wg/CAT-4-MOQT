@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 20 December 2026                                        Comcast
+Expires: 12 February 2027                                        Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                            18 June 2026
+                                                          11 August 2026
 
 
         Authorization scheme for MOQT using Common Access Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 December 2026.
+   This Internet-Draft will expire on 12 February 2027.
 
 Copyright Notice
 
@@ -180,7 +180,9 @@ Table of Contents
            |                         |                         |
            |  6. MOQT Actions with Token Authorization         |
            |<------------------------------------------------->|
-           |     (PUBLISH_NAMESPACE, SUBSCRIBE, PUBLISH, FETCH)|
+           |     (SETUP, PUBLISH_NAMESPACE, SUBSCRIBE,         |
+           |      SUBSCRIBE_NAMESPACE, PUBLISH, FETCH,         |
+           |        REQUEST_UPDATE)                            |
            |                         |                         |
            |                         |  7. Revalidate Token    |
            |                         |<----------------------->|
@@ -232,29 +234,27 @@ suffix-match = 2
 
    The actions are integers defined as follows:
 
-        +=====================+=====+=============================+
-        | Action              | Key | Reference                   |
-        +=====================+=====+=============================+
-        | CLIENT_SETUP        | 0   | [MoQTransport] Section 9.3  |
-        +---------------------+-----+-----------------------------+
-        | SERVER_SETUP        | 1   | [MoQTransport] Section 9.3  |
-        +---------------------+-----+-----------------------------+
-        | PUBLISH_NAMESPACE   | 2   | [MoQTransport] Section 9.20 |
-        +---------------------+-----+-----------------------------+
-        | SUBSCRIBE_NAMESPACE | 3   | [MoQTransport] Section 9.25 |
-        +---------------------+-----+-----------------------------+
-        | SUBSCRIBE           | 4   | [MoQTransport] Section 9.9  |
-        +---------------------+-----+-----------------------------+
-        | REQUEST_UPDATE      | 5   | [MoQTransport] Section 9.11 |
-        +---------------------+-----+-----------------------------+
-        | PUBLISH             | 6   | [MoQTransport] Section 9.13 |
-        +---------------------+-----+-----------------------------+
-        | FETCH               | 7   | [MoQTransport] Section 9.16 |
-        +---------------------+-----+-----------------------------+
-        | TRACK_STATUS        | 8   | [MoQTransport] Section 9.19 |
-        +---------------------+-----+-----------------------------+
+       +=====================+=====+==============================+
+       | Action              | Key | Reference                    |
+       +=====================+=====+==============================+
+       | SETUP               | 1   | [MoQTransport] Section 10.3  |
+       +---------------------+-----+------------------------------+
+       | PUBLISH_NAMESPACE   | 2   | [MoQTransport] Section 10.15 |
+       +---------------------+-----+------------------------------+
+       | SUBSCRIBE_NAMESPACE | 3   | [MoQTransport] Section 10.18 |
+       +---------------------+-----+------------------------------+
+       | SUBSCRIBE           | 4   | [MoQTransport] Section 10.7  |
+       +---------------------+-----+------------------------------+
+       | REQUEST_UPDATE      | 5   | [MoQTransport] Section 10.9  |
+       +---------------------+-----+------------------------------+
+       | PUBLISH             | 6   | [MoQTransport] Section 10.10 |
+       +---------------------+-----+------------------------------+
+       | FETCH               | 7   | [MoQTransport] Section 10.12 |
+       +---------------------+-----+------------------------------+
+       | TRACK_STATUS        | 8   | [MoQTransport] Section 10.14 |
+       +---------------------+-----+------------------------------+
 
-                                  Table 1
+                                 Table 1
 
    The scope of the moqt claim is limited to the actions provided in the
    array.  Any action not present in the array is not authorized by moqt
@@ -957,7 +957,7 @@ suffix-match = 2
                 +============+============+===============+
                 | Token Type | Token Name | Specification |
                 +============+============+===============+
-                | 0x01       | CAT        | RFCXXXX       |
+                | 0x01       | CAT        | This document |
                 +------------+------------+---------------+
 
                                   Table 4
@@ -1013,16 +1013,16 @@ suffix-match = 2
               generic-dpop-proof/>.
 
    [EDN]      Bormann, C., "Concise Diagnostic Notation (CDN)", Work in
-              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-26,
-              15 June 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-cbor-edn-literals-26>.
+              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-27,
+              20 July 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-edn-literals-27>.
 
    [MoQTransport]
               Nandakumar, S., Vasiliev, V., Swett, I., and A. Frindell,
               "Media over QUIC Transport", Work in Progress, Internet-
-              Draft, draft-ietf-moq-transport-18, 12 May 2026,
+              Draft, draft-ietf-moq-transport-19, 6 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-moq-
-              transport-18>.
+              transport-19>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
