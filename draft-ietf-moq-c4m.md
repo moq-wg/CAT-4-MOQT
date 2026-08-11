@@ -55,7 +55,7 @@ author:
 normative:
 
   Composite: I-D.draft-lemmons-cose-composite-claims-02
-  MoQTransport: I-D.draft-ietf-moq-transport-18
+  MoQTransport: I-D.draft-ietf-moq-transport-19
   EDN: I-D.draft-ietf-cbor-edn-literals
   BASE64: RFC4648
   CAT:
@@ -139,7 +139,9 @@ This draft defines version 1 of this specification.
         |                         |                         |
         |  6. MOQT Actions with Token Authorization         |
         |<------------------------------------------------->|
-        |     (PUBLISH_NAMESPACE, SUBSCRIBE, PUBLISH, FETCH)|
+        |     (SETUP, PUBLISH_NAMESPACE, SUBSCRIBE,         |
+        |      SUBSCRIBE_NAMESPACE, PUBLISH, FETCH,         |
+        |        REQUEST_UPDATE)                            |
         |                         |                         |
         |                         |  7. Revalidate Token    |
         |                         |<----------------------->|
@@ -188,19 +190,18 @@ the namespace, and a match object for the track name.
 
 The actions are integers defined as follows:
 
-|----------------------|-----|-------------------------------|
-| Action               | Key | Reference                     |
-|----------------------|-----|-------------------------------|
-| CLIENT_SETUP         |  0  | {{MoQTransport}} Section 9.3  |
-| SERVER_SETUP         |  1  | {{MoQTransport}} Section 9.3  |
-| PUBLISH_NAMESPACE    |  2  | {{MoQTransport}} Section 9.20 |
-| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 9.25 |
-| SUBSCRIBE            |  4  | {{MoQTransport}} Section 9.9  |
-| REQUEST_UPDATE       |  5  | {{MoQTransport}} Section 9.11 |
-| PUBLISH              |  6  | {{MoQTransport}} Section 9.13 |
-| FETCH                |  7  | {{MoQTransport}} Section 9.16 |
-| TRACK_STATUS         |  8  | {{MoQTransport}} Section 9.19 |
-|----------------------|-----|-------------------------------|
+|----------------------|-----|--------------------------------|
+| Action               | Key | Reference                      |
+|----------------------|-----|--------------------------------|
+| SETUP                |  1  | {{MoQTransport}} Section 10.3  |
+| PUBLISH_NAMESPACE    |  2  | {{MoQTransport}} Section 10.15 |
+| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 10.18 |
+| SUBSCRIBE            |  4  | {{MoQTransport}} Section 10.7  |
+| REQUEST_UPDATE       |  5  | {{MoQTransport}} Section 10.9  |
+| PUBLISH              |  6  | {{MoQTransport}} Section 10.10 |
+| FETCH                |  7  | {{MoQTransport}} Section 10.12 |
+| TRACK_STATUS         |  8  | {{MoQTransport}} Section 10.14 |
+|----------------------|-----|--------------------------------|
 
 The scope of the moqt claim is limited to the actions provided in the array.
 Any action not present in the array is not authorized by moqt claim.
@@ -835,7 +836,7 @@ registry established by {{MoQTransport}}:
 |-------------|-------------------|---------------------------|
 | Token Type  | Token Name        | Specification             |
 |-------------|-------------------|---------------------------|
-| 0x01        | CAT               | RFCXXXX                   |
+| 0x01        | CAT               | This document             |
 |-------------|-------------------|---------------------------|
 
 ### CAT Token Type (0x01)
