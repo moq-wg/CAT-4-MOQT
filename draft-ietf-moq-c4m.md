@@ -190,13 +190,13 @@ matches (an array of match objects), and the track match (a single match object)
 
 ### Extensibility
 
-Recipients MUST ignore map keys they do not recognize. This makes it
-possible to introduce new optional fields in later revisions of this
-specification without breaking deployed parsers.
+Recipients MUST ignore map keys they do not recognize, thus 
+allowing introduction of new optional fields without breaking
+deployments.
 
-If a later revision needs to change the scope format in a
-non-backwards-compatible way, it registers a new map key
-(e.g., key 1) carrying the replacement structure. A recipient
+Future revisions leading to backward incompatible scope 
+formats MUST register a ne map kep (e.g., kwy 1) 
+defining the replacement structure. A recipient
 that finds none of the keys it understands MUST reject the token.
 
 The actions are integers defined as follows:
@@ -218,15 +218,27 @@ The actions are integers defined as follows:
 The scope of the moqt claim is limited to the actions provided in the array.
 Any action not present in the array is not authorized by moqt claim.
 
-When a match object is a byte string, it is an exact match. When a match object is an array, the first element is the match type and the second is the match value.
+When a match object is a byte string, it is an exact match. When a match object 
+is an array, the first element is the match type and the second is the match value.
 
-Matches are performed bytewise against the corresponding field of the Full Track Name (as defined in Section 2.4.1 of {{MoQTransport}}). The first namespace match object is applied to the first field in the Track Namespace, and so on. The match for the track name is matched against the Track Name.
+Matches are performed bytewise against the corresponding field of the 
+Full Track Name (as defined in Section 2.4.1 of {{MoQTransport}}). The 
+first namespace match object is applied to the first field in the Track Namespace, 
+and so on. The match for the track name is matched against the Track Name.
 
-Exact matches must match exactly, prefix matches must match the beginning of the byte string, and suffix matches must match the end of the byte string.
+Exact matches must match exactly, prefix matches must match the beginning ]
+of the byte string, and suffix matches must match the end of the byte string.
 
-The track namespace match and track name match are optional. If the length of the scope array is two, then no track name match is performed at all and the scope of the token includes all track names. If the length is one, the scope includes all namespaces as well as no matching is performed. The list of actions is mandatory.
+The track namespace match and track name match are optional. If the length of the 
+scope array is two, then no track name match is performed at all and the scope of 
+the token includes all track names. If the length is one, the scope includes all 
+namespaces as well as no matching is performed. The list of actions is mandatory.
 
-A nil match object is special: it only matches the end of the list of namespaces. This allows the scope to be limited to a precise namespace length. If the list of namespace match objects does not end with a nil match object, then the scope includes all longer namespaces that start with fields that match. Note that nil MUST only appear as the last element in the namespace match array; placing nil elsewhere is invalid.
+A nil match object is special: it only matches the end of the list of namespaces. This 
+allows the scope to be limited to a precise namespace length. If the list of namespace 
+match objects does not end with a nil match object, then the scope includes all longer 
+namespaces that start with fields that match. Note that nil MUST only appear as the 
+last element in the namespace match array; placing nil elsewhere is invalid.
 
 No normalization is applied to the values against which to match; it is performed bytewise.
 
