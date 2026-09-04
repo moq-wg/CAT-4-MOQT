@@ -166,7 +166,9 @@ The "moqt" claim is defined by the following CDDL:
 ~~~~~~~~~~~~~~~
 $$Claims-Set-Claims //= (moqt-label => moqt-value)
 moqt-label = TBD_MOQT
-moqt-value = [ + moqt-scope ]
+moqt-value = { moqt-scopes-key => moqt-scopes, * int => any }
+moqt-scopes-key = 0
+moqt-scopes = [ + moqt-scope ]
 moqt-scope = [ moqt-actions, ? [ + moqt-ns-match ], ? moqt-track-match ]
 moqt-actions = [ + moqt-action ]
 moqt-action = int
@@ -182,9 +184,20 @@ suffix-match = 2
 ~~~~~~~~~~~~~~~
 
 The "moqt" claim bounds the scope of MOQT actions for which the token can provide
-access. It is an array of action scopes. Each scope is an array with three
-elements: an array of integers that identifies the actions, an array of match objects for
-the namespace, and a match object for the track name.
+access. The claim value is a CBOR map. Key 0 holds the scopes array. Each scope
+is itself an array of three elements: the actions (an array of integers), the namespace
+matches (an array of match objects), and the track match (a single match object).
+
+### Extensibility
+
+Recipients MUST ignore map keys they do not recognize. This makes it
+possible to introduce new optional fields in later revisions of this
+specification without breaking deployed parsers.
+
+If a later revision needs to change the scope format in a
+non-backwards-compatible way, it registers a new map key
+(e.g., key 1) carrying the replacement structure. A recipient
+that finds none of the keys it understands MUST reject the token.
 
 The actions are integers defined as follows:
 
@@ -227,11 +240,11 @@ Example: Allow with an exact match `[['example','com'],'/bob']`
 
 ~~~~~~~~~~~~~~~
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example','com',nil],
         '/bob'
-    ]]
+    ]]}
 }
 ~~~~~~~~~~~~~~~
 
@@ -255,11 +268,11 @@ Example: Allow with a prefix match `[['example','com'],'/bob']`
 
 ~~~~~~~~~~~~~~~
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example','com',nil],
         [ /prefix/ 1, '/bob']
-    ]]
+    ]]}
 }
 ~~~~~~~~~~~~~~~
 
@@ -281,11 +294,11 @@ Example: Allow namespaces starting with `['example','com']` (any length) with ex
 
 ~~~~~~~~~~~~~~~
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         { /exact/ 0: 'example.com'},
         { /exact/ 0: '/bob'}
-    ]]
+    ]]}
 }
 ~~~~~~~~~~~~~~~
 
@@ -311,10 +324,10 @@ Example: Allow namespaces starting with `['example','com']` with any track name
 
 ~~~~~~~~~~~~~~~
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example','com']
-    ]]
+    ]]}
 }
 ~~~~~~~~~~~~~~~
 
@@ -341,11 +354,11 @@ This example shows how to use a prefix match within a specific namespace field. 
 
 ~~~~~~~~~~~~~~~
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example', [ /prefix/ 1, 'user-'], nil],
         '/data'
-    ]]
+    ]]}
 }
 ~~~~~~~~~~~~~~~
 
@@ -368,11 +381,11 @@ This example demonstrates suffix matching, which matches the end of a byte strin
 
 ~~~~~~~~~~~~~~~
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /PUBLISH/ 6 ],
         ['example','com',nil],
         [ /suffix/ 2, '.json']
-    ]]
+    ]]}
 }
 ~~~~~~~~~~~~~~~
 
@@ -402,10 +415,10 @@ the first acceptable result is discovered.
 
 ~~~~~~~~~~~~~~~
 {
-    /moqt/ TBD_MOQT: [
+    /moqt/ TBD_MOQT: { 0: [
         [[/PUBLISH/ 6], ['example','com',nil], [ /prefix/ 1, '/bob']],
         [[/PUBLISH/ 6], ['example','com',nil], '/logs/12345/bob']
-    ],
+    ]},
     /exp/ 4: 1750000000
 }
 ~~~~~~~~~~~~~~~
@@ -427,11 +440,11 @@ If there are other claims that depend on which MOQT limit applies, a logical cla
 {
     /or/ TBD_OR: [
         {
-            /moqt/ TBD_MOQT: [[[/PUBLISH/ 6], ['example','com'], [ /prefix/ 1, 'bob']]],
+            /moqt/ TBD_MOQT: { 0: [[[/PUBLISH/ 6], ['example','com'], [ /prefix/ 1, 'bob']]]},
             /exp/ 4: 1750000000
         },
         {
-            /moqt/ TBD_MOQT: [[[/PUBLISH/ 6], ['example','com'], 'logs/12345/bob']],
+            /moqt/ TBD_MOQT: { 0: [[[/PUBLISH/ 6], ['example','com'], 'logs/12345/bob']]},
             /exp/ 4: 1750000600
         }
     ]
@@ -512,13 +525,13 @@ Below is an example showing jkt token binding.
   / cnf / 8: {
     / jkt / 3: h'0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'  / 32-byte SHA-256 JWK thumbprint (hex-encoded) /
   },
-  / moqt / TBD_MOQT: [
+  / moqt / TBD_MOQT: { 0: [
     [
       [/PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7],
       ['cdn','example','com',nil],
       [ /prefix/ 1, '/sports/']
     ]
-  ],
+  ]},
   / catdpop /
   321: {
     0: 300,  / 5-minute window /
@@ -819,7 +832,7 @@ IANA will register the following claims in the "CBOR Web Token (CWT) Claims" reg
 | Claim Description      | MOQT Action    | MOQT revalidation |
 | JWT Claim Name         | N/A            | N/A               |
 | Claim Key              | TBD_MOQT (1+2) | TBD_MOQT (1+2)    |
-| Claim Value Type       | array          | number            |
+| Claim Value Type       | map            | number            |
 | Change Controller      | IESG           | IESG              |
 | Specification Document | RFCXXXX        | RFCXXXX           |
 |------------------------|----------------|-------------------|
