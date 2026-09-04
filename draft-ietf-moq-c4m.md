@@ -1464,6 +1464,151 @@ results for various action, namespace, and track combinations.
 ]
 ~~~
 
+## Composite Claims
+
+These vectors validate composite claim encoding per
+{{Composite}}. Each vector includes an outer
+token (iss, exp) with embedded composite claims (OR key 324, NOR key 325,
+AND key 326). Tokens use COSE_Mac0 with HMAC-SHA256.
+
+~~~ json
+[
+  {
+    "id": "composite_or_simple",
+    "description":
+      "OR composite: at least one of two alternative claim sets
+       must be acceptable",
+    "composite": {
+      "operator": "OR",
+      "claim_key": 324,
+      "claim_sets": [
+        {"iss": "https://auth.example.com",
+         "exp": 1700086400, "catv": 1},
+        {"iss": "https://auth-backup.example.com",
+         "exp": 1700090000, "catv": 1}
+      ]
+    },
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a6555428019014482a301781868747470733a2f2f617574682e65
+       78616d706c652e636f6d041a6555428019013601a301781f68747470
+       733a2f2f617574682d6261636b75702e6578616d706c652e636f6d04
+       1a6555509019013601",
+    "cose_hex":
+      "d18448a201051063434154a05879a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a6555428019014482a3017818
+       68747470733a2f2f617574682e6578616d706c652e636f6d041a6555
+       428019013601a301781f68747470733a2f2f617574682d6261636b75
+       702e6578616d706c652e636f6d041a655550901901360158203f11f8
+       0896554afc5246d8711ca88317228a84d44fcb212563bc24812623d7
+       49",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWHmjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAGQFEgqMBeBhodHRwczovL2F1dGguZXhhbXBsZS5jb20EGmVV
+       QoAZATYBowF4H2h0dHBzOi8vYXV0aC1iYWNrdXAuZXhhbXBsZS5jb20E
+       GmVVUJAZATYBWCA_EfgIllVK_FJG2HEcqIMXIoqE1E_LISVjvCSBJiPX
+       SQ"
+  },
+  {
+    "id": "composite_and",
+    "description":
+      "AND composite: both claim sets must be acceptable",
+    "composite": {
+      "operator": "AND",
+      "claim_key": 326,
+      "claim_sets": [
+        {"exp": 1700086400, "catv": 1},
+        {"exp": 1700086400,
+         "catnip": [{"type": "ip_address", "value": "10.0.0.0"}]}
+      ]
+    },
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a6555428019014682a2041a6555428019013601a2041a65554280
+       19013781d834440a000000",
+    "cose_hex":
+      "d18448a201051063434154a05843a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a6555428019014682a2041a65
+       55428019013601a2041a6555428019013781d834440a0000005820b2
+       41ea8429f9bdf073dea3e4a738f0dee7116d78e509e4f6fec9c8a13b
+       8896de",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWEOjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAGQFGgqIEGmVVQoAZATYBogQaZVVCgBkBN4HYNEQKAAAAWCCy
+       QeqEKfm98HPeo-SnOPDe5xFteOUJ5Pb-ycihO4iW3g"
+  },
+  {
+    "id": "composite_nor",
+    "description":
+      "NOR composite: none of the listed claim sets can be
+       acceptable",
+    "composite": {
+      "operator": "NOR",
+      "claim_key": 325,
+      "claim_sets": [
+        {"iss": "https://revoked.example.com", "exp": 1700086400}
+      ]
+    },
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a6555428019014581a201781b68747470733a2f2f7265766f6b65
+       642e6578616d706c652e636f6d041a65554280",
+    "cose_hex":
+      "d18448a201051063434154a0584ba301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a6555428019014581a201781b
+       68747470733a2f2f7265766f6b65642e6578616d706c652e636f6d04
+       1a6555428058202cf030a29072032aa0775e71c2c2703a668fa2dbf1
+       152d74258f0f42c4640d28",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWEujAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAGQFFgaIBeBtodHRwczovL3Jldm9rZWQuZXhhbXBsZS5jb20E
+       GmVVQoBYICzwMKKQcgMqoHdeccLCcDpmj6Lb8RUtdCWPD0LEZA0o"
+  },
+  {
+    "id": "composite_nested",
+    "description":
+      "Nested composite: OR containing a standalone claim set
+       and a nested AND",
+    "composite": {
+      "operator": "OR",
+      "claim_key": 324,
+      "claim_sets": [
+        {"iss": "https://primary.example.com", "exp": 1700086400},
+        {"nested_and": {
+           "claim_key": 326,
+           "claim_sets": [
+             {"iss": "https://secondary.example.com",
+              "exp": 1700086400},
+             {"exp": 1700086400, "catv": 1}
+           ]
+         }
+        }
+      ]
+    },
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a6555428019014482a201781b68747470733a2f2f7072696d6172
+       792e6578616d706c652e636f6d041a65554280a119014682a201781d
+       68747470733a2f2f7365636f6e646172792e6578616d706c652e636f
+       6d041a65554280a2041a6555428019013601",
+    "cose_hex":
+      "d18448a201051063434154a05882a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a6555428019014482a201781b
+       68747470733a2f2f7072696d6172792e6578616d706c652e636f6d04
+       1a65554280a119014682a201781d68747470733a2f2f7365636f6e64
+       6172792e6578616d706c652e636f6d041a65554280a2041a65554280
+       1901360158201577ec93556a6472e1e68846d3927211a531ddd337b1
+       1e4c2d5e4e24f16776aa",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWIKjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAGQFEgqIBeBtodHRwczovL3ByaW1hcnkuZXhhbXBsZS5jb20E
+       GmVVQoChGQFGgqIBeB1odHRwczovL3NlY29uZGFyeS5leGFtcGxlLmNv
+       bQQaZVVCgKIEGmVVQoAZATYBWCAVd-yTVWpkcuHmiEbTknIRpTHd0zex
+       HkwtXk4k8Wd2qg"
+  }
+]
+~~~
+
 ## Token Validation
 
 These vectors validate token processing: expected pass and fail scenarios.
