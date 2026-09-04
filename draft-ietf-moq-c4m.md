@@ -861,8 +861,9 @@ action with an appropriate error.
 #  Appendix A: Test Vectors
 
 This appendix provides test vectors in JSON format for cross-implementation
-validation of CAT tokens for MOQT. Token strings use the base64url encoding
-defined in {{BASE64}} with the three-part structure: header.payload.signature.
+validation of CAT tokens for MOQT. Tokens use COSE_Mac0 (CBOR tag 17) for
+HMAC-SHA256 or COSE_Sign1 (CBOR tag 18) for ES256. Token strings are the
+base64url encoding of the full COSE structure.
 
 ## Keys
 
@@ -907,19 +908,20 @@ These vectors validate correct CBOR encoding of individual claim types.
       "cti": "test-token-001"
     },
     "payload_cbor_hex":
-      "a501781868747470733a2f2f617574682e6578616d706c652e636f6d03
-       81781968747470733a2f2f72656c61792e6578616d706c652e636f6d04
-       1a65554280051a6553f100074e746573742d746f6b656e2d303031"
+      "a501781868747470733a2f2f617574682e6578616d706c652e636f6d
+       0381781968747470733a2f2f72656c61792e6578616d706c652e636f
+       6d041a65554280051a6553f100074e746573742d746f6b656e2d3030
+       31"
   },
   {
-    "id": "cbor_cat_version_usage",
-    "description": "CAT version string and usage limit",
+    "id": "cbor_cat_version_uri",
+    "description": "CAT version (uint 1) and URI match rule",
     "claims": {
-      "catv": "CAT-v1",
-      "catu": 5
+      "catv": 1,
+      "catu": {"host": "example.com"}
     },
     "payload_cbor_hex":
-      "a2190136664341542d763119013805"
+      "a219013601190138a101a1006b6578616d706c652e636f6d"
   },
   {
     "id": "cbor_network_identifiers",
@@ -933,38 +935,41 @@ These vectors validate correct CBOR encoding of individual claim types.
       ]
     },
     "payload_cbor_hex":
-      "a1190137846d3139322e3136382e312e313030a16869705f72616e6765
-       6a31302e302e302e302f38a16361736e19fc00a16961736e5f72616e67
-       658219fc0019fd00"
+      "a119013784d83444c0a80164d834a108410a19fc008219fc0019fd00"
   },
   {
     "id": "cbor_geographic_claims",
-    "description": "Geographic claims: coordinates, geohash, ISO 3166, altitude",
+    "description":
+      "Geographic claims: coordinates, geohash, ISO 3166, altitude",
     "claims": {
       "geohash": "9q8yyk",
       "catgeoiso3166": ["US", "CA"],
-      "catgeocoord": {"lat": 37.7749, "lon": -122.4194, "accuracy": 100.0},
+      "catgeocoord": {"lat": 37.7749, "lon": -122.4194,
+                      "accuracy": 100.0},
       "catgeoalt": 10
     },
     "payload_cbor_hex":
-      "a419011a6639713879796b19013c8262555362434119013da3636c6174
-       fb4042e32fec56d5d0636c6f6efbc05e9ad77318fc506861636375726
-       16379f956401901 3e0a"
+      "a419011a6639713879796b19013c82625553624341
+       19013d8183fb4042e32fec56d5d0fbc05e9ad77318fc5018
+       6419013e820a05"
   },
   {
-    "id": "cbor_uri_patterns",
-    "description": "URI patterns: exact, prefix, suffix",
+    "id": "cbor_uri_match_rules",
+    "description":
+      "URI match rules: host exact, path prefix, extension exact",
     "claims": {
-      "cath": [
-        {"type": "exact", "value": "https://example.com/live/stream1"},
-        {"type": "prefix", "value": "https://example.com/vod/"},
-        {"type": "suffix", "value": ".m3u8"}
+      "catu": [
+        {"component": "host", "match": "exact",
+         "value": "example.com"},
+        {"component": "path", "match": "prefix",
+         "value": "/vod/"},
+        {"component": "extension", "match": "exact",
+         "value": "m3u8"}
       ]
     },
     "payload_cbor_hex":
-      "a119013b83782068747470733a2f2f6578616d706c652e636f6d2f6c6
-       976652f73747265616d31a166707265666978781868747470733a2f2f65
-       78616d706c652e636f6d2f766f642fa166737566666978652e6d337538"
+      "a1190138a301a1006b6578616d706c652e636f6d03a101652f766f64
+       2f08a100646d337538"
   },
   {
     "id": "cbor_alpn",
@@ -973,57 +978,58 @@ These vectors validate correct CBOR encoding of individual claim types.
       "catalpn": ["moq-00", "h3"]
     },
     "payload_cbor_hex":
-      "a119013a82666d6f712d3030626833"
+      "a119013a82466d6f712d3030426833"
   }
 ]
 ~~~
 
 ## Token Structure
 
-These vectors validate the full token structure (header.payload.signature)
-with cryptographic verification.
+These vectors validate the full COSE_Mac0 (tag 17) and COSE_Sign1 (tag 18)
+token structure with cryptographic verification. Each vector includes the
+COSE binary encoding (cose_hex) and its base64url representation (cose_b64).
 
 ~~~ json
 [
   {
     "id": "token_hmac_minimal",
-    "description": "Minimal token signed with HMAC-SHA256",
+    "description": "Minimal COSE_Mac0 token signed with HMAC-SHA256",
     "algorithm": "HMAC-SHA256",
-    "algorithm_id": -4,
+    "algorithm_id": 5,
     "claims": {
       "iss": "https://auth.example.com",
       "aud": ["https://relay.example.com"],
       "exp": 1700086400
     },
-    "header_cbor_hex": "a201231063434154",
-    "header_b64": "ogEjEGNDQVQ",
+    "header_cbor_hex": "a201051063434154",
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
        0381781968747470733a2f2f72656c61792e6578616d706c652e636f
        6d041a65554280",
-    "payload_b64":
-      "owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3
-       JlbGF5LmV4YW1wbGUuY29tBBplVUKA",
-    "signature_hex":
-      "5b5ec60fb1a3f81d18b5e8d7edf4702e55261248def8c13cd6809cf6
-       865a6986",
-    "signature_b64":
-      "W17GD7Gj-B0YtejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+    "tag_hex":
+      "16ca16a2d4e2476528ae858d91b00f257a507fe57284bfb13d7d6ca1
+       f065e230",
     "key_hex":
       "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
        1c1d1e1f",
-    "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB
-       lodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.W17GD7Gj-B0Y
-       tejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+    "cose_hex":
+      "d18448a201051063434154a0583fa301781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d0381781968747470733a2f2f72656c
+       61792e6578616d706c652e636f6d041a65554280582016ca16a2d4e24
+       76528ae858d91b00f257a507fe57284bfb13d7d6ca1f065e230",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWD-jAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tA4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoBYIB
+       bKFqLU4kdlKK6FjZGwDyV6UH_lcoS_sT19bKHwZeIw",
     "valid": true
   },
   {
     "id": "token_hmac_full",
     "description":
-      "Token with core + CAT + informational claims, HMAC-SHA256",
+      "COSE_Mac0 token with core + CAT + informational claims,
+       HMAC-SHA256",
     "algorithm": "HMAC-SHA256",
-    "algorithm_id": -4,
+    "algorithm_id": 5,
     "claims": {
       "iss": "https://issuer.moq.example",
       "sub": "user:alice@example.com",
@@ -1035,47 +1041,48 @@ with cryptographic verification.
       "nbf": 1700000000,
       "iat": 1700000000,
       "cti": "vector-002",
-      "catv": "CAT-v1",
+      "catv": 1,
       "catnip": [{"type": "ip_address", "value": "203.0.113.50"}],
-      "catu": 10
+      "catu": {"path": "/live/"}
     },
-    "header_cbor_hex": "a201231063434154",
-    "header_b64": "ogEjEGNDQVQ",
+    "header_cbor_hex": "a201051063434154",
     "payload_cbor_hex":
       "aa01781a68747470733a2f2f6973737565722e6d6f712e6578616d70
        6c650276757365723a616c696365406578616d706c652e636f6d0382
        781a68747470733a2f2f72656c6179312e6578616d706c652e636f6d
        781a68747470733a2f2f72656c6179322e6578616d706c652e636f6d
        041a65554280051a6553f100061a6553f100074a766563746f722d30
-       3032190136664341542d7631190137816c3230332e302e3131332e35
-       301901380a",
-    "payload_b64":
-      "qgF4Gmh0dHBzOi8vaXNzdWVyLm1vcS5leGFtcGxlAnZ1c2VyOmFsa
-       WNlQGV4YW1wbGUuY29tA4J4Gmh0dHBzOi8vcmVsYXkxLmV4YW1wbG
-       UuY29teBpodHRwczovL3JlbGF5Mi5leGFtcGxlLmNvbQQaZVVCgAUa
-       ZVPxAAYaZVPxAAdKdmVjdG9yLTAwMhkBNmZDQVQtdjEZATeBbDIwMy
-       4wLjExMy41MBkBOAo",
-    "signature_hex":
-      "02aa58a31e34ab53fab3c755b47cf08f458a3603da4d933d7c0b1ce4
-       614f44da",
-    "signature_b64":
-      "AqpYox40q1P6s8dVtHzwj0WKNgPaTZM9fAsc5GFPRNo",
+       30321901360119013781d83444cb007132190138a103a101662f6c697
+       6652f",
+    "tag_hex":
+      "29c1a6612ce6d49273fd8c0116b9decbc287662d5ba5d67defafaf6f
+       f0c11278",
     "key_hex":
       "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
        1c1d1e1f",
-    "token":
-      "ogEjEGNDQVQ.qgF4Gmh0dHBzOi8vaXNzdWVyLm1vcS5leGFtcGxlAn
-       Z1c2VyOmFsaWNlQGV4YW1wbGUuY29tA4J4Gmh0dHBzOi8vcmVsYXkx
-       LmV4YW1wbGUuY29teBpodHRwczovL3JlbGF5Mi5leGFtcGxlLmNvbQQ
-       aZVVCgAUaZVPxAAYaZVPxAAdKdmVjdG9yLTAwMhkBNmZDQVQtdjEZAT
-       eBbDIwMy4wLjExMy41MBkBOAo.AqpYox40q1P6s8dVtHzwj0WKNgPaTZ
-       M9fAsc5GFPRNo",
+    "cose_hex":
+      "d18448a201051063434154a058abaa01781a68747470733a2f2f69737
+       37565722e6d6f712e6578616d706c650276757365723a616c69636540
+       6578616d706c652e636f6d0382781a68747470733a2f2f72656c61793
+       12e6578616d706c652e636f6d781a68747470733a2f2f72656c617932
+       2e6578616d706c652e636f6d041a65554280051a6553f100061a65530
+       f100074a766563746f722d3030321901360119013781d83444cb007132
+       190138a103a101662f6c6976652f582029c1a6612ce6d49273fd8c011
+       6b9decbc287662d5ba5d67defafaf6ff0c11278",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWKuqAXgaaHR0cHM6Ly9pc3N1ZXIubW9xLmV4
+       YW1wbGUCdnVzZXI6YWxpY2VAZXhhbXBsZS5jb20DgngaaHR0cHM6Ly
+       9yZWxheTEuZXhhbXBsZS5jb214Gmh0dHBzOi8vcmVsYXkyLmV4YW1
+       wbGUuY29tBBplVUKABRplU_EABhplU_EAB0p2ZWN0b3ItMDAyGQE2
+       ARkBN4HYNETLAHEyGQE4oQOhAWYvbGl2ZS9YICnBpmEs5tSSc_2MAR
+       a53svCh2YtW6XWfe-vr2_wwRJ4",
     "valid": true
   },
   {
     "id": "token_es256",
     "description":
-      "Token signed with ES256 (P-256 ECDSA, deterministic RFC 6979)",
+      "COSE_Sign1 token signed with ES256
+       (P-256 ECDSA, deterministic RFC 6979)",
     "algorithm": "ES256",
     "algorithm_id": -7,
     "claims": {
@@ -1085,21 +1092,14 @@ with cryptographic verification.
       "nbf": 1700000000
     },
     "header_cbor_hex": "a201261063434154",
-    "header_b64": "ogEmEGNDQVQ",
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
        0381781d68747470733a2f2f6d6f712d72656c61792e6578616d706c
        652e636f6d041a65554280051a6553f100",
-    "payload_b64":
-      "pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB1odHRwczovL2
-       1vcS1yZWxheS5leGFtcGxlLmNvbQQaZVVCgAUaZVPxAA",
     "signature_hex":
-      "fa3315e9de061fd77d814394428ae61da3d7a21fdffb19802b0c575c
-       578098e7cd4b6b75a1690deed4c2baae994bfc462e0d8a2006f3e897
-       80f3435738294d7a",
-    "signature_b64":
-      "-jMV6d4GH9d9gUOUQormHaPXoh_f-xmAKwxXXFeAmOfNS2t1oWkN7t
-       TCuq6ZS_xGLg2KIAbz6JeA80NXOClNeg",
+      "ed8cf586f32ba410f2b3097642eb32255c8dc555e9e058c48084809d
+       f557887bc5ee4974a9ef5c4557c1557de799628b634cafaa1b74c936
+       968e0c9c3a48f222",
     "private_key_hex":
       "c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b
        120f6721",
@@ -1109,11 +1109,18 @@ with cryptographic verification.
     "public_key_y_hex":
       "7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294
        d4462299",
-    "token":
-      "ogEmEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB
-       1odHRwczovL21vcS1yZWxheS5leGFtcGxlLmNvbQQaZVVCgAUaZVPxA
-       A.-jMV6d4GH9d9gUOUQormHaPXoh_f-xmAKwxXXFeAmOfNS2t1oWkN7
-       tTCuq6ZS_xGLg2KIAbz6JeA80NXOClNeg",
+    "cose_hex":
+      "d28448a201261063434154a05849a401781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d0381781d68747470733a2f2f6d6f71
+       2d72656c61792e6578616d706c652e636f6d041a65554280051a6553f
+       1005840ed8cf586f32ba410f2b3097642eb32255c8dc555e9e058c4808
+       4809df557887bc5ee4974a9ef5c4557c1557de799628b634cafaa1b74
+       c936968e0c9c3a48f222",
+    "cose_b64":
+      "0oRIogEmEGNDQVSgWEmkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tA4F4HWh0dHBzOi8vbW9xLXJlbGF5LmV4YW1wbGUuY29tBBplVU
+       KABRplU_EAWEDtjPWG8yukEPKzCXZC6zIlXI3FVengWMSAhICd9VeI
+       e8XuSXSp71xFV8FVfeeZYotjTK-qG3TJNpaODJw6SPIi",
     "valid": true
   }
 ]
@@ -1132,18 +1139,26 @@ in CAT tokens.
       "Token with DPoP key binding (JWK thumbprint in cnf claim)",
     "dpop": {
       "cnf_jkt_hex":
-        "a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1",
+        "a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6
+         d7e8f9a0b1",
       "window_seconds": 60,
       "honor_jti": true
     },
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428008a1035820a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6
-       f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1190141a200183c0101",
-    "token":
-      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgAihA1ggoLHC0-T1prfI2eDxorPE1eb3qLnA0eLzpLXG1-j5oLEZA
-       UGiABg8AQE.sN9kLIp64zIN9zDXoTLYC0xsJU_1FNF3kaO0CbdA_3M"
+       041a6555428008a11901435820a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4
+       d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1190141a200183c0101",
+    "cose_hex":
+      "d18448a201051063434154a05852a401781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d041a6555428008a11901435820a0b1
+       c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8
+       f9a0b1190141a200183c01015820353668 6cfff58bbafc41f95a4ae21d
+       e501a16cabe0a4b15086940bfb8fea92d9",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWFKkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKACKEZAUNYIKCxwtPk9aa3yNng8aKzxNXm96i5wNHi86
+       S1xtfo-aCxGQFBogAYPAEBWCA1Zrhs__WLuvxB-VpK4h3lAaFsq-Ck
+       sVCGlAv7j-qS2Q"
   },
   {
     "id": "dpop_no_jti",
@@ -1151,48 +1166,70 @@ in CAT tokens.
       "DPoP binding with longer window, JTI processing disabled",
     "dpop": {
       "cnf_jkt_hex":
-        "3c82dfd6358ba804bd90879c34e743bbe13aeab7980664944f37a0ec0063fe95",
+        "3c82dfd6358ba804bd90879c34e743bbe13aeab7980664944f37a0ec
+         0063fe95",
       "cnf_jkt_source": "SHA-256 of 'test-public-key-material'",
       "window_seconds": 300,
       "honor_jti": false
     },
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428008a10358203c82dfd6358ba804bd90879c34e743bbe13a
-       eab7980664944f37a0ec0063fe95190141a20019012c0100",
-    "token":
-      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgAihA1ggPILf1jWLqAS9kIecNOdDu-E66reYBmSUTzeg7ABj_pUZA
-       UGiABkBLAEA.M4lF5pQdxav6eIWqDjbchDkijVYOM7xa3oJR2IwWt9g"
+       041a6555428008a119014358203c82dfd6358ba804bd90879c34e743bb
+       e13aeab7980664944f37a0ec0063fe95190141a20019012c0100",
+    "cose_hex":
+      "d18448a201051063434154a05853a401781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d041a6555428008a119014358203c82
+       dfd6358ba804bd90879c34e743bbe13aeab7980664944f37a0ec0063f
+       e95190141a20019012c01005820ecb7a5b5667b95f20c673417718eac
+       9f5d997fd427485942a61048cdd8c50e0c",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWFOkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKACKEZAUNYIDyC39Y1i6gEvZCHnDTnQ7vhOuq3mAZklE
+       83oOwAY_6VGQFBogAZASwBAFgg7LeltWZ7lfIMZzQXcY6sn12Zf9Qn
+       SFlCphBIzdjFDgw"
   },
   {
     "id": "dpop_es256_real_binding",
     "description":
-      "ES256 token with real JWK thumbprint binding to the signing key",
+      "ES256 token with real JWK thumbprint binding to the
+       signing key",
     "algorithm": "ES256",
     "jwk_thumbprint_input":
-      "{\"crv\":\"P-256\",\"kty\":\"EC\",\"x\":\"YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y\",\"y\":\"eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk\"}",
+      "{\"crv\":\"P-256\",\"kty\":\"EC\",\"x\":\"YP7UuiVanTHJYet0
+       xjVtaMBJuJI7Yfps5mliLmDyn7Y\",\"y\":\"eQP-EAi4vJmkGunpVii
+       8ZPLxsgwtfp9Rd6PClNRGIpk\"}",
     "dpop": {
       "cnf_jkt_hex":
-        "0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+        "0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87f
+         e00b4a6d",
       "window_seconds": 120,
       "honor_jti": null
     },
     "public_key_x_hex":
-      "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6",
+      "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e
+       60f29fb6",
     "public_key_y_hex":
-      "7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+      "7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294
+       d4462299",
     "payload_cbor_hex":
       "a501781868747470733a2f2f617574682e6578616d706c652e636f6d
-       0381781968747470733a2f2f72656c61792e6578616d706c652e636f6d
-       041a6555428008a10358200cebf1bc9880748a95588905b79843b42ba7
-       5cb174055e3e246bf87fe00b4a6d190141a1001878",
-    "token":
-      "ogEmEGNDQVQ.pQF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB
-       lodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKACKEDWCAM6_G8m
-       IB0ipVYiQW3mEO0K6dcsXQFXj4ka_h_4AtKbRkBQaEAGHg.5andoxOh
-       WXQIKWR3EMHWT-WIMPBDMYQFc61nzlfZs8zmgzwcOARpmlaB3ZS5MbJ
-       9iCYWykYAcIzJ81nMyyZoQw"
+       0381781968747470733a2f2f72656c61792e6578616d706c652e636f
+       6d041a6555428008a119014358200cebf1bc9880748a95588905b7984
+       3b42ba75cb174055e3e246bf87fe00b4a6d190141a1001878",
+    "cose_hex":
+      "d28448a201261063434154a0586da501781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d0381781968747470733a2f2f72656c
+       61792e6578616d706c652e636f6d041a6555428008a1190143582 00ce
+       bf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b
+       4a6d190141a10018785840cdb69dc3db876b1d05a8f808e5286a8610
+       26fc8b58b9a9aa97f23bdf0253ff56357f9129ee9b09667701357c8d
+       700721b3029928d4fe573d56a88744dce04f82",
+    "cose_b64":
+      "0oRIogEmEGNDQVSgWG2lAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tA4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoAIoR
+       kBQ1ggDOvxvJiAdIqVWIkFt5hDtCunXLF0BV4-JGv4f-ALSm0ZAUGh
+       ABh4WEDNtp3D24drHQWo-AjlKGqGECb8i1i5qaqX8jvfAlP_VjV_kS
+       numwlmdwE1fI1wByGzApko1P5XPVaoh0Tc4E-C"
   }
 ]
 ~~~
@@ -1227,12 +1264,18 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428019014781838202068 24b6578616d706c652e636f6d4561
+       041a655542801901478183820206824b6578616d706c652e636f6d4561
        6c696365820146766964656f2d",
-    "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgBkBR4GDggIGgktleGFtcGxlLmNvbUVhbGljZYIBRnZpZGVvLQ.oA
-       PD24Wu_zHnDcuM6a-ePeGvRJjbCa6U7iswdsKzFDk",
+    "cose_hex":
+      "d18448a201051063434154a05846a301781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d041a655542801901478183820206824
+       b6578616d706c652e636f6d45616c696365820146766964656f2d5820
+       e6ef1eb0edbd76e780a9e46f7077edcab091b55d7991aa9c1ba5d2b17
+       711e59a",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWEajAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKAGQFHgYOCAgaCS2V4YW1wbGUuY29tRWFsaWNlggFGdm
+       lkZW8tWCDm7x6w7b1254Cp5G9wd-3KsJG1XXmRqpwbpdKxdxHlmg",
     "authorization_tests": [
       {"action": 2, "namespace": ["example.com", "alice"],
        "track": "video-hd", "expected": true},
@@ -1264,12 +1307,17 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a65554280190147818283030407818201 52636f6e666572656e6365
+       041a6555428019014781828303040781820152636f6e666572656e6365
        2e6578616d706c65",
-    "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgBkBR4GCgwMEB4GCAVJjb25mZXJlbmNlLmV4YW1wbGU.pfUPZultm
-       yCm1GF2PvPXAYXzvK6d1D-OFNBLG1AwjDg",
+    "cose_hex":
+      "d18448a201051063434154a05841a301781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d041a65554280190147818283030407
+       81820152636f6e666572656e63652e6578616d706c655820a517009de
+       ce13f143b06cd1f9e5fd861a29338174b77ed7c0d0478f1bc55fea2",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWEGjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKAGQFHgYKDAwQHgYIBUmNvbmZlcmVuY2UuZXhhbXBsZV
+       ggpRcAnezhPxQ7Bs0fnl_YYaKTOBdLd-18DQR48bxV_qI",
     "authorization_tests": [
       {"action": 4, "namespace": ["conference.example.room1"],
        "track": "audio", "expected": true},
@@ -1284,7 +1332,8 @@ results for various action, namespace, and track combinations.
   {
     "id": "moqt_multi_scope",
     "description":
-      "Multi-scope token: publish to specific namespace, subscribe to prefix, with revalidation",
+      "Multi-scope token: publish to specific namespace, subscribe
+       to prefix, with revalidation",
     "moqt_reval": 300.0,
     "moqt_scopes": [
       {
@@ -1312,12 +1361,18 @@ results for various action, namespace, and track combinations.
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
        041a655542801901478282820206824c6c6976652e6578616d706c6548
        73747564696f2d61828204078182014c6c6976652e6578616d706c6519
-       0148f95cb0",
-    "token":
-      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgBkBR4KCggIGgkxsaXZlLmV4YW1wbGVIc3R1ZGlvLWGCggQHgYIBT
-       GxpdmUuZXhhbXBsZRkBSPlcsA.byEzQmxc28UXFyFekHtgOtaVmWyIPl
-       -63xNMOF0Q_IU",
+       014819012c",
+    "cose_hex":
+      "d18448a201051063434154a0585ba401781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d041a65554280190147828282020682
+       4c6c6976652e6578616d706c654873747564696f2d6182820407818201
+       4c6c6976652e6578616d706c6519014819012c58204d0c6f8c520acc96
+       47637833b1773a2bad38595a261f3cdddfcf6edecf312b4e",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWFukAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKAGQFHgoKCAgaCTGxpdmUuZXhhbXBsZUhzdHVkaW8tYY
+       KCBAeBggFMbGl2ZS5leGFtcGxlGQFIGQEsWCBNDG-MUgrMlkdjeDOx
+       dzorrThZWiYfPN3fz27ezzErTg",
     "authorization_tests": [
       {"action": 6, "namespace": ["live.example", "studio-a"],
        "track": "cam1", "expected": true},
@@ -1348,10 +1403,15 @@ results for various action, namespace, and track combinations.
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
        041a65554280190147818189000102030405060708",
-    "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgBkBR4GBiQABAgMEBQYHCA.XlNItz7OGqnNEbaqZ_bQh6TL-wV6SDr
-       8hXyOLmtQkj4",
+    "cose_hex":
+      "d18448a201051063434154a05831a301781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d041a655542801901478181890001020
+       3040506070858202bacff08b2be7762aa9ec246bbf0c2d8e12b05e14a
+       7bf5b73f85c89f7d6d61fd",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWDGjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKAGQFHgYGJAAECAwQFBgcIWCArrP8Isr53Yqqewka78ML
+       Y4SsF4Up79bc_hciffW1h_Q",
     "authorization_tests": [
       {"action": 0, "namespace": ["any.namespace"],
        "track": "any-track", "expected": true},
@@ -1381,12 +1441,17 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428019014781838104818202 4c2e6578616d706c652e636f6d
+       041a65554280190147818381048182024c2e6578616d706c652e636f6d
        8202462d617564696f",
-    "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgBkBR4GDgQSBggJMLmV4YW1wbGUuY29tggJGLWF1ZGlv.-eGYTPe_n
-       1PeC0sgHdWCqgnKRHGYF-T89WTk269liBg",
+    "cose_hex":
+      "d18448a201051063434154a05842a301781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d04 1a6555428019014781838104818202
+       4c2e6578616d706c652e636f6d8202462d617564696f58206fa814835
+       0e44c3bae4c92753fd292c358776beacb6866a4c6738d80a51b9cd8",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWEKjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKAGQFHgYOBBIGCAkwuZXhhbXBsZS5jb22CAkYtYXVkaW
+       9YIG-oFINQ5Ew7rkySdT_SksNYd2vqy2hmpMZzjYClG5zY",
     "authorization_tests": [
       {"action": 4, "namespace": ["cdn.example.com"],
        "track": "stream1-audio", "expected": true},
@@ -1402,8 +1467,9 @@ results for various action, namespace, and track combinations.
 ## Token Validation
 
 These vectors validate token processing: expected pass and fail scenarios.
-All tokens use HMAC-SHA256 with the key specified in the Keys section unless
-otherwise noted.
+All tokens use HMAC-SHA256 (algorithm_id 5) with the key specified in the
+Keys section unless otherwise noted. Token values are the base64url encoding
+of the full COSE_Mac0 structure.
 
 ~~~ json
 [
@@ -1412,7 +1478,9 @@ otherwise noted.
     "description":
       "Valid token with correct issuer, audience, and time bounds",
     "token":
-      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKABRplU_EA.9SztgnG4xgw8U9zDFnqPIuPn6hLwuilSigQcfPsArSg",
+      "0YRIogEFEGNDQVSgWEWkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tA4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoAFGm
+       VT8QBYIP30vfENhlwaLMuZjMPeYXjz8QWuqCDlyzStGQVQ4_xi",
     "validation": {
       "reference_time": 1700003600,
       "expected_issuers": ["https://auth.example.com"],
@@ -1424,7 +1492,9 @@ otherwise noted.
     "id": "invalid_expired",
     "description": "Token with expiration in the past",
     "token":
-      "ogEjEGNDQVQ.ogF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaX14QAA.lq8nGBiZm80yUwl1kH_Tv2prKu_nV20JvxVJW8ZGkho",
+      "0YRIogEFEGNDQVSgWCKiAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBpfXhAAWCDNInUDQ2qsHo8l8Gj0tzb1HIYIpBheVbVoItgT7U
+       a6aA",
     "validation": {
       "reference_time": 1700000000,
       "expected_result": "error",
@@ -1435,7 +1505,9 @@ otherwise noted.
     "id": "invalid_not_yet_valid",
     "description": "Token with not-before in the future",
     "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZVaUAAUaZVVCgA.fPIUugY7_oSeHlheu83_8Yyljsk3iP2zGeWRUi7NtUs",
+      "0YRIogEFEGNDQVSgWCijAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVpQABRplVUKAWCArREpqUH1KiIrMzevyeLr6t_y-L6oheaJ
+       GUU9hwhYRbg",
     "validation": {
       "reference_time": 1700000000,
       "expected_result": "error",
@@ -1446,7 +1518,9 @@ otherwise noted.
     "id": "invalid_wrong_issuer",
     "description": "Token from untrusted issuer",
     "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vZXZpbC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.Xo7FCr_MGSyVX0C9sueeapSfboIHkrkysurn2VjC9PU",
+      "0YRIogEFEGNDQVSgWD-jAXgYaHR0cHM6Ly9ldmlsLmV4YW1wbGUu
+       Y29tA4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoBYIO
+       mQtbjAMxCnCDlMbHiF-XZlN1SV6QSqkZWTguttCpaC",
     "validation": {
       "reference_time": 1700003600,
       "expected_issuers": ["https://auth.example.com"],
@@ -1458,7 +1532,9 @@ otherwise noted.
     "id": "invalid_wrong_audience",
     "description": "Token not intended for this audience",
     "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB9odHRwczovL290aGVyLXJlbGF5LmV4YW1wbGUuY29tBBplVUKA.b8KxAKxJglzhELMuc9bYmsikrx3F9Y3YdvpfHLbsyk0",
+      "0YRIogEFEGNDQVSgWEWjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tA4F4H2h0dHBzOi8vb3RoZXItcmVsYXkuZXhhbXBsZS5jb20EGm
+       VVQoBYIOeCJJJNAkaNHBBkOdcSFVXKNNj0D8GdGkLmOriIB2pX",
     "validation": {
       "reference_time": 1700003600,
       "expected_issuers": ["https://auth.example.com"],
@@ -1470,28 +1546,38 @@ otherwise noted.
   {
     "id": "invalid_tampered_signature",
     "description":
-      "Token with corrupted signature (first byte flipped)",
-    "original_token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.W17GD7Gj-B0YtejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+      "COSE_Mac0 token with corrupted tag (first byte flipped)",
+    "original_cose_hex":
+      "d18448a201051063434154a0583fa301781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d0381781968747470733a2f2f72656c
+       61792e6578616d706c652e636f6d041a65554280582016ca16a2d4e24
+       76528ae858d91b00f257a507fe57284bfb13d7d6ca1f065e230",
     "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.pF7GD7Gj-B0YtejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+      "0YRIogEFEGNDQVSgWD-jAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tA4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoBYIO
+       nKFqLU4kdlKK6FjZGwDyV6UH_lcoS_sT19bKHwZeIw",
     "validation": {
       "expected_result": "error",
       "expected_error": "SignatureVerificationFailed",
       "key_hex":
-        "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+        "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
+         1c1d1e1f"
     }
   },
   {
     "id": "invalid_wrong_key",
     "description": "Token verified with incorrect key",
     "token":
-      "ogEjEGNDQVQ.ogF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZVVCgA.zmbxdkvbWtGtX0DExLC2nIxPDDmgAVImqk4rRSCCkCY",
+      "0YRIogEFEGNDQVSgWCKiAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKAWCCqD2TUB2jOEalC6kta2ptR7vx6flZ0I9L0RV3MCb
+       Z-Aw",
     "validation": {
       "correct_key_hex":
-        "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+        "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
+         1c1d1e1f",
       "wrong_key_hex":
-        "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "ffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+         ffffffff",
       "expected_result": "error",
       "expected_error": "SignatureVerificationFailed"
     }
@@ -1499,14 +1585,16 @@ otherwise noted.
   {
     "id": "invalid_algorithm_mismatch",
     "description":
-      "Token header says HMAC-SHA256 but verifier expects ES256",
+      "COSE_Mac0 token but verifier expects COSE_Sign1/ES256",
     "token":
-      "ogEjEGNDQVQ.ogF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZVVCgA.zmbxdkvbWtGtX0DExLC2nIxPDDmgAVImqk4rRSCCkCY",
+      "0YRIogEFEGNDQVSgWCKiAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKAWCCqD2TUB2jOEalC6kta2ptR7vx6flZ0I9L0RV3MCb
+       Z-Aw",
     "validation": {
-      "token_algorithm_id": -4,
+      "token_algorithm_id": 5,
       "verifier_algorithm_id": -7,
       "expected_result": "error",
-      "expected_error": "AlgorithmMismatch"
+      "expected_error": "InvalidTokenFormat"
     }
   }
 ]
