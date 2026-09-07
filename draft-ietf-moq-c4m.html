@@ -20,18 +20,18 @@
 <meta content="draft-ietf-moq-c4m-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.0
-    Python 3.14.5
+    Python 3.14.7
     ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.10.0
+    platformdirs 4.11.7
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.1
+    wcwidth 0.8.3
 -->
 <link href="draft-ietf-moq-c4m.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -67,7 +67,6 @@
   src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: italic;
@@ -116,7 +115,6 @@
   src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: normal;
@@ -181,7 +179,6 @@
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 }
 
 @font-face {
@@ -1050,11 +1047,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CAT-4-MOQT</td>
-<td class="right">June 2026</td>
+<td class="right">September 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Law, et al.</td>
-<td class="center">Expires 20 December 2026</td>
+<td class="center">Expires 11 March 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1064,12 @@ svg {
 <dd class="internet-draft">draft-ietf-moq-c4m-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-06-18" class="published">18 June 2026</time>
+<time datetime="2026-09-07" class="published">7 September 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-12-20">20 December 2026</time></dd>
+<dd class="expires"><time datetime="2027-03-11">11 March 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1134,7 +1131,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 20 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1362,7 +1359,9 @@ client may use one of those tokens to establish the initial conneciton and other
         |                         |                         |
         |  6. MOQT Actions with Token Authorization         |
         |&lt;-------------------------------------------------&gt;|
-        |     (PUBLISH_NAMESPACE, SUBSCRIBE, PUBLISH, FETCH)|
+        |     (SETUP, PUBLISH_NAMESPACE, SUBSCRIBE,         |
+        |      SUBSCRIBE_NAMESPACE, PUBLISH, FETCH,         |
+        |        REQUEST_UPDATE)                            |
         |                         |                         |
         |                         |  7. Revalidate Token    |
         |                         |&lt;-----------------------&gt;|
@@ -1427,58 +1426,58 @@ the namespace, and a match object for the track name.<a href="#section-2.1-3" cl
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">CLIENT_SETUP</td>
-              <td class="text-left" rowspan="1" colspan="1">0</td>
-              <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.3</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">SERVER_SETUP</td>
+              <td class="text-left" rowspan="1" colspan="1">SETUP</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.3</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.3</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">PUBLISH_NAMESPACE</td>
               <td class="text-left" rowspan="1" colspan="1">2</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.20</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.16</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_NAMESPACE</td>
               <td class="text-left" rowspan="1" colspan="1">3</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.25</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.19</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE</td>
               <td class="text-left" rowspan="1" colspan="1">4</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.9</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.7</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">REQUEST_UPDATE</td>
               <td class="text-left" rowspan="1" colspan="1">5</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.11</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.9</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">PUBLISH</td>
               <td class="text-left" rowspan="1" colspan="1">6</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.13</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.11</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">FETCH</td>
               <td class="text-left" rowspan="1" colspan="1">7</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.16</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.13</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">TRACK_STATUS</td>
               <td class="text-left" rowspan="1" colspan="1">8</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.19</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.15</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_TRACKS</td>
+              <td class="text-left" rowspan="1" colspan="1">9</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.20</td>
             </tr>
           </tbody>
         </table>
@@ -2374,7 +2373,7 @@ registry established by <span>[<a href="#MoQTransport" class="cite xref">MoQTran
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x01</td>
               <td class="text-left" rowspan="1" colspan="1">CAT</td>
-              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
+              <td class="text-left" rowspan="1" colspan="1">This document</td>
             </tr>
           </tbody>
         </table>
@@ -2441,11 +2440,11 @@ action with an appropriate error.<a href="#section-7.1.1-4" class="pilcrow">¶</
 <dd class="break"></dd>
 <dt id="EDN">[EDN]</dt>
       <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"Concise Diagnostic Notation (CDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-26</span>, <time datetime="2026-06-15" class="refDate">15 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-26">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-26</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"Concise Diagnostic Notation (CDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-27</span>, <time datetime="2026-07-20" class="refDate">20 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-27">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-27</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MoQTransport">[MoQTransport]</dt>
       <dd>
-<span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">A. Frindell</span>, <span class="refTitle">"Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-transport-18</span>, <time datetime="2026-05-12" class="refDate">12 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-18">https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-18</a>&gt;</span>. </dd>
+<span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">A. Frindell</span>, <span class="refTitle">"Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-transport-20</span>, <time datetime="2026-08-31" class="refDate">31 August 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-20">https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-20</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
       <dd>
