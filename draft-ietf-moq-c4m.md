@@ -55,7 +55,7 @@ author:
 normative:
 
   Composite: I-D.draft-lemmons-cose-composite-claims-02
-  MoQTransport: I-D.draft-ietf-moq-transport-19
+  MoQTransport: I-D.draft-ietf-moq-transport-20
   EDN: I-D.draft-ietf-cbor-edn-literals
   BASE64: RFC4648
   CAT:
@@ -194,13 +194,14 @@ The actions are integers defined as follows:
 | Action               | Key | Reference                      |
 |----------------------|-----|--------------------------------|
 | SETUP                |  1  | {{MoQTransport}} Section 10.3  |
-| PUBLISH_NAMESPACE    |  2  | {{MoQTransport}} Section 10.15 |
-| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 10.18 |
+| PUBLISH_NAMESPACE    |  2  | {{MoQTransport}} Section 10.16 |
+| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 10.19 |
 | SUBSCRIBE            |  4  | {{MoQTransport}} Section 10.7  |
 | REQUEST_UPDATE       |  5  | {{MoQTransport}} Section 10.9  |
-| PUBLISH              |  6  | {{MoQTransport}} Section 10.10 |
-| FETCH                |  7  | {{MoQTransport}} Section 10.12 |
-| TRACK_STATUS         |  8  | {{MoQTransport}} Section 10.14 |
+| PUBLISH              |  6  | {{MoQTransport}} Section 10.11 |
+| FETCH                |  7  | {{MoQTransport}} Section 10.13 |
+| TRACK_STATUS         |  8  | {{MoQTransport}} Section 10.15 |
+| SUBSCRIBE_TRACKS     |  9  | {{MoQTransport}} Section 10.20 |
 |----------------------|-----|--------------------------------|
 
 The scope of the moqt claim is limited to the actions provided in the array.
