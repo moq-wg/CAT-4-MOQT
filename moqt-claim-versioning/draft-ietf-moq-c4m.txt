@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 8 March 2027                                            Comcast
+Expires: 11 March 2027                                           Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                        4 September 2026
+                                                        7 September 2026
 
 
         Authorization scheme for MOQT using Common Access Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 March 2027.
+   This Internet-Draft will expire on 11 March 2027.
 
 Copyright Notice
 
@@ -239,7 +239,7 @@ suffix-match = 2
    introduction of new optional fields without breaking deployments.
 
    Future revisions leading to backward incompatible scope formats MUST
-   register a ne map kep (e.g., kwy 1) defining the replacement
+   register a new map key (e.g., key 1) defining the replacement
    structure.  A recipient that finds none of the keys it understands
    MUST reject the token.
 
