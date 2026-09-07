@@ -284,7 +284,7 @@ suffix-match = 2
    against the Track Name.
 
    Exact matches must match exactly, prefix matches must match the
-   beginning ] of the byte string, and suffix matches must match the end
+   beginning of the byte string, and suffix matches must match the end
    of the byte string.
 
    The track namespace match and track name match are optional.  If the
