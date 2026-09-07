@@ -195,7 +195,7 @@ allowing introduction of new optional fields without breaking
 deployments.
 
 Future revisions leading to backward incompatible scope
-formats MUST register a ne map kep (e.g., kwy 1)
+formats MUST register a new map key (e.g., key 1)
 defining the replacement structure. A recipient
 that finds none of the keys it understands MUST reject the token.
 
