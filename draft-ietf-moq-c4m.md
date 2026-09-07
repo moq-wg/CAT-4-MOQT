@@ -226,7 +226,7 @@ Full Track Name (as defined in Section 2.4.1 of {{MoQTransport}}). The
 first namespace match object is applied to the first field in the Track Namespace,
 and so on. The match for the track name is matched against the Track Name.
 
-Exact matches must match exactly, prefix matches must match the beginning ]
+Exact matches must match exactly, prefix matches must match the beginning
 of the byte string, and suffix matches must match the end of the byte string.
 
 The track namespace match and track name match are optional. If the length of the
