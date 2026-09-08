@@ -5,12 +5,12 @@
 Media Over QUIC                                                   W. Law
 Internet-Draft                                                    Akamai
 Intended status: Informational                                C. Lemmons
-Expires: 8 March 2027                                            Comcast
+Expires: 12 March 2027                                           Comcast
                                                                 G. Simon
                                                                Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                        4 September 2026
+                                                        8 September 2026
 
 
         Authorization scheme for MOQT using Common Access Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 March 2027.
+   This Internet-Draft will expire on 12 March 2027.
 
 Copyright Notice
 
@@ -101,7 +101,8 @@ Table of Contents
      A.3.  Token Structure
      A.4.  DPoP Binding
      A.5.  MOQT Authorization Scopes
-     A.6.  Token Validation
+     A.6.  Composite Claims
+     A.7.  Token Validation
    Acknowledgments
    Authors' Addresses
 
@@ -1234,14 +1235,14 @@ A.3.  Token Structure
          "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
           1c1d1e1f",
        "cose_hex":
-         "d18448a201051063434154a058abaa01781a68747470733a2f2f69737
-          37565722e6d6f712e6578616d706c650276757365723a616c69636540
-          6578616d706c652e636f6d0382781a68747470733a2f2f72656c61793
-          12e6578616d706c652e636f6d781a68747470733a2f2f72656c617932
-          2e6578616d706c652e636f6d041a65554280051a6553f100061a65530
-          f100074a766563746f722d3030321901360119013781d83444cb007132
-          190138a103a101662f6c6976652f582029c1a6612ce6d49273fd8c011
-          6b9decbc287662d5ba5d67defafaf6ff0c11278",
+         "d18448a201051063434154a058abaa01781a68747470733a2f2f6973
+          737565722e6d6f712e6578616d706c650276757365723a616c696365
+          406578616d706c652e636f6d0382781a68747470733a2f2f72656c61
+          79312e6578616d706c652e636f6d781a68747470733a2f2f72656c61
+          79322e6578616d706c652e636f6d041a65554280051a6553f100061a
+          6553f100074a766563746f722d3030321901360119013781d83444cb
+          007132190138a103a101662f6c6976652f582029c1a6612ce6d49273
+          fd8c0116b9decbc287662d5ba5d67defafaf6ff0c11278",
        "cose_b64":
          "0YRIogEFEGNDQVSgWKuqAXgaaHR0cHM6Ly9pc3N1ZXIubW9xLmV4
           YW1wbGUCdnVzZXI6YWxpY2VAZXhhbXBsZS5jb20DgngaaHR0cHM6Ly
@@ -1307,29 +1308,32 @@ A.4.  DPoP Binding
      {
        "id": "dpop_jwk_binding",
        "description":
-         "Token with DPoP key binding (JWK thumbprint in cnf claim)",
+         "HMAC token with DPoP cnf-jkt derived from the fixed ES256
+          test key (RFC 7638 JWK thumbprint)",
        "dpop": {
          "cnf_jkt_hex":
-           "a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6
-            d7e8f9a0b1",
+           "0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87f
+            e00b4a6d",
+         "cnf_jkt_source":
+           "SHA-256(RFC 7638 canonical JWK of ES256 test key)",
          "window_seconds": 60,
          "honor_jti": true
        },
        "payload_cbor_hex":
          "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
-          041a6555428008a11901435820a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4
-          d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1190141a200183c0101",
+          041a6555428008a119014358200cebf1bc9880748a95588905b79843
+          b42ba75cb174055e3e246bf87fe00b4a6d190141a200183c0101",
        "cose_hex":
-         "d18448a201051063434154a05852a401781868747470733a2f2f61757
-          4682e6578616d706c652e636f6d041a6555428008a11901435820a0b1
-          c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8
-          f9a0b1190141a200183c01015820353668 6cfff58bbafc41f95a4ae21d
-          e501a16cabe0a4b15086940bfb8fea92d9",
+         "d18448a201051063434154a05852a401781868747470733a2f2f6175
+          74682e6578616d706c652e636f6d041a6555428008a11901435820
+          0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87f
+          e00b4a6d190141a200183c01015820cef11ccef3533e37884638bbff
+          1e08cbcf3d6846afcc0257bf2530416b076242",
        "cose_b64":
          "0YRIogEFEGNDQVSgWFKkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-          Y29tBBplVUKACKEZAUNYIKCxwtPk9aa3yNng8aKzxNXm96i5wNHi86
-          S1xtfo-aCxGQFBogAYPAEBWCA1Zrhs__WLuvxB-VpK4h3lAaFsq-Ck
-          sVCGlAv7j-qS2Q"
+          Y29tBBplVUKACKEZAUNYIAzr8byYgHSKlViJBbeYQ7Qrp1yxdAVeP
+          iRr-H_gC0ptGQFBogAYPAEBWCDO8RzO81M-N4hGOLv_HgjLzz1oRq
+          _MAle_JTBBawdiQg"
      },
      {
        "id": "dpop_no_jti",
@@ -1633,7 +1637,150 @@ A.5.  MOQT Authorization Scopes
      }
    ]
 
-A.6.  Token Validation
+A.6.  Composite Claims
+
+   These vectors validate composite claim encoding per [Composite].
+   Each vector includes an outer token (iss, exp) with embedded
+   composite claims (OR key 324, NOR key 325, AND key 326).  Tokens use
+   COSE_Mac0 with HMAC-SHA256.
+
+   [
+     {
+       "id": "composite_or_simple",
+       "description":
+         "OR composite: at least one of two alternative claim sets
+          must be acceptable",
+       "composite": {
+         "operator": "OR",
+         "claim_key": 324,
+         "claim_sets": [
+           {"iss": "https://auth.example.com",
+            "exp": 1700086400, "catv": 1},
+           {"iss": "https://auth-backup.example.com",
+            "exp": 1700090000, "catv": 1}
+         ]
+       },
+       "payload_cbor_hex":
+         "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+          041a6555428019014482a301781868747470733a2f2f617574682e65
+          78616d706c652e636f6d041a6555428019013601a301781f68747470
+          733a2f2f617574682d6261636b75702e6578616d706c652e636f6d04
+          1a6555509019013601",
+       "cose_hex":
+         "d18448a201051063434154a05879a301781868747470733a2f2f6175
+          74682e6578616d706c652e636f6d041a6555428019014482a3017818
+          68747470733a2f2f617574682e6578616d706c652e636f6d041a6555
+          428019013601a301781f68747470733a2f2f617574682d6261636b75
+          702e6578616d706c652e636f6d041a655550901901360158203f11f8
+          0896554afc5246d8711ca88317228a84d44fcb212563bc24812623d7
+          49",
+       "cose_b64":
+         "0YRIogEFEGNDQVSgWHmjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+          BBplVUKAGQFEgqMBeBhodHRwczovL2F1dGguZXhhbXBsZS5jb20EGmVV
+          QoAZATYBowF4H2h0dHBzOi8vYXV0aC1iYWNrdXAuZXhhbXBsZS5jb20E
+          GmVVUJAZATYBWCA_EfgIllVK_FJG2HEcqIMXIoqE1E_LISVjvCSBJiPX
+          SQ"
+     },
+     {
+       "id": "composite_and",
+       "description":
+         "AND composite: both claim sets must be acceptable",
+       "composite": {
+         "operator": "AND",
+         "claim_key": 326,
+         "claim_sets": [
+           {"exp": 1700086400, "catv": 1},
+           {"exp": 1700086400,
+            "catnip": [{"type": "ip_address", "value": "10.0.0.0"}]}
+         ]
+       },
+       "payload_cbor_hex":
+         "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+          041a6555428019014682a2041a6555428019013601a2041a65554280
+          19013781d834440a000000",
+       "cose_hex":
+         "d18448a201051063434154a05843a301781868747470733a2f2f6175
+          74682e6578616d706c652e636f6d041a6555428019014682a2041a65
+          55428019013601a2041a6555428019013781d834440a0000005820b2
+          41ea8429f9bdf073dea3e4a738f0dee7116d78e509e4f6fec9c8a13b
+          8896de",
+       "cose_b64":
+         "0YRIogEFEGNDQVSgWEOjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+          BBplVUKAGQFGgqIEGmVVQoAZATYBogQaZVVCgBkBN4HYNEQKAAAAWCCy
+          QeqEKfm98HPeo-SnOPDe5xFteOUJ5Pb-ycihO4iW3g"
+     },
+     {
+       "id": "composite_nor",
+       "description":
+         "NOR composite: none of the listed claim sets can be
+          acceptable",
+       "composite": {
+         "operator": "NOR",
+         "claim_key": 325,
+         "claim_sets": [
+           {"iss": "https://revoked.example.com", "exp": 1700086400}
+         ]
+       },
+       "payload_cbor_hex":
+         "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+          041a6555428019014581a201781b68747470733a2f2f7265766f6b65
+          642e6578616d706c652e636f6d041a65554280",
+       "cose_hex":
+         "d18448a201051063434154a0584ba301781868747470733a2f2f6175
+          74682e6578616d706c652e636f6d041a6555428019014581a201781b
+          68747470733a2f2f7265766f6b65642e6578616d706c652e636f6d04
+          1a6555428058202cf030a29072032aa0775e71c2c2703a668fa2dbf1
+          152d74258f0f42c4640d28",
+       "cose_b64":
+         "0YRIogEFEGNDQVSgWEujAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+          BBplVUKAGQFFgaIBeBtodHRwczovL3Jldm9rZWQuZXhhbXBsZS5jb20E
+          GmVVQoBYICzwMKKQcgMqoHdeccLCcDpmj6Lb8RUtdCWPD0LEZA0o"
+     },
+     {
+       "id": "composite_nested",
+       "description":
+         "Nested composite: OR containing a standalone claim set
+          and a nested AND",
+       "composite": {
+         "operator": "OR",
+         "claim_key": 324,
+         "claim_sets": [
+           {"iss": "https://primary.example.com", "exp": 1700086400},
+           {"nested_and": {
+              "claim_key": 326,
+              "claim_sets": [
+                {"iss": "https://secondary.example.com",
+                 "exp": 1700086400},
+                {"exp": 1700086400, "catv": 1}
+              ]
+            }
+           }
+         ]
+       },
+       "payload_cbor_hex":
+         "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+          041a6555428019014482a201781b68747470733a2f2f7072696d6172
+          792e6578616d706c652e636f6d041a65554280a119014682a201781d
+          68747470733a2f2f7365636f6e646172792e6578616d706c652e636f
+          6d041a65554280a2041a6555428019013601",
+       "cose_hex":
+         "d18448a201051063434154a05882a301781868747470733a2f2f6175
+          74682e6578616d706c652e636f6d041a6555428019014482a201781b
+          68747470733a2f2f7072696d6172792e6578616d706c652e636f6d04
+          1a65554280a119014682a201781d68747470733a2f2f7365636f6e64
+          6172792e6578616d706c652e636f6d041a65554280a2041a65554280
+          1901360158201577ec93556a6472e1e68846d3927211a531ddd337b1
+          1e4c2d5e4e24f16776aa",
+       "cose_b64":
+         "0YRIogEFEGNDQVSgWIKjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+          BBplVUKAGQFEgqIBeBtodHRwczovL3ByaW1hcnkuZXhhbXBsZS5jb20E
+          GmVVQoChGQFGgqIBeB1odHRwczovL3NlY29uZGFyeS5leGFtcGxlLmNv
+          bQQaZVVCgKIEGmVVQoAZATYBWCAVd-yTVWpkcuHmiEbTknIRpTHd0zex
+          HkwtXk4k8Wd2qg"
+     }
+   ]
+
+A.7.  Token Validation
 
    These vectors validate token processing: expected pass and fail
    scenarios.  All tokens use HMAC-SHA256 (algorithm_id 5) with the key
