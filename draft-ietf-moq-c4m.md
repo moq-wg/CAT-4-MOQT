@@ -914,11 +914,13 @@ These vectors validate correct CBOR encoding of individual claim types.
        1a65554280051a6553f100074e746573742d746f6b656e2d303031"
   },
   {
-    "id": "cbor_cat_version_usage",
-    "description": "CAT version string and usage limit",
+    "id": "cbor_cat_version_uri",
+    "description": "CAT version string and exact relay host restriction",
     "claims": {
       "catv": "CAT-v1",
-      "catu": 5
+      "catu": {
+        "1": {"0": "relay.example.com"}
+      }
     },
     "payload_cbor_hex":
       "a2190136664341542d763119013805"
@@ -954,14 +956,14 @@ These vectors validate correct CBOR encoding of individual claim types.
        16379f956401901 3e0a"
   },
   {
-    "id": "cbor_uri_patterns",
-    "description": "URI patterns: exact, prefix, suffix",
+    "id": "cbor_catu_uri_patterns",
+    "description": "CAT URI restrictions: exact scheme and host, path prefix and suffix",
     "claims": {
-      "cath": [
-        {"type": "exact", "value": "https://example.com/live/stream1"},
-        {"type": "prefix", "value": "https://example.com/vod/"},
-        {"type": "suffix", "value": ".m3u8"}
-      ]
+      "catu": {
+        "0": {"0": "https"},
+        "1": {"0": "example.com"},
+        "3": {"1": "/vod/", "2": ".m3u8"}
+      }
     },
     "payload_cbor_hex":
       "a119013b83782068747470733a2f2f6578616d706c652e636f6d2f6c6
@@ -978,6 +980,28 @@ These vectors validate correct CBOR encoding of individual claim types.
       "a119013a82666d6f712d3030626833"
   }
 ]
+~~~
+
+## HTTP Header Claim Examples
+
+The `cath` claim constrains HTTP request headers. The following claims-only
+example applies to an HTTP request, such as a WebTransport session request.
+It does not apply to a raw QUIC connection, which has no HTTP request headers.
+
+The `origin` header must match `https://player.example.com` exactly. The
+`user-agent` header must start with `ExamplePlayer/`. Match keys `0` and `1`
+mean exact match and prefix match, respectively. The JSON representation uses
+string keys; the corresponding CBOR match keys are integers.
+
+~~~ json
+{
+  "claims": {
+    "cath": {
+      "origin": {"0": "https://player.example.com"},
+      "user-agent": {"1": "ExamplePlayer/"}
+    }
+  }
+}
 ~~~
 
 ## Token Structure
@@ -1039,7 +1063,9 @@ with cryptographic verification.
       "cti": "vector-002",
       "catv": "CAT-v1",
       "catnip": [{"type": "ip_address", "value": "203.0.113.50"}],
-      "catu": 10
+      "catu": {
+        "1": {"0": "relay1.example.com"}
+      }
     },
     "header_cbor_hex": "a201231063434154",
     "header_b64": "ogEjEGNDQVQ",
