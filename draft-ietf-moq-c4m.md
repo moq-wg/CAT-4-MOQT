@@ -485,6 +485,24 @@ claims, the token is not well-formed.
 The claim key for this claim is TBD_MOQT_REVAL and the claim value is a number.
 Recipients MUST support this claim. This claim is OPTIONAL for issuers.
 
+# Replay Protection without DPoP
+
+In MOQT, the same token is presented for CLIENT_SETUP and again for
+subsequent actions (SUBSCRIBE, PUBLISH, FETCH, etc.) on the same
+connection. The CAT "catreplay" claim needs connection-scoped
+semantics to accommodate this.
+
+When "catreplay" is 1, the relay binds the token's "jti" to the
+QUIC or WebTransport connection established during CLIENT_SETUP.
+The relay MUST accept the token for subsequent actions on that
+connection and MUST reject it on any other connection. After the
+connection terminates, the relay SHOULD retain the "jti" until the
+token's "exp" time to prevent reuse.
+
+When "catreplay" is 2, replay semantics are implementation-defined.
+
+When "catreplay" is absent or 0, no replay protection is applied.
+
 # DPoP Integration with CAT for MOQT
 
 This section defines the use of CAT's Demonstrating Proof of Possession (DPoP)
@@ -808,6 +826,13 @@ depends on the security of the token issuance process, including proper user
 authentication.
 
 TODO Add security considerations for DPoP Claims
+
+## Replay Protection for Bearer Tokens
+
+Without DPoP, connection-scoped replay protection limits but does not
+eliminate token theft risk — an attacker who intercepts the token
+before the client connects can still use it. Deployments that need
+stronger guarantees SHOULD use DPoP.
 
 
 # IANA Considerations
