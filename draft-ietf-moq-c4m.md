@@ -190,14 +190,11 @@ matches (an array of match objects), and the track match (a single match object)
 
 ### Extensibility
 
-Recipients MUST ignore map keys they do not recognize, thus
-allowing introduction of new optional fields without breaking
-deployments.
-
-Future revisions leading to backward incompatible scope
-formats MUST register a new map key (e.g., key 1)
-defining the replacement structure. A recipient
-that finds none of the keys it understands MUST reject the token.
+Recipients MUST reject a token whose "moqt" claim map contains
+any keys they do not recognize. This fail-closed behavior ensures
+that new keys which restrict authorization scope cannot be silently
+skipped. Issuers that need optional or alternative scopes SHOULD
+use the "or" claim to compose multiple claim sets instead.
 
 The actions are integers defined as follows:
 
