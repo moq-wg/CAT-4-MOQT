@@ -781,34 +781,26 @@ DPoP security considerations are covered in the "DPoP for MOQT" section.
 
 IANA will register the following claims in the "CBOR Web Token (CWT) Claims" registry:
 
-|------------------------|----------------|-------------------|
-|                        | moqt           | moqt-reval        |
-|------------------------|----------------|-------------------|
-| Claim Name             | moqt           | moqt-reval        |
-| Claim Description      | MOQT Action    | MOQT revalidation |
-| JWT Claim Name         | N/A            | N/A               |
-| Claim Key              | TBD_MOQT (1+2) | TBD_MOQT (1+2)    |
-| Claim Value Type       | array          | number            |
-| Change Controller      | IESG           | IESG              |
-| Specification Document | RFCXXXX        | RFCXXXX           |
-|------------------------|----------------|-------------------|
+|------------|----------------|-------------------|------------|------|---------|
+| Claim Name | Key            | Description       | Value Type | JWT  | Ref     |
+|------------|----------------|-------------------|------------|------|---------|
+| moqt       | TBD_MOQT (1+2) | MOQT Action Scope | map        | N/A  | RFCXXXX |
+| moqt-reval | TBD_MOQT (1+2) | MOQT Revalidation | number     | N/A  | RFCXXXX |
+|------------|----------------|-------------------|------------|------|---------|
 
 \[RFC Editor: Please replace RFCXXXX with the published RFC number for this
 document.\]
 
-This document also registers the following claims used in DPoP proofs:
+This document also registers the following claims used in DPoP proofs
+in the "CBOR Web Token (CWT) Claims" registry:
 
-|------------------------|---------|---------|---------|
-|                        | actx    | ath     | nonce   |
-|------------------------|---------|---------|---------|
-| Claim Name             | actx    | ath     | nonce   |
-| Claim Description      | Authorization Context | Access Token Hash | DPoP Nonce |
-| JWT Claim Name         | actx    | ath     | nonce   |
-| Claim Key              | TBD     | TBD     | TBD     |
-| Claim Value Type       | map     | bstr    | tstr    |
-| Change Controller      | IESG    | IESG    | IESG    |
-| Specification Document | RFCXXXX | RFCXXXX | RFCXXXX |
-|------------------------|---------|---------|---------|
+|------------|------|-------------------------|------------|--------|---------|
+| Claim Name | Key  | Description             | Value Type | JWT    | Ref     |
+|------------|------|-------------------------|------------|--------|---------|
+| actx       | TBD  | Authorization Context   | map        | actx   | RFCXXXX |
+| ath        | TBD  | Access Token Hash       | bstr       | ath    | RFCXXXX |
+| nonce      | TBD  | DPoP Nonce              | tstr       | nonce  | RFCXXXX |
+|------------|------|-------------------------|------------|--------|---------|
 
 ## MOQT Auth Token Type Registry
 
