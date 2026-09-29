@@ -491,6 +491,11 @@ This section defines how Demonstrating Proof of Possession (DPoP) {{DPoP}}
 is used with CAT tokens in MOQT. DPoP binds a token to a client key pair
 so that a stolen token cannot be used without the corresponding private key.
 
+Token acquisition ({{DPoP}} Sections 4, 5, 6, and 8) is unchanged: the
+client obtains a DPoP-bound CAT token from the authorization server as
+described in RFC 9449. This section adapts the proof-of-possession
+side ({{DPoP}} Sections 7 and 9) for MOQT.
+
 MOQT is not HTTP, so the HTTP-specific `htm` and `htu` claims from {{DPoP}}
 do not apply. Instead, each DPoP proof carries an Authorization Context
 (`actx`) that binds it to a specific MOQT action, namespace, and track.
@@ -539,31 +544,75 @@ Protected header:
 }
 ~~~~
 
-The header MUST contain an asymmetric algorithm from {{COSE-ALG}},
-the type string "dpop-proof+cwt", and the client's public key as a
-COSE_Key.
+The header MUST contain an asymmetric signature algorithm from
+{{COSE-ALG}}, the type string "dpop-proof+cwt", and the client's
+public key as a COSE_Key. Symmetric algorithms MUST NOT be used.
+
+The following algorithms are defined for use with MOQT DPoP proofs:
+
+|------------|----------|----------------------------------------|
+| Algorithm  | COSE alg | Reference                              |
+|------------|----------|----------------------------------------|
+| ES256      | -7       | ECDSA w/ SHA-256 (mandatory to support)|
+| ES384      | -35      | ECDSA w/ SHA-384                       |
+| EdDSA      | -8       | EdDSA (Ed25519 / Ed448)                |
+|------------|----------|----------------------------------------|
+
+Relays MUST support ES256. Support for ES384 and EdDSA is RECOMMENDED.
 
 Claims:
 
 ~~~~ cddl
 dpop-claims = {
-  7 => bstr,            ; cti - unique proof identifier
-  6 => int,             ; iat - issued-at timestamp
-  actx-label => actx,   ; authorization context
-  ? ath-label => bstr,  ; SHA-256 hash of the access token
+  7 => bstr,              ; cti - unique proof identifier
+  6 => int,               ; iat - issued-at timestamp
+  actx-label => actx,     ; authorization context
+  ? ath-label => bstr,    ; SHA-256 hash of the access token
+  ? nonce-label => tstr,  ; relay-supplied nonce
 }
 
 actx = {
-  0: "moqt",            ; type
-  1: tstr,              ; action
-  2: tstr,              ; tns - track namespace
-  ? 3: tstr,            ; tn  - track name
+  0: "moqt",              ; type
+  1: tstr,                ; action
+  2: tstr,                ; tns - track namespace
+  ? 3: tstr,              ; tn  - track name
 }
 ~~~~
 
-The `tns` field encodes the namespace tuple elements per
-Section 1.5.1 of {{MoQTransport}}, joined by hyphens.
-The `tn` field (when present) encodes the track name the same way.
+The `ath` claim, when present, MUST contain the SHA-256 hash of the
+CAT token bytes as presented in the AUTHENTICATION parameter. Relays
+MUST verify that the hash matches the token accompanying the proof.
+The `ath` claim SHOULD be included in all DPoP proofs.
+
+The `nonce` claim carries a relay-supplied nonce for additional replay
+protection per {{DPoP}} Section 9. If a relay requires nonces, it
+communicates the nonce value in a MOQT protocol parameter (the
+mechanism for this is defined by {{MoQTransport}}). When the client
+receives a nonce, it MUST include it in the next DPoP proof. Nonce
+support is OPTIONAL.
+
+### Namespace and Track Encoding
+
+The `tns` and `tn` fields encode binary MOQT names as text strings
+using the serialization format from Section 1.5.1 of {{MoQTransport}}.
+
+The `tns` field serializes each namespace tuple element individually,
+then joins them with hyphens (`-`). The `tn` field serializes the
+track name the same way (a single element, no hyphens).
+
+Within each element, printable ASCII bytes (0x21-0x7E) except dot (`.`)
+and hyphen (`-`) are represented as-is. All other bytes, including dot
+and hyphen, are hex-escaped as `.XX` (dot followed by two lowercase
+hex digits).
+
+Examples:
+
+- Namespace ("example.com", "app"), track "camera1":
+  `"tns": "example.2ecom-app"`, `"tn": "camera1"`
+- Namespace ("conference", "room1"), track "audio.opus":
+  `"tns": "conference-room1"`, `"tn": "audio.2eopus"`
+- Namespace with binary bytes (0xFF, 0x01) and (0x02):
+  `"tns": ".ff.01-.02"`
 
 ### Action Identifiers
 
@@ -616,23 +665,42 @@ request if any check fails.
 1. Validate the CAT token (signature, expiration, "moqt" scope).
 2. Extract "jkt" from the token's "cnf" claim.
 3. Verify the DPoP proof signature using the embedded public key.
-4. Confirm SHA-256 of the proof's public key matches the "jkt" value.
-5. Check proof freshness against the "catdpop" window.
-6. Verify `actx.action` matches the requested MOQT action.
-7. Verify `actx.tns` (and `actx.tn` if present) match the target
-   namespace and track.
-8. If "catdpop" jti setting is 1, check "cti" for replay.
+4. Verify the algorithm is an asymmetric algorithm from the
+   supported set; reject symmetric algorithms.
+5. Confirm SHA-256 of the proof's public key matches the "jkt" value.
+6. If the "ath" claim is present, verify it matches the SHA-256 hash
+   of the accompanying CAT token.
+7. Check proof freshness: "iat" MUST fall within the "catdpop" window.
+8. If a nonce was issued, verify the "nonce" claim matches.
+9. Verify `actx.type` is "moqt".
+10. Verify `actx.action` matches the requested MOQT action.
+11. Verify `actx.tns` (and `actx.tn` if present) match the target
+    namespace and track.
+12. If "catdpop" jti setting is 1, check "cti" for replay.
 
 ## Security Considerations for DPoP
+
+This section inherits all security considerations from {{DPoP}}.
+Additional considerations specific to MOQT are listed below.
 
 DPoP proofs are single-use: each MOQT action MUST carry a fresh proof
 with a new "cti" and current "iat". Relays SHOULD reject proofs whose
 "iat" falls outside the "catdpop" window.
 
+Symmetric algorithms (HMAC, AES-MAC, etc.) MUST NOT be used for DPoP
+proof signatures. Only asymmetric algorithms are permitted.
+
 The `actx.type` field MUST be "moqt". Relays MUST reject proofs with
 any other type value to prevent cross-protocol proof reuse.
 
 Clients MUST NOT reuse key pairs across unrelated deployments.
+
+When the `ath` claim is present, relays MUST verify it matches the
+SHA-256 hash of the presented CAT token to prevent a DPoP proof
+issued for one token from being used with a different token.
+
+Implementations MUST ensure the encoded DPoP proof fits within MOQT
+and QUIC transport limits for the AUTHENTICATION parameter.
 
 ## Flow
 
@@ -709,6 +777,20 @@ IANA will register the following claims in the "CBOR Web Token (CWT) Claims" reg
 
 \[RFC Editor: Please replace RFCXXXX with the published RFC number for this
 document.\]
+
+This document also registers the following claims used in DPoP proofs:
+
+|------------------------|---------|---------|---------|
+|                        | actx    | ath     | nonce   |
+|------------------------|---------|---------|---------|
+| Claim Name             | actx    | ath     | nonce   |
+| Claim Description      | Authorization Context | Access Token Hash | DPoP Nonce |
+| JWT Claim Name         | actx    | ath     | nonce   |
+| Claim Key              | TBD     | TBD     | TBD     |
+| Claim Value Type       | map     | bstr    | tstr    |
+| Change Controller      | IESG    | IESG    | IESG    |
+| Specification Document | RFCXXXX | RFCXXXX | RFCXXXX |
+|------------------------|---------|---------|---------|
 
 ## MOQT Auth Token Type Registry
 
