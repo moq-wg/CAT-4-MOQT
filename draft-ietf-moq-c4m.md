@@ -507,27 +507,8 @@ using the "cnf" claim with a "jkt" (JWK Thumbprint {{JWK-THUMB}})
 confirmation method {{CWT-CNF}}. The "catdpop" claim ({{CAT}} Section 4.8)
 controls proof freshness window and replay settings.
 
-Example CAT token with DPoP binding:
-
-~~~~
-{
-  / cnf / 8: {
-    / jkt / 3: h'0123...abcdef'
-  },
-  / moqt / TBD_MOQT: {0: [
-    [
-      [/SUBSCRIBE/ 4, /FETCH/ 7],
-      ['cdn','example','com',nil],
-      [ /prefix/ 1, '/sports/']
-    ]
-  ]},
-  / catdpop / 321: {
-    0: 300,
-    1: 1
-  },
-  / exp / 4: 1750000000
-}
-~~~~
+A complete example of a CAT token and its corresponding DPoP proof
+is given in {{dpop-example}}.
 
 ## DPoP Proof Structure
 
@@ -632,16 +613,46 @@ The `actx.action` field uses the following strings:
 | TRACK_STATUS         | TRK_STATUS  |
 |----------------------|-------------|
 
-### Example
+### Example {#dpop-example}
 
-DPoP proof for a SUBSCRIBE on namespace ("example.com", "app"),
-track "camera1":
+The following shows a CAT token and the DPoP proof a client would
+create to SUBSCRIBE on namespace ("cdn", "example.com") with a prefix
+match on track "/sports/".
+
+CAT token issued by the authorization server:
+
+~~~~
+{
+  / cnf / 8: {
+    / jkt / 3: h'0123...abcdef'
+  },
+  / moqt / TBD_MOQT: {0: [
+    [
+      [/SUBSCRIBE/ 4, /FETCH/ 7],
+      ['cdn','example.com',nil],
+      [ /prefix/ 1, '/sports/']
+    ]
+  ]},
+  / catdpop / 321: {
+    0: 300,
+    1: 1
+  },
+  / exp / 4: 1750000000
+}
+~~~~
+
+DPoP proof created by the client for a SUBSCRIBE to track
+"/sports/live":
 
 ~~~~
 Protected: {
-  1: -7,
-  16: "dpop-proof+cwt",
-  4: {1: 2, -1: 1, -2: h'...', -3: h'...'}
+  / alg: ES256 / 1: -7,
+  / typ / 16: "dpop-proof+cwt",
+  / COSE_Key / 4: {
+    1: 2, -1: 1,
+    -2: h'...',
+    -3: h'...'
+  }
 }
 Claims: {
   / cti / 7: h'a1b2c3d4',
@@ -649,12 +660,19 @@ Claims: {
   / actx / TBD: {
     0: "moqt",
     1: "SUBSCRIBE",
-    2: "example.2ecom-app",
-    3: "camera1"
+    2: "cdn-example.2ecom",
+    3: "/sports/live"
   },
   / ath / TBD: h'7d41f23b...'
 }
 ~~~~
+
+The token authorizes SUBSCRIBE and FETCH on namespace
+("cdn", "example.com") for tracks matching prefix "/sports/".
+The proof binds to the specific SUBSCRIBE action and the target
+track "/sports/live", which matches the prefix. The "jkt" in
+the token and the COSE_Key in the proof header correspond to the
+same key pair.
 
 ## Relay Validation
 
