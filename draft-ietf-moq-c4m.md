@@ -487,7 +487,7 @@ Recipients MUST support this claim. This claim is OPTIONAL for issuers.
 
 # Replay Protection without DPoP
 
-In MOQT, the same token is presented for CLIENT_SETUP and again for
+In MOQT, the same token MAY be presented for CLIENT_SETUP and again for
 subsequent actions (SUBSCRIBE, PUBLISH, FETCH, etc.) on the same
 connection. The CAT "catreplay" claim needs connection-scoped
 semantics to accommodate this.
