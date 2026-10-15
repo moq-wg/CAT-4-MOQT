@@ -2,15 +2,15 @@
 
 
 
-Media Over QUIC                                                   W. Law
-Internet-Draft                                                    Akamai
-Intended status: Informational                                C. Lemmons
-Expires: 11 March 2027                                           Comcast
-                                                                G. Simon
-                                                               Synamedia
+Media Over QUIC                                               C. Lemmons
+Internet-Draft                                                   Comcast
+Intended status: Informational                                  G. Simon
+Expires: 18 April 2027                                         Synamedia
                                                            S. Nandakumar
                                                                    Cisco
-                                                        7 September 2026
+                                                                  W. Law
+                                                                  Akamai
+                                                         15 October 2026
 
 
         Authorization scheme for MOQT using Common Access Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 March 2027.
+   This Internet-Draft will expire on 18 April 2027.
 
 Copyright Notice
 
@@ -1015,9 +1015,9 @@ suffix-match = 2
               generic-dpop-proof/>.
 
    [EDN]      Bormann, C., "Concise Diagnostic Notation (CDN)", Work in
-              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-27,
-              20 July 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-cbor-edn-literals-27>.
+              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-28,
+              29 September 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-edn-literals-28>.
 
    [MoQTransport]
               Nandakumar, S., Vasiliev, V., Swett, I., and A. Frindell,
@@ -1686,11 +1686,6 @@ Acknowledgments
 
 Authors' Addresses
 
-   Will Law
-   Akamai
-   Email: wilaw@akamai.com
-
-
    Chris Lemmons
    Comcast
    Email: Chris_Lemmons@comcast.com
@@ -1704,3 +1699,8 @@ Authors' Addresses
    Suhas Nandakumar
    Cisco
    Email: snandaku@cisco.com
+
+
+   Will Law
+   Akamai
+   Email: wilaw@akamai.com
