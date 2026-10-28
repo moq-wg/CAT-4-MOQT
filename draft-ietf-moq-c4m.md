@@ -28,12 +28,6 @@ venue:
 author:
 
   -
-    ins: W. Law
-    name: "Will Law"
-    organization: Akamai
-    email: wilaw@akamai.com
-
-  -
     ins: C. Lemmons
     name: Chris Lemmons
     organization: Comcast
@@ -51,6 +45,11 @@ author:
     organization: Cisco
     email: snandaku@cisco.com
 
+  -
+    ins: W. Law
+    name: "Will Law"
+    organization: Akamai
+    email: wilaw@akamai.com
 
 normative:
 
