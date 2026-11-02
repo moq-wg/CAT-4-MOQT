@@ -1805,9 +1805,13 @@ the "moqt" claim.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-token-binding" class="section-name selfRef">Token Binding</a>
         </h3>
 <p id="section-3.1-1">The authorization server binds the CAT token to the client's public key
-with the "cnf" claim <span>[<a href="#CWT-CNF" class="cite xref">CWT-CNF</a>]</span>, using the "jkt" confirmation method
-of <span>[<a href="#CAT" class="cite xref">CAT</a>]</span>: the JWK SHA-256 Thumbprint <span>[<a href="#JWK-THUMB" class="cite xref">JWK-THUMB</a>]</span> of the client's
-public key. The "catdpop" claim (<span>[<a href="#CAT" class="cite xref">CAT</a>]</span> Section 4.8) sets the window
+with the "cnf" claim <span>[<a href="#CWT-CNF" class="cite xref">CWT-CNF</a>]</span>. Because the DPoP proof carries the
+key as a COSE_Key, the "cnf" claim <span class="bcp14">SHOULD</span> use the "ckt" confirmation
+method (key 5), the COSE Key Thumbprint <span>[<a href="#RFC9679" class="cite xref">RFC9679</a>]</span> of the client's
+public key. Relays <span class="bcp14">MUST</span> support "ckt". For compatibility with existing
+CAT issuers, the "cnf" claim <span class="bcp14">MAY</span> instead use the "jkt" confirmation
+method of <span>[<a href="#CAT" class="cite xref">CAT</a>]</span>, the JWK SHA-256 Thumbprint <span>[<a href="#JWK-THUMB" class="cite xref">JWK-THUMB</a>]</span>; relays
+<span class="bcp14">SHOULD</span> support "jkt". The "catdpop" claim (<span>[<a href="#CAT" class="cite xref">CAT</a>]</span> Section 4.8) sets the window
 within which a proof is fresh and whether relays use the proof's "cti"
 for replay detection.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.1-2">A relay <span class="bcp14">MUST NOT</span> accept a token that contains a "cnf" claim for an MOQT
@@ -1879,8 +1883,8 @@ the client's key:<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
 {
   / exp / 4: 1750000000,
   / cnf / 8: {
-    / jkt / 323: h'0cebf1bc9880748a95588905b79843b4
-                   2ba75cb174055e3e246bf87fe00b4a6d'
+    / ckt / 5: h'750ca40795ab23e51a75dc76fa12c052
+                 f6f6c57ba8a732337b91f096592b6ef6'
   },
   / catdpop / 321: {
     / window / 0: 300,
@@ -1932,8 +1936,8 @@ Payload:
 }
 </pre><a href="#section-3.2.1-4" class="pilcrow">¶</a>
 </div>
-<p id="section-3.2.1-5">The "jkt" value in the token is the thumbprint of the key in the
-proof's header (the ES256 test key from Appendix A).<a href="#section-3.2.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.2.1-5">The "ckt" value in the token is the COSE Key Thumbprint of the key in
+the proof's header (the ES256 test key from Appendix A).<a href="#section-3.2.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1959,10 +1963,10 @@ algorithm.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 header parameter.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-3.3-2.4">
-            <p id="section-3.3-2.4.1">The JWK SHA-256 Thumbprint <span>[<a href="#JWK-THUMB" class="cite xref">JWK-THUMB</a>]</span> of that key equals the
-"jkt" value in the token's "cnf" claim. To compute it, the relay
-converts the COSE_Key to the equivalent JWK (for an EC2 key: "crv",
-"kty", "x" and "y").<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.4.1">The key matches the token's "cnf" claim: for "ckt", its COSE Key
+Thumbprint <span>[<a href="#RFC9679" class="cite xref">RFC9679</a>]</span> equals the "ckt" value; for "jkt", the JWK
+SHA-256 Thumbprint <span>[<a href="#JWK-THUMB" class="cite xref">JWK-THUMB</a>]</span> of the equivalent JWK (for an EC2
+key: "crv", "kty", "x" and "y") equals the "jkt" value.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-3.3-2.5">
             <p id="section-3.3-2.5.1">"ath" equals the SHA-256 hash of the token as presented.<a href="#section-3.3-2.5.1" class="pilcrow">¶</a></p>
@@ -2313,8 +2317,12 @@ action with an appropriate error.<a href="#section-7.2.1-4" class="pilcrow">¶</
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9528">[RFC9528]</dt>
-    <dd>
+      <dd>
 <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Preuß Mattsson, J.</span>, and <span class="refAuthor">F. Palombini</span>, <span class="refTitle">"Ephemeral Diffie-Hellman Over COSE (EDHOC)"</span>, <span class="seriesInfo">RFC 9528</span>, <span class="seriesInfo">DOI 10.17487/RFC9528</span>, <time datetime="2024-03" class="refDate">March 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9528">https://www.rfc-editor.org/rfc/rfc9528</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9679">[RFC9679]</dt>
+    <dd>
+<span class="refAuthor">Isobe, K.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">O. Steele</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE) Key Thumbprint"</span>, <span class="seriesInfo">RFC 9679</span>, <span class="seriesInfo">DOI 10.17487/RFC9679</span>, <time datetime="2024-12" class="refDate">December 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9679">https://www.rfc-editor.org/rfc/rfc9679</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

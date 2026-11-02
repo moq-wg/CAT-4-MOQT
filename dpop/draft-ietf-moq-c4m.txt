@@ -561,11 +561,15 @@ suffix-match = 2
 3.1.  Token Binding
 
    The authorization server binds the CAT token to the client's public
-   key with the "cnf" claim [CWT-CNF], using the "jkt" confirmation
-   method of [CAT]: the JWK SHA-256 Thumbprint [JWK-THUMB] of the
-   client's public key.  The "catdpop" claim ([CAT] Section 4.8) sets
-   the window within which a proof is fresh and whether relays use the
-   proof's "cti" for replay detection.
+   key with the "cnf" claim [CWT-CNF].  Because the DPoP proof carries
+   the key as a COSE_Key, the "cnf" claim SHOULD use the "ckt"
+   confirmation method (key 5), the COSE Key Thumbprint [RFC9679] of the
+   client's public key.  Relays MUST support "ckt".  For compatibility
+   with existing CAT issuers, the "cnf" claim MAY instead use the "jkt"
+   confirmation method of [CAT], the JWK SHA-256 Thumbprint [JWK-THUMB];
+   relays SHOULD support "jkt".  The "catdpop" claim ([CAT] Section 4.8)
+   sets the window within which a proof is fresh and whether relays use
+   the proof's "cti" for replay detection.
 
    A relay MUST NOT accept a token that contains a "cnf" claim for an
    MOQT action unless the action is accompanied by a valid DPoP proof.
@@ -626,8 +630,8 @@ suffix-match = 2
    {
      / exp / 4: 1750000000,
      / cnf / 8: {
-       / jkt / 323: h'0cebf1bc9880748a95588905b79843b4
-                      2ba75cb174055e3e246bf87fe00b4a6d'
+       / ckt / 5: h'750ca40795ab23e51a75dc76fa12c052
+                    f6f6c57ba8a732337b91f096592b6ef6'
      },
      / catdpop / 321: {
        / window / 0: 300,
@@ -676,8 +680,8 @@ suffix-match = 2
      / ath / TBD_ATH: h'...'  / SHA-256 of the CAT token /
    }
 
-   The "jkt" value in the token is the thumbprint of the key in the
-   proof's header (the ES256 test key from Appendix A).
+   The "ckt" value in the token is the COSE Key Thumbprint of the key in
+   the proof's header (the ES256 test key from Appendix A).
 
 3.3.  Relay Validation
 
@@ -693,10 +697,10 @@ suffix-match = 2
    3.  The proof's signature verifies with the COSE_Key in its "kccs"
        header parameter.
 
-   4.  The JWK SHA-256 Thumbprint [JWK-THUMB] of that key equals the
-       "jkt" value in the token's "cnf" claim.  To compute it, the relay
-       converts the COSE_Key to the equivalent JWK (for an EC2 key:
-       "crv", "kty", "x" and "y").
+   4.  The key matches the token's "cnf" claim: for "ckt", its COSE Key
+       Thumbprint [RFC9679] equals the "ckt" value; for "jkt", the JWK
+       SHA-256 Thumbprint [JWK-THUMB] of the equivalent JWK (for an EC2
+       key: "crv", "kty", "x" and "y") equals the "jkt" value.
 
    5.  "ath" equals the SHA-256 hash of the token as presented.
 
@@ -955,6 +959,11 @@ suffix-match = 2
               "Ephemeral Diffie-Hellman Over COSE (EDHOC)", RFC 9528,
               DOI 10.17487/RFC9528, March 2024,
               <https://www.rfc-editor.org/rfc/rfc9528>.
+
+   [RFC9679]  Isobe, K., Tschofenig, H., and O. Steele, "CBOR Object
+              Signing and Encryption (COSE) Key Thumbprint", RFC 9679,
+              DOI 10.17487/RFC9679, December 2024,
+              <https://www.rfc-editor.org/rfc/rfc9679>.
 
 Appendix A.  Appendix A: Test Vectors
 
