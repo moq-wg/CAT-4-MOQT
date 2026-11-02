@@ -865,6 +865,21 @@ validation of CAT tokens for MOQT. Tokens use COSE_Mac0 (CBOR tag 17) for
 HMAC-SHA256 or COSE_Sign1 (CBOR tag 18) for ES256. Token strings are the
 base64url encoding of the full COSE structure.
 
+The JSON is only a container for the vectors; it does not define a JSON
+representation of CAT claims. The "payload_cbor_hex" value is the
+normative claim set. The "claims_edn" value shows the same claim set in
+CBOR Extended Diagnostic Notation {{EDN}}, with claim names as comments.
+
+Long string values are folded across lines to fit this document. The line
+breaks and the indentation that follows them are not part of the JSON
+string. To unfold a hex or base64url value, remove each line break and the
+indentation after it. In "description" and "claims_edn" values, replace
+each line break and its indentation with a single space.
+
+The moqt and moqt-reval claims do not yet have assigned claim keys
+(TBD_MOQT and TBD_MOQT_REVAL). These vectors use the Private Use claim keys
+-65537 for moqt and -65538 for moqt-reval {{!RFC8392}} as placeholders.
+
 ## Keys
 
 The following keys are used throughout these test vectors:
@@ -891,22 +906,18 @@ These vectors validate correct CBOR encoding of individual claim types.
   {
     "id": "cbor_issuer_only",
     "description": "Minimal token with only issuer claim",
-    "claims": {
-      "iss": "https://auth.example.com"
-    },
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\"}",
     "payload_cbor_hex":
       "a101781868747470733a2f2f617574682e6578616d706c652e636f6d"
   },
   {
     "id": "cbor_core_claims",
     "description": "All core CWT claims (iss, aud, exp, nbf, cti)",
-    "claims": {
-      "iss": "https://auth.example.com",
-      "aud": ["https://relay.example.com"],
-      "exp": 1700086400,
-      "nbf": 1700000000,
-      "cti": "test-token-001"
-    },
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\",
+       3 /aud/: [\"https://relay.example.com\"], 4 /exp/: 1700086400,
+       5 /nbf/: 1700000000, 7 /cti/: h'746573742d746f6b656e2d303031'}",
     "payload_cbor_hex":
       "a501781868747470733a2f2f617574682e6578616d706c652e636f6d
        0381781968747470733a2f2f72656c61792e6578616d706c652e636f
@@ -916,67 +927,64 @@ These vectors validate correct CBOR encoding of individual claim types.
   {
     "id": "cbor_cat_version_uri",
     "description": "CAT version (uint 1) and URI match rule",
-    "claims": {
-      "catv": 1,
-      "catu": {"host": "example.com"}
-    },
+    "claims_edn":
+      "{310 /catv/: 1,
+       312 /catu/: {1 /host/: {0 /exact/: \"example.com\"}}}",
     "payload_cbor_hex":
       "a219013601190138a101a1006b6578616d706c652e636f6d"
   },
   {
     "id": "cbor_network_identifiers",
     "description": "Network identifiers: IP, CIDR, ASN, ASN range",
-    "claims": {
-      "catnip": [
-        {"type": "ip_address", "value": "192.168.1.100"},
-        {"type": "ip_range", "value": "10.0.0.0/8"},
-        {"type": "asn", "value": 64512},
-        {"type": "asn_range", "value": [64512, 64768]}
-      ]
-    },
+    "claims_edn":
+      "{311 /catnip/: [52(h'c0a80164'), 52([8, h'0a']), 64512, [64512,
+       64768]]}",
     "payload_cbor_hex":
-      "a119013784d83444c0a80164d834a108410a19fc008219fc0019fd00"
+      "a119013784d83444c0a80164d8348208410a19fc008219fc0019fd00"
   },
   {
     "id": "cbor_geographic_claims",
     "description":
       "Geographic claims: coordinates, geohash, ISO 3166, altitude",
-    "claims": {
-      "geohash": "9q8yyk",
-      "catgeoiso3166": ["US", "CA"],
-      "catgeocoord": {"lat": 37.7749, "lon": -122.4194,
-                      "accuracy": 100.0},
-      "catgeoalt": 10
-    },
+    "claims_edn":
+      "{282 /geohash/: \"9q8yyk\", 316 /catgeoiso3166/: [\"US\",
+       \"CA\"], 317 /catgeocoord/: [[37.7749, -122.4194, 100]],
+       318 /catgeoalt/: [10, 5]}",
     "payload_cbor_hex":
-      "a419011a6639713879796b19013c82625553624341
-       19013d8183fb4042e32fec56d5d0fbc05e9ad77318fc5018
-       6419013e820a05"
+      "a419011a6639713879796b19013c8262555362434119013d8183fb40
+       42e32fec56d5d0fbc05e9ad77318fc50186419013e820a05"
   },
   {
     "id": "cbor_uri_match_rules",
     "description":
       "URI match rules: host exact, path prefix, extension exact",
-    "claims": {
-      "catu": [
-        {"component": "host", "match": "exact",
-         "value": "example.com"},
-        {"component": "path", "match": "prefix",
-         "value": "/vod/"},
-        {"component": "extension", "match": "exact",
-         "value": "m3u8"}
-      ]
-    },
+    "claims_edn":
+      "{312 /catu/: {1 /host/: {0 /exact/: \"example.com\"},
+       3 /path/: {1 /prefix/: \"/vod/\"},
+       8 /extension/: {0 /exact/: \".m3u8\"}}}",
     "payload_cbor_hex":
       "a1190138a301a1006b6578616d706c652e636f6d03a101652f766f64
-       2f08a100646d337538"
+       2f08a100652e6d337538"
+  },
+  {
+    "id": "cbor_catu_with_moqt",
+    "description":
+      "catu (HTTP) and moqt (MOQT) in one token: host
+       exact + path prefix, and Subscribe/Fetch on namespace
+       (example.com, vod)",
+    "claims_edn":
+      "{312 /catu/: {1 /host/: {0 /exact/: \"example.com\"},
+       3 /path/: {1 /prefix/: \"/vod/\"}}, -65537 /moqt/: [[[4, 7],
+       [h'6578616d706c652e636f6d', h'766f64']]]}",
+    "payload_cbor_hex":
+      "a2190138a201a1006b6578616d706c652e636f6d03a101652f766f64
+       2f3a000100008182820407824b6578616d706c652e636f6d43766f64"
   },
   {
     "id": "cbor_alpn",
     "description": "ALPN protocol identifiers",
-    "claims": {
-      "catalpn": ["moq-00", "h3"]
-    },
+    "claims_edn":
+      "{314 /catalpn/: [h'6d6f712d3030', h'6833']}",
     "payload_cbor_hex":
       "a119013a82466d6f712d3030426833"
   }
@@ -994,13 +1002,11 @@ COSE binary encoding (cose_hex) and its base64url representation (cose_b64).
   {
     "id": "token_hmac_minimal",
     "description": "Minimal COSE_Mac0 token signed with HMAC-SHA256",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\",
+       3 /aud/: [\"https://relay.example.com\"], 4 /exp/: 1700086400}",
     "algorithm": "HMAC-SHA256",
     "algorithm_id": 5,
-    "claims": {
-      "iss": "https://auth.example.com",
-      "aud": ["https://relay.example.com"],
-      "exp": 1700086400
-    },
     "header_cbor_hex": "a201051063434154",
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
@@ -1013,14 +1019,14 @@ COSE binary encoding (cose_hex) and its base64url representation (cose_b64).
       "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
        1c1d1e1f",
     "cose_hex":
-      "d18448a201051063434154a0583fa301781868747470733a2f2f61757
-       4682e6578616d706c652e636f6d0381781968747470733a2f2f72656c
-       61792e6578616d706c652e636f6d041a65554280582016ca16a2d4e24
-       76528ae858d91b00f257a507fe57284bfb13d7d6ca1f065e230",
+      "d18448a201051063434154a0583fa301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d0381781968747470733a2f2f7265
+       6c61792e6578616d706c652e636f6d041a65554280582016ca16a2d4
+       e2476528ae858d91b00f257a507fe57284bfb13d7d6ca1f065e230",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWD-jAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-       Y29tA4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoBYIB
-       bKFqLU4kdlKK6FjZGwDyV6UH_lcoS_sT19bKHwZeIw",
+      "0YRIogEFEGNDQVSgWD-jAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       A4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoBYIBbKFqLU
+       4kdlKK6FjZGwDyV6UH_lcoS_sT19bKHwZeIw",
     "valid": true
   },
   {
@@ -1028,23 +1034,17 @@ COSE binary encoding (cose_hex) and its base64url representation (cose_b64).
     "description":
       "COSE_Mac0 token with core + CAT + informational claims,
        HMAC-SHA256",
+    "claims_edn":
+      "{1 /iss/: \"https://issuer.moq.example\",
+       2 /sub/: \"user:alice@example.com\",
+       3 /aud/: [\"https://relay1.example.com\",
+       \"https://relay2.example.com\"], 4 /exp/: 1700086400,
+       5 /nbf/: 1700000000, 6 /iat/: 1700000000,
+       7 /cti/: h'766563746f722d303032', 310 /catv/: 1,
+       311 /catnip/: [52(h'cb007132')],
+       312 /catu/: {3 /path/: {1 /prefix/: \"/live/\"}}}",
     "algorithm": "HMAC-SHA256",
     "algorithm_id": 5,
-    "claims": {
-      "iss": "https://issuer.moq.example",
-      "sub": "user:alice@example.com",
-      "aud": [
-        "https://relay1.example.com",
-        "https://relay2.example.com"
-      ],
-      "exp": 1700086400,
-      "nbf": 1700000000,
-      "iat": 1700000000,
-      "cti": "vector-002",
-      "catv": 1,
-      "catnip": [{"type": "ip_address", "value": "203.0.113.50"}],
-      "catu": {"path": "/live/"}
-    },
     "header_cbor_hex": "a201051063434154",
     "payload_cbor_hex":
       "aa01781a68747470733a2f2f6973737565722e6d6f712e6578616d70
@@ -1052,8 +1052,8 @@ COSE binary encoding (cose_hex) and its base64url representation (cose_b64).
        781a68747470733a2f2f72656c6179312e6578616d706c652e636f6d
        781a68747470733a2f2f72656c6179322e6578616d706c652e636f6d
        041a65554280051a6553f100061a6553f100074a766563746f722d30
-       30321901360119013781d83444cb007132190138a103a101662f6c697
-       6652f",
+       30321901360119013781d83444cb007132190138a103a101662f6c69
+       76652f",
     "tag_hex":
       "29c1a6612ce6d49273fd8c0116b9decbc287662d5ba5d67defafaf6f
        f0c11278",
@@ -1070,12 +1070,12 @@ COSE binary encoding (cose_hex) and its base64url representation (cose_b64).
        007132190138a103a101662f6c6976652f582029c1a6612ce6d49273
        fd8c0116b9decbc287662d5ba5d67defafaf6ff0c11278",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWKuqAXgaaHR0cHM6Ly9pc3N1ZXIubW9xLmV4
-       YW1wbGUCdnVzZXI6YWxpY2VAZXhhbXBsZS5jb20DgngaaHR0cHM6Ly
-       9yZWxheTEuZXhhbXBsZS5jb214Gmh0dHBzOi8vcmVsYXkyLmV4YW1
-       wbGUuY29tBBplVUKABRplU_EABhplU_EAB0p2ZWN0b3ItMDAyGQE2
-       ARkBN4HYNETLAHEyGQE4oQOhAWYvbGl2ZS9YICnBpmEs5tSSc_2MAR
-       a53svCh2YtW6XWfe-vr2_wwRJ4",
+      "0YRIogEFEGNDQVSgWKuqAXgaaHR0cHM6Ly9pc3N1ZXIubW9xLmV4YW1w
+       bGUCdnVzZXI6YWxpY2VAZXhhbXBsZS5jb20DgngaaHR0cHM6Ly9yZWxh
+       eTEuZXhhbXBsZS5jb214Gmh0dHBzOi8vcmVsYXkyLmV4YW1wbGUuY29t
+       BBplVUKABRplU_EABhplU_EAB0p2ZWN0b3ItMDAyGQE2ARkBN4HYNETL
+       AHEyGQE4oQOhAWYvbGl2ZS9YICnBpmEs5tSSc_2MARa53svCh2YtW6XW
+       fe-vr2_wwRJ4",
     "valid": true
   },
   {
@@ -1083,14 +1083,12 @@ COSE binary encoding (cose_hex) and its base64url representation (cose_b64).
     "description":
       "COSE_Sign1 token signed with ES256
        (P-256 ECDSA, deterministic RFC 6979)",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\",
+       3 /aud/: [\"https://moq-relay.example.com\"],
+       4 /exp/: 1700086400, 5 /nbf/: 1700000000}",
     "algorithm": "ES256",
     "algorithm_id": -7,
-    "claims": {
-      "iss": "https://auth.example.com",
-      "aud": ["https://moq-relay.example.com"],
-      "exp": 1700086400,
-      "nbf": 1700000000
-    },
     "header_cbor_hex": "a201261063434154",
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
@@ -1110,17 +1108,17 @@ COSE binary encoding (cose_hex) and its base64url representation (cose_b64).
       "7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294
        d4462299",
     "cose_hex":
-      "d28448a201261063434154a05849a401781868747470733a2f2f61757
-       4682e6578616d706c652e636f6d0381781d68747470733a2f2f6d6f71
-       2d72656c61792e6578616d706c652e636f6d041a65554280051a6553f
-       1005840ed8cf586f32ba410f2b3097642eb32255c8dc555e9e058c4808
-       4809df557887bc5ee4974a9ef5c4557c1557de799628b634cafaa1b74
-       c936968e0c9c3a48f222",
+      "d28448a201261063434154a05849a401781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d0381781d68747470733a2f2f6d6f
+       712d72656c61792e6578616d706c652e636f6d041a65554280051a65
+       53f1005840ed8cf586f32ba410f2b3097642eb32255c8dc555e9e058
+       c48084809df557887bc5ee4974a9ef5c4557c1557de799628b634caf
+       aa1b74c936968e0c9c3a48f222",
     "cose_b64":
-      "0oRIogEmEGNDQVSgWEmkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-       Y29tA4F4HWh0dHBzOi8vbW9xLXJlbGF5LmV4YW1wbGUuY29tBBplVU
-       KABRplU_EAWEDtjPWG8yukEPKzCXZC6zIlXI3FVengWMSAhICd9VeI
-       e8XuSXSp71xFV8FVfeeZYotjTK-qG3TJNpaODJw6SPIi",
+      "0oRIogEmEGNDQVSgWEmkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       A4F4HWh0dHBzOi8vbW9xLXJlbGF5LmV4YW1wbGUuY29tBBplVUKABRpl
+       U_EAWEDtjPWG8yukEPKzCXZC6zIlXI3FVengWMSAhICd9VeIe8XuSXSp
+       71xFV8FVfeeZYotjTK-qG3TJNpaODJw6SPIi",
     "valid": true
   }
 ]
@@ -1138,6 +1136,10 @@ in CAT tokens.
     "description":
       "HMAC token with DPoP cnf-jkt derived from the fixed ES256
        test key (RFC 7638 JWK thumbprint)",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       8 /cnf/: {323: h'0cebf1bc9880748a95588905b79843b42ba75cb174055
+       e3e246bf87fe00b4a6d'}, 321 /catdpop/: {0: 60, 1: 1}}",
     "dpop": {
       "cnf_jkt_hex":
         "0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87f
@@ -1153,20 +1155,24 @@ in CAT tokens.
        b42ba75cb174055e3e246bf87fe00b4a6d190141a200183c0101",
     "cose_hex":
       "d18448a201051063434154a05852a401781868747470733a2f2f6175
-       74682e6578616d706c652e636f6d041a6555428008a11901435820
-       0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87f
-       e00b4a6d190141a200183c01015820cef11ccef3533e37884638bbff
-       1e08cbcf3d6846afcc0257bf2530416b076242",
+       74682e6578616d706c652e636f6d041a6555428008a119014358200c
+       ebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe0
+       0b4a6d190141a200183c01015820cef11ccef3533e37884638bbff1e
+       08cbcf3d6846afcc0257bf2530416b076242",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWFKkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-       Y29tBBplVUKACKEZAUNYIAzr8byYgHSKlViJBbeYQ7Qrp1yxdAVeP
-       iRr-H_gC0ptGQFBogAYPAEBWCDO8RzO81M-N4hGOLv_HgjLzz1oRq
-       _MAle_JTBBawdiQg"
+      "0YRIogEFEGNDQVSgWFKkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKACKEZAUNYIAzr8byYgHSKlViJBbeYQ7Qrp1yxdAVePiRr-H_g
+       C0ptGQFBogAYPAEBWCDO8RzO81M-N4hGOLv_HgjLzz1oRq_MAle_JTBB
+       awdiQg"
   },
   {
     "id": "dpop_no_jti",
     "description":
       "DPoP binding with longer window, JTI processing disabled",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       8 /cnf/: {323: h'3c82dfd6358ba804bd90879c34e743bbe13aeab798066
+       4944f37a0ec0063fe95'}, 321 /catdpop/: {0: 300, 1: 0}}",
     "dpop": {
       "cnf_jkt_hex":
         "3c82dfd6358ba804bd90879c34e743bbe13aeab7980664944f37a0ec
@@ -1177,25 +1183,30 @@ in CAT tokens.
     },
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428008a119014358203c82dfd6358ba804bd90879c34e743bb
-       e13aeab7980664944f37a0ec0063fe95190141a20019012c0100",
+       041a6555428008a119014358203c82dfd6358ba804bd90879c34e743
+       bbe13aeab7980664944f37a0ec0063fe95190141a20019012c0100",
     "cose_hex":
-      "d18448a201051063434154a05853a401781868747470733a2f2f61757
-       4682e6578616d706c652e636f6d041a6555428008a119014358203c82
-       dfd6358ba804bd90879c34e743bbe13aeab7980664944f37a0ec0063f
-       e95190141a20019012c01005820ecb7a5b5667b95f20c673417718eac
-       9f5d997fd427485942a61048cdd8c50e0c",
+      "d18448a201051063434154a05853a401781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a6555428008a119014358203c
+       82dfd6358ba804bd90879c34e743bbe13aeab7980664944f37a0ec00
+       63fe95190141a20019012c01005820ecb7a5b5667b95f20c67341771
+       8eac9f5d997fd427485942a61048cdd8c50e0c",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWFOkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-       Y29tBBplVUKACKEZAUNYIDyC39Y1i6gEvZCHnDTnQ7vhOuq3mAZklE
-       83oOwAY_6VGQFBogAZASwBAFgg7LeltWZ7lfIMZzQXcY6sn12Zf9Qn
-       SFlCphBIzdjFDgw"
+      "0YRIogEFEGNDQVSgWFOkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKACKEZAUNYIDyC39Y1i6gEvZCHnDTnQ7vhOuq3mAZklE83oOwA
+       Y_6VGQFBogAZASwBAFgg7LeltWZ7lfIMZzQXcY6sn12Zf9QnSFlCphBI
+       zdjFDgw"
   },
   {
     "id": "dpop_es256_real_binding",
     "description":
       "ES256 token with real JWK thumbprint binding to the
        signing key",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\",
+       3 /aud/: [\"https://relay.example.com\"], 4 /exp/: 1700086400,
+       8 /cnf/: {323: h'0cebf1bc9880748a95588905b79843b42ba75cb174055
+       e3e246bf87fe00b4a6d'}, 321 /catdpop/: {0: 120}}",
     "algorithm": "ES256",
     "jwk_thumbprint_input":
       "{\"crv\":\"P-256\",\"kty\":\"EC\",\"x\":\"YP7UuiVanTHJYet0
@@ -1217,22 +1228,22 @@ in CAT tokens.
     "payload_cbor_hex":
       "a501781868747470733a2f2f617574682e6578616d706c652e636f6d
        0381781968747470733a2f2f72656c61792e6578616d706c652e636f
-       6d041a6555428008a119014358200cebf1bc9880748a95588905b7984
-       3b42ba75cb174055e3e246bf87fe00b4a6d190141a1001878",
+       6d041a6555428008a119014358200cebf1bc9880748a95588905b798
+       43b42ba75cb174055e3e246bf87fe00b4a6d190141a1001878",
     "cose_hex":
-      "d28448a201261063434154a0586da501781868747470733a2f2f61757
-       4682e6578616d706c652e636f6d0381781968747470733a2f2f72656c
-       61792e6578616d706c652e636f6d041a6555428008a1190143582 00ce
-       bf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b
-       4a6d190141a10018785840cdb69dc3db876b1d05a8f808e5286a8610
-       26fc8b58b9a9aa97f23bdf0253ff56357f9129ee9b09667701357c8d
-       700721b3029928d4fe573d56a88744dce04f82",
+      "d28448a201261063434154a0586da501781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d0381781968747470733a2f2f7265
+       6c61792e6578616d706c652e636f6d041a6555428008a11901435820
+       0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87f
+       e00b4a6d190141a10018785840cdb69dc3db876b1d05a8f808e5286a
+       861026fc8b58b9a9aa97f23bdf0253ff56357f9129ee9b0966770135
+       7c8d700721b3029928d4fe573d56a88744dce04f82",
     "cose_b64":
-      "0oRIogEmEGNDQVSgWG2lAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-       Y29tA4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoAIoR
-       kBQ1ggDOvxvJiAdIqVWIkFt5hDtCunXLF0BV4-JGv4f-ALSm0ZAUGh
-       ABh4WEDNtp3D24drHQWo-AjlKGqGECb8i1i5qaqX8jvfAlP_VjV_kS
-       numwlmdwE1fI1wByGzApko1P5XPVaoh0Tc4E-C"
+      "0oRIogEmEGNDQVSgWG2lAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       A4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoAIoRkBQ1gg
+       DOvxvJiAdIqVWIkFt5hDtCunXLF0BV4-JGv4f-ALSm0ZAUGhABh4WEDN
+       tp3D24drHQWo-AjlKGqGECb8i1i5qaqX8jvfAlP_VjV_kSnumwlmdwE1
+       fI1wByGzApko1P5XPVaoh0Tc4E-C"
   }
 ]
 ~~~
@@ -1249,6 +1260,10 @@ results for various action, namespace, and track combinations.
     "id": "moqt_publisher_exact",
     "description":
       "Publisher scope: exact namespace match, prefix track match",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       -65537 /moqt/: [[[2, 6], [h'6578616d706c652e636f6d',
+       h'616c696365'], [1, h'766964656f2d']]]}",
     "moqt_scopes": [
       {
         "actions": [2, 6],
@@ -1267,18 +1282,18 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a655542801901478183820206824b6578616d706c652e636f6d4561
-       6c696365820146766964656f2d",
+       041a655542803a000100008183820206824b6578616d706c652e636f
+       6d45616c696365820146766964656f2d",
     "cose_hex":
-      "d18448a201051063434154a05846a301781868747470733a2f2f61757
-       4682e6578616d706c652e636f6d041a655542801901478183820206824
-       b6578616d706c652e636f6d45616c696365820146766964656f2d5820
-       e6ef1eb0edbd76e780a9e46f7077edcab091b55d7991aa9c1ba5d2b17
-       711e59a",
+      "d18448a201051063434154a05848a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000818382
+       0206824b6578616d706c652e636f6d45616c69636582014676696465
+       6f2d5820688f4a48baa0433dbdfa3568779bbb89450f3d9d241f1ddb
+       325561f821589bab",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWEajAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-       Y29tBBplVUKAGQFHgYOCAgaCS2V4YW1wbGUuY29tRWFsaWNlggFGdm
-       lkZW8tWCDm7x6w7b1254Cp5G9wd-3KsJG1XXmRqpwbpdKxdxHlmg",
+      "0YRIogEFEGNDQVSgWEijAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAACBg4ICBoJLZXhhbXBsZS5jb21FYWxpY2WCAUZ2aWRl
+       by1YIGiPSki6oEM9vfo1aHebu4lFDz2dJB8d2zJVYfghWJur",
     "authorization_tests": [
       {"action": 2, "namespace": ["example.com", "alice"],
        "track": "video-hd", "expected": true},
@@ -1296,6 +1311,10 @@ results for various action, namespace, and track combinations.
     "id": "moqt_subscriber_prefix",
     "description":
       "Subscriber scope: prefix namespace match, any track",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       -65537 /moqt/: [[[3, 4, 7], [[1,
+       h'636f6e666572656e63652e6578616d706c65']]]]}",
     "moqt_scopes": [
       {
         "actions": [3, 4, 7],
@@ -1310,17 +1329,18 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428019014781828303040781820152636f6e666572656e6365
-       2e6578616d706c65",
+       041a655542803a0001000081828303040781820152636f6e66657265
+       6e63652e6578616d706c65",
     "cose_hex":
-      "d18448a201051063434154a05841a301781868747470733a2f2f61757
-       4682e6578616d706c652e636f6d041a65554280190147818283030407
-       81820152636f6e666572656e63652e6578616d706c655820a517009de
-       ce13f143b06cd1f9e5fd861a29338174b77ed7c0d0478f1bc55fea2",
+      "d18448a201051063434154a05843a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000818283
+       03040781820152636f6e666572656e63652e6578616d706c6558205d
+       56c60bba8185954915f1f356778554746df7c39025de45c8967f8167
+       5dcde6",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWEGjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-       Y29tBBplVUKAGQFHgYKDAwQHgYIBUmNvbmZlcmVuY2UuZXhhbXBsZV
-       ggpRcAnezhPxQ7Bs0fnl_YYaKTOBdLd-18DQR48bxV_qI",
+      "0YRIogEFEGNDQVSgWEOjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAACBgoMDBAeBggFSY29uZmVyZW5jZS5leGFtcGxlWCBd
+       VsYLuoGFlUkV8fNWd4VUdG33w5Al3kXIln-BZ13N5g",
     "authorization_tests": [
       {"action": 4, "namespace": ["conference.example.room1"],
        "track": "audio", "expected": true},
@@ -1337,6 +1357,11 @@ results for various action, namespace, and track combinations.
     "description":
       "Multi-scope token: publish to specific namespace, subscribe
        to prefix, with revalidation",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       -65537 /moqt/: [[[2, 6], [h'6c6976652e6578616d706c65',
+       h'73747564696f2d61']], [[4, 7], [[1,
+       h'6c6976652e6578616d706c65']]]], -65538 /moqt-reval/: 300}",
     "moqt_reval": 300.0,
     "moqt_scopes": [
       {
@@ -1362,20 +1387,21 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a655542801901478282820206824c6c6976652e6578616d706c6548
-       73747564696f2d61828204078182014c6c6976652e6578616d706c6519
-       014819012c",
+       041a655542803a000100008282820206824c6c6976652e6578616d70
+       6c654873747564696f2d61828204078182014c6c6976652e6578616d
+       706c653a0001000119012c",
     "cose_hex":
-      "d18448a201051063434154a0585ba401781868747470733a2f2f61757
-       4682e6578616d706c652e636f6d041a65554280190147828282020682
-       4c6c6976652e6578616d706c654873747564696f2d6182820407818201
-       4c6c6976652e6578616d706c6519014819012c58204d0c6f8c520acc96
-       47637833b1773a2bad38595a261f3cdddfcf6edecf312b4e",
+      "d18448a201051063434154a0585fa401781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000828282
+       0206824c6c6976652e6578616d706c654873747564696f2d61828204
+       078182014c6c6976652e6578616d706c653a0001000119012c582056
+       5a99da8f3b8ce192d22d35a2046741440809b605ba64c1e975b29c1b
+       324bb0",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWFukAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-       Y29tBBplVUKAGQFHgoKCAgaCTGxpdmUuZXhhbXBsZUhzdHVkaW8tYY
-       KCBAeBggFMbGl2ZS5leGFtcGxlGQFIGQEsWCBNDG-MUgrMlkdjeDOx
-       dzorrThZWiYfPN3fz27ezzErTg",
+      "0YRIogEFEGNDQVSgWF-kAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAACCgoICBoJMbGl2ZS5leGFtcGxlSHN0dWRpby1hgoIE
+       B4GCAUxsaXZlLmV4YW1wbGU6AAEAARkBLFggVlqZ2o87jOGS0i01ogRn
+       QUQICbYFumTB6XWynBsyS7A",
     "authorization_tests": [
       {"action": 6, "namespace": ["live.example", "studio-a"],
        "track": "cam1", "expected": true},
@@ -1391,6 +1417,9 @@ results for various action, namespace, and track combinations.
     "id": "moqt_admin_wildcard",
     "description":
       "Admin scope: all actions, no namespace/track restriction",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       -65537 /moqt/: [[[0, 1, 2, 3, 4, 5, 6, 7, 8]]]}",
     "moqt_scopes": [
       {
         "actions": [0, 1, 2, 3, 4, 5, 6, 7, 8],
@@ -1405,16 +1434,16 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a65554280190147818189000102030405060708",
+       041a655542803a00010000818189000102030405060708",
     "cose_hex":
-      "d18448a201051063434154a05831a301781868747470733a2f2f61757
-       4682e6578616d706c652e636f6d041a655542801901478181890001020
-       3040506070858202bacff08b2be7762aa9ec246bbf0c2d8e12b05e14a
-       7bf5b73f85c89f7d6d61fd",
+      "d18448a201051063434154a05833a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000818189
+       000102030405060708582026082a4a2bf680d6a60d1559d683cd0e8e
+       7de19b7289efd296ce42a3550725d0",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWDGjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-       Y29tBBplVUKAGQFHgYGJAAECAwQFBgcIWCArrP8Isr53Yqqewka78ML
-       Y4SsF4Up79bc_hciffW1h_Q",
+      "0YRIogEFEGNDQVSgWDOjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAACBgYkAAQIDBAUGBwhYICYIKkor9oDWpg0VWdaDzQ6O
+       feGbconv0pbOQqNVByXQ",
     "authorization_tests": [
       {"action": 0, "namespace": ["any.namespace"],
        "track": "any-track", "expected": true},
@@ -1428,6 +1457,10 @@ results for various action, namespace, and track combinations.
     "id": "moqt_suffix_match",
     "description":
       "Suffix matching on both namespace and track",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       -65537 /moqt/: [[[4], [[2, h'2e6578616d706c652e636f6d']], [2,
+       h'2d617564696f']]]}",
     "moqt_scopes": [
       {
         "actions": [4],
@@ -1444,17 +1477,18 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a65554280190147818381048182024c2e6578616d706c652e636f6d
-       8202462d617564696f",
+       041a655542803a00010000818381048182024c2e6578616d706c652e
+       636f6d8202462d617564696f",
     "cose_hex":
-      "d18448a201051063434154a05842a301781868747470733a2f2f61757
-       4682e6578616d706c652e636f6d04 1a6555428019014781838104818202
-       4c2e6578616d706c652e636f6d8202462d617564696f58206fa814835
-       0e44c3bae4c92753fd292c358776beacb6866a4c6738d80a51b9cd8",
+      "d18448a201051063434154a05844a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000818381
+       048182024c2e6578616d706c652e636f6d8202462d617564696f5820
+       cb39280a6b47a9bf0e61125dcceae978fa193193f5339e1b996ec517
+       b031cf0a",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWEKjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
-       Y29tBBplVUKAGQFHgYOBBIGCAkwuZXhhbXBsZS5jb22CAkYtYXVkaW
-       9YIG-oFINQ5Ew7rkySdT_SksNYd2vqy2hmpMZzjYClG5zY",
+      "0YRIogEFEGNDQVSgWESjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAACBg4EEgYICTC5leGFtcGxlLmNvbYICRi1hdWRpb1gg
+       yzkoCmtHqb8OYRJdzOrpePoZMZP1M54bmW7FF7Axzwo",
     "authorization_tests": [
       {"action": 4, "namespace": ["cdn.example.com"],
        "track": "stream1-audio", "expected": true},
@@ -1471,8 +1505,14 @@ results for various action, namespace, and track combinations.
 
 These vectors validate composite claim encoding per
 {{Composite}}. Each vector includes an outer
-token (iss, exp) with embedded composite claims (OR key 324, NOR key 325,
-AND key 326). Tokens use COSE_Mac0 with HMAC-SHA256.
+token (iss, exp) with embedded composite claims. Tokens use COSE_Mac0 with
+HMAC-SHA256.
+
+The or, nor and and claims do not yet have assigned claim keys. Until they
+are allocated, these vectors encode every composite claim key as 0. 0 is
+not a valid claim key, so a verifier fails to parse these claims. The
+"claims_edn" value and the "operator" field identify which composite claim
+each 0 key stands for.
 
 ~~~ json
 [
@@ -1481,133 +1521,113 @@ AND key 326). Tokens use COSE_Mac0 with HMAC-SHA256.
     "description":
       "OR composite: at least one of two alternative claim sets
        must be acceptable",
-    "composite": {
-      "operator": "OR",
-      "claim_key": 324,
-      "claim_sets": [
-        {"iss": "https://auth.example.com",
-         "exp": 1700086400, "catv": 1},
-        {"iss": "https://auth-backup.example.com",
-         "exp": 1700090000, "catv": 1}
-      ]
-    },
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       0 /or/: [{1 /iss/: \"https://auth.example.com\",
+       4 /exp/: 1700086400, 310 /catv/: 1},
+       {1 /iss/: \"https://auth-backup.example.com\",
+       4 /exp/: 1700090000, 310 /catv/: 1}]}",
+    "composite": {"operator": "OR", "claim_key": 0},
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428019014482a301781868747470733a2f2f617574682e65
-       78616d706c652e636f6d041a6555428019013601a301781f68747470
-       733a2f2f617574682d6261636b75702e6578616d706c652e636f6d04
-       1a6555509019013601",
+       041a655542800082a301781868747470733a2f2f617574682e657861
+       6d706c652e636f6d041a6555428019013601a301781f68747470733a
+       2f2f617574682d6261636b75702e6578616d706c652e636f6d041a65
+       55509019013601",
     "cose_hex":
-      "d18448a201051063434154a05879a301781868747470733a2f2f6175
-       74682e6578616d706c652e636f6d041a6555428019014482a3017818
-       68747470733a2f2f617574682e6578616d706c652e636f6d041a6555
-       428019013601a301781f68747470733a2f2f617574682d6261636b75
-       702e6578616d706c652e636f6d041a655550901901360158203f11f8
-       0896554afc5246d8711ca88317228a84d44fcb212563bc24812623d7
-       49",
+      "d18448a201051063434154a05877a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542800082a30178186874
+       7470733a2f2f617574682e6578616d706c652e636f6d041a65554280
+       19013601a301781f68747470733a2f2f617574682d6261636b75702e
+       6578616d706c652e636f6d041a655550901901360158208ebb4ac5a3
+       4771116903baff5e544f3047468faeb077820f26ea2df940b6c58d",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWHmjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
-       BBplVUKAGQFEgqMBeBhodHRwczovL2F1dGguZXhhbXBsZS5jb20EGmVV
-       QoAZATYBowF4H2h0dHBzOi8vYXV0aC1iYWNrdXAuZXhhbXBsZS5jb20E
-       GmVVUJAZATYBWCA_EfgIllVK_FJG2HEcqIMXIoqE1E_LISVjvCSBJiPX
-       SQ"
+      "0YRIogEFEGNDQVSgWHejAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAAIKjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29tBBplVUKA
+       GQE2AaMBeB9odHRwczovL2F1dGgtYmFja3VwLmV4YW1wbGUuY29tBBpl
+       VVCQGQE2AVggjrtKxaNHcRFpA7r_XlRPMEdGj66wd4IPJuot-UC2xY0"
   },
   {
     "id": "composite_and",
     "description":
       "AND composite: both claim sets must be acceptable",
-    "composite": {
-      "operator": "AND",
-      "claim_key": 326,
-      "claim_sets": [
-        {"exp": 1700086400, "catv": 1},
-        {"exp": 1700086400,
-         "catnip": [{"type": "ip_address", "value": "10.0.0.0"}]}
-      ]
-    },
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       0 /and/: [{4 /exp/: 1700086400, 310 /catv/: 1},
+       {4 /exp/: 1700086400, 311 /catnip/: [52(h'0a000000')]}]}",
+    "composite": {"operator": "AND", "claim_key": 0},
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428019014682a2041a6555428019013601a2041a65554280
-       19013781d834440a000000",
+       041a655542800082a2041a6555428019013601a2041a655542801901
+       3781d834440a000000",
     "cose_hex":
-      "d18448a201051063434154a05843a301781868747470733a2f2f6175
-       74682e6578616d706c652e636f6d041a6555428019014682a2041a65
-       55428019013601a2041a6555428019013781d834440a0000005820b2
-       41ea8429f9bdf073dea3e4a738f0dee7116d78e509e4f6fec9c8a13b
-       8896de",
+      "d18448a201051063434154a05841a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542800082a2041a655542
+       8019013601a2041a6555428019013781d834440a00000058208ca321
+       3e71dfe3900fd910fcb7f6d365949e72e81ceba80f2ff24048502e9a
+       1a",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWEOjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
-       BBplVUKAGQFGgqIEGmVVQoAZATYBogQaZVVCgBkBN4HYNEQKAAAAWCCy
-       QeqEKfm98HPeo-SnOPDe5xFteOUJ5Pb-ycihO4iW3g"
+      "0YRIogEFEGNDQVSgWEGjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAAIKiBBplVUKAGQE2AaIEGmVVQoAZATeB2DRECgAAAFggjKMh
+       PnHf45AP2RD8t_bTZZSecugc66gPL_JASFAumho"
   },
   {
     "id": "composite_nor",
     "description":
       "NOR composite: none of the listed claim sets can be
        acceptable",
-    "composite": {
-      "operator": "NOR",
-      "claim_key": 325,
-      "claim_sets": [
-        {"iss": "https://revoked.example.com", "exp": 1700086400}
-      ]
-    },
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       0 /nor/: [{1 /iss/: \"https://revoked.example.com\",
+       4 /exp/: 1700086400}]}",
+    "composite": {"operator": "NOR", "claim_key": 0},
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428019014581a201781b68747470733a2f2f7265766f6b65
-       642e6578616d706c652e636f6d041a65554280",
+       041a655542800081a201781b68747470733a2f2f7265766f6b65642e
+       6578616d706c652e636f6d041a65554280",
     "cose_hex":
-      "d18448a201051063434154a0584ba301781868747470733a2f2f6175
-       74682e6578616d706c652e636f6d041a6555428019014581a201781b
-       68747470733a2f2f7265766f6b65642e6578616d706c652e636f6d04
-       1a6555428058202cf030a29072032aa0775e71c2c2703a668fa2dbf1
-       152d74258f0f42c4640d28",
+      "d18448a201051063434154a05849a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542800081a201781b6874
+       7470733a2f2f7265766f6b65642e6578616d706c652e636f6d041a65
+       5542805820a5419cd0db084ac9efc26c21ff2663b4ec0cff6622ae48
+       719f65738cb93fd19e",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWEujAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
-       BBplVUKAGQFFgaIBeBtodHRwczovL3Jldm9rZWQuZXhhbXBsZS5jb20E
-       GmVVQoBYICzwMKKQcgMqoHdeccLCcDpmj6Lb8RUtdCWPD0LEZA0o"
+      "0YRIogEFEGNDQVSgWEmjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAAIGiAXgbaHR0cHM6Ly9yZXZva2VkLmV4YW1wbGUuY29tBBpl
+       VUKAWCClQZzQ2whKye_CbCH_JmO07Az_ZiKuSHGfZXOMuT_Rng"
   },
   {
     "id": "composite_nested",
     "description":
       "Nested composite: OR containing a standalone claim set
        and a nested AND",
-    "composite": {
-      "operator": "OR",
-      "claim_key": 324,
-      "claim_sets": [
-        {"iss": "https://primary.example.com", "exp": 1700086400},
-        {"nested_and": {
-           "claim_key": 326,
-           "claim_sets": [
-             {"iss": "https://secondary.example.com",
-              "exp": 1700086400},
-             {"exp": 1700086400, "catv": 1}
-           ]
-         }
-        }
-      ]
-    },
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       0 /or/: [{1 /iss/: \"https://primary.example.com\",
+       4 /exp/: 1700086400},
+       {0 /and/: [{1 /iss/: \"https://secondary.example.com\",
+       4 /exp/: 1700086400}, {4 /exp/: 1700086400, 310 /catv/: 1}]}]}",
+    "composite": {"operator": "OR", "claim_key": 0},
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428019014482a201781b68747470733a2f2f7072696d6172
-       792e6578616d706c652e636f6d041a65554280a119014682a201781d
-       68747470733a2f2f7365636f6e646172792e6578616d706c652e636f
-       6d041a65554280a2041a6555428019013601",
+       041a655542800082a201781b68747470733a2f2f7072696d6172792e
+       6578616d706c652e636f6d041a65554280a10082a201781d68747470
+       733a2f2f7365636f6e646172792e6578616d706c652e636f6d041a65
+       554280a2041a6555428019013601",
     "cose_hex":
-      "d18448a201051063434154a05882a301781868747470733a2f2f6175
-       74682e6578616d706c652e636f6d041a6555428019014482a201781b
-       68747470733a2f2f7072696d6172792e6578616d706c652e636f6d04
-       1a65554280a119014682a201781d68747470733a2f2f7365636f6e64
-       6172792e6578616d706c652e636f6d041a65554280a2041a65554280
-       1901360158201577ec93556a6472e1e68846d3927211a531ddd337b1
-       1e4c2d5e4e24f16776aa",
+      "d18448a201051063434154a0587ea301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542800082a201781b6874
+       7470733a2f2f7072696d6172792e6578616d706c652e636f6d041a65
+       554280a10082a201781d68747470733a2f2f7365636f6e646172792e
+       6578616d706c652e636f6d041a65554280a2041a6555428019013601
+       5820c60304bcd67f2f78bf9e83e84fe3a2d13f8e809659a32cc480c7
+       6cfe5ae1da06",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWIKjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
-       BBplVUKAGQFEgqIBeBtodHRwczovL3ByaW1hcnkuZXhhbXBsZS5jb20E
-       GmVVQoChGQFGgqIBeB1odHRwczovL3NlY29uZGFyeS5leGFtcGxlLmNv
-       bQQaZVVCgKIEGmVVQoAZATYBWCAVd-yTVWpkcuHmiEbTknIRpTHd0zex
-       HkwtXk4k8Wd2qg"
+      "0YRIogEFEGNDQVSgWH6jAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAAIKiAXgbaHR0cHM6Ly9wcmltYXJ5LmV4YW1wbGUuY29tBBpl
+       VUKAoQCCogF4HWh0dHBzOi8vc2Vjb25kYXJ5LmV4YW1wbGUuY29tBBpl
+       VUKAogQaZVVCgBkBNgFYIMYDBLzWfy94v56D6E_jotE_joCWWaMsxIDH
+       bP5a4doG"
   }
 ]
 ~~~
