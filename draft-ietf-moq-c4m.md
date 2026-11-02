@@ -974,11 +974,12 @@ These vectors validate correct CBOR encoding of individual claim types.
        (example.com, vod)",
     "claims_edn":
       "{312 /catu/: {1 /host/: {0 /exact/: \"example.com\"},
-       3 /path/: {1 /prefix/: \"/vod/\"}}, -65537 /moqt/: [[[4, 7],
-       [h'6578616d706c652e636f6d', h'766f64']]]}",
+       3 /path/: {1 /prefix/: \"/vod/\"}}, -65537 /moqt/: {0: [[[4,
+       7], [h'6578616d706c652e636f6d', h'766f64']]]}}",
     "payload_cbor_hex":
       "a2190138a201a1006b6578616d706c652e636f6d03a101652f766f64
-       2f3a000100008182820407824b6578616d706c652e636f6d43766f64"
+       2f3a00010000a1008182820407824b6578616d706c652e636f6d4376
+       6f64"
   },
   {
     "id": "cbor_alpn",
@@ -1262,8 +1263,8 @@ results for various action, namespace, and track combinations.
       "Publisher scope: exact namespace match, prefix track match",
     "claims_edn":
       "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
-       -65537 /moqt/: [[[2, 6], [h'6578616d706c652e636f6d',
-       h'616c696365'], [1, h'766964656f2d']]]}",
+       -65537 /moqt/: {0: [[[2, 6], [h'6578616d706c652e636f6d',
+       h'616c696365'], [1, h'766964656f2d']]]}}",
     "moqt_scopes": [
       {
         "actions": [2, 6],
@@ -1282,18 +1283,18 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a655542803a000100008183820206824b6578616d706c652e636f
-       6d45616c696365820146766964656f2d",
+       041a655542803a00010000a1008183820206824b6578616d706c652e
+       636f6d45616c696365820146766964656f2d",
     "cose_hex":
-      "d18448a201051063434154a05848a301781868747470733a2f2f6175
-       74682e6578616d706c652e636f6d041a655542803a00010000818382
-       0206824b6578616d706c652e636f6d45616c69636582014676696465
-       6f2d5820688f4a48baa0433dbdfa3568779bbb89450f3d9d241f1ddb
-       325561f821589bab",
+      "d18448a201051063434154a0584aa301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000a10081
+       83820206824b6578616d706c652e636f6d45616c6963658201467669
+       64656f2d5820467c57ade72d6be629b745ef33d6e28ec38ba1ca8bd3
+       feb851f3832af94fe686",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWEijAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
-       BBplVUKAOgABAACBg4ICBoJLZXhhbXBsZS5jb21FYWxpY2WCAUZ2aWRl
-       by1YIGiPSki6oEM9vfo1aHebu4lFDz2dJB8d2zJVYfghWJur",
+      "0YRIogEFEGNDQVSgWEqjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAAChAIGDggIGgktleGFtcGxlLmNvbUVhbGljZYIBRnZp
+       ZGVvLVggRnxXrecta-Ypt0XvM9bijsOLocqL0_64UfODKvlP5oY",
     "authorization_tests": [
       {"action": 2, "namespace": ["example.com", "alice"],
        "track": "video-hd", "expected": true},
@@ -1313,8 +1314,8 @@ results for various action, namespace, and track combinations.
       "Subscriber scope: prefix namespace match, any track",
     "claims_edn":
       "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
-       -65537 /moqt/: [[[3, 4, 7], [[1,
-       h'636f6e666572656e63652e6578616d706c65']]]]}",
+       -65537 /moqt/: {0: [[[3, 4, 7], [[1,
+       h'636f6e666572656e63652e6578616d706c65']]]]}}",
     "moqt_scopes": [
       {
         "actions": [3, 4, 7],
@@ -1329,18 +1330,18 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a655542803a0001000081828303040781820152636f6e66657265
-       6e63652e6578616d706c65",
+       041a655542803a00010000a10081828303040781820152636f6e6665
+       72656e63652e6578616d706c65",
     "cose_hex":
-      "d18448a201051063434154a05843a301781868747470733a2f2f6175
-       74682e6578616d706c652e636f6d041a655542803a00010000818283
-       03040781820152636f6e666572656e63652e6578616d706c6558205d
-       56c60bba8185954915f1f356778554746df7c39025de45c8967f8167
-       5dcde6",
+      "d18448a201051063434154a05845a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000a10081
+       828303040781820152636f6e666572656e63652e6578616d706c6558
+       20e0502202b8c01d5ab61508cd19b7dd943b287be0f26c3d37c12e58
+       3ca87a937b",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWEOjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
-       BBplVUKAOgABAACBgoMDBAeBggFSY29uZmVyZW5jZS5leGFtcGxlWCBd
-       VsYLuoGFlUkV8fNWd4VUdG33w5Al3kXIln-BZ13N5g",
+      "0YRIogEFEGNDQVSgWEWjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAAChAIGCgwMEB4GCAVJjb25mZXJlbmNlLmV4YW1wbGVY
+       IOBQIgK4wB1athUIzRm33ZQ7KHvg8mw9N8EuWDyoepN7",
     "authorization_tests": [
       {"action": 4, "namespace": ["conference.example.room1"],
        "track": "audio", "expected": true},
@@ -1359,9 +1360,9 @@ results for various action, namespace, and track combinations.
        to prefix, with revalidation",
     "claims_edn":
       "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
-       -65537 /moqt/: [[[2, 6], [h'6c6976652e6578616d706c65',
+       -65537 /moqt/: {0: [[[2, 6], [h'6c6976652e6578616d706c65',
        h'73747564696f2d61']], [[4, 7], [[1,
-       h'6c6976652e6578616d706c65']]]], -65538 /moqt-reval/: 300}",
+       h'6c6976652e6578616d706c65']]]]}, -65538 /moqt-reval/: 300}",
     "moqt_reval": 300.0,
     "moqt_scopes": [
       {
@@ -1387,21 +1388,21 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a655542803a000100008282820206824c6c6976652e6578616d70
-       6c654873747564696f2d61828204078182014c6c6976652e6578616d
-       706c653a0001000119012c",
+       041a655542803a00010000a1008282820206824c6c6976652e657861
+       6d706c654873747564696f2d61828204078182014c6c6976652e6578
+       616d706c653a0001000119012c",
     "cose_hex":
-      "d18448a201051063434154a0585fa401781868747470733a2f2f6175
-       74682e6578616d706c652e636f6d041a655542803a00010000828282
-       0206824c6c6976652e6578616d706c654873747564696f2d61828204
-       078182014c6c6976652e6578616d706c653a0001000119012c582056
-       5a99da8f3b8ce192d22d35a2046741440809b605ba64c1e975b29c1b
-       324bb0",
+      "d18448a201051063434154a05861a401781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000a10082
+       82820206824c6c6976652e6578616d706c654873747564696f2d6182
+       8204078182014c6c6976652e6578616d706c653a0001000119012c58
+       20f1080af59a719fbcb7a036aa6f9714f52ada467b8c1677c87ade0f
+       cfccaaf50f",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWF-kAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
-       BBplVUKAOgABAACCgoICBoJMbGl2ZS5leGFtcGxlSHN0dWRpby1hgoIE
-       B4GCAUxsaXZlLmV4YW1wbGU6AAEAARkBLFggVlqZ2o87jOGS0i01ogRn
-       QUQICbYFumTB6XWynBsyS7A",
+      "0YRIogEFEGNDQVSgWGGkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAAChAIKCggIGgkxsaXZlLmV4YW1wbGVIc3R1ZGlvLWGC
+       ggQHgYIBTGxpdmUuZXhhbXBsZToAAQABGQEsWCDxCAr1mnGfvLegNqpv
+       lxT1KtpGe4wWd8h63g_PzKr1Dw",
     "authorization_tests": [
       {"action": 6, "namespace": ["live.example", "studio-a"],
        "track": "cam1", "expected": true},
@@ -1419,7 +1420,7 @@ results for various action, namespace, and track combinations.
       "Admin scope: all actions, no namespace/track restriction",
     "claims_edn":
       "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
-       -65537 /moqt/: [[[0, 1, 2, 3, 4, 5, 6, 7, 8]]]}",
+       -65537 /moqt/: {0: [[[0, 1, 2, 3, 4, 5, 6, 7, 8]]]}}",
     "moqt_scopes": [
       {
         "actions": [0, 1, 2, 3, 4, 5, 6, 7, 8],
@@ -1434,16 +1435,16 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a655542803a00010000818189000102030405060708",
+       041a655542803a00010000a100818189000102030405060708",
     "cose_hex":
-      "d18448a201051063434154a05833a301781868747470733a2f2f6175
-       74682e6578616d706c652e636f6d041a655542803a00010000818189
-       000102030405060708582026082a4a2bf680d6a60d1559d683cd0e8e
-       7de19b7289efd296ce42a3550725d0",
+      "d18448a201051063434154a05835a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000a10081
+       81890001020304050607085820172ebe07f227a41c319684ef916fdb
+       f142d391fac6902e38bcdcfb3966b46a50",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWDOjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
-       BBplVUKAOgABAACBgYkAAQIDBAUGBwhYICYIKkor9oDWpg0VWdaDzQ6O
-       feGbconv0pbOQqNVByXQ",
+      "0YRIogEFEGNDQVSgWDWjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAAChAIGBiQABAgMEBQYHCFggFy6-B_InpBwxloTvkW_b
+       8ULTkfrGkC44vNz7OWa0alA",
     "authorization_tests": [
       {"action": 0, "namespace": ["any.namespace"],
        "track": "any-track", "expected": true},
@@ -1459,8 +1460,8 @@ results for various action, namespace, and track combinations.
       "Suffix matching on both namespace and track",
     "claims_edn":
       "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
-       -65537 /moqt/: [[[4], [[2, h'2e6578616d706c652e636f6d']], [2,
-       h'2d617564696f']]]}",
+       -65537 /moqt/: {0: [[[4], [[2, h'2e6578616d706c652e636f6d']],
+       [2, h'2d617564696f']]]}}",
     "moqt_scopes": [
       {
         "actions": [4],
@@ -1477,18 +1478,18 @@ results for various action, namespace, and track combinations.
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a655542803a00010000818381048182024c2e6578616d706c652e
-       636f6d8202462d617564696f",
+       041a655542803a00010000a100818381048182024c2e6578616d706c
+       652e636f6d8202462d617564696f",
     "cose_hex":
-      "d18448a201051063434154a05844a301781868747470733a2f2f6175
-       74682e6578616d706c652e636f6d041a655542803a00010000818381
-       048182024c2e6578616d706c652e636f6d8202462d617564696f5820
-       cb39280a6b47a9bf0e61125dcceae978fa193193f5339e1b996ec517
-       b031cf0a",
+      "d18448a201051063434154a05846a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000a10081
+       8381048182024c2e6578616d706c652e636f6d8202462d617564696f
+       5820602c1ceb2729485a2b5eb09249e254a41d42abd0b63b2846fd67
+       7d7fbf593920",
     "cose_b64":
-      "0YRIogEFEGNDQVSgWESjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
-       BBplVUKAOgABAACBg4EEgYICTC5leGFtcGxlLmNvbYICRi1hdWRpb1gg
-       yzkoCmtHqb8OYRJdzOrpePoZMZP1M54bmW7FF7Axzwo",
+      "0YRIogEFEGNDQVSgWEajAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAAChAIGDgQSBggJMLmV4YW1wbGUuY29tggJGLWF1ZGlv
+       WCBgLBzrJylIWitesJJJ4lSkHUKr0LY7KEb9Z31_v1k5IA",
     "authorization_tests": [
       {"action": 4, "namespace": ["cdn.example.com"],
        "track": "stream1-audio", "expected": true},
