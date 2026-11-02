@@ -557,11 +557,14 @@ suffix-match = 2
 
    When "catreplay" is 1, a relay binds the token's "cti" to the QUIC or
    WebTransport connection on which the token is first accepted.  The
-   relay MUST accept the token for subsequent actions on that connection
-   and MUST reject it on any other connection.  A token with "catreplay"
-   1 that lacks a "cti" or an "exp" claim MUST be rejected.  After the
-   connection terminates, the relay SHOULD retain the "cti" until the
-   token's "exp" time to prevent reuse.
+   relay MUST NOT reject the token solely because it was previously
+   accepted on that connection.  All other validation and authorization
+   requirements continue to apply.  The relay MUST reject the token on
+   any other connection.  A token with "catreplay" 1 that lacks a "cti"
+   or an "exp" claim MUST be rejected.  After the connection terminates,
+   the relay MUST retain sufficient replay state to prevent reuse for as
+   long as the token could otherwise be accepted, including any
+   permitted expiration-time leeway.
 
    When "catreplay" is 2, replay semantics are implementation-defined.
 

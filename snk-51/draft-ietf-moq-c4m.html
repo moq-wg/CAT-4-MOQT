@@ -1806,11 +1806,14 @@ connection: the token may be used for any number of actions, but only
 on one connection.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">When "catreplay" is 1, a relay binds the token's "cti" to the QUIC or
 WebTransport connection on which the token is first accepted. The
-relay <span class="bcp14">MUST</span> accept the token for subsequent actions on that connection
-and <span class="bcp14">MUST</span> reject it on any other connection. A token with "catreplay"
-1 that lacks a "cti" or an "exp" claim <span class="bcp14">MUST</span> be rejected. After the
-connection terminates, the relay <span class="bcp14">SHOULD</span> retain the "cti" until the
-token's "exp" time to prevent reuse.<a href="#section-3-2" class="pilcrow">¶</a></p>
+relay <span class="bcp14">MUST NOT</span> reject the token solely because it was previously
+accepted on that connection. All other validation and authorization
+requirements continue to apply. The relay <span class="bcp14">MUST</span> reject the token on
+any other connection. A token with "catreplay" 1 that lacks a "cti"
+or an "exp" claim <span class="bcp14">MUST</span> be rejected. After the connection terminates,
+the relay <span class="bcp14">MUST</span> retain sufficient replay state to prevent reuse for
+as long as the token could otherwise be accepted, including any
+permitted expiration-time leeway.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">When "catreplay" is 2, replay semantics are implementation-defined.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">When "catreplay" is absent or 0, no replay protection is applied.<a href="#section-3-4" class="pilcrow">¶</a></p>
 </section>
