@@ -53,8 +53,8 @@ author:
 
 normative:
 
-  Composite: I-D.draft-lemmons-cose-composite-claims-02
-  MoQTransport: I-D.draft-ietf-moq-transport-20
+  Composite: I-D.draft-lemmons-cose-composite-claims-03
+  MoQTransport: I-D.draft-ietf-moq-transport-22
   EDN: I-D.draft-ietf-cbor-edn-literals
   BASE64: RFC4648
   CAT:
@@ -194,15 +194,15 @@ The actions are integers defined as follows:
 |----------------------|-----|--------------------------------|
 | Action               | Key | Reference                      |
 |----------------------|-----|--------------------------------|
-| SETUP                |  1  | {{MoQTransport}} Section 10.3  |
-| PUBLISH_NAMESPACE    |  2  | {{MoQTransport}} Section 10.16 |
-| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 10.19 |
-| SUBSCRIBE            |  4  | {{MoQTransport}} Section 10.7  |
-| REQUEST_UPDATE       |  5  | {{MoQTransport}} Section 10.9  |
-| PUBLISH              |  6  | {{MoQTransport}} Section 10.11 |
-| FETCH                |  7  | {{MoQTransport}} Section 10.13 |
-| TRACK_STATUS         |  8  | {{MoQTransport}} Section 10.15 |
-| SUBSCRIBE_TRACKS     |  9  | {{MoQTransport}} Section 10.20 |
+| SETUP                |  1  | {{MoQTransport}} Section 9.1   |
+| PUBLISH_NAMESPACE    |  2  | {{MoQTransport}} Section 9.14  |
+| SUBSCRIBE_NAMESPACE  |  3  | {{MoQTransport}} Section 9.15  |
+| SUBSCRIBE            |  4  | {{MoQTransport}} Section 9.6   |
+| REQUEST_UPDATE       |  5  | {{MoQTransport}} Section 9.5   |
+| PUBLISH              |  6  | {{MoQTransport}} Section 9.8   |
+| FETCH                |  7  | {{MoQTransport}} Section 9.11  |
+| TRACK_STATUS         |  8  | {{MoQTransport}} Section 9.13  |
+| SUBSCRIBE_TRACKS     |  9  | {{MoQTransport}} Section 9.18  |
 |----------------------|-----|--------------------------------|
 
 The scope of the moqt claim is limited to the actions provided in the array.
@@ -757,7 +757,7 @@ DPoP security considerations are covered in the "DPoP for MOQT" section.
 ## Replay Protection for Bearer Tokens
 
 Without DPoP, connection-scoped replay protection limits but does not
-eliminate token theft risk — an attacker who intercepts the token
+eliminate token theft risk; an attacker who intercepts the token
 before the client connects can still use it. Deployments that need
 stronger guarantees SHOULD use DPoP.
 
