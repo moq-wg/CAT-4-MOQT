@@ -489,14 +489,18 @@ Recipients MUST support this claim. This claim is OPTIONAL for issuers.
 
 In MOQT, the same token MAY be presented for CLIENT_SETUP and again for
 subsequent actions (SUBSCRIBE, PUBLISH, FETCH, etc.) on the same
-connection. The CAT "catreplay" claim needs connection-scoped
-semantics to accommodate this.
+connection. {{CAT}} defines "catreplay" value 1 as single use, which
+would cause these subsequent actions to fail. For MOQT, this
+specification therefore interprets "catreplay" value 1 as single
+connection: the token may be used for any number of actions, but only
+on one connection.
 
-When "catreplay" is 1, the relay binds the token's "jti" to the
-QUIC or WebTransport connection established during CLIENT_SETUP.
-The relay MUST accept the token for subsequent actions on that
-connection and MUST reject it on any other connection. After the
-connection terminates, the relay SHOULD retain the "jti" until the
+When "catreplay" is 1, a relay binds the token's "cti" to the QUIC or
+WebTransport connection on which the token is first accepted. The
+relay MUST accept the token for subsequent actions on that connection
+and MUST reject it on any other connection. A token with "catreplay"
+1 that lacks a "cti" or an "exp" claim MUST be rejected. After the
+connection terminates, the relay SHOULD retain the "cti" until the
 token's "exp" time to prevent reuse.
 
 When "catreplay" is 2, replay semantics are implementation-defined.
@@ -833,6 +837,12 @@ Without DPoP, connection-scoped replay protection limits but does not
 eliminate token theft risk — an attacker who intercepts the token
 before the client connects can still use it. Deployments that need
 stronger guarantees SHOULD use DPoP.
+
+The binding of a token to a connection is state held by the relay that
+accepted it. In deployments with multiple relays, such as a CDN or
+relay cluster, the same token can be replayed against another relay
+unless the relays share this state. Such deployments SHOULD share
+"cti" bindings among relays that accept the same tokens, or use DPoP.
 
 
 # IANA Considerations
