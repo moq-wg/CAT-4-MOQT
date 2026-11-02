@@ -512,6 +512,31 @@ claims, the token is not well-formed.
 The claim key for this claim is TBD_MOQT_REVAL and the claim value is a number.
 Recipients MUST support this claim. This claim is OPTIONAL for issuers.
 
+# Replay Protection without DPoP
+
+In MOQT, the same token MAY be presented for SETUP and again for
+subsequent actions (SUBSCRIBE, PUBLISH, FETCH, etc.) on the same
+connection. {{CAT}} defines "catreplay" value 1 as single use, which
+would cause these subsequent actions to fail. For MOQT, this
+specification therefore interprets "catreplay" value 1 as single
+connection: the token may be used for any number of actions, but only
+on one connection.
+
+When "catreplay" is 1, a relay binds the token's "cti" to the QUIC or
+WebTransport connection on which the token is first accepted. The
+relay MUST NOT reject the token solely because it was previously
+accepted on that connection. All other validation and authorization
+requirements continue to apply. The relay MUST reject the token on
+any other connection. A token with "catreplay" 1 that lacks a "cti"
+or an "exp" claim MUST be rejected. After the connection terminates,
+the relay MUST retain sufficient replay state to prevent reuse for
+as long as the token could otherwise be accepted, including any
+permitted expiration-time leeway.
+
+When "catreplay" is 2, replay semantics are implementation-defined.
+
+When "catreplay" is absent or 0, no replay protection is applied.
+
 # DPoP Integration with CAT for MOQT
 
 This section defines the use of CAT's Demonstrating Proof of Possession (DPoP)
@@ -835,6 +860,19 @@ depends on the security of the token issuance process, including proper user
 authentication.
 
 TODO Add security considerations for DPoP Claims
+
+## Replay Protection for Bearer Tokens
+
+Without DPoP, connection-scoped replay protection limits but does not
+eliminate token theft risk — an attacker who intercepts the token
+before the client connects can still use it. Deployments that need
+stronger guarantees SHOULD use DPoP.
+
+The binding of a token to a connection is state held by the relay that
+accepted it. In deployments with multiple relays, such as a CDN or
+relay cluster, the same token can be replayed against another relay
+unless the relays share this state. Such deployments SHOULD share
+"cti" bindings among relays that accept the same tokens, or use DPoP.
 
 
 # IANA Considerations
