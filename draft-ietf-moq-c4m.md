@@ -185,16 +185,9 @@ suffix-match = 2
 
 The "moqt" claim bounds the scope of MOQT actions for which the token can provide
 access. The claim value is a CBOR map. Key 0 holds the scopes array. Each scope
-is itself an array of three elements: the actions (an array of integers), the namespace
-matches (an array of match objects), and the track match (a single match object).
-
-### Extensibility
-
-Recipients MUST reject a token whose "moqt" claim map contains
-any keys they do not recognize. This fail-closed behavior ensures
-that new keys which restrict authorization scope cannot be silently
-skipped. Issuers that need optional or alternative scopes SHOULD
-use the "or" claim to compose multiple claim sets instead.
+is itself an array of one to three elements: the actions (an array of integers), the
+namespace matches (an array of match objects), and the track match (a single match
+object).
 
 The actions are integers defined as follows:
 
@@ -238,6 +231,19 @@ namespaces that start with fields that match. Note that nil MUST only appear as 
 last element in the namespace match array; placing nil elsewhere is invalid.
 
 No normalization is applied to the values against which to match; it is performed bytewise.
+
+### Extensibility
+
+Map keys other than 0 are reserved for future revisions of this
+specification. A recipient that finds a key it does not recognize in the
+"moqt" claim map MUST treat the claim set containing that claim as not
+acceptable. When that claim set is the token's top-level claim set, the
+token is rejected. This fail-closed behavior ensures that new keys which
+restrict authorization scope cannot be silently skipped.
+
+Issuers that need to offer alternative scope formats can place each in a
+separate claim set within an "or" claim {{Composite}}, so recipients that
+do not understand one format can still accept another.
 
 ### Text examples of permissions to help with CDDL construction
 
