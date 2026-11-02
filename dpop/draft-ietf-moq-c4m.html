@@ -5,10 +5,10 @@
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
 <title>Authorization scheme for MOQT using Common Access Tokens</title>
-<meta content="Will Law" name="author">
 <meta content="Chris Lemmons" name="author">
 <meta content="Gwendal Simon" name="author">
 <meta content="Suhas Nandakumar" name="author">
+<meta content="Will Law" name="author">
 <meta content="
        A token-based authorization scheme for use with Media Over QUIC Transport. 
     " name="description">
@@ -1050,7 +1050,7 @@ svg {
 <td class="right">November 2026</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Law, et al.</td>
+<td class="left">Lemmons, et al.</td>
 <td class="center">Expires 6 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
@@ -1073,10 +1073,6 @@ svg {
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
-      <div class="author-name">W. Law</div>
-<div class="org">Akamai</div>
-</div>
-<div class="author">
       <div class="author-name">C. Lemmons</div>
 <div class="org">Comcast</div>
 </div>
@@ -1087,6 +1083,10 @@ svg {
 <div class="author">
       <div class="author-name">S. Nandakumar</div>
 <div class="org">Cisco</div>
+</div>
+<div class="author">
+      <div class="author-name">W. Law</div>
+<div class="org">Akamai</div>
 </div>
 </dd>
 </dl>
@@ -1175,10 +1175,13 @@ svg {
                 <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-moqt-claim" class="internal xref">moqt claim</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.1">
-                    <p id="section-toc.1-1.2.2.1.2.1.1" class="keepWithNext"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-text-examples-of-permission" class="internal xref">Text examples of permissions to help with CDDL construction</a></p>
+                    <p id="section-toc.1-1.2.2.1.2.1.1" class="keepWithNext"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-extensibility" class="internal xref">Extensibility</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.2">
-                    <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="auto internal xref">2.1.2</a>.  <a href="#name-multiple-actions" class="internal xref">Multiple actions</a></p>
+                    <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="auto internal xref">2.1.2</a>.  <a href="#name-text-examples-of-permission" class="internal xref">Text examples of permissions to help with CDDL construction</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.3">
+                    <p id="section-toc.1-1.2.2.1.2.3.1"><a href="#section-2.1.3" class="auto internal xref">2.1.3</a>.  <a href="#name-multiple-actions" class="internal xref">Multiple actions</a></p>
 </li>
                 </ul>
 </li>
@@ -1188,88 +1191,97 @@ svg {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-dpop-for-moqt" class="internal xref">DPoP for MOQT</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-token-binding" class="internal xref">Token Binding</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-dpop-proof" class="internal xref">DPoP Proof</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.1">
-                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="auto internal xref">3.2.1</a>.  <a href="#name-example" class="internal xref">Example</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-relay-validation" class="internal xref">Relay Validation</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-dpop-security-consideration" class="internal xref">DPoP Security Considerations</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-replay-protection-without-d" class="internal xref">Replay Protection without DPoP</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-adding-a-token-to-a-url" class="internal xref">Adding a token to a URL</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-dpop-for-moqt" class="internal xref">DPoP for MOQT</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-authentication-vs-authoriza" class="internal xref">Authentication vs Authorization</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-token-binding" class="internal xref">Token Binding</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-dpop-proof" class="internal xref">DPoP Proof</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.1">
+                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="auto internal xref">4.2.1</a>.  <a href="#name-example" class="internal xref">Example</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-relay-validation" class="internal xref">Relay Validation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-dpop-security-consideration" class="internal xref">DPoP Security Considerations</a></p>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-adding-a-token-to-a-url" class="internal xref">Adding a token to a URL</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
-                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-media-type-registration" class="internal xref">Media Type Registration</a></p>
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-authentication-vs-authoriza" class="internal xref">Authentication vs Authorization</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
-                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-moqt-auth-token-type-regist" class="internal xref">MOQT Auth Token Type Registry</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2.2.1">
-                    <p id="section-toc.1-1.7.2.2.2.1.1"><a href="#section-7.2.1" class="auto internal xref">7.2.1</a>.  <a href="#name-cat-token-type-0x01" class="internal xref">CAT Token Type (0x01)</a></p>
-</li>
-                </ul>
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-replay-protection-for-beare" class="internal xref">Replay Protection for Bearer Tokens</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-appendix-a-test-vectors" class="internal xref">Appendix A: Test Vectors</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-keys" class="internal xref">Keys</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-media-type-registration" class="internal xref">Media Type Registration</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-cbor-encoding-of-claims" class="internal xref">CBOR Encoding of Claims</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-moqt-auth-token-type-regist" class="internal xref">MOQT Auth Token Type Registry</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2.2.1">
+                    <p id="section-toc.1-1.8.2.2.2.1.1"><a href="#section-8.2.1" class="auto internal xref">8.2.1</a>.  <a href="#name-cat-token-type-0x01" class="internal xref">CAT Token Type (0x01)</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
-                <p id="section-toc.1-1.9.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-token-structure" class="internal xref">Token Structure</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.4">
-                <p id="section-toc.1-1.9.2.4.1"><a href="#appendix-A.4" class="auto internal xref">A.4</a>.  <a href="#name-dpop-binding" class="internal xref">DPoP Binding</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.5">
-                <p id="section-toc.1-1.9.2.5.1"><a href="#appendix-A.5" class="auto internal xref">A.5</a>.  <a href="#name-moqt-authorization-scopes" class="internal xref">MOQT Authorization Scopes</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.6">
-                <p id="section-toc.1-1.9.2.6.1"><a href="#appendix-A.6" class="auto internal xref">A.6</a>.  <a href="#name-token-validation" class="internal xref">Token Validation</a></p>
+                </ul>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-appendix-a-test-vectors" class="internal xref">Appendix A: Test Vectors</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-keys" class="internal xref">Keys</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-cbor-encoding-of-claims" class="internal xref">CBOR Encoding of Claims</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
+                <p id="section-toc.1-1.10.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-token-structure" class="internal xref">Token Structure</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.4">
+                <p id="section-toc.1-1.10.2.4.1"><a href="#appendix-A.4" class="auto internal xref">A.4</a>.  <a href="#name-dpop-binding" class="internal xref">DPoP Binding</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.5">
+                <p id="section-toc.1-1.10.2.5.1"><a href="#appendix-A.5" class="auto internal xref">A.5</a>.  <a href="#name-moqt-authorization-scopes" class="internal xref">MOQT Authorization Scopes</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.6">
+                <p id="section-toc.1-1.10.2.6.1"><a href="#appendix-A.6" class="auto internal xref">A.6</a>.  <a href="#name-composite-claims" class="internal xref">Composite Claims</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.7">
+                <p id="section-toc.1-1.10.2.7.1"><a href="#appendix-A.7" class="auto internal xref">A.7</a>.  <a href="#name-token-validation" class="internal xref">Token Validation</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1390,7 +1402,9 @@ As soon as a token is provided, all actions are explicitly blocked unless explic
 <pre>
 $$Claims-Set-Claims //= (moqt-label =&gt; moqt-value)
 moqt-label = TBD_MOQT
-moqt-value = [ + moqt-scope ]
+moqt-value = { moqt-scopes-key =&gt; moqt-scopes, * int =&gt; any }
+moqt-scopes-key = 0
+moqt-scopes = [ + moqt-scope ]
 moqt-scope = [ moqt-actions, ? [ + moqt-ns-match ], ? moqt-track-match ]
 moqt-actions = [ + moqt-action ]
 moqt-action = int
@@ -1406,9 +1420,10 @@ suffix-match = 2
 </pre><a href="#section-2.1-2" class="pilcrow">¶</a>
 </div>
 <p id="section-2.1-3">The "moqt" claim bounds the scope of MOQT actions for which the token can provide
-access. It is an array of action scopes. Each scope is an array with three
-elements: an array of integers that identifies the actions, an array of match objects for
-the namespace, and a match object for the track name.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+access. The claim value is a CBOR map. Key 0 holds the scopes array. Each scope
+is itself an array of one to three elements: the actions (an array of integers), the
+namespace matches (an array of match objects), and the track match (a single match
+object).<a href="#section-2.1-3" class="pilcrow">¶</a></p>
 <p id="section-2.1-4">The actions are integers defined as follows:<a href="#section-2.1-4" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
           <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
@@ -1478,36 +1493,64 @@ the namespace, and a match object for the track name.<a href="#section-2.1-3" cl
         </table>
 <p id="section-2.1-6">The scope of the moqt claim is limited to the actions provided in the array.
 Any action not present in the array is not authorized by moqt claim.<a href="#section-2.1-6" class="pilcrow">¶</a></p>
-<p id="section-2.1-7">When a match object is a byte string, it is an exact match. When a match object is an array, the first element is the match type and the second is the match value.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
-<p id="section-2.1-8">Matches are performed bytewise against the corresponding field of the Full Track Name (as defined in Section 2.4.1 of <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>). The first namespace match object is applied to the first field in the Track Namespace, and so on. The match for the track name is matched against the Track Name.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
-<p id="section-2.1-9">Exact matches must match exactly, prefix matches must match the beginning of the byte string, and suffix matches must match the end of the byte string.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
-<p id="section-2.1-10">The track namespace match and track name match are optional. If the length of the scope array is two, then no track name match is performed at all and the scope of the token includes all track names. If the length is one, the scope includes all namespaces as well as no matching is performed. The list of actions is mandatory.<a href="#section-2.1-10" class="pilcrow">¶</a></p>
-<p id="section-2.1-11">A nil match object is special: it only matches the end of the list of namespaces. This allows the scope to be limited to a precise namespace length. If the list of namespace match objects does not end with a nil match object, then the scope includes all longer namespaces that start with fields that match. Note that nil <span class="bcp14">MUST</span> only appear as the last element in the namespace match array; placing nil elsewhere is invalid.<a href="#section-2.1-11" class="pilcrow">¶</a></p>
+<p id="section-2.1-7">When a match object is a byte string, it is an exact match. When a match object
+is an array, the first element is the match type and the second is the match value.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
+<p id="section-2.1-8">Matches are performed bytewise against the corresponding field of the
+Full Track Name (as defined in Section 2.4.1 of <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>). The
+first namespace match object is applied to the first field in the Track Namespace,
+and so on. The match for the track name is matched against the Track Name.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
+<p id="section-2.1-9">Exact matches must match exactly, prefix matches must match the beginning
+of the byte string, and suffix matches must match the end of the byte string.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
+<p id="section-2.1-10">The track namespace match and track name match are optional. If the length of the
+scope array is two, then no track name match is performed at all and the scope of
+the token includes all track names. If the length is one, the scope includes all
+namespaces as well as no matching is performed. The list of actions is mandatory.<a href="#section-2.1-10" class="pilcrow">¶</a></p>
+<p id="section-2.1-11">A nil match object is special: it only matches the end of the list of namespaces. This
+allows the scope to be limited to a precise namespace length. If the list of namespace
+match objects does not end with a nil match object, then the scope includes all longer
+namespaces that start with fields that match. Note that nil <span class="bcp14">MUST</span> only appear as the
+last element in the namespace match array; placing nil elsewhere is invalid.<a href="#section-2.1-11" class="pilcrow">¶</a></p>
 <p id="section-2.1-12">No normalization is applied to the values against which to match; it is performed bytewise.<a href="#section-2.1-12" class="pilcrow">¶</a></p>
-<div id="text-examples-of-permissions-to-help-with-cddl-construction">
+<div id="extensibility">
 <section id="section-2.1.1">
+          <h4 id="name-extensibility">
+<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-extensibility" class="section-name selfRef">Extensibility</a>
+          </h4>
+<p id="section-2.1.1-1">Map keys other than 0 are reserved for future revisions of this
+specification. A recipient that finds a key it does not recognize in the
+"moqt" claim map <span class="bcp14">MUST</span> treat the claim set containing that claim as not
+acceptable. When that claim set is the token's top-level claim set, the
+token is rejected. This fail-closed behavior ensures that new keys which
+restrict authorization scope cannot be silently skipped.<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-2">Issuers that need to offer alternative scope formats can place each in a
+separate claim set within an "or" claim <span>[<a href="#Composite" class="cite xref">Composite</a>]</span>, so recipients that
+do not understand one format can still accept another.<a href="#section-2.1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="text-examples-of-permissions-to-help-with-cddl-construction">
+<section id="section-2.1.2">
           <h4 id="name-text-examples-of-permission">
-<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-text-examples-of-permission" class="section-name selfRef">Text examples of permissions to help with CDDL construction</a>
+<a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-text-examples-of-permission" class="section-name selfRef">Text examples of permissions to help with CDDL construction</a>
           </h4>
 <div id="notation-used-in-examples">
-<section id="section-2.1.1.1">
+<section id="section-2.1.2.1">
             <h5 id="name-notation-used-in-examples">
-<a href="#section-2.1.1.1" class="section-number selfRef">2.1.1.1. </a><a href="#name-notation-used-in-examples" class="section-name selfRef">Notation Used in Examples</a>
+<a href="#section-2.1.2.1" class="section-number selfRef">2.1.2.1. </a><a href="#name-notation-used-in-examples" class="section-name selfRef">Notation Used in Examples</a>
             </h5>
-<p id="section-2.1.1.1-1">Full Track Names in this draft are represented using Extended Diagnostic Notation (EDN) as defined in <span>[<a href="#EDN" class="cite xref">EDN</a>]</span> as an array with two elements: an array of namespace fields and a track name.<a href="#section-2.1.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1.1.1-2">Example: Allow with an exact match <code>[['example','com'],'/bob']</code><a href="#section-2.1.1.1-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-3">
+<p id="section-2.1.2.1-1">Full Track Names in this draft are represented using Extended Diagnostic Notation (EDN) as defined in <span>[<a href="#EDN" class="cite xref">EDN</a>]</span> as an array with two elements: an array of namespace fields and a track name.<a href="#section-2.1.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.2.1-2">Example: Allow with an exact match <code>[['example','com'],'/bob']</code><a href="#section-2.1.2.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-3">
 <pre>
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example','com',nil],
         '/bob'
-    ]]
+    ]]}
 }
-</pre><a href="#section-2.1.1.1-3" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-3" class="pilcrow">¶</a>
 </div>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-4">
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-4">
 <pre>
 Permits
 * [['example','com'], '/bob']
@@ -1522,21 +1565,21 @@ Prohibits
 * [['example'], 'com/bob']
 * [['example','com','/bob'], '']
 * [['example','com',''], '/bob']
-</pre><a href="#section-2.1.1.1-4" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-4" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-5">Example: Allow with a prefix match <code>[['example','com'],'/bob']</code><a href="#section-2.1.1.1-5" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-6">
+<p id="section-2.1.2.1-5">Example: Allow with a prefix match <code>[['example','com'],'/bob']</code><a href="#section-2.1.2.1-5" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-6">
 <pre>
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example','com',nil],
         [ /prefix/ 1, '/bob']
-    ]]
+    ]]}
 }
-</pre><a href="#section-2.1.1.1-6" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-6" class="pilcrow">¶</a>
 </div>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-7">
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-7">
 <pre>
 Permits
 * [['example','com'], '/bob']
@@ -1549,21 +1592,21 @@ Prohibits
 * [['alternate','example','com'], '/bob']
 * [['12345'], '']
 * [['example'], 'com/bob']
-</pre><a href="#section-2.1.1.1-7" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-7" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-8">Example: Allow namespaces starting with <code>['example','com']</code> (any length) with exact track name <code>'/bob'</code><a href="#section-2.1.1.1-8" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-9">
+<p id="section-2.1.2.1-8">Example: Allow namespaces starting with <code>['example','com']</code> (any length) with exact track name <code>'/bob'</code><a href="#section-2.1.2.1-8" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-9">
 <pre>
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         { /exact/ 0: 'example.com'},
         { /exact/ 0: '/bob'}
-    ]]
+    ]]}
 }
-</pre><a href="#section-2.1.1.1-9" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-9" class="pilcrow">¶</a>
 </div>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-10">
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-10">
 <pre>
 Permits
 * [['example','com'], '/bob']
@@ -1579,20 +1622,20 @@ Prohibits
 * [['12345'], '']
 * [['example'], 'com/bob']
 * [['example','com','/bob'], '']
-</pre><a href="#section-2.1.1.1-10" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-10" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-11">Example: Allow namespaces starting with <code>['example','com']</code> with any track name<a href="#section-2.1.1.1-11" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-12">
+<p id="section-2.1.2.1-11">Example: Allow namespaces starting with <code>['example','com']</code> with any track name<a href="#section-2.1.2.1-11" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-12">
 <pre>
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /PUBLISH_NAMESPACE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example','com']
-    ]]
+    ]]}
 }
-</pre><a href="#section-2.1.1.1-12" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-12" class="pilcrow">¶</a>
 </div>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-13">
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-13">
 <pre>
 Permits
 * [['example','com'], '/bob']
@@ -1608,22 +1651,22 @@ Prohibits
 * [['alternate','example','com'], '/bob']
 * [['12345'], '']
 * [['example'], 'com/bob']
-</pre><a href="#section-2.1.1.1-13" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-13" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-14">Example: Allow with a prefix match on an individual namespace element<a href="#section-2.1.1.1-14" class="pilcrow">¶</a></p>
-<p id="section-2.1.1.1-15">This example shows how to use a prefix match within a specific namespace field. The second namespace element must start with <code>'user-'</code>.<a href="#section-2.1.1.1-15" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-16">
+<p id="section-2.1.2.1-14">Example: Allow with a prefix match on an individual namespace element<a href="#section-2.1.2.1-14" class="pilcrow">¶</a></p>
+<p id="section-2.1.2.1-15">This example shows how to use a prefix match within a specific namespace field. The second namespace element must start with <code>'user-'</code>.<a href="#section-2.1.2.1-15" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-16">
 <pre>
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /ANNOUNCE/ 2, /SUBSCRIBE_NAMESPACE/ 3, /PUBLISH/ 6, /FETCH/ 7 ],
         ['example', [ /prefix/ 1, 'user-'], nil],
         '/data'
-    ]]
+    ]]}
 }
-</pre><a href="#section-2.1.1.1-16" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-16" class="pilcrow">¶</a>
 </div>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-17">
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-17">
 <pre>
 Permits
 * [['example','user-alice'], '/data']
@@ -1635,22 +1678,22 @@ Prohibits
 * [['example','user-alice','extra'], '/data']
 * [['example','USER-alice'], '/data']
 * [['example'], '/data']
-</pre><a href="#section-2.1.1.1-17" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-17" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.1.1-18">Example: Allow with a suffix match on track name<a href="#section-2.1.1.1-18" class="pilcrow">¶</a></p>
-<p id="section-2.1.1.1-19">This example demonstrates suffix matching, which matches the end of a byte string.<a href="#section-2.1.1.1-19" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-20">
+<p id="section-2.1.2.1-18">Example: Allow with a suffix match on track name<a href="#section-2.1.2.1-18" class="pilcrow">¶</a></p>
+<p id="section-2.1.2.1-19">This example demonstrates suffix matching, which matches the end of a byte string.<a href="#section-2.1.2.1-19" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-20">
 <pre>
 {
-    /moqt/ TBD_MOQT: [[
+    /moqt/ TBD_MOQT: { 0: [[
         [ /PUBLISH/ 6 ],
         ['example','com',nil],
         [ /suffix/ 2, '.json']
-    ]]
+    ]]}
 }
-</pre><a href="#section-2.1.1.1-20" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-20" class="pilcrow">¶</a>
 </div>
-<div class="alignLeft art-text artwork" id="section-2.1.1.1-21">
+<div class="alignLeft art-text artwork" id="section-2.1.2.1-21">
 <pre>
 Permits
 * [['example','com'], 'data.json']
@@ -1662,78 +1705,78 @@ Prohibits
 * [['example','com'], 'json']
 * [['example','com'], 'data.JSON']
 * [['example','com'], 'data.json.bak']
-</pre><a href="#section-2.1.1.1-21" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.2.1-21" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 </section>
 </div>
 <div id="multiple-actions">
-<section id="section-2.1.2">
+<section id="section-2.1.3">
           <h4 id="name-multiple-actions">
-<a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-multiple-actions" class="section-name selfRef">Multiple actions</a>
+<a href="#section-2.1.3" class="section-number selfRef">2.1.3. </a><a href="#name-multiple-actions" class="section-name selfRef">Multiple actions</a>
           </h4>
-<p id="section-2.1.2-1">Multiple actions may be communicated within the same token, with different
+<p id="section-2.1.3-1">Multiple actions may be communicated within the same token, with different
 permissions. This can be facilitated by the logical claims defined in
 <span>[<a href="#Composite" class="cite xref">Composite</a>]</span> or simply by defining multiple limits,
 depending on the required restrictions. In both cases, the order in which
 limits are declared and evaluated is unimportant. The evaluation stops after
-the first acceptable result is discovered.<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
+the first acceptable result is discovered.<a href="#section-2.1.3-1" class="pilcrow">¶</a></p>
 <div id="example-of-evaluating-multiple-actions-in-the-same-token">
-<section id="section-2.1.2.1">
+<section id="section-2.1.3.1">
             <h5 id="name-example-of-evaluating-multi">
-<a href="#section-2.1.2.1" class="section-number selfRef">2.1.2.1. </a><a href="#name-example-of-evaluating-multi" class="section-name selfRef">Example of evaluating multiple actions in the same token:</a>
+<a href="#section-2.1.3.1" class="section-number selfRef">2.1.3.1. </a><a href="#name-example-of-evaluating-multi" class="section-name selfRef">Example of evaluating multiple actions in the same token:</a>
             </h5>
-<div class="alignLeft art-text artwork" id="section-2.1.2.1-1">
+<div class="alignLeft art-text artwork" id="section-2.1.3.1-1">
 <pre>
 {
-    /moqt/ TBD_MOQT: [
+    /moqt/ TBD_MOQT: { 0: [
         [[/PUBLISH/ 6], ['example','com',nil], [ /prefix/ 1, '/bob']],
         [[/PUBLISH/ 6], ['example','com',nil], '/logs/12345/bob']
-    ],
+    ]},
     /exp/ 4: 1750000000
 }
-</pre><a href="#section-2.1.2.1-1" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.3.1-1" class="pilcrow">¶</a>
 </div>
 <ul class="normal">
-<li class="normal" id="section-2.1.2.1-2.1">
-                <p id="section-2.1.2.1-2.1.1">(1) PUBLISH (Allow with a prefix match on track name) [['example','com'], '/bob*']<a href="#section-2.1.2.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2.1.3.1-2.1">
+                <p id="section-2.1.3.1-2.1.1">(1) PUBLISH (Allow with a prefix match on track name) [['example','com'], '/bob*']<a href="#section-2.1.3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-2.1.2.1-2.2">
-                <p id="section-2.1.2.1-2.2.1">(2) PUBLISH (Allow with an exact match) [['example','com'], '/logs/12345/bob']<a href="#section-2.1.2.1-2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-2.1.3.1-2.2">
+                <p id="section-2.1.3.1-2.2.1">(2) PUBLISH (Allow with an exact match) [['example','com'], '/logs/12345/bob']<a href="#section-2.1.3.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
-<p id="section-2.1.2.1-3">Evaluating <code>[['example','com'],'/bob/123']</code> would succeed on test 1 and test 2 would never be evaluated.
+<p id="section-2.1.3.1-3">Evaluating <code>[['example','com'],'/bob/123']</code> would succeed on test 1 and test 2 would never be evaluated.
 Evaluating <code>[['example','com'],'/logs/12345/bob']</code> would fail on test 1 but then succeed on test 2.
-Evaluating <code>[['example','com'],'']</code> would fail on test 1 and on test 2.<a href="#section-2.1.2.1-3" class="pilcrow">¶</a></p>
-<p id="section-2.1.2.1-4">In addition, the entire token expires at 2025-05-02T21:57:24+00:00.<a href="#section-2.1.2.1-4" class="pilcrow">¶</a></p>
+Evaluating <code>[['example','com'],'']</code> would fail on test 1 and on test 2.<a href="#section-2.1.3.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.1.3.1-4">In addition, the entire token expires at 2025-05-02T21:57:24+00:00.<a href="#section-2.1.3.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="example-of-evaluating-multiple-actions-with-related-claims">
-<section id="section-2.1.2.2">
+<section id="section-2.1.3.2">
             <h5 id="name-example-of-evaluating-multip">
-<a href="#section-2.1.2.2" class="section-number selfRef">2.1.2.2. </a><a href="#name-example-of-evaluating-multip" class="section-name selfRef">Example of evaluating multiple actions with related claims:</a>
+<a href="#section-2.1.3.2" class="section-number selfRef">2.1.3.2. </a><a href="#name-example-of-evaluating-multip" class="section-name selfRef">Example of evaluating multiple actions with related claims:</a>
             </h5>
-<p id="section-2.1.2.2-1">If there are other claims that depend on which MOQT limit applies, a logical claim is required:<a href="#section-2.1.2.2-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1.2.2-2">
+<p id="section-2.1.3.2-1">If there are other claims that depend on which MOQT limit applies, a logical claim is required:<a href="#section-2.1.3.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1.3.2-2">
 <pre>
 {
     /or/ TBD_OR: [
         {
-            /moqt/ TBD_MOQT: [[[/PUBLISH/ 6], ['example','com'], [ /prefix/ 1, 'bob']]],
+            /moqt/ TBD_MOQT: { 0: [[[/PUBLISH/ 6], ['example','com'], [ /prefix/ 1, 'bob']]]},
             /exp/ 4: 1750000000
         },
         {
-            /moqt/ TBD_MOQT: [[[/PUBLISH/ 6], ['example','com'], 'logs/12345/bob']],
+            /moqt/ TBD_MOQT: { 0: [[[/PUBLISH/ 6], ['example','com'], 'logs/12345/bob']]},
             /exp/ 4: 1750000600
         }
     ]
 }
-</pre><a href="#section-2.1.2.2-2" class="pilcrow">¶</a>
+</pre><a href="#section-2.1.3.2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1.2.2-3">This provides access to the same tracks as the previous example, but in this
+<p id="section-2.1.3.2-3">This provides access to the same tracks as the previous example, but in this
 case, the token is valid for publishing logs up to 10 minutes after the time at
-which the publishing of the bob track expires.<a href="#section-2.1.2.2-3" class="pilcrow">¶</a></p>
+which the publishing of the bob track expires.<a href="#section-2.1.3.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1781,16 +1824,42 @@ Recipients <span class="bcp14">MUST</span> support this claim. This claim is <sp
 </div>
 </section>
 </div>
-<div id="dpop-for-moqt">
+<div id="replay-protection-without-dpop">
 <section id="section-3">
-      <h2 id="name-dpop-for-moqt">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-dpop-for-moqt" class="section-name selfRef">DPoP for MOQT</a>
+      <h2 id="name-replay-protection-without-d">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-replay-protection-without-d" class="section-name selfRef">Replay Protection without DPoP</a>
       </h2>
-<p id="section-3-1">Demonstrating Proof of Possession (DPoP) <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span> binds a token to a
+<p id="section-3-1">In MOQT, the same token <span class="bcp14">MAY</span> be presented for SETUP and again for
+subsequent actions (SUBSCRIBE, PUBLISH, FETCH, etc.) on the same
+connection. <span>[<a href="#CAT" class="cite xref">CAT</a>]</span> defines "catreplay" value 1 as single use, which
+would cause these subsequent actions to fail. For MOQT, this
+specification therefore interprets "catreplay" value 1 as single
+connection: the token may be used for any number of actions, but only
+on one connection.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">When "catreplay" is 1, a relay binds the token's "cti" to the QUIC or
+WebTransport connection on which the token is first accepted. The
+relay <span class="bcp14">MUST NOT</span> reject the token solely because it was previously
+accepted on that connection. All other validation and authorization
+requirements continue to apply. The relay <span class="bcp14">MUST</span> reject the token on
+any other connection. A token with "catreplay" 1 that lacks a "cti"
+or an "exp" claim <span class="bcp14">MUST</span> be rejected. After the connection terminates,
+the relay <span class="bcp14">MUST</span> retain sufficient replay state to prevent reuse for
+as long as the token could otherwise be accepted, including any
+permitted expiration-time leeway.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">When "catreplay" is 2, replay semantics are implementation-defined.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">When "catreplay" is absent or 0, no replay protection is applied.<a href="#section-3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dpop-for-moqt">
+<section id="section-4">
+      <h2 id="name-dpop-for-moqt">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-dpop-for-moqt" class="section-name selfRef">DPoP for MOQT</a>
+      </h2>
+<p id="section-4-1">Demonstrating Proof of Possession (DPoP) <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span> binds a token to a
 client key pair, so that a stolen token cannot be used without the
 corresponding private key. This section defines how DPoP is used with
-CAT tokens in MOQT.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2"><span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span> has two parts. The first (Sections 4, 5, 6 and 8 of <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span>)
+CAT tokens in MOQT.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2"><span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span> has two parts. The first (Sections 4, 5, 6 and 8 of <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span>)
 covers how a client obtains a DPoP-bound token from an authorization
 server; it is used unchanged. The second (Sections 7 and 9 of <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span>)
 covers how the client proves possession of the key when it uses the
@@ -1798,13 +1867,13 @@ token. That part is HTTP-specific: the proof is a JWT that identifies
 the request by HTTP method and URI ("htm" and "htu"). For MOQT, this
 section replaces it with a CWT proof whose "actx" claim identifies the
 MOQT action, Track Namespace and Track Name, using the same encoding as
-the "moqt" claim.<a href="#section-3-2" class="pilcrow">¶</a></p>
+the "moqt" claim.<a href="#section-4-2" class="pilcrow">¶</a></p>
 <div id="token-binding">
-<section id="section-3.1">
+<section id="section-4.1">
         <h3 id="name-token-binding">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-token-binding" class="section-name selfRef">Token Binding</a>
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-token-binding" class="section-name selfRef">Token Binding</a>
         </h3>
-<p id="section-3.1-1">The authorization server binds the CAT token to the client's public key
+<p id="section-4.1-1">The authorization server binds the CAT token to the client's public key
 with the "cnf" claim <span>[<a href="#CWT-CNF" class="cite xref">CWT-CNF</a>]</span>. Because the DPoP proof carries the
 key as a COSE_Key, the "cnf" claim <span class="bcp14">SHOULD</span> use the "ckt" confirmation
 method (key 5), the COSE Key Thumbprint <span>[<a href="#RFC9679" class="cite xref">RFC9679</a>]</span> of the client's
@@ -1813,35 +1882,35 @@ CAT issuers, the "cnf" claim <span class="bcp14">MAY</span> instead use the "jkt
 method of <span>[<a href="#CAT" class="cite xref">CAT</a>]</span>, the JWK SHA-256 Thumbprint <span>[<a href="#JWK-THUMB" class="cite xref">JWK-THUMB</a>]</span>; relays
 <span class="bcp14">SHOULD</span> support "jkt". The "catdpop" claim (<span>[<a href="#CAT" class="cite xref">CAT</a>]</span> Section 4.8) sets the window
 within which a proof is fresh and whether relays use the proof's "cti"
-for replay detection.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.1-2">A relay <span class="bcp14">MUST NOT</span> accept a token that contains a "cnf" claim for an MOQT
-action unless the action is accompanied by a valid DPoP proof.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+for replay detection.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">A relay <span class="bcp14">MUST NOT</span> accept a token that contains a "cnf" claim for an MOQT
+action unless the action is accompanied by a valid DPoP proof.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="dpop-proof">
-<section id="section-3.2">
+<section id="section-4.2">
         <h3 id="name-dpop-proof">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-dpop-proof" class="section-name selfRef">DPoP Proof</a>
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-dpop-proof" class="section-name selfRef">DPoP Proof</a>
         </h3>
-<p id="section-3.2-1">For each MOQT action, the client creates a new DPoP proof: a
-COSE_Sign1 <span>[<a href="#COSE" class="cite xref">COSE</a>]</span> signed with the private key bound to the token.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.2-2">The protected header contains:<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-1">For each MOQT action, the client creates a new DPoP proof: a
+COSE_Sign1 <span>[<a href="#COSE" class="cite xref">COSE</a>]</span> signed with the private key bound to the token.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">The protected header contains:<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.2-3.1">
-            <p id="section-3.2-3.1.1">"alg" (label 1): an asymmetric signature algorithm. Symmetric
+<li class="normal" id="section-4.2-3.1">
+            <p id="section-4.2-3.1.1">"alg" (label 1): an asymmetric signature algorithm. Symmetric
 algorithms <span class="bcp14">MUST NOT</span> be used. Relays <span class="bcp14">MUST</span> support ES256 (-7) and
-<span class="bcp14">SHOULD</span> support ES384 (-35) and EdDSA (-8) <span>[<a href="#COSE-ALG" class="cite xref">COSE-ALG</a>]</span>.<a href="#section-3.2-3.1.1" class="pilcrow">¶</a></p>
+<span class="bcp14">SHOULD</span> support ES384 (-35) and EdDSA (-8) <span>[<a href="#COSE-ALG" class="cite xref">COSE-ALG</a>]</span>.<a href="#section-4.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.2-3.2">
-            <p id="section-3.2-3.2.1">"typ" (label 16): "dpop-proof+cwt".<a href="#section-3.2-3.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-4.2-3.2">
+            <p id="section-4.2-3.2.1">"typ" (label 16): "dpop-proof+cwt".<a href="#section-4.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.2-3.3">
-            <p id="section-3.2-3.3.1">"kccs" (label 14) <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>: a CWT Claims Set whose "cnf" claim
-carries the client's public key as a COSE_Key.<a href="#section-3.2-3.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-4.2-3.3">
+            <p id="section-4.2-3.3.1">"kccs" (label 14) <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>: a CWT Claims Set whose "cnf" claim
+carries the client's public key as a COSE_Key.<a href="#section-4.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.2-4">The payload is a CWT Claims Set <span>[<a href="#CWT" class="cite xref">CWT</a>]</span>:<a href="#section-3.2-4" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-3.2-5">
+<p id="section-4.2-4">The payload is a CWT Claims Set <span>[<a href="#CWT" class="cite xref">CWT</a>]</span>:<a href="#section-4.2-4" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-4.2-5">
 <pre>
 dpop-proof-claims = {
   7 =&gt; bstr,               ; cti: unique proof identifier
@@ -1859,26 +1928,26 @@ moqt-actx = {
 
 actx-label = TBD_ACTX
 ath-label = TBD_ATH
-</pre><a href="#section-3.2-5" class="pilcrow">¶</a>
+</pre><a href="#section-4.2-5" class="pilcrow">¶</a>
 </div>
-<p id="section-3.2-6">The action in "actx" uses the action codes defined for the "moqt"
+<p id="section-4.2-6">The action in "actx" uses the action codes defined for the "moqt"
 claim. The Track Namespace (key 2) is present for actions that target a
 namespace or track, and the Track Name (key 3) for actions that target a
 track. Both carry the exact bytes from the MOQT message, with no
-serialization or normalization.<a href="#section-3.2-6" class="pilcrow">¶</a></p>
-<p id="section-3.2-7">The "type" value "moqt" prevents a proof created for MOQT from being
-accepted by another protocol that uses the "actx" claim.<a href="#section-3.2-7" class="pilcrow">¶</a></p>
-<p id="section-3.2-8">The "ath" claim is the SHA-256 hash of the CAT token bytes exactly as
-presented to the relay. It binds the proof to one token.<a href="#section-3.2-8" class="pilcrow">¶</a></p>
+serialization or normalization.<a href="#section-4.2-6" class="pilcrow">¶</a></p>
+<p id="section-4.2-7">The "type" value "moqt" prevents a proof created for MOQT from being
+accepted by another protocol that uses the "actx" claim.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
+<p id="section-4.2-8">The "ath" claim is the SHA-256 hash of the CAT token bytes exactly as
+presented to the relay. It binds the proof to one token.<a href="#section-4.2-8" class="pilcrow">¶</a></p>
 <div id="dpop-example">
-<section id="section-3.2.1">
+<section id="section-4.2.1">
           <h4 id="name-example">
-<a href="#section-3.2.1" class="section-number selfRef">3.2.1. </a><a href="#name-example" class="section-name selfRef">Example</a>
+<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-example" class="section-name selfRef">Example</a>
           </h4>
-<p id="section-3.2.1-1">A CAT token that allows SUBSCRIBE and FETCH on namespace
+<p id="section-4.2.1-1">A CAT token that allows SUBSCRIBE and FETCH on namespace
 ("cdn", "example.com") for tracks starting with "/sports/", bound to
-the client's key:<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.2.1-2">
+the client's key:<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2.1-2">
 <pre>
 {
   / exp / 4: 1750000000,
@@ -1898,11 +1967,11 @@ the client's key:<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
     ]
   ]}
 }
-</pre><a href="#section-3.2.1-2" class="pilcrow">¶</a>
+</pre><a href="#section-4.2.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-3.2.1-3">The DPoP proof the client sends with a SUBSCRIBE to track
-"/sports/live" in that namespace:<a href="#section-3.2.1-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.2.1-4">
+<p id="section-4.2.1-3">The DPoP proof the client sends with a SUBSCRIBE to track
+"/sports/live" in that namespace:<a href="#section-4.2.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2.1-4">
 <pre>
 Protected header:
 {
@@ -1934,84 +2003,84 @@ Payload:
   },
   / ath / TBD_ATH: h'...'  / SHA-256 of the CAT token /
 }
-</pre><a href="#section-3.2.1-4" class="pilcrow">¶</a>
+</pre><a href="#section-4.2.1-4" class="pilcrow">¶</a>
 </div>
-<p id="section-3.2.1-5">The "ckt" value in the token is the COSE Key Thumbprint of the key in
-the proof's header (the ES256 test key from Appendix A).<a href="#section-3.2.1-5" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-5">The "ckt" value in the token is the COSE Key Thumbprint of the key in
+the proof's header (the ES256 test key from Appendix A).<a href="#section-4.2.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="relay-validation">
-<section id="section-3.3">
+<section id="section-4.3">
         <h3 id="name-relay-validation">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-relay-validation" class="section-name selfRef">Relay Validation</a>
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-relay-validation" class="section-name selfRef">Relay Validation</a>
         </h3>
-<p id="section-3.3-1">A relay that receives an MOQT action with a DPoP-bound CAT token <span class="bcp14">MUST</span>
-reject the action unless all of the following hold:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-3.3-2">
-<li id="section-3.3-2.1">
-            <p id="section-3.3-2.1.1">The CAT token is valid according to this document.<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-4.3-1">A relay that receives an MOQT action with a DPoP-bound CAT token <span class="bcp14">MUST</span>
+reject the action unless all of the following hold:<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.3-2">
+<li id="section-4.3-2.1">
+            <p id="section-4.3-2.1.1">The CAT token is valid according to this document.<a href="#section-4.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.2">
-            <p id="section-3.3-2.2.1">A DPoP proof accompanies the action, and is a COSE_Sign1 whose
+          <li id="section-4.3-2.2">
+            <p id="section-4.3-2.2.1">A DPoP proof accompanies the action, and is a COSE_Sign1 whose
 "typ" is "dpop-proof+cwt" and whose "alg" is a supported asymmetric
-algorithm.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+algorithm.<a href="#section-4.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.3">
-            <p id="section-3.3-2.3.1">The proof's signature verifies with the COSE_Key in its "kccs"
-header parameter.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
+          <li id="section-4.3-2.3">
+            <p id="section-4.3-2.3.1">The proof's signature verifies with the COSE_Key in its "kccs"
+header parameter.<a href="#section-4.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.4">
-            <p id="section-3.3-2.4.1">The key matches the token's "cnf" claim: for "ckt", its COSE Key
+          <li id="section-4.3-2.4">
+            <p id="section-4.3-2.4.1">The key matches the token's "cnf" claim: for "ckt", its COSE Key
 Thumbprint <span>[<a href="#RFC9679" class="cite xref">RFC9679</a>]</span> equals the "ckt" value; for "jkt", the JWK
 SHA-256 Thumbprint <span>[<a href="#JWK-THUMB" class="cite xref">JWK-THUMB</a>]</span> of the equivalent JWK (for an EC2
-key: "crv", "kty", "x" and "y") equals the "jkt" value.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
+key: "crv", "kty", "x" and "y") equals the "jkt" value.<a href="#section-4.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.5">
-            <p id="section-3.3-2.5.1">"ath" equals the SHA-256 hash of the token as presented.<a href="#section-3.3-2.5.1" class="pilcrow">¶</a></p>
+          <li id="section-4.3-2.5">
+            <p id="section-4.3-2.5.1">"ath" equals the SHA-256 hash of the token as presented.<a href="#section-4.3-2.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.6">
-            <p id="section-3.3-2.6.1">"iat" is within the window set by the "catdpop" claim.<a href="#section-3.3-2.6.1" class="pilcrow">¶</a></p>
+          <li id="section-4.3-2.6">
+            <p id="section-4.3-2.6.1">"iat" is within the window set by the "catdpop" claim.<a href="#section-4.3-2.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.7">
-            <p id="section-3.3-2.7.1">If the "catdpop" claim requests replay detection, the relay has not
-accepted another proof with the same "cti" within that window.<a href="#section-3.3-2.7.1" class="pilcrow">¶</a></p>
+          <li id="section-4.3-2.7">
+            <p id="section-4.3-2.7.1">If the "catdpop" claim requests replay detection, the relay has not
+accepted another proof with the same "cti" within that window.<a href="#section-4.3-2.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.8">
-            <p id="section-3.3-2.8.1">In "actx", "type" is "moqt", the action equals the requested action,
+          <li id="section-4.3-2.8">
+            <p id="section-4.3-2.8.1">In "actx", "type" is "moqt", the action equals the requested action,
 and the Track Namespace and Track Name equal those in the MOQT
-message.<a href="#section-3.3-2.8.1" class="pilcrow">¶</a></p>
+message.<a href="#section-4.3-2.8.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-3.3-3">The relay then authorizes the action against the token's "moqt" claim
-as for any other token.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.3-3">The relay then authorizes the action against the token's "moqt" claim
+as for any other token.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="dpop-security-considerations">
-<section id="section-3.4">
+<section id="section-4.4">
         <h3 id="name-dpop-security-consideration">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-dpop-security-consideration" class="section-name selfRef">DPoP Security Considerations</a>
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-dpop-security-consideration" class="section-name selfRef">DPoP Security Considerations</a>
         </h3>
-<p id="section-3.4-1">The security considerations of <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span> apply. In addition:<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-4.4-1">The security considerations of <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span> apply. In addition:<a href="#section-4.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.4-2.1">
-            <p id="section-3.4-2.1.1">A proof authorizes exactly one MOQT action. Because "actx" carries
+<li class="normal" id="section-4.4-2.1">
+            <p id="section-4.4-2.1.1">A proof authorizes exactly one MOQT action. Because "actx" carries
 the full action, namespace and track, a captured proof cannot be used
 for a different action or track, and the "iat" window and "cti"
-replay detection limit its reuse for the same one.<a href="#section-3.4-2.1.1" class="pilcrow">¶</a></p>
+replay detection limit its reuse for the same one.<a href="#section-4.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.4-2.2">
-            <p id="section-3.4-2.2.1">DPoP relies on the QUIC or WebTransport connection for integrity and
-confidentiality; it does not protect the MOQT messages themselves.<a href="#section-3.4-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-4.4-2.2">
+            <p id="section-4.4-2.2.1">DPoP relies on the QUIC or WebTransport connection for integrity and
+confidentiality; it does not protect the MOQT messages themselves.<a href="#section-4.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.4-2.3">
-            <p id="section-3.4-2.3.1">Clients <span class="bcp14">SHOULD NOT</span> use the same key pair across unrelated deployments.<a href="#section-3.4-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-4.4-2.3">
+            <p id="section-4.4-2.3.1">Clients <span class="bcp14">SHOULD NOT</span> use the same key pair across unrelated deployments.<a href="#section-4.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.4-2.4">
-            <p id="section-3.4-2.4.1">Each proof adds to the size of the message that carries it.
+          <li class="normal" id="section-4.4-2.4">
+            <p id="section-4.4-2.4.1">Each proof adds to the size of the message that carries it.
 Implementations need to keep the token and proof within the size
-limits of that message.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
+limits of that message.<a href="#section-4.4-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2019,58 +2088,74 @@ limits of that message.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="adding-a-token-to-a-url">
-<section id="section-4">
+<section id="section-5">
       <h2 id="name-adding-a-token-to-a-url">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-adding-a-token-to-a-url" class="section-name selfRef">Adding a token to a URL</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-adding-a-token-to-a-url" class="section-name selfRef">Adding a token to a URL</a>
       </h2>
-<p id="section-4-1">Any time an application wishes to add a CAT token to a URL or path element, the token <span class="bcp14">SHOULD</span> first
+<p id="section-5-1">Any time an application wishes to add a CAT token to a URL or path element, the token <span class="bcp14">SHOULD</span> first
 be Base64 encoded <span>[<a href="#BASE64" class="cite xref">BASE64</a>]</span>. The syntax and method of modifying the URL is left to the application
-to define and is not constrained by this specification.<a href="#section-4-1" class="pilcrow">¶</a></p>
+to define and is not constrained by this specification.<a href="#section-5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
-<section id="section-5">
+<section id="section-6">
       <h2 id="name-conventions-and-definitions">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
       </h2>
-<p id="section-5-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+<p id="section-6-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
 "<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
-appear in all capitals, as shown here.<a href="#section-5-1" class="pilcrow">¶</a></p>
+appear in all capitals, as shown here.<a href="#section-6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-6">
+<section id="section-7">
       <h2 id="name-security-considerations">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <div id="authentication-vs-authorization">
-<section id="section-6.1">
+<section id="section-7.1">
         <h3 id="name-authentication-vs-authoriza">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-authentication-vs-authoriza" class="section-name selfRef">Authentication vs Authorization</a>
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-authentication-vs-authoriza" class="section-name selfRef">Authentication vs Authorization</a>
         </h3>
-<p id="section-6.1-1">This specification defines an authorization scheme, not an authentication scheme.
+<p id="section-7.1-1">This specification defines an authorization scheme, not an authentication scheme.
 User authentication (verifying the identity of a user via credentials, OAuth, 2FA, etc.)
-occurs prior to token issuance and is outside the scope of this document.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.1-2">The tokens defined in this specification convey authorization - they grant permissions
+occurs prior to token issuance and is outside the scope of this document.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">The tokens defined in this specification convey authorization - they grant permissions
 for specific MOQT actions (such as SUBSCRIBE, PUBLISH, ANNOUNCE) on specific namespaces
 and tracks. A valid token does not authenticate a user; rather, it authorizes
-the bearer to perform the actions specified in the token's claims.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.1-3">Implementers should ensure that user authentication is performed by appropriate
+the bearer to perform the actions specified in the token's claims.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1-3">Implementers should ensure that user authentication is performed by appropriate
 mechanisms before tokens are issued. The security of the authorization scheme
 depends on the security of the token issuance process, including proper user
-authentication.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.1-4">DPoP security considerations are covered in the "DPoP for MOQT" section.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+authentication.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">DPoP security considerations are covered in the "DPoP for MOQT" section.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="replay-protection-for-bearer-tokens">
+<section id="section-7.2">
+        <h3 id="name-replay-protection-for-beare">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-replay-protection-for-beare" class="section-name selfRef">Replay Protection for Bearer Tokens</a>
+        </h3>
+<p id="section-7.2-1">Without DPoP, connection-scoped replay protection limits but does not
+eliminate token theft risk — an attacker who intercepts the token
+before the client connects can still use it. Deployments that need
+stronger guarantees <span class="bcp14">SHOULD</span> use DPoP.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2-2">The binding of a token to a connection is state held by the relay that
+accepted it. In deployments with multiple relays, such as a CDN or
+relay cluster, the same token can be replayed against another relay
+unless the relays share this state. Such deployments <span class="bcp14">SHOULD</span> share
+"cti" bindings among relays that accept the same tokens, or use DPoP.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-7">
+<section id="section-8">
       <h2 id="name-iana-considerations">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-7-1">IANA will register the following claims in the "CBOR Web Token (CWT) Claims" registry:<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-8-1">IANA will register the following claims in the "CBOR Web Token (CWT) Claims" registry:<a href="#section-8-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-2">
         <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
@@ -2102,11 +2187,11 @@ authentication.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
           </tr>
         </tbody>
       </table>
-<p id="section-7-3">[RFC Editor: Please replace RFCXXXX with the published RFC number for this
-document.]<a href="#section-7-3" class="pilcrow">¶</a></p>
-<p id="section-7-4">IANA will also register the following claims, used in DPoP proofs, in
+<p id="section-8-3">[RFC Editor: Please replace RFCXXXX with the published RFC number for this
+document.]<a href="#section-8-3" class="pilcrow">¶</a></p>
+<p id="section-8-4">IANA will also register the following claims, used in DPoP proofs, in
 the "CBOR Web Token (CWT) Claims" registry. The "ath" claim corresponds
-to the JWT claim of the same name defined in <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span>.<a href="#section-7-4" class="pilcrow">¶</a></p>
+to the JWT claim of the same name defined in <span>[<a href="#DPoP" class="cite xref">DPoP</a>]</span>.<a href="#section-8-4" class="pilcrow">¶</a></p>
 <table class="center" id="table-3">
         <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
 <thead>
@@ -2139,73 +2224,73 @@ to the JWT claim of the same name defined in <span>[<a href="#DPoP" class="cite 
         </tbody>
       </table>
 <div id="media-type-registration">
-<section id="section-7.1">
+<section id="section-8.1">
         <h3 id="name-media-type-registration">
-<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-media-type-registration" class="section-name selfRef">Media Type Registration</a>
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-media-type-registration" class="section-name selfRef">Media Type Registration</a>
         </h3>
-<p id="section-7.1-1">IANA will register the following media type in the "Media Types"
-registry, for use as the "typ" of DPoP proofs:<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.1-1">IANA will register the following media type in the "Media Types"
+registry, for use as the "typ" of DPoP proofs:<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.1-2.1">
-            <p id="section-7.1-2.1.1">Type name: application<a href="#section-7.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8.1-2.1">
+            <p id="section-8.1-2.1.1">Type name: application<a href="#section-8.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.2">
-            <p id="section-7.1-2.2.1">Subtype name: dpop-proof+cwt<a href="#section-7.1-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.2">
+            <p id="section-8.1-2.2.1">Subtype name: dpop-proof+cwt<a href="#section-8.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.3">
-            <p id="section-7.1-2.3.1">Required parameters: N/A<a href="#section-7.1-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.3">
+            <p id="section-8.1-2.3.1">Required parameters: N/A<a href="#section-8.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.4">
-            <p id="section-7.1-2.4.1">Optional parameters: N/A<a href="#section-7.1-2.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.4">
+            <p id="section-8.1-2.4.1">Optional parameters: N/A<a href="#section-8.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.5">
-            <p id="section-7.1-2.5.1">Encoding considerations: binary (CBOR)<a href="#section-7.1-2.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.5">
+            <p id="section-8.1-2.5.1">Encoding considerations: binary (CBOR)<a href="#section-8.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.6">
-            <p id="section-7.1-2.6.1">Security considerations: see the "DPoP for MOQT" section of RFCXXXX<a href="#section-7.1-2.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.6">
+            <p id="section-8.1-2.6.1">Security considerations: see the "DPoP for MOQT" section of RFCXXXX<a href="#section-8.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.7">
-            <p id="section-7.1-2.7.1">Interoperability considerations: N/A<a href="#section-7.1-2.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.7">
+            <p id="section-8.1-2.7.1">Interoperability considerations: N/A<a href="#section-8.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.8">
-            <p id="section-7.1-2.8.1">Published specification: RFCXXXX<a href="#section-7.1-2.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.8">
+            <p id="section-8.1-2.8.1">Published specification: RFCXXXX<a href="#section-8.1-2.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.9">
-            <p id="section-7.1-2.9.1">Applications that use this media type: MOQT clients and relays that
-use DPoP-bound CAT tokens<a href="#section-7.1-2.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.9">
+            <p id="section-8.1-2.9.1">Applications that use this media type: MOQT clients and relays that
+use DPoP-bound CAT tokens<a href="#section-8.1-2.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.10">
-            <p id="section-7.1-2.10.1">Fragment identifier considerations: N/A<a href="#section-7.1-2.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.10">
+            <p id="section-8.1-2.10.1">Fragment identifier considerations: N/A<a href="#section-8.1-2.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.11">
-            <p id="section-7.1-2.11.1">Additional information: N/A<a href="#section-7.1-2.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.11">
+            <p id="section-8.1-2.11.1">Additional information: N/A<a href="#section-8.1-2.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.12">
-            <p id="section-7.1-2.12.1">Person and email address to contact for further information: Media
-Over QUIC Working Group, moq@ietf.org<a href="#section-7.1-2.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.12">
+            <p id="section-8.1-2.12.1">Person and email address to contact for further information: Media
+Over QUIC Working Group, moq@ietf.org<a href="#section-8.1-2.12.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.13">
-            <p id="section-7.1-2.13.1">Intended usage: COMMON<a href="#section-7.1-2.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.13">
+            <p id="section-8.1-2.13.1">Intended usage: COMMON<a href="#section-8.1-2.13.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.14">
-            <p id="section-7.1-2.14.1">Restrictions on usage: N/A<a href="#section-7.1-2.14.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.14">
+            <p id="section-8.1-2.14.1">Restrictions on usage: N/A<a href="#section-8.1-2.14.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.15">
-            <p id="section-7.1-2.15.1">Author: Media Over QUIC Working Group<a href="#section-7.1-2.15.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.15">
+            <p id="section-8.1-2.15.1">Author: Media Over QUIC Working Group<a href="#section-8.1-2.15.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-2.16">
-            <p id="section-7.1-2.16.1">Change controller: IETF<a href="#section-7.1-2.16.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-2.16">
+            <p id="section-8.1-2.16.1">Change controller: IETF<a href="#section-8.1-2.16.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="moqt-auth-token-type-registry">
-<section id="section-7.2">
+<section id="section-8.2">
         <h3 id="name-moqt-auth-token-type-regist">
-<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-moqt-auth-token-type-regist" class="section-name selfRef">MOQT Auth Token Type Registry</a>
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-moqt-auth-token-type-regist" class="section-name selfRef">MOQT Auth Token Type Registry</a>
         </h3>
-<p id="section-7.2-1">This document registers the following entry in the "MOQT Auth Token Type"
-registry established by <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>:<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-8.2-1">This document registers the following entry in the "MOQT Auth Token Type"
+registry established by <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>:<a href="#section-8.2-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-4">
           <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
 <thead>
@@ -2224,34 +2309,34 @@ registry established by <span>[<a href="#MoQTransport" class="cite xref">MoQTran
           </tbody>
         </table>
 <div id="cat-token-type-0x01">
-<section id="section-7.2.1">
+<section id="section-8.2.1">
           <h4 id="name-cat-token-type-0x01">
-<a href="#section-7.2.1" class="section-number selfRef">7.2.1. </a><a href="#name-cat-token-type-0x01" class="section-name selfRef">CAT Token Type (0x01)</a>
+<a href="#section-8.2.1" class="section-number selfRef">8.2.1. </a><a href="#name-cat-token-type-0x01" class="section-name selfRef">CAT Token Type (0x01)</a>
           </h4>
-<p id="section-7.2.1-1">When the Auth Token Type is set to 0x01, the Token Payload field contains
+<p id="section-8.2.1-1">When the Auth Token Type is set to 0x01, the Token Payload field contains
 a Common Access Token (CAT) <span>[<a href="#CAT" class="cite xref">CAT</a>]</span> serialized as a CBOR-encoded CWT
-(CBOR Web Token).<a href="#section-7.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.2.1-2">The token <span class="bcp14">MUST</span> be processed according to the validation rules defined in
-this specification. Relays receiving a token with this type <span class="bcp14">MUST</span>:<a href="#section-7.2.1-2" class="pilcrow">¶</a></p>
+(CBOR Web Token).<a href="#section-8.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.2.1-2">The token <span class="bcp14">MUST</span> be processed according to the validation rules defined in
+this specification. Relays receiving a token with this type <span class="bcp14">MUST</span>:<a href="#section-8.2.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.2.1-3.1">
-              <p id="section-7.2.1-3.1.1">Validate the token signature or MAC<a href="#section-7.2.1-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8.2.1-3.1">
+              <p id="section-8.2.1-3.1.1">Validate the token signature or MAC<a href="#section-8.2.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-7.2.1-3.2">
-              <p id="section-7.2.1-3.2.1">Verify token expiration and other standard CWT claims<a href="#section-7.2.1-3.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-8.2.1-3.2">
+              <p id="section-8.2.1-3.2.1">Verify token expiration and other standard CWT claims<a href="#section-8.2.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-7.2.1-3.3">
-              <p id="section-7.2.1-3.3.1">Process the "moqt" claim (if present) to authorize MOQT actions<a href="#section-7.2.1-3.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-8.2.1-3.3">
+              <p id="section-8.2.1-3.3.1">Process the "moqt" claim (if present) to authorize MOQT actions<a href="#section-8.2.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-7.2.1-3.4">
-              <p id="section-7.2.1-3.4.1">Process the "moqt-reval" claim (if present) for revalidation requirements<a href="#section-7.2.1-3.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-8.2.1-3.4">
+              <p id="section-8.2.1-3.4.1">Process the "moqt-reval" claim (if present) for revalidation requirements<a href="#section-8.2.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-7.2.1-3.5">
-              <p id="section-7.2.1-3.5.1">Process DPoP claims (if present) according to the "DPoP for MOQT" section<a href="#section-7.2.1-3.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-8.2.1-3.5">
+              <p id="section-8.2.1-3.5.1">Process DPoP claims (if present) according to the "DPoP for MOQT" section<a href="#section-8.2.1-3.5.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-7.2.1-4">If the token fails validation, the relay <span class="bcp14">MUST</span> reject the connection or
-action with an appropriate error.<a href="#section-7.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-8.2.1-4">If the token fails validation, the relay <span class="bcp14">MUST</span> reject the connection or
+action with an appropriate error.<a href="#section-8.2.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2259,9 +2344,9 @@ action with an appropriate error.<a href="#section-7.2.1-4" class="pilcrow">¶</
 </section>
 </div>
 <div id="sec-normative-references">
-<section id="section-8">
+<section id="section-9">
       <h2 id="name-normative-references">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
       </h2>
 <dl class="references">
 <dt id="BASE64">[BASE64]</dt>
@@ -2316,6 +2401,10 @@ action with an appropriate error.<a href="#section-7.2.1-4" class="pilcrow">¶</
       <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC8392">[RFC8392]</dt>
+      <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Wahlstroem, E.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"CBOR Web Token (CWT)"</span>, <span class="seriesInfo">RFC 8392</span>, <span class="seriesInfo">DOI 10.17487/RFC8392</span>, <time datetime="2018-05" class="refDate">May 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8392">https://www.rfc-editor.org/rfc/rfc8392</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC9528">[RFC9528]</dt>
       <dd>
 <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Preuß Mattsson, J.</span>, and <span class="refAuthor">F. Palombini</span>, <span class="refTitle">"Ephemeral Diffie-Hellman Over COSE (EDHOC)"</span>, <span class="seriesInfo">RFC 9528</span>, <span class="seriesInfo">DOI 10.17487/RFC9528</span>, <time datetime="2024-03" class="refDate">March 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9528">https://www.rfc-editor.org/rfc/rfc9528</a>&gt;</span>. </dd>
@@ -2333,8 +2422,21 @@ action with an appropriate error.<a href="#section-7.2.1-4" class="pilcrow">¶</
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-appendix-a-test-vectors" class="section-name selfRef">Appendix A: Test Vectors</a>
       </h2>
 <p id="appendix-A-1">This appendix provides test vectors in JSON format for cross-implementation
-validation of CAT tokens for MOQT. Token strings use the base64url encoding
-defined in <span>[<a href="#BASE64" class="cite xref">BASE64</a>]</span> with the three-part structure: header.payload.signature.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+validation of CAT tokens for MOQT. Tokens use COSE_Mac0 (CBOR tag 17) for
+HMAC-SHA256 or COSE_Sign1 (CBOR tag 18) for ES256. Token strings are the
+base64url encoding of the full COSE structure.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">The JSON is only a container for the vectors; it does not define a JSON
+representation of CAT claims. The "payload_cbor_hex" value is the
+normative claim set. The "claims_edn" value shows the same claim set in
+CBOR Extended Diagnostic Notation <span>[<a href="#EDN" class="cite xref">EDN</a>]</span>, with claim names as comments.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<p id="appendix-A-3">Long string values are folded across lines to fit this document. The line
+breaks and the indentation that follows them are not part of the JSON
+string. To unfold a hex or base64url value, remove each line break and the
+indentation after it. In "description" and "claims_edn" values, replace
+each line break and its indentation with a single space.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+<p id="appendix-A-4">The moqt and moqt-reval claims do not yet have assigned claim keys
+(TBD_MOQT and TBD_MOQT_REVAL). These vectors use the Private Use claim keys
+-65537 for moqt and -65538 for moqt-reval <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span> as placeholders.<a href="#appendix-A-4" class="pilcrow">¶</a></p>
 <div id="keys">
 <section id="appendix-A.1">
         <h3 id="name-keys">
@@ -2369,90 +2471,88 @@ defined in <span>[<a href="#BASE64" class="cite xref">BASE64</a>]</span> with th
   {
     "id": "cbor_issuer_only",
     "description": "Minimal token with only issuer claim",
-    "claims": {
-      "iss": "https://auth.example.com"
-    },
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\"}",
     "payload_cbor_hex":
       "a101781868747470733a2f2f617574682e6578616d706c652e636f6d"
   },
   {
     "id": "cbor_core_claims",
     "description": "All core CWT claims (iss, aud, exp, nbf, cti)",
-    "claims": {
-      "iss": "https://auth.example.com",
-      "aud": ["https://relay.example.com"],
-      "exp": 1700086400,
-      "nbf": 1700000000,
-      "cti": "test-token-001"
-    },
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\",
+       3 /aud/: [\"https://relay.example.com\"], 4 /exp/: 1700086400,
+       5 /nbf/: 1700000000, 7 /cti/: h'746573742d746f6b656e2d303031'}",
     "payload_cbor_hex":
-      "a501781868747470733a2f2f617574682e6578616d706c652e636f6d03
-       81781968747470733a2f2f72656c61792e6578616d706c652e636f6d04
-       1a65554280051a6553f100074e746573742d746f6b656e2d303031"
+      "a501781868747470733a2f2f617574682e6578616d706c652e636f6d
+       0381781968747470733a2f2f72656c61792e6578616d706c652e636f
+       6d041a65554280051a6553f100074e746573742d746f6b656e2d3030
+       31"
   },
   {
-    "id": "cbor_cat_version_usage",
-    "description": "CAT version string and usage limit",
-    "claims": {
-      "catv": "CAT-v1",
-      "catu": 5
-    },
+    "id": "cbor_cat_version_uri",
+    "description": "CAT version (uint 1) and URI match rule",
+    "claims_edn":
+      "{310 /catv/: 1,
+       312 /catu/: {1 /host/: {0 /exact/: \"example.com\"}}}",
     "payload_cbor_hex":
-      "a2190136664341542d763119013805"
+      "a219013601190138a101a1006b6578616d706c652e636f6d"
   },
   {
     "id": "cbor_network_identifiers",
     "description": "Network identifiers: IP, CIDR, ASN, ASN range",
-    "claims": {
-      "catnip": [
-        {"type": "ip_address", "value": "192.168.1.100"},
-        {"type": "ip_range", "value": "10.0.0.0/8"},
-        {"type": "asn", "value": 64512},
-        {"type": "asn_range", "value": [64512, 64768]}
-      ]
-    },
+    "claims_edn":
+      "{311 /catnip/: [52(h'c0a80164'), 52([8, h'0a']), 64512, [64512,
+       64768]]}",
     "payload_cbor_hex":
-      "a1190137846d3139322e3136382e312e313030a16869705f72616e6765
-       6a31302e302e302e302f38a16361736e19fc00a16961736e5f72616e67
-       658219fc0019fd00"
+      "a119013784d83444c0a80164d8348208410a19fc008219fc0019fd00"
   },
   {
     "id": "cbor_geographic_claims",
-    "description": "Geographic claims: coordinates, geohash, ISO 3166, altitude",
-    "claims": {
-      "geohash": "9q8yyk",
-      "catgeoiso3166": ["US", "CA"],
-      "catgeocoord": {"lat": 37.7749, "lon": -122.4194, "accuracy": 100.0},
-      "catgeoalt": 10
-    },
+    "description":
+      "Geographic claims: coordinates, geohash, ISO 3166, altitude",
+    "claims_edn":
+      "{282 /geohash/: \"9q8yyk\", 316 /catgeoiso3166/: [\"US\",
+       \"CA\"], 317 /catgeocoord/: [[37.7749, -122.4194, 100]],
+       318 /catgeoalt/: [10, 5]}",
     "payload_cbor_hex":
-      "a419011a6639713879796b19013c8262555362434119013da3636c6174
-       fb4042e32fec56d5d0636c6f6efbc05e9ad77318fc506861636375726
-       16379f956401901 3e0a"
+      "a419011a6639713879796b19013c8262555362434119013d8183fb40
+       42e32fec56d5d0fbc05e9ad77318fc50186419013e820a05"
   },
   {
-    "id": "cbor_uri_patterns",
-    "description": "URI patterns: exact, prefix, suffix",
-    "claims": {
-      "cath": [
-        {"type": "exact", "value": "https://example.com/live/stream1"},
-        {"type": "prefix", "value": "https://example.com/vod/"},
-        {"type": "suffix", "value": ".m3u8"}
-      ]
-    },
+    "id": "cbor_uri_match_rules",
+    "description":
+      "URI match rules: host exact, path prefix, extension exact",
+    "claims_edn":
+      "{312 /catu/: {1 /host/: {0 /exact/: \"example.com\"},
+       3 /path/: {1 /prefix/: \"/vod/\"},
+       8 /extension/: {0 /exact/: \".m3u8\"}}}",
     "payload_cbor_hex":
-      "a119013b83782068747470733a2f2f6578616d706c652e636f6d2f6c6
-       976652f73747265616d31a166707265666978781868747470733a2f2f65
-       78616d706c652e636f6d2f766f642fa166737566666978652e6d337538"
+      "a1190138a301a1006b6578616d706c652e636f6d03a101652f766f64
+       2f08a100652e6d337538"
+  },
+  {
+    "id": "cbor_catu_with_moqt",
+    "description":
+      "catu (HTTP) and moqt (MOQT) in one token: host
+       exact + path prefix, and Subscribe/Fetch on namespace
+       (example.com, vod)",
+    "claims_edn":
+      "{312 /catu/: {1 /host/: {0 /exact/: \"example.com\"},
+       3 /path/: {1 /prefix/: \"/vod/\"}}, -65537 /moqt/: {0: [[[4,
+       7], [h'6578616d706c652e636f6d', h'766f64']]]}}",
+    "payload_cbor_hex":
+      "a2190138a201a1006b6578616d706c652e636f6d03a101652f766f64
+       2f3a00010000a1008182820407824b6578616d706c652e636f6d4376
+       6f64"
   },
   {
     "id": "cbor_alpn",
     "description": "ALPN protocol identifiers",
-    "claims": {
-      "catalpn": ["moq-00", "h3"]
-    },
+    "claims_edn":
+      "{314 /catalpn/: [h'6d6f712d3030', h'6833']}",
     "payload_cbor_hex":
-      "a119013a82666d6f712d3030626833"
+      "a119013a82466d6f712d3030426833"
   }
 ]
 </pre><a href="#appendix-A.2-2" class="pilcrow">¶</a>
@@ -2464,126 +2564,111 @@ defined in <span>[<a href="#BASE64" class="cite xref">BASE64</a>]</span> with th
         <h3 id="name-token-structure">
 <a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-token-structure" class="section-name selfRef">Token Structure</a>
         </h3>
-<p id="appendix-A.3-1">These vectors validate the full token structure (header.payload.signature)
-with cryptographic verification.<a href="#appendix-A.3-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.3-1">These vectors validate the full COSE_Mac0 (tag 17) and COSE_Sign1 (tag 18)
+token structure with cryptographic verification. Each vector includes the
+COSE binary encoding (cose_hex) and its base64url representation (cose_b64).<a href="#appendix-A.3-1" class="pilcrow">¶</a></p>
 <div class="breakable lang-json sourcecode" id="appendix-A.3-2">
 <pre>
 [
   {
     "id": "token_hmac_minimal",
-    "description": "Minimal token signed with HMAC-SHA256",
+    "description": "Minimal COSE_Mac0 token signed with HMAC-SHA256",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\",
+       3 /aud/: [\"https://relay.example.com\"], 4 /exp/: 1700086400}",
     "algorithm": "HMAC-SHA256",
-    "algorithm_id": -4,
-    "claims": {
-      "iss": "https://auth.example.com",
-      "aud": ["https://relay.example.com"],
-      "exp": 1700086400
-    },
-    "header_cbor_hex": "a201231063434154",
-    "header_b64": "ogEjEGNDQVQ",
+    "algorithm_id": 5,
+    "header_cbor_hex": "a201051063434154",
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
        0381781968747470733a2f2f72656c61792e6578616d706c652e636f
        6d041a65554280",
-    "payload_b64":
-      "owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3
-       JlbGF5LmV4YW1wbGUuY29tBBplVUKA",
-    "signature_hex":
-      "5b5ec60fb1a3f81d18b5e8d7edf4702e55261248def8c13cd6809cf6
-       865a6986",
-    "signature_b64":
-      "W17GD7Gj-B0YtejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+    "tag_hex":
+      "16ca16a2d4e2476528ae858d91b00f257a507fe57284bfb13d7d6ca1
+       f065e230",
     "key_hex":
       "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
        1c1d1e1f",
-    "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB
-       lodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.W17GD7Gj-B0Y
-       tejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+    "cose_hex":
+      "d18448a201051063434154a0583fa301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d0381781968747470733a2f2f7265
+       6c61792e6578616d706c652e636f6d041a65554280582016ca16a2d4
+       e2476528ae858d91b00f257a507fe57284bfb13d7d6ca1f065e230",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWD-jAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       A4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoBYIBbKFqLU
+       4kdlKK6FjZGwDyV6UH_lcoS_sT19bKHwZeIw",
     "valid": true
   },
   {
     "id": "token_hmac_full",
     "description":
-      "Token with core + CAT + informational claims, HMAC-SHA256",
+      "COSE_Mac0 token with core + CAT + informational claims,
+       HMAC-SHA256",
+    "claims_edn":
+      "{1 /iss/: \"https://issuer.moq.example\",
+       2 /sub/: \"user:alice@example.com\",
+       3 /aud/: [\"https://relay1.example.com\",
+       \"https://relay2.example.com\"], 4 /exp/: 1700086400,
+       5 /nbf/: 1700000000, 6 /iat/: 1700000000,
+       7 /cti/: h'766563746f722d303032', 310 /catv/: 1,
+       311 /catnip/: [52(h'cb007132')],
+       312 /catu/: {3 /path/: {1 /prefix/: \"/live/\"}}}",
     "algorithm": "HMAC-SHA256",
-    "algorithm_id": -4,
-    "claims": {
-      "iss": "https://issuer.moq.example",
-      "sub": "user:alice@example.com",
-      "aud": [
-        "https://relay1.example.com",
-        "https://relay2.example.com"
-      ],
-      "exp": 1700086400,
-      "nbf": 1700000000,
-      "iat": 1700000000,
-      "cti": "vector-002",
-      "catv": "CAT-v1",
-      "catnip": [{"type": "ip_address", "value": "203.0.113.50"}],
-      "catu": 10
-    },
-    "header_cbor_hex": "a201231063434154",
-    "header_b64": "ogEjEGNDQVQ",
+    "algorithm_id": 5,
+    "header_cbor_hex": "a201051063434154",
     "payload_cbor_hex":
       "aa01781a68747470733a2f2f6973737565722e6d6f712e6578616d70
        6c650276757365723a616c696365406578616d706c652e636f6d0382
        781a68747470733a2f2f72656c6179312e6578616d706c652e636f6d
        781a68747470733a2f2f72656c6179322e6578616d706c652e636f6d
        041a65554280051a6553f100061a6553f100074a766563746f722d30
-       3032190136664341542d7631190137816c3230332e302e3131332e35
-       301901380a",
-    "payload_b64":
-      "qgF4Gmh0dHBzOi8vaXNzdWVyLm1vcS5leGFtcGxlAnZ1c2VyOmFsa
-       WNlQGV4YW1wbGUuY29tA4J4Gmh0dHBzOi8vcmVsYXkxLmV4YW1wbG
-       UuY29teBpodHRwczovL3JlbGF5Mi5leGFtcGxlLmNvbQQaZVVCgAUa
-       ZVPxAAYaZVPxAAdKdmVjdG9yLTAwMhkBNmZDQVQtdjEZATeBbDIwMy
-       4wLjExMy41MBkBOAo",
-    "signature_hex":
-      "02aa58a31e34ab53fab3c755b47cf08f458a3603da4d933d7c0b1ce4
-       614f44da",
-    "signature_b64":
-      "AqpYox40q1P6s8dVtHzwj0WKNgPaTZM9fAsc5GFPRNo",
+       30321901360119013781d83444cb007132190138a103a101662f6c69
+       76652f",
+    "tag_hex":
+      "29c1a6612ce6d49273fd8c0116b9decbc287662d5ba5d67defafaf6f
+       f0c11278",
     "key_hex":
       "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
        1c1d1e1f",
-    "token":
-      "ogEjEGNDQVQ.qgF4Gmh0dHBzOi8vaXNzdWVyLm1vcS5leGFtcGxlAn
-       Z1c2VyOmFsaWNlQGV4YW1wbGUuY29tA4J4Gmh0dHBzOi8vcmVsYXkx
-       LmV4YW1wbGUuY29teBpodHRwczovL3JlbGF5Mi5leGFtcGxlLmNvbQQ
-       aZVVCgAUaZVPxAAYaZVPxAAdKdmVjdG9yLTAwMhkBNmZDQVQtdjEZAT
-       eBbDIwMy4wLjExMy41MBkBOAo.AqpYox40q1P6s8dVtHzwj0WKNgPaTZ
-       M9fAsc5GFPRNo",
+    "cose_hex":
+      "d18448a201051063434154a058abaa01781a68747470733a2f2f6973
+       737565722e6d6f712e6578616d706c650276757365723a616c696365
+       406578616d706c652e636f6d0382781a68747470733a2f2f72656c61
+       79312e6578616d706c652e636f6d781a68747470733a2f2f72656c61
+       79322e6578616d706c652e636f6d041a65554280051a6553f100061a
+       6553f100074a766563746f722d3030321901360119013781d83444cb
+       007132190138a103a101662f6c6976652f582029c1a6612ce6d49273
+       fd8c0116b9decbc287662d5ba5d67defafaf6ff0c11278",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWKuqAXgaaHR0cHM6Ly9pc3N1ZXIubW9xLmV4YW1w
+       bGUCdnVzZXI6YWxpY2VAZXhhbXBsZS5jb20DgngaaHR0cHM6Ly9yZWxh
+       eTEuZXhhbXBsZS5jb214Gmh0dHBzOi8vcmVsYXkyLmV4YW1wbGUuY29t
+       BBplVUKABRplU_EABhplU_EAB0p2ZWN0b3ItMDAyGQE2ARkBN4HYNETL
+       AHEyGQE4oQOhAWYvbGl2ZS9YICnBpmEs5tSSc_2MARa53svCh2YtW6XW
+       fe-vr2_wwRJ4",
     "valid": true
   },
   {
     "id": "token_es256",
     "description":
-      "Token signed with ES256 (P-256 ECDSA, deterministic RFC 6979)",
+      "COSE_Sign1 token signed with ES256
+       (P-256 ECDSA, deterministic RFC 6979)",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\",
+       3 /aud/: [\"https://moq-relay.example.com\"],
+       4 /exp/: 1700086400, 5 /nbf/: 1700000000}",
     "algorithm": "ES256",
     "algorithm_id": -7,
-    "claims": {
-      "iss": "https://auth.example.com",
-      "aud": ["https://moq-relay.example.com"],
-      "exp": 1700086400,
-      "nbf": 1700000000
-    },
     "header_cbor_hex": "a201261063434154",
-    "header_b64": "ogEmEGNDQVQ",
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
        0381781d68747470733a2f2f6d6f712d72656c61792e6578616d706c
        652e636f6d041a65554280051a6553f100",
-    "payload_b64":
-      "pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB1odHRwczovL2
-       1vcS1yZWxheS5leGFtcGxlLmNvbQQaZVVCgAUaZVPxAA",
     "signature_hex":
-      "fa3315e9de061fd77d814394428ae61da3d7a21fdffb19802b0c575c
-       578098e7cd4b6b75a1690deed4c2baae994bfc462e0d8a2006f3e897
-       80f3435738294d7a",
-    "signature_b64":
-      "-jMV6d4GH9d9gUOUQormHaPXoh_f-xmAKwxXXFeAmOfNS2t1oWkN7t
-       TCuq6ZS_xGLg2KIAbz6JeA80NXOClNeg",
+      "ed8cf586f32ba410f2b3097642eb32255c8dc555e9e058c48084809d
+       f557887bc5ee4974a9ef5c4557c1557de799628b634cafaa1b74c936
+       968e0c9c3a48f222",
     "private_key_hex":
       "c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b
        120f6721",
@@ -2593,11 +2678,18 @@ with cryptographic verification.<a href="#appendix-A.3-1" class="pilcrow">¶</a>
     "public_key_y_hex":
       "7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294
        d4462299",
-    "token":
-      "ogEmEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB
-       1odHRwczovL21vcS1yZWxheS5leGFtcGxlLmNvbQQaZVVCgAUaZVPxA
-       A.-jMV6d4GH9d9gUOUQormHaPXoh_f-xmAKwxXXFeAmOfNS2t1oWkN7
-       tTCuq6ZS_xGLg2KIAbz6JeA80NXOClNeg",
+    "cose_hex":
+      "d28448a201261063434154a05849a401781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d0381781d68747470733a2f2f6d6f
+       712d72656c61792e6578616d706c652e636f6d041a65554280051a65
+       53f1005840ed8cf586f32ba410f2b3097642eb32255c8dc555e9e058
+       c48084809df557887bc5ee4974a9ef5c4557c1557de799628b634caf
+       aa1b74c936968e0c9c3a48f222",
+    "cose_b64":
+      "0oRIogEmEGNDQVSgWEmkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       A4F4HWh0dHBzOi8vbW9xLXJlbGF5LmV4YW1wbGUuY29tBBplVUKABRpl
+       U_EAWEDtjPWG8yukEPKzCXZC6zIlXI3FVengWMSAhICd9VeIe8XuSXSp
+       71xFV8FVfeeZYotjTK-qG3TJNpaODJw6SPIi",
     "valid": true
   }
 ]
@@ -2618,70 +2710,116 @@ in CAT tokens.<a href="#appendix-A.4-1" class="pilcrow">¶</a></p>
   {
     "id": "dpop_jwk_binding",
     "description":
-      "Token with DPoP key binding (JWK thumbprint in cnf claim)",
+      "HMAC token with DPoP cnf-jkt derived from the fixed ES256
+       test key (RFC 7638 JWK thumbprint)",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       8 /cnf/: {323: h'0cebf1bc9880748a95588905b79843b42ba75cb174055
+       e3e246bf87fe00b4a6d'}, 321 /catdpop/: {0: 60, 1: 1}}",
     "dpop": {
       "cnf_jkt_hex":
-        "a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1",
+        "0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87f
+         e00b4a6d",
+      "cnf_jkt_source":
+        "SHA-256(RFC 7638 canonical JWK of ES256 test key)",
       "window_seconds": 60,
       "honor_jti": true
     },
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428008a1035820a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6
-       f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1190141a200183c0101",
-    "token":
-      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgAihA1ggoLHC0-T1prfI2eDxorPE1eb3qLnA0eLzpLXG1-j5oLEZA
-       UGiABg8AQE.sN9kLIp64zIN9zDXoTLYC0xsJU_1FNF3kaO0CbdA_3M"
+       041a6555428008a119014358200cebf1bc9880748a95588905b79843
+       b42ba75cb174055e3e246bf87fe00b4a6d190141a200183c0101",
+    "cose_hex":
+      "d18448a201051063434154a05852a401781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a6555428008a119014358200c
+       ebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe0
+       0b4a6d190141a200183c01015820cef11ccef3533e37884638bbff1e
+       08cbcf3d6846afcc0257bf2530416b076242",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWFKkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKACKEZAUNYIAzr8byYgHSKlViJBbeYQ7Qrp1yxdAVePiRr-H_g
+       C0ptGQFBogAYPAEBWCDO8RzO81M-N4hGOLv_HgjLzz1oRq_MAle_JTBB
+       awdiQg"
   },
   {
     "id": "dpop_no_jti",
     "description":
       "DPoP binding with longer window, JTI processing disabled",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       8 /cnf/: {323: h'3c82dfd6358ba804bd90879c34e743bbe13aeab798066
+       4944f37a0ec0063fe95'}, 321 /catdpop/: {0: 300, 1: 0}}",
     "dpop": {
       "cnf_jkt_hex":
-        "3c82dfd6358ba804bd90879c34e743bbe13aeab7980664944f37a0ec0063fe95",
+        "3c82dfd6358ba804bd90879c34e743bbe13aeab7980664944f37a0ec
+         0063fe95",
       "cnf_jkt_source": "SHA-256 of 'test-public-key-material'",
       "window_seconds": 300,
       "honor_jti": false
     },
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428008a10358203c82dfd6358ba804bd90879c34e743bbe13a
-       eab7980664944f37a0ec0063fe95190141a20019012c0100",
-    "token":
-      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgAihA1ggPILf1jWLqAS9kIecNOdDu-E66reYBmSUTzeg7ABj_pUZA
-       UGiABkBLAEA.M4lF5pQdxav6eIWqDjbchDkijVYOM7xa3oJR2IwWt9g"
+       041a6555428008a119014358203c82dfd6358ba804bd90879c34e743
+       bbe13aeab7980664944f37a0ec0063fe95190141a20019012c0100",
+    "cose_hex":
+      "d18448a201051063434154a05853a401781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a6555428008a119014358203c
+       82dfd6358ba804bd90879c34e743bbe13aeab7980664944f37a0ec00
+       63fe95190141a20019012c01005820ecb7a5b5667b95f20c67341771
+       8eac9f5d997fd427485942a61048cdd8c50e0c",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWFOkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKACKEZAUNYIDyC39Y1i6gEvZCHnDTnQ7vhOuq3mAZklE83oOwA
+       Y_6VGQFBogAZASwBAFgg7LeltWZ7lfIMZzQXcY6sn12Zf9QnSFlCphBI
+       zdjFDgw"
   },
   {
     "id": "dpop_es256_real_binding",
     "description":
-      "ES256 token with real JWK thumbprint binding to the signing key",
+      "ES256 token with real JWK thumbprint binding to the
+       signing key",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\",
+       3 /aud/: [\"https://relay.example.com\"], 4 /exp/: 1700086400,
+       8 /cnf/: {323: h'0cebf1bc9880748a95588905b79843b42ba75cb174055
+       e3e246bf87fe00b4a6d'}, 321 /catdpop/: {0: 120}}",
     "algorithm": "ES256",
     "jwk_thumbprint_input":
-      "{\"crv\":\"P-256\",\"kty\":\"EC\",\"x\":\"YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y\",\"y\":\"eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk\"}",
+      "{\"crv\":\"P-256\",\"kty\":\"EC\",\"x\":\"YP7UuiVanTHJYet0
+       xjVtaMBJuJI7Yfps5mliLmDyn7Y\",\"y\":\"eQP-EAi4vJmkGunpVii
+       8ZPLxsgwtfp9Rd6PClNRGIpk\"}",
     "dpop": {
       "cnf_jkt_hex":
-        "0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+        "0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87f
+         e00b4a6d",
       "window_seconds": 120,
       "honor_jti": null
     },
     "public_key_x_hex":
-      "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6",
+      "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e
+       60f29fb6",
     "public_key_y_hex":
-      "7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299",
+      "7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294
+       d4462299",
     "payload_cbor_hex":
       "a501781868747470733a2f2f617574682e6578616d706c652e636f6d
-       0381781968747470733a2f2f72656c61792e6578616d706c652e636f6d
-       041a6555428008a10358200cebf1bc9880748a95588905b79843b42ba7
-       5cb174055e3e246bf87fe00b4a6d190141a1001878",
-    "token":
-      "ogEmEGNDQVQ.pQF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB
-       lodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKACKEDWCAM6_G8m
-       IB0ipVYiQW3mEO0K6dcsXQFXj4ka_h_4AtKbRkBQaEAGHg.5andoxOh
-       WXQIKWR3EMHWT-WIMPBDMYQFc61nzlfZs8zmgzwcOARpmlaB3ZS5MbJ
-       9iCYWykYAcIzJ81nMyyZoQw"
+       0381781968747470733a2f2f72656c61792e6578616d706c652e636f
+       6d041a6555428008a119014358200cebf1bc9880748a95588905b798
+       43b42ba75cb174055e3e246bf87fe00b4a6d190141a1001878",
+    "cose_hex":
+      "d28448a201261063434154a0586da501781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d0381781968747470733a2f2f7265
+       6c61792e6578616d706c652e636f6d041a6555428008a11901435820
+       0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87f
+       e00b4a6d190141a10018785840cdb69dc3db876b1d05a8f808e5286a
+       861026fc8b58b9a9aa97f23bdf0253ff56357f9129ee9b0966770135
+       7c8d700721b3029928d4fe573d56a88744dce04f82",
+    "cose_b64":
+      "0oRIogEmEGNDQVSgWG2lAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       A4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoAIoRkBQ1gg
+       DOvxvJiAdIqVWIkFt5hDtCunXLF0BV4-JGv4f-ALSm0ZAUGhABh4WEDN
+       tp3D24drHQWo-AjlKGqGECb8i1i5qaqX8jvfAlP_VjV_kSnumwlmdwE1
+       fI1wByGzApko1P5XPVaoh0Tc4E-C"
   }
 ]
 </pre><a href="#appendix-A.4-2" class="pilcrow">¶</a>
@@ -2703,6 +2841,10 @@ results for various action, namespace, and track combinations.<a href="#appendix
     "id": "moqt_publisher_exact",
     "description":
       "Publisher scope: exact namespace match, prefix track match",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       -65537 /moqt/: {0: [[[2, 6], [h'6578616d706c652e636f6d',
+       h'616c696365'], [1, h'766964656f2d']]]}}",
     "moqt_scopes": [
       {
         "actions": [2, 6],
@@ -2721,12 +2863,18 @@ results for various action, namespace, and track combinations.<a href="#appendix
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428019014781838202068 24b6578616d706c652e636f6d4561
-       6c696365820146766964656f2d",
-    "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgBkBR4GDggIGgktleGFtcGxlLmNvbUVhbGljZYIBRnZpZGVvLQ.oA
-       PD24Wu_zHnDcuM6a-ePeGvRJjbCa6U7iswdsKzFDk",
+       041a655542803a00010000a1008183820206824b6578616d706c652e
+       636f6d45616c696365820146766964656f2d",
+    "cose_hex":
+      "d18448a201051063434154a0584aa301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000a10081
+       83820206824b6578616d706c652e636f6d45616c6963658201467669
+       64656f2d5820467c57ade72d6be629b745ef33d6e28ec38ba1ca8bd3
+       feb851f3832af94fe686",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWEqjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAAChAIGDggIGgktleGFtcGxlLmNvbUVhbGljZYIBRnZp
+       ZGVvLVggRnxXrecta-Ypt0XvM9bijsOLocqL0_64UfODKvlP5oY",
     "authorization_tests": [
       {"action": 2, "namespace": ["example.com", "alice"],
        "track": "video-hd", "expected": true},
@@ -2744,6 +2892,10 @@ results for various action, namespace, and track combinations.<a href="#appendix
     "id": "moqt_subscriber_prefix",
     "description":
       "Subscriber scope: prefix namespace match, any track",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       -65537 /moqt/: {0: [[[3, 4, 7], [[1,
+       h'636f6e666572656e63652e6578616d706c65']]]]}}",
     "moqt_scopes": [
       {
         "actions": [3, 4, 7],
@@ -2758,12 +2910,18 @@ results for various action, namespace, and track combinations.<a href="#appendix
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a65554280190147818283030407818201 52636f6e666572656e6365
-       2e6578616d706c65",
-    "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgBkBR4GCgwMEB4GCAVJjb25mZXJlbmNlLmV4YW1wbGU.pfUPZultm
-       yCm1GF2PvPXAYXzvK6d1D-OFNBLG1AwjDg",
+       041a655542803a00010000a10081828303040781820152636f6e6665
+       72656e63652e6578616d706c65",
+    "cose_hex":
+      "d18448a201051063434154a05845a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000a10081
+       828303040781820152636f6e666572656e63652e6578616d706c6558
+       20e0502202b8c01d5ab61508cd19b7dd943b287be0f26c3d37c12e58
+       3ca87a937b",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWEWjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAAChAIGCgwMEB4GCAVJjb25mZXJlbmNlLmV4YW1wbGVY
+       IOBQIgK4wB1athUIzRm33ZQ7KHvg8mw9N8EuWDyoepN7",
     "authorization_tests": [
       {"action": 4, "namespace": ["conference.example.room1"],
        "track": "audio", "expected": true},
@@ -2778,7 +2936,13 @@ results for various action, namespace, and track combinations.<a href="#appendix
   {
     "id": "moqt_multi_scope",
     "description":
-      "Multi-scope token: publish to specific namespace, subscribe to prefix, with revalidation",
+      "Multi-scope token: publish to specific namespace, subscribe
+       to prefix, with revalidation",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       -65537 /moqt/: {0: [[[2, 6], [h'6c6976652e6578616d706c65',
+       h'73747564696f2d61']], [[4, 7], [[1,
+       h'6c6976652e6578616d706c65']]]]}, -65538 /moqt-reval/: 300}",
     "moqt_reval": 300.0,
     "moqt_scopes": [
       {
@@ -2804,14 +2968,21 @@ results for various action, namespace, and track combinations.<a href="#appendix
     ],
     "payload_cbor_hex":
       "a401781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a655542801901478282820206824c6c6976652e6578616d706c6548
-       73747564696f2d61828204078182014c6c6976652e6578616d706c6519
-       0148f95cb0",
-    "token":
-      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgBkBR4KCggIGgkxsaXZlLmV4YW1wbGVIc3R1ZGlvLWGCggQHgYIBT
-       GxpdmUuZXhhbXBsZRkBSPlcsA.byEzQmxc28UXFyFekHtgOtaVmWyIPl
-       -63xNMOF0Q_IU",
+       041a655542803a00010000a1008282820206824c6c6976652e657861
+       6d706c654873747564696f2d61828204078182014c6c6976652e6578
+       616d706c653a0001000119012c",
+    "cose_hex":
+      "d18448a201051063434154a05861a401781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000a10082
+       82820206824c6c6976652e6578616d706c654873747564696f2d6182
+       8204078182014c6c6976652e6578616d706c653a0001000119012c58
+       20f1080af59a719fbcb7a036aa6f9714f52ada467b8c1677c87ade0f
+       cfccaaf50f",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWGGkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAAChAIKCggIGgkxsaXZlLmV4YW1wbGVIc3R1ZGlvLWGC
+       ggQHgYIBTGxpdmUuZXhhbXBsZToAAQABGQEsWCDxCAr1mnGfvLegNqpv
+       lxT1KtpGe4wWd8h63g_PzKr1Dw",
     "authorization_tests": [
       {"action": 6, "namespace": ["live.example", "studio-a"],
        "track": "cam1", "expected": true},
@@ -2827,6 +2998,9 @@ results for various action, namespace, and track combinations.<a href="#appendix
     "id": "moqt_admin_wildcard",
     "description":
       "Admin scope: all actions, no namespace/track restriction",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       -65537 /moqt/: {0: [[[0, 1, 2, 3, 4, 5, 6, 7, 8]]]}}",
     "moqt_scopes": [
       {
         "actions": [0, 1, 2, 3, 4, 5, 6, 7, 8],
@@ -2841,11 +3015,16 @@ results for various action, namespace, and track combinations.<a href="#appendix
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a65554280190147818189000102030405060708",
-    "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgBkBR4GBiQABAgMEBQYHCA.XlNItz7OGqnNEbaqZ_bQh6TL-wV6SDr
-       8hXyOLmtQkj4",
+       041a655542803a00010000a100818189000102030405060708",
+    "cose_hex":
+      "d18448a201051063434154a05835a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000a10081
+       81890001020304050607085820172ebe07f227a41c319684ef916fdb
+       f142d391fac6902e38bcdcfb3966b46a50",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWDWjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAAChAIGBiQABAgMEBQYHCFggFy6-B_InpBwxloTvkW_b
+       8ULTkfrGkC44vNz7OWa0alA",
     "authorization_tests": [
       {"action": 0, "namespace": ["any.namespace"],
        "track": "any-track", "expected": true},
@@ -2859,6 +3038,10 @@ results for various action, namespace, and track combinations.<a href="#appendix
     "id": "moqt_suffix_match",
     "description":
       "Suffix matching on both namespace and track",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       -65537 /moqt/: {0: [[[4], [[2, h'2e6578616d706c652e636f6d']],
+       [2, h'2d617564696f']]]}}",
     "moqt_scopes": [
       {
         "actions": [4],
@@ -2875,12 +3058,18 @@ results for various action, namespace, and track combinations.<a href="#appendix
     ],
     "payload_cbor_hex":
       "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
-       041a6555428019014781838104818202 4c2e6578616d706c652e636f6d
-       8202462d617564696f",
-    "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZV
-       VCgBkBR4GDgQSBggJMLmV4YW1wbGUuY29tggJGLWF1ZGlv.-eGYTPe_n
-       1PeC0sgHdWCqgnKRHGYF-T89WTk269liBg",
+       041a655542803a00010000a100818381048182024c2e6578616d706c
+       652e636f6d8202462d617564696f",
+    "cose_hex":
+      "d18448a201051063434154a05846a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542803a00010000a10081
+       8381048182024c2e6578616d706c652e636f6d8202462d617564696f
+       5820602c1ceb2729485a2b5eb09249e254a41d42abd0b63b2846fd67
+       7d7fbf593920",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWEajAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAOgABAAChAIGDgQSBggJMLmV4YW1wbGUuY29tggJGLWF1ZGlv
+       WCBgLBzrJylIWitesJJJ4lSkHUKr0LY7KEb9Z31_v1k5IA",
     "authorization_tests": [
       {"action": 4, "namespace": ["cdn.example.com"],
        "track": "stream1-audio", "expected": true},
@@ -2895,15 +3084,151 @@ results for various action, namespace, and track combinations.<a href="#appendix
 </div>
 </section>
 </div>
-<div id="token-validation">
+<div id="composite-claims">
 <section id="appendix-A.6">
-        <h3 id="name-token-validation">
-<a href="#appendix-A.6" class="section-number selfRef">A.6. </a><a href="#name-token-validation" class="section-name selfRef">Token Validation</a>
+        <h3 id="name-composite-claims">
+<a href="#appendix-A.6" class="section-number selfRef">A.6. </a><a href="#name-composite-claims" class="section-name selfRef">Composite Claims</a>
         </h3>
-<p id="appendix-A.6-1">These vectors validate token processing: expected pass and fail scenarios.
-All tokens use HMAC-SHA256 with the key specified in the Keys section unless
-otherwise noted.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
-<div class="breakable lang-json sourcecode" id="appendix-A.6-2">
+<p id="appendix-A.6-1">These vectors validate composite claim encoding per
+<span>[<a href="#Composite" class="cite xref">Composite</a>]</span>. Each vector includes an outer
+token (iss, exp) with embedded composite claims. Tokens use COSE_Mac0 with
+HMAC-SHA256.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.6-2">The or, nor and and claims do not yet have assigned claim keys. Until they
+are allocated, these vectors encode every composite claim key as 0. 0 is
+not a valid claim key, so a verifier fails to parse these claims. The
+"claims_edn" value and the "operator" field identify which composite claim
+each 0 key stands for.<a href="#appendix-A.6-2" class="pilcrow">¶</a></p>
+<div class="breakable lang-json sourcecode" id="appendix-A.6-3">
+<pre>
+[
+  {
+    "id": "composite_or_simple",
+    "description":
+      "OR composite: at least one of two alternative claim sets
+       must be acceptable",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       0 /or/: [{1 /iss/: \"https://auth.example.com\",
+       4 /exp/: 1700086400, 310 /catv/: 1},
+       {1 /iss/: \"https://auth-backup.example.com\",
+       4 /exp/: 1700090000, 310 /catv/: 1}]}",
+    "composite": {"operator": "OR", "claim_key": 0},
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a655542800082a301781868747470733a2f2f617574682e657861
+       6d706c652e636f6d041a6555428019013601a301781f68747470733a
+       2f2f617574682d6261636b75702e6578616d706c652e636f6d041a65
+       55509019013601",
+    "cose_hex":
+      "d18448a201051063434154a05877a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542800082a30178186874
+       7470733a2f2f617574682e6578616d706c652e636f6d041a65554280
+       19013601a301781f68747470733a2f2f617574682d6261636b75702e
+       6578616d706c652e636f6d041a655550901901360158208ebb4ac5a3
+       4771116903baff5e544f3047468faeb077820f26ea2df940b6c58d",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWHejAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAAIKjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29tBBplVUKA
+       GQE2AaMBeB9odHRwczovL2F1dGgtYmFja3VwLmV4YW1wbGUuY29tBBpl
+       VVCQGQE2AVggjrtKxaNHcRFpA7r_XlRPMEdGj66wd4IPJuot-UC2xY0"
+  },
+  {
+    "id": "composite_and",
+    "description":
+      "AND composite: both claim sets must be acceptable",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       0 /and/: [{4 /exp/: 1700086400, 310 /catv/: 1},
+       {4 /exp/: 1700086400, 311 /catnip/: [52(h'0a000000')]}]}",
+    "composite": {"operator": "AND", "claim_key": 0},
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a655542800082a2041a6555428019013601a2041a655542801901
+       3781d834440a000000",
+    "cose_hex":
+      "d18448a201051063434154a05841a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542800082a2041a655542
+       8019013601a2041a6555428019013781d834440a00000058208ca321
+       3e71dfe3900fd910fcb7f6d365949e72e81ceba80f2ff24048502e9a
+       1a",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWEGjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAAIKiBBplVUKAGQE2AaIEGmVVQoAZATeB2DRECgAAAFggjKMh
+       PnHf45AP2RD8t_bTZZSecugc66gPL_JASFAumho"
+  },
+  {
+    "id": "composite_nor",
+    "description":
+      "NOR composite: none of the listed claim sets can be
+       acceptable",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       0 /nor/: [{1 /iss/: \"https://revoked.example.com\",
+       4 /exp/: 1700086400}]}",
+    "composite": {"operator": "NOR", "claim_key": 0},
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a655542800081a201781b68747470733a2f2f7265766f6b65642e
+       6578616d706c652e636f6d041a65554280",
+    "cose_hex":
+      "d18448a201051063434154a05849a301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542800081a201781b6874
+       7470733a2f2f7265766f6b65642e6578616d706c652e636f6d041a65
+       5542805820a5419cd0db084ac9efc26c21ff2663b4ec0cff6622ae48
+       719f65738cb93fd19e",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWEmjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAAIGiAXgbaHR0cHM6Ly9yZXZva2VkLmV4YW1wbGUuY29tBBpl
+       VUKAWCClQZzQ2whKye_CbCH_JmO07Az_ZiKuSHGfZXOMuT_Rng"
+  },
+  {
+    "id": "composite_nested",
+    "description":
+      "Nested composite: OR containing a standalone claim set
+       and a nested AND",
+    "claims_edn":
+      "{1 /iss/: \"https://auth.example.com\", 4 /exp/: 1700086400,
+       0 /or/: [{1 /iss/: \"https://primary.example.com\",
+       4 /exp/: 1700086400},
+       {0 /and/: [{1 /iss/: \"https://secondary.example.com\",
+       4 /exp/: 1700086400}, {4 /exp/: 1700086400, 310 /catv/: 1}]}]}",
+    "composite": {"operator": "OR", "claim_key": 0},
+    "payload_cbor_hex":
+      "a301781868747470733a2f2f617574682e6578616d706c652e636f6d
+       041a655542800082a201781b68747470733a2f2f7072696d6172792e
+       6578616d706c652e636f6d041a65554280a10082a201781d68747470
+       733a2f2f7365636f6e646172792e6578616d706c652e636f6d041a65
+       554280a2041a6555428019013601",
+    "cose_hex":
+      "d18448a201051063434154a0587ea301781868747470733a2f2f6175
+       74682e6578616d706c652e636f6d041a655542800082a201781b6874
+       7470733a2f2f7072696d6172792e6578616d706c652e636f6d041a65
+       554280a10082a201781d68747470733a2f2f7365636f6e646172792e
+       6578616d706c652e636f6d041a65554280a2041a6555428019013601
+       5820c60304bcd67f2f78bf9e83e84fe3a2d13f8e809659a32cc480c7
+       6cfe5ae1da06",
+    "cose_b64":
+      "0YRIogEFEGNDQVSgWH6jAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUuY29t
+       BBplVUKAAIKiAXgbaHR0cHM6Ly9wcmltYXJ5LmV4YW1wbGUuY29tBBpl
+       VUKAoQCCogF4HWh0dHBzOi8vc2Vjb25kYXJ5LmV4YW1wbGUuY29tBBpl
+       VUKAogQaZVVCgBkBNgFYIMYDBLzWfy94v56D6E_jotE_joCWWaMsxIDH
+       bP5a4doG"
+  }
+]
+</pre><a href="#appendix-A.6-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="token-validation">
+<section id="appendix-A.7">
+        <h3 id="name-token-validation">
+<a href="#appendix-A.7" class="section-number selfRef">A.7. </a><a href="#name-token-validation" class="section-name selfRef">Token Validation</a>
+        </h3>
+<p id="appendix-A.7-1">These vectors validate token processing: expected pass and fail scenarios.
+All tokens use HMAC-SHA256 (algorithm_id 5) with the key specified in the
+Keys section unless otherwise noted. Token values are the base64url encoding
+of the full COSE_Mac0 structure.<a href="#appendix-A.7-1" class="pilcrow">¶</a></p>
+<div class="breakable lang-json sourcecode" id="appendix-A.7-2">
 <pre>
 [
   {
@@ -2911,7 +3236,9 @@ otherwise noted.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
     "description":
       "Valid token with correct issuer, audience, and time bounds",
     "token":
-      "ogEjEGNDQVQ.pAF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKABRplU_EA.9SztgnG4xgw8U9zDFnqPIuPn6hLwuilSigQcfPsArSg",
+      "0YRIogEFEGNDQVSgWEWkAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tA4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoAFGm
+       VT8QBYIP30vfENhlwaLMuZjMPeYXjz8QWuqCDlyzStGQVQ4_xi",
     "validation": {
       "reference_time": 1700003600,
       "expected_issuers": ["https://auth.example.com"],
@@ -2923,7 +3250,9 @@ otherwise noted.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
     "id": "invalid_expired",
     "description": "Token with expiration in the past",
     "token":
-      "ogEjEGNDQVQ.ogF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaX14QAA.lq8nGBiZm80yUwl1kH_Tv2prKu_nV20JvxVJW8ZGkho",
+      "0YRIogEFEGNDQVSgWCKiAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBpfXhAAWCDNInUDQ2qsHo8l8Gj0tzb1HIYIpBheVbVoItgT7U
+       a6aA",
     "validation": {
       "reference_time": 1700000000,
       "expected_result": "error",
@@ -2934,7 +3263,9 @@ otherwise noted.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
     "id": "invalid_not_yet_valid",
     "description": "Token with not-before in the future",
     "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZVaUAAUaZVVCgA.fPIUugY7_oSeHlheu83_8Yyljsk3iP2zGeWRUi7NtUs",
+      "0YRIogEFEGNDQVSgWCijAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVpQABRplVUKAWCArREpqUH1KiIrMzevyeLr6t_y-L6oheaJ
+       GUU9hwhYRbg",
     "validation": {
       "reference_time": 1700000000,
       "expected_result": "error",
@@ -2945,7 +3276,9 @@ otherwise noted.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
     "id": "invalid_wrong_issuer",
     "description": "Token from untrusted issuer",
     "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vZXZpbC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.Xo7FCr_MGSyVX0C9sueeapSfboIHkrkysurn2VjC9PU",
+      "0YRIogEFEGNDQVSgWD-jAXgYaHR0cHM6Ly9ldmlsLmV4YW1wbGUu
+       Y29tA4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoBYIO
+       mQtbjAMxCnCDlMbHiF-XZlN1SV6QSqkZWTguttCpaC",
     "validation": {
       "reference_time": 1700003600,
       "expected_issuers": ["https://auth.example.com"],
@@ -2957,7 +3290,9 @@ otherwise noted.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
     "id": "invalid_wrong_audience",
     "description": "Token not intended for this audience",
     "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeB9odHRwczovL290aGVyLXJlbGF5LmV4YW1wbGUuY29tBBplVUKA.b8KxAKxJglzhELMuc9bYmsikrx3F9Y3YdvpfHLbsyk0",
+      "0YRIogEFEGNDQVSgWEWjAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tA4F4H2h0dHBzOi8vb3RoZXItcmVsYXkuZXhhbXBsZS5jb20EGm
+       VVQoBYIOeCJJJNAkaNHBBkOdcSFVXKNNj0D8GdGkLmOriIB2pX",
     "validation": {
       "reference_time": 1700003600,
       "expected_issuers": ["https://auth.example.com"],
@@ -2969,28 +3304,38 @@ otherwise noted.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
   {
     "id": "invalid_tampered_signature",
     "description":
-      "Token with corrupted signature (first byte flipped)",
-    "original_token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.W17GD7Gj-B0YtejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+      "COSE_Mac0 token with corrupted tag (first byte flipped)",
+    "original_cose_hex":
+      "d18448a201051063434154a0583fa301781868747470733a2f2f61757
+       4682e6578616d706c652e636f6d0381781968747470733a2f2f72656c
+       61792e6578616d706c652e636f6d041a65554280582016ca16a2d4e24
+       76528ae858d91b00f257a507fe57284bfb13d7d6ca1f065e230",
     "token":
-      "ogEjEGNDQVQ.owF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQOBeBlodHRwczovL3JlbGF5LmV4YW1wbGUuY29tBBplVUKA.pF7GD7Gj-B0YtejX7fRwLlUmEkje-ME81oCc9oZaaYY",
+      "0YRIogEFEGNDQVSgWD-jAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tA4F4GWh0dHBzOi8vcmVsYXkuZXhhbXBsZS5jb20EGmVVQoBYIO
+       nKFqLU4kdlKK6FjZGwDyV6UH_lcoS_sT19bKHwZeIw",
     "validation": {
       "expected_result": "error",
       "expected_error": "SignatureVerificationFailed",
       "key_hex":
-        "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+        "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
+         1c1d1e1f"
     }
   },
   {
     "id": "invalid_wrong_key",
     "description": "Token verified with incorrect key",
     "token":
-      "ogEjEGNDQVQ.ogF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZVVCgA.zmbxdkvbWtGtX0DExLC2nIxPDDmgAVImqk4rRSCCkCY",
+      "0YRIogEFEGNDQVSgWCKiAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKAWCCqD2TUB2jOEalC6kta2ptR7vx6flZ0I9L0RV3MCb
+       Z-Aw",
     "validation": {
       "correct_key_hex":
-        "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+        "000102030405060708090a0b0c0d0e0f101112131415161718191a1b
+         1c1d1e1f",
       "wrong_key_hex":
-        "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "ffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+         ffffffff",
       "expected_result": "error",
       "expected_error": "SignatureVerificationFailed"
     }
@@ -2998,18 +3343,20 @@ otherwise noted.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
   {
     "id": "invalid_algorithm_mismatch",
     "description":
-      "Token header says HMAC-SHA256 but verifier expects ES256",
+      "COSE_Mac0 token but verifier expects COSE_Sign1/ES256",
     "token":
-      "ogEjEGNDQVQ.ogF4GGh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbQQaZVVCgA.zmbxdkvbWtGtX0DExLC2nIxPDDmgAVImqk4rRSCCkCY",
+      "0YRIogEFEGNDQVSgWCKiAXgYaHR0cHM6Ly9hdXRoLmV4YW1wbGUu
+       Y29tBBplVUKAWCCqD2TUB2jOEalC6kta2ptR7vx6flZ0I9L0RV3MCb
+       Z-Aw",
     "validation": {
-      "token_algorithm_id": -4,
+      "token_algorithm_id": 5,
       "verifier_algorithm_id": -7,
       "expected_result": "error",
-      "expected_error": "AlgorithmMismatch"
+      "expected_error": "InvalidTokenFormat"
     }
   }
 ]
-</pre><a href="#appendix-A.6-2" class="pilcrow">¶</a>
+</pre><a href="#appendix-A.7-2" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -3028,14 +3375,6 @@ otherwise noted.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
-<address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Will Law</span></div>
-<div dir="auto" class="left"><span class="org">Akamai</span></div>
-<div class="email">
-<span>Email:</span>
-<a href="mailto:wilaw@akamai.com" class="email">wilaw@akamai.com</a>
-</div>
-</address>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Chris Lemmons</span></div>
 <div dir="auto" class="left"><span class="org">Comcast</span></div>
@@ -3058,6 +3397,14 @@ otherwise noted.<a href="#appendix-A.6-1" class="pilcrow">¶</a></p>
 <div class="email">
 <span>Email:</span>
 <a href="mailto:snandaku@cisco.com" class="email">snandaku@cisco.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Will Law</span></div>
+<div dir="auto" class="left"><span class="org">Akamai</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:wilaw@akamai.com" class="email">wilaw@akamai.com</a>
 </div>
 </address>
 </section>
