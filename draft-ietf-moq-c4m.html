@@ -1439,55 +1439,55 @@ object).<a href="#section-2.1-3" class="pilcrow">¶</a></p>
               <td class="text-left" rowspan="1" colspan="1">SETUP</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.3</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.1</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">PUBLISH_NAMESPACE</td>
               <td class="text-left" rowspan="1" colspan="1">2</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.16</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.14</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_NAMESPACE</td>
               <td class="text-left" rowspan="1" colspan="1">3</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.19</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.15</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE</td>
               <td class="text-left" rowspan="1" colspan="1">4</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.7</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.6</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">REQUEST_UPDATE</td>
               <td class="text-left" rowspan="1" colspan="1">5</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.9</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.5</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">PUBLISH</td>
               <td class="text-left" rowspan="1" colspan="1">6</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.11</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.8</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">FETCH</td>
               <td class="text-left" rowspan="1" colspan="1">7</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.13</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.11</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">TRACK_STATUS</td>
               <td class="text-left" rowspan="1" colspan="1">8</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.15</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.13</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">SUBSCRIBE_TRACKS</td>
               <td class="text-left" rowspan="1" colspan="1">9</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 10.20</td>
+                <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Section 9.18</td>
             </tr>
           </tbody>
         </table>
@@ -2138,7 +2138,7 @@ authentication.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-replay-protection-for-beare" class="section-name selfRef">Replay Protection for Bearer Tokens</a>
         </h3>
 <p id="section-7.2-1">Without DPoP, connection-scoped replay protection limits but does not
-eliminate token theft risk — an attacker who intercepts the token
+eliminate token theft risk; an attacker who intercepts the token
 before the client connects can still use it. Deployments that need
 stronger guarantees <span class="bcp14">SHOULD</span> use DPoP.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
 <p id="section-7.2-2">The binding of a token to a connection is state held by the relay that
@@ -2359,7 +2359,7 @@ action with an appropriate error.<a href="#section-8.2.1-4" class="pilcrow">¶</
 <dd class="break"></dd>
 <dt id="Composite">[Composite]</dt>
       <dd>
-<span class="refAuthor">Lemmons, C.</span>, <span class="refTitle">"Composite Token Claims"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-lemmons-cose-composite-claims-02</span>, <time datetime="2026-02-17" class="refDate">17 February 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-lemmons-cose-composite-claims-02">https://datatracker.ietf.org/doc/html/draft-lemmons-cose-composite-claims-02</a>&gt;</span>. </dd>
+<span class="refAuthor">Lemmons, C.</span>, <span class="refTitle">"Composite Token Claims"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-lemmons-cose-composite-claims-03</span>, <time datetime="2026-07-06" class="refDate">6 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-lemmons-cose-composite-claims-03">https://datatracker.ietf.org/doc/html/draft-lemmons-cose-composite-claims-03</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="COSE">[COSE]</dt>
       <dd>
@@ -2391,7 +2391,7 @@ action with an appropriate error.<a href="#section-8.2.1-4" class="pilcrow">¶</
 <dd class="break"></dd>
 <dt id="MoQTransport">[MoQTransport]</dt>
       <dd>
-<span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">A. Frindell</span>, <span class="refTitle">"Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-transport-20</span>, <time datetime="2026-08-31" class="refDate">31 August 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-20">https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-20</a>&gt;</span>. </dd>
+<span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">A. Frindell</span>, <span class="refTitle">"Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-transport-22</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-22">https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-22</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
       <dd>

@@ -239,29 +239,29 @@ suffix-match = 2
 
    The actions are integers defined as follows:
 
-       +=====================+=====+==============================+
-       | Action              | Key | Reference                    |
-       +=====================+=====+==============================+
-       | SETUP               | 1   | [MoQTransport] Section 10.3  |
-       +---------------------+-----+------------------------------+
-       | PUBLISH_NAMESPACE   | 2   | [MoQTransport] Section 10.16 |
-       +---------------------+-----+------------------------------+
-       | SUBSCRIBE_NAMESPACE | 3   | [MoQTransport] Section 10.19 |
-       +---------------------+-----+------------------------------+
-       | SUBSCRIBE           | 4   | [MoQTransport] Section 10.7  |
-       +---------------------+-----+------------------------------+
-       | REQUEST_UPDATE      | 5   | [MoQTransport] Section 10.9  |
-       +---------------------+-----+------------------------------+
-       | PUBLISH             | 6   | [MoQTransport] Section 10.11 |
-       +---------------------+-----+------------------------------+
-       | FETCH               | 7   | [MoQTransport] Section 10.13 |
-       +---------------------+-----+------------------------------+
-       | TRACK_STATUS        | 8   | [MoQTransport] Section 10.15 |
-       +---------------------+-----+------------------------------+
-       | SUBSCRIBE_TRACKS    | 9   | [MoQTransport] Section 10.20 |
-       +---------------------+-----+------------------------------+
+        +=====================+=====+=============================+
+        | Action              | Key | Reference                   |
+        +=====================+=====+=============================+
+        | SETUP               | 1   | [MoQTransport] Section 9.1  |
+        +---------------------+-----+-----------------------------+
+        | PUBLISH_NAMESPACE   | 2   | [MoQTransport] Section 9.14 |
+        +---------------------+-----+-----------------------------+
+        | SUBSCRIBE_NAMESPACE | 3   | [MoQTransport] Section 9.15 |
+        +---------------------+-----+-----------------------------+
+        | SUBSCRIBE           | 4   | [MoQTransport] Section 9.6  |
+        +---------------------+-----+-----------------------------+
+        | REQUEST_UPDATE      | 5   | [MoQTransport] Section 9.5  |
+        +---------------------+-----+-----------------------------+
+        | PUBLISH             | 6   | [MoQTransport] Section 9.8  |
+        +---------------------+-----+-----------------------------+
+        | FETCH               | 7   | [MoQTransport] Section 9.11 |
+        +---------------------+-----+-----------------------------+
+        | TRACK_STATUS        | 8   | [MoQTransport] Section 9.13 |
+        +---------------------+-----+-----------------------------+
+        | SUBSCRIBE_TRACKS    | 9   | [MoQTransport] Section 9.18 |
+        +---------------------+-----+-----------------------------+
 
-                                 Table 1
+                                  Table 1
 
    The scope of the moqt claim is limited to the actions provided in the
    array.  Any action not present in the array is not authorized by moqt
@@ -826,7 +826,7 @@ suffix-match = 2
 7.2.  Replay Protection for Bearer Tokens
 
    Without DPoP, connection-scoped replay protection limits but does not
-   eliminate token theft risk — an attacker who intercepts the token
+   eliminate token theft risk; an attacker who intercepts the token
    before the client connects can still use it.  Deployments that need
    stronger guarantees SHOULD use DPoP.
 
@@ -963,9 +963,9 @@ suffix-match = 2
 
    [Composite]
               Lemmons, C., "Composite Token Claims", Work in Progress,
-              Internet-Draft, draft-lemmons-cose-composite-claims-02, 17
-              February 2026, <https://datatracker.ietf.org/doc/html/
-              draft-lemmons-cose-composite-claims-02>.
+              Internet-Draft, draft-lemmons-cose-composite-claims-03, 6
+              July 2026, <https://datatracker.ietf.org/doc/html/draft-
+              lemmons-cose-composite-claims-03>.
 
    [COSE]     Schaad, J., "CBOR Object Signing and Encryption (COSE):
               Structures and Process", STD 96, RFC 9052,
@@ -1003,9 +1003,9 @@ suffix-match = 2
    [MoQTransport]
               Nandakumar, S., Vasiliev, V., Swett, I., and A. Frindell,
               "Media over QUIC Transport", Work in Progress, Internet-
-              Draft, draft-ietf-moq-transport-20, 31 August 2026,
+              Draft, draft-ietf-moq-transport-22, 1 October 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-moq-
-              transport-20>.
+              transport-22>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
